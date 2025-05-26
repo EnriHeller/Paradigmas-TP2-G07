@@ -1,0 +1,61 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+class Jugador {
+    -nombre : String
+    +jugarCarta(cartaDelMazo : Unidad) : void
+    +pasar() : void
+}
+
+class Mazo {
+    +sacarCarta() : Unidad
+    +sacarCartaEspecial() : Especial
+    +tamañoMazoUnidad() : int
+    +tamañoMazoEspecial() : int
+}
+
+class Tablero {
+    -turno : int
+    -pilaDeDescartes : "List(Unidad)"
+    +obtenerPuntajesJugadores() : "Map(Jugador, int)"
+    +obtenerManoActual(jugador : Jugador) : "List(Unidad o Especial)"
+}
+
+class Unidad {
+    -nombre : String
+    -puntos : int
+    -seccion : String
+    +getPuntos() : int
+    +getNombre() : String
+}
+
+class Especial {
+    -nombre : String
+    +getNombre() : String
+}
+
+class TierraArrasada extends Especial
+class MoraleBoost extends Especial
+class Clima extends Especial
+
+class Modificador {
+    -nombre : String
+    +getNombre() : String
+}
+
+class Legendaria extends Unidad
+class Medico extends Unidad
+class Agil extends Unidad
+class CartasUnidas extends Unidad
+class Espia extends Unidad
+class SumaValorBase extends Unidad
+
+
+Jugador --> Mazo
+Tablero o-- Jugador
+Mazo o-- "6 o Más" Especial
+Mazo o-- "15 o Más" Unidad
+Unidad *-- Modificador
+
+@enduml
