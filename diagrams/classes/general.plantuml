@@ -2,29 +2,62 @@
 hide circle
 skinparam classAttributeIconSize 0
 
+class Juego{
+    -historialDeRondas: List(Rondas)
+    -jugadores: List(Jugador)
+    -ganador: Jugador
+    -tablero: Tablero
+    +obtenerGanadorJuego():Jugador
+    +prepararJuego():void
+    +faseDeJuego():void
+}
+
+class Ronda{
+    -ganador: Jugador
+    -turnos : List(Turno)
+    -cartasJugador1: List(Unidad)
+    -cartasJugador2: List(Unidad)
+    +obtenerGanadorRonda():Jugador
+}
+
+class Turno{
+    -jugador: Jugador
+    -turno: int
+    +obtenerTurno(): Jugador
+    +actualizarTurno(): void
+    -tirarMoneda(): int
+}
+
 class Jugador {
     -nombre : String
-    +jugarCarta(cartaDelMazo : Unidad) : void
+    -pilaDeDescartes : "List(Unidad)"
+    -mano: "List(Unidad,Especial)"
+    +nuevoJugador(nombre:String, mazo:Mazo)
+    +jugarCarta(cartaDelMazo : Unidad) : Unidad
+    +descartarCarta(carta: Carta)
     +pasar() : void
 }
 
+class constructorDeMazos{
+    -cartas: List(Carta)
+    +obtenerMazoAleatorio():Mazo
+}
+
 class Mazo {
-    +sacarCarta() : Unidad
-    +sacarCartaEspecial() : Especial
-    +tamañoMazoUnidad() : int
-    +tamañoMazoEspecial() : int
+    -cartas: List(Carta)
+    +sacarCarta() : Carta
+    +Mezclar(): void
 }
 
 class Tablero {
-    -turno : int
-    -pilaDeDescartes : "List(Unidad)"
     +obtenerPuntajesJugadores() : "Map(Jugador, int)"
     +obtenerManoActual(jugador : Jugador) : "List(Unidad o Especial)"
+    +Limpiar():void
 }
 
 class Unidad {
     -nombre : String
-    -puntos : int
+    -puntos : Int
     -seccion : String
     +getPuntos() : int
     +getNombre() : String
@@ -32,6 +65,7 @@ class Unidad {
 
 class Especial {
     -nombre : String
+    +activar(): void
     +getNombre() : String
 }
 
@@ -51,7 +85,7 @@ class CartasUnidas extends Unidad
 class Espia extends Unidad
 class SumaValorBase extends Unidad
 
-
+Juego ..> constructorDeMazos
 Jugador --> Mazo
 Tablero o-- Jugador
 Mazo o-- "6 o Más" Especial
