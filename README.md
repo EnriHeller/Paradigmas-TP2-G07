@@ -15,7 +15,7 @@ Trabajo Práctico número 2 de la materia Paradigmas de programación
 Corrector: **{Joaquin Pandolfi}**
 
 ## Avances sobre informe
-https://www.overleaf.com/read/rwdcbqjsdkwm#bd6b0c
+https://docs.google.com/document/d/18iqyxu4yDWuSU02GvPL2Z80ao-PXP8TGW9Ev1fI3kvU/edit?usp=sharing
 
 ## Aplicación
 
