@@ -1,5 +1,5 @@
 package edu.fiuba.algo3.modelo;
-
+import java.util.List;
 
 public class Jugador {
     private String nombre;
@@ -28,10 +28,18 @@ public class Jugador {
 
     }
 
+    // Método para tests: jugar carta por índice sin interacción
+
+    //Mostramos cartas por indice porque es responsabilidad de la mano mostrar las cartas para que el jugador tome una decisión.
+    public Carta jugarCartaPorIndice(int indice) {
+        return mano.removerCarta(indice);
+    }
+
     public void descartarCarta(Carta unaCarta) {}
 
     public void agregarCartasAMano(int n){
-        mano.agregarCartas(mazo.repartirCarta(n));
+        List<Carta> cartas = mazo.repartirCarta(n);
+        mano.agregarCartas(cartas);
     }
 
     public int cartasEnMano(){

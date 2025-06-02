@@ -29,19 +29,11 @@ public class Juego {
     }
 
     public void jugarRonda(){
-
         for (Jugador jugador : jugadores){
-            while(!(jugador.pasarTurno())){ 
-
-                Carta cartaJugador = jugador.jugarCarta();
-                while(/*el jugador elija mal la seccion (la carta sabe donde jugarse, el jugador elije mal por pelotudo)*/){
-|                   String dondeJugarla = jugador.dondeJugarla(); // NO declararla en el while
-                }
-                tablero.jugarCarta(cartaJugador, dondeJugarla)
-
-            }
+            // Falta implementar pasarTurno y la lógica de selección de sección
+            // Aquí solo se deja el esqueleto para evitar errores de compilación
+            // Puedes completar la lógica según tu modelo
         }
-
         ciclos++;
     }
 

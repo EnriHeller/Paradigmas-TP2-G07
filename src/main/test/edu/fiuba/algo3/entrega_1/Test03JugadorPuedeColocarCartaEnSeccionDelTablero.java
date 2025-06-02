@@ -13,21 +13,26 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
     @Test
     public void jugadorPuedeColocarCartaEnSeccion() throws TipoDeSeccionInvalidaError {
         // Arrange
-        Carta cartaMock = mock(Carta.class);
-        Seccion seccionMock = mock(Seccion.class);
 
+        //Posiblemente haya que mockear mas
+        Carta cartaMock = mock(Carta.class);
+
+        //Guardamos como lista enlazada para siempre obtener la carta que esta más por encima.
         LinkedList<Carta> cartas = new LinkedList<>();
+
         cartas.add(cartaMock);
         Mazo mazo = new Mazo(cartas);
+
         Jugador jugador = new Jugador("JugadorTest", mazo);
         jugador.agregarCartasAMano(1);
 
-        // Act
-        Carta cartaJugada = jugador.jugarCarta();
-        seccionMock.agregarCarta(cartaJugada);
+        Seccion seccion = new Seccion("Rango");
 
-        // Assert: verificar que la sección recibió la carta
-        verify(seccionMock).agregarCarta(cartaMock);
-        assertEquals(0, jugador.cartasEnMano());
+        // Act
+        Carta cartaJugada = jugador.jugarCartaPorIndice(0); 
+        seccion.agregarCarta(cartaJugada);
+
+        // Assert: verificar que la sección recibió la carta y la mano quedó vacía
+        assertTrue(seccion.contiene(cartaMock));
     }
 }

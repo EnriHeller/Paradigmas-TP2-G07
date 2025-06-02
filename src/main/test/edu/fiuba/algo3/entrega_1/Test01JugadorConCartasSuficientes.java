@@ -2,7 +2,8 @@ package edu.fiuba.algo3.entrega_1;
 
 import edu.fiuba.algo3.modelo.*;
 import org.junit.jupiter.api.Test;
-import java.util.LinkedList;
+import java.util.List;
+import java.util.ArrayList; // o import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -14,7 +15,8 @@ public class Test01JugadorConCartasSuficientes {
         int cartasMinimasEsperadas = 21;
 
         // Crear 21 mocks de Carta
-        LinkedList<Carta> cartas = new LinkedList<>();
+        List<Carta> cartas = new ArrayList<Carta>();
+        
         for (int i = 0; i < 21; i++) {
             Carta cartaMock = mock(Carta.class);
             cartas.add(cartaMock);

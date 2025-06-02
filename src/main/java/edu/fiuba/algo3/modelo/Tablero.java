@@ -13,10 +13,15 @@ public class Tablero {
         this.seccionesSinPuntaje = new ArrayList<SeccionSinPuntaje>(4);
     }
 
-    public Tablero(List<Seccion> secciones, List<SeccionSinPuntaje> seccionesSinPuntaje) {}
+    public Tablero(List<Seccion> secciones, List<SeccionSinPuntaje> seccionesSinPuntaje) {
+        // Constructor stub: puedes implementar la lógica luego
+        this.secciones = secciones;
+        this.seccionesSinPuntaje = seccionesSinPuntaje;
+    }
 
     public boolean jugarCarta(Carta carta, String dondeJugarla){
-
+        // Stub para compilar
+        return false;
     }
 
 

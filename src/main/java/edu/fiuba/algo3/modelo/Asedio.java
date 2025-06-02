@@ -6,5 +6,6 @@ import java.util.List;
 public class Asedio extends Seccion{
     public Asedio(String claveSeccion) throws TipoDeSeccionInvalidaError {
         super(claveSeccion);
+        this.cartasActuales = new ArrayList<>();
     }
 }

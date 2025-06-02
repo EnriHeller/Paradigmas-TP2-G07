@@ -1,13 +1,12 @@
 package edu.fiuba.algo3.modelo;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import edu.fiuba.algo3.modelo.Carta;
 
 
 public class Mazo {
-    private LinkedList<Carta> cartas;
+    private List<Carta> cartas;
 
-    public Mazo(LinkedList<Carta> cartas) {
+    public Mazo(List<Carta> cartas) {
 
         this.cartas = cartas;
     }
@@ -21,11 +20,11 @@ public class Mazo {
     }
 
     public List<Carta> repartirCarta(int n) {
-        List<Carta> cartasRepartidas = new LinkedList<Carta>();
+        List<Carta> cartasRepartidas = new ArrayList<Carta>();
 
         for (int i = 0; i < n; i++) {
-
-            cartasRepartidas.add(cartas.removeFirst());
+            Carta cartaSacada = cartas.remove(cartas.size() -1);
+            cartasRepartidas.add(cartaSacada);
         }
 
         return cartasRepartidas;
