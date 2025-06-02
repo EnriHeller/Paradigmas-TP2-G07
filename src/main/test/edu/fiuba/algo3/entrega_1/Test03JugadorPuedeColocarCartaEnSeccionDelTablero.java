@@ -6,7 +6,9 @@ import static org.mockito.Mockito.*;
 
 import edu.fiuba.algo3.modelo.*;
 
-import java.util.LinkedList;
+import java.util.List;
+import java.util.ArrayList;
+
 
 public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
 
@@ -17,8 +19,7 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
         //Posiblemente haya que mockear mas
         Carta cartaMock = mock(Carta.class);
 
-        //Guardamos como lista enlazada para siempre obtener la carta que esta más por encima.
-        LinkedList<Carta> cartas = new LinkedList<>();
+        List<Carta> cartas = new ArrayList<Carta>();
 
         cartas.add(cartaMock);
         Mazo mazo = new Mazo(cartas);

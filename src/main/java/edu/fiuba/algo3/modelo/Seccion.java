@@ -2,58 +2,30 @@ package edu.fiuba.algo3.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Seccion {
-    private Map<String,Seccion> secciones;
     protected List<Carta> cartasActuales;
+    private String clave;
 
     public Seccion(String claveSeccion) throws TipoDeSeccionInvalidaError {
         if (!puedeEstar(claveSeccion)) {
             throw new TipoDeSeccionInvalidaError();
         }
+        this.clave = claveSeccion;
         this.cartasActuales = new ArrayList<>();
-
-    }
-
-    private Seccion seleccionarSeccion(String claveSeccion) throws TipoDeSeccionInvalidaError {
-        Seccion seccionElegida = null;
-        if (claveSeccion.equals("Rango")) {
-            seccionElegida = new Rango(claveSeccion);
-        } else if (claveSeccion.equals("Asedio")) {
-            seccionElegida = new Asedio(claveSeccion);
-        } else if (claveSeccion.equals("CuerpoACuerpo")) {
-            seccionElegida =  new CuerpoACuerpo(claveSeccion);
-        }
-        return seccionElegida;
     }
 
     private boolean puedeEstar(String claveSeccion){
         return claveSeccion.equals("Rango") || claveSeccion.equals("Asedio") || claveSeccion.equals("CuerpoACuerpo");
     }
 
-    public int puntosEnSeccion(String claveSeccion) {
-        Seccion seccion = secciones.get(claveSeccion);
-        if (seccion == null) {
-            throw new IllegalArgumentException("No existe la sección con clave: " + claveSeccion);
-        }
-        int puntosTotales = 0;
-        for (Carta carta : seccion.getCartasActuales()) {
-            puntosTotales += carta.getValor();
-        }
-        return puntosTotales;
-    }
-
-    public int puntosTotalesDeLasSecciones(){
-        int puntosTotalesEnTodasLasSecciones = 0;
-        for (String seccion : secciones.keySet()) {
-            puntosTotalesEnTodasLasSecciones = puntosEnSeccion(seccion);
-        }
-        return puntosTotalesEnTodasLasSecciones;
-    }
-
     public void agregarCarta(Carta carta) throws TipoDeSeccionInvalidaError {
+        //Validar si entra o no la carta. 
         cartasActuales.add(carta);
+    }
+
+    public String getClave() {
+        return this.clave;
     }
 
     public boolean contiene(Carta carta){
@@ -69,4 +41,11 @@ public class Seccion {
         return cartasActuales.remove(indice);
     }
 
+    public int getPuntajeTotal() {
+        int puntaje = 0;
+        for (Carta carta : cartasActuales) {
+            puntaje += carta.getValor();
+        }
+        return puntaje;
+    }
 }

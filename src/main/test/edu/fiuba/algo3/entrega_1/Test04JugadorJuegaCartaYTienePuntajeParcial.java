@@ -1,4 +1,43 @@
 package edu.fiuba.algo3.entrega_1;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Test;
+
+import edu.fiuba.algo3.modelo.Carta;
+import edu.fiuba.algo3.modelo.Jugador;
+import edu.fiuba.algo3.modelo.Mazo;
+import edu.fiuba.algo3.modelo.Seccion;
+import edu.fiuba.algo3.modelo.TipoDeSeccionInvalidaError;
+
 public class Test04JugadorJuegaCartaYTienePuntajeParcial {
+    @Test
+    public void jugadorJuegaCartaYTienePuntajeParcial() throws TipoDeSeccionInvalidaError {
+        // Arrange
+        Carta cartaMock = mock(Carta.class);
+        
+        when(cartaMock.getValor()).thenReturn(7); // Puntaje de la carta
+
+        List<Carta> cartas = new ArrayList<>();
+        cartas.add(cartaMock);
+        Mazo mazo = new Mazo(cartas);
+        Jugador jugador = new Jugador("JugadorTest", mazo);
+        jugador.agregarCartasAMano(1);
+
+        Seccion seccion = new Seccion("Rango");
+
+        // Act
+        Carta cartaJugada = jugador.jugarCartaPorIndice(0);
+        seccion.agregarCarta(cartaJugada);
+        
+        int puntaje = seccion.getPuntajeTotal();
+        
+        // Assert
+        assertEquals(7, puntaje, "El puntaje parcial de la sección debe ser igual al valor de la carta jugada");
+    }
 }
