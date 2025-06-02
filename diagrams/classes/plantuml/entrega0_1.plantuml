@@ -1,0 +1,62 @@
+    @startuml
+    package pkg {
+
+      class Tablero {
+        + MostrarTablero() : void
+        + puntaje(unJugador : string) : int
+      }
+
+      class Seccion {
+        - MapaSecciones : Seccion[3..*]
+        + Seccion(claveSeccion : string) : Seccion
+        + PuedeEstar(claveColocacion : string) : boolean
+        + puntos() : int
+      }
+
+      class Jugador {
+        - identificador : string
+        - pilaDescarte : CartaPuntuada[0..*]
+        + Jugador(nombre : string, mazo : CartaPuntuada[21]) : Jugador
+        + jugarCarta() : CartaPuntuada
+        + descartarCarta() : void
+        + pasarTurno() : Turno
+        + puntajeEnSeccion(seccion : string) : int
+      }
+
+      class Juego {
+        - cicloActual : int
+        - rondas : Ronda[0..3]
+        - tablero : Tablero
+        - jugadores : Jugador[2]
+        + juegoEnProgreso() : boolean
+        + declararGanador() : string
+        + jugarRonda() : void
+        + puntaje(jugadorPosicion : string) : int
+      }
+
+      class ConstructorMazo {
+        - cartasFormatoTWIII : CartaPuntuada[30]
+        + CrearMazoAleatorio() : Mazo
+        + ObtenerMazoDeArchivo(ruta : string) : Mazo
+      }
+
+      class Mazo {
+        - cartas : CartaPuntuada[21..*]
+        + mezclar() : void
+        + repartirCarta() : CartaPuntuada
+      }
+
+      ' Relationships
+      Tablero *-- "6" Seccion
+      Tablero ..> Jugador
+
+      Juego *-- Tablero
+      Juego *-- "2" Jugador
+      Juego ..> ConstructorMazo
+
+      ConstructorMazo ..> Mazo
+      Jugador o-- Mazo
+      Jugador o-- PilaDescarte
+
+    }
+    @enduml

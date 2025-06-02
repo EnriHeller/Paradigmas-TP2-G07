@@ -1,8 +1,4 @@
 package edu.fiuba.algo3.modelo;
-import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.errores.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.Seccion;
-
 import java.util.ArrayList;
 import java.util.List;
 

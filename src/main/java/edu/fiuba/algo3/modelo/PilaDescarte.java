@@ -3,7 +3,7 @@ package edu.fiuba.algo3.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.fiuba.algo3.modelo.cartas.Carta;
+import  edu.fiuba.algo3.modelo.Carta;
 
 public class PilaDescarte {
     private List<Carta> cartasDescartadas;
@@ -19,4 +19,17 @@ public class PilaDescarte {
     public int cantidad() {
         return cartasDescartadas.size();
     }
+
+    public void agregarCartas(List<Carta> cartas){
+
+        cartasDescartadas.addAll(cartas);
+
+    }
+
+    public int cartasEnElDescarte() {
+
+        return cartasDescartadas.size();
+
+    }
+
 }
