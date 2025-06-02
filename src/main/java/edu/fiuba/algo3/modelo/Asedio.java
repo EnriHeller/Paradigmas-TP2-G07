@@ -1,5 +1,10 @@
 package edu.fiuba.algo3.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Asedio extends Seccion{
-    public Asedio(){};
+    public Asedio(String claveSeccion) throws TipoDeSeccionInvalidaError {
+        super(claveSeccion);
+    }
 }

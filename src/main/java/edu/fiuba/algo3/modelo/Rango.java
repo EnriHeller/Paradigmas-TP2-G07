@@ -1,5 +1,10 @@
 package edu.fiuba.algo3.modelo;
 
-public class Rango extends Seccion{
+import java.util.ArrayList;
+import java.util.List;
 
+public class Rango extends Seccion{
+    public Rango(String claveSeccion) throws TipoDeSeccionInvalidaError {
+        super(claveSeccion);
+    }
 }

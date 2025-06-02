@@ -15,5 +15,9 @@ public class Tablero {
 
     public Tablero(List<Seccion> secciones, List<SeccionSinPuntaje> seccionesSinPuntaje) {}
 
+    public boolean jugarCarta(Carta carta, String dondeJugarla){
+
+    }
+
 
 }

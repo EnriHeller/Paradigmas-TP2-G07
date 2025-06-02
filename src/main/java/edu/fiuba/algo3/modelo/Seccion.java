@@ -12,7 +12,7 @@ public class Seccion {
     public Seccion(String claveSeccion) throws TipoDeSeccionInvalidaError {
         if (!puedeEstar(claveSeccion)) {
             throw new TipoDeSeccionInvalidaError();
-        }
+        }//si solo que tengo duda con los constructores de las hijas estaba viendo
         this.cartasActuales = new ArrayList<>();
         this.secciones = new HashMap<>();
         Seccion seccionElegida = seleccionarSeccion(claveSeccion);

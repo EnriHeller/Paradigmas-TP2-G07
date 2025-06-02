@@ -8,14 +8,19 @@ public class CartaUnidad extends Carta {
     int valor;
     ArrayList<Modificador> modificadores;
 
-    public CartaUnidad(ArrayList<String> secciones, int valor){
+    public CartaUnidad(ArrayList<String> secciones, int valor) {
+        super(secciones, valor);
         this.secciones = secciones;
         this.valor = valor;
         this.modificadores = new ArrayList<>();
     }
 
+    // Constructor sin argumentos para tests
     public CartaUnidad() {
-        super();
+        super(new ArrayList<>(), 0);
+        this.secciones = new ArrayList<>();
+        this.valor = 0;
+        this.modificadores = new ArrayList<>();
     }
 
     public void aplicarModificador(Modificador modificador) {
