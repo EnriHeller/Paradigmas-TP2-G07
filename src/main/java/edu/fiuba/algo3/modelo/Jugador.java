@@ -17,7 +17,9 @@ public class Jugador {
 
     public Carta jugarCarta() {
 
-        int eleccion =
+        int eleccion = mano.mostrarCartas();
+
+        return  mano.removerCarta(eleccion);
         // jugador le pide a Su mano mostrar todas las cartas disponibles sus cartas y elige 1
         // Dentro: cada Carta se muestra abstractamente como string
         // el jugador elije uno de esos abtractos y se le da la carta

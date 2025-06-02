@@ -1,16 +1,13 @@
 package edu.fiuba.algo3.modelo;
 
-public class Medico implements Modificador{
+public class Base implements Modificador{
 
-    private final Modificador modificador;
-
-    public Medico(Modificador modificador){
-        this.modificador = modificador;
+    public Base(){
     }
 
     @Override
     public String mostrarModificadores() {
-        return modificador.mostrarModificadores() + " Medico";
+        return "";
     }
 
     @Override

@@ -18,7 +18,7 @@ public class Seccion {
         Seccion seccionElegida = seleccionarSeccion(claveSeccion);
 
         secciones.put(claveSeccion,seccionElegida);
-    };
+    }
 
     private Seccion seleccionarSeccion(String claveSeccion) throws TipoDeSeccionInvalidaError {
         Seccion seccionElegida = null;
@@ -27,13 +27,14 @@ public class Seccion {
         } else if (claveSeccion.equals("Asedio")) {
             seccionElegida = new Asedio();
         } else if (claveSeccion.equals("CuerpoACuerpo")) {
-            seccionElegida = new CuerpoACuerpo();
+            seccionElegida =  new CuerpoACuerpo();
         }
         return seccionElegida;
     }
+
     private boolean puedeEstar(String claveSeccion){
         return claveSeccion.equals("Rango") || claveSeccion.equals("Asedio") || claveSeccion.equals("CuerpoACuerpo");
-    };
+    }
 
     public int puntosEnSeccion(String claveSeccion) {
         Seccion seccion = secciones.get(claveSeccion);
@@ -42,18 +43,25 @@ public class Seccion {
         }
         int puntosTotales = 0;
         for (Carta carta : seccion.getCartasActuales()) {
-            puntosTotales += carta.valor();
+            puntosTotales += carta.getValor();
         }
         return puntosTotales;
     }
 
-
     public int puntosTotalesDeLasSecciones(){
-
-    };
+        int puntosTotalesEnTodasLasSecciones = 0;
+        for (String seccion : secciones.keySet()) {
+            puntosTotalesEnTodasLasSecciones = puntosEnSeccion(seccion);
+        }
+        return puntosTotalesEnTodasLasSecciones;
+    }
 
     public void agregarCarta(Carta carta) throws TipoDeSeccionInvalidaError {
-
         cartasActuales.add(carta);
-    };
+    }
+
+    public List<Carta> getCartasActuales() {
+        return this.cartasActuales;
+    }
+
 }

@@ -21,6 +21,10 @@ public abstract class Carta {
 
     }
 
-    public List<String> puedeColocarse();
+    public int getValor(){
+        return this.valor;
+    }
+
+    //public List<String> puedeColocarse();
     // public String visualizarCartaComoString()
 }
