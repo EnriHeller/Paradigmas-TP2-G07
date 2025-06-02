@@ -19,4 +19,17 @@ public class PilaDescarte {
     public int cantidad() {
         return cartasDescartadas.size();
     }
+
+    public void agregarCartas(List<Carta> cartas){
+
+        cartasDescartadas.addAll(cartas);
+
+    }
+
+    public int cartasEnElDescarte() {
+
+        return cartasDescartadas.size();
+
+    }
+
 }

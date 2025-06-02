@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.modelo;
 import java.util.List;
+import java.util.Scanner;
 
 public class Jugador {
     private String nombre;
@@ -7,6 +8,12 @@ public class Jugador {
     private Mano mano;
     private PilaDescarte pilaDescarte;
 
+    public Jugador() {
+        this.nombre = "";
+        this.mazo = null;
+        this.mano = new Mano();
+        this.pilaDescarte = new PilaDescarte();
+    }
 
     public Jugador(String nombre, Mazo mazo) {
         this.nombre = nombre;
@@ -28,7 +35,28 @@ public class Jugador {
 
     }
 
-    // Método para tests: jugar carta por índice sin interacción
+    public String SeccionElegida() {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("¿En qué sección querés jugar?\n1 - Cuerpo a Cuerpo\n2 - Rango\n3 - Asedio\nElegí una opción (1, 2 o 3): ");
+            String input = scanner.nextLine().trim();
+
+            switch (input) {
+                case "1":
+                    return "CuerpoACuerpo";
+                case "2":
+                    return "Rango";
+                case "3":
+                    return "Asedio";
+                default:
+                    System.out.println("Opción inválida. Intentá de nuevo.\n");
+            }
+        }
+    }
+
+
+        // Método para tests: jugar carta por índice sin interacción
 
     //Mostramos cartas por indice porque es responsabilidad de la mano mostrar las cartas para que el jugador tome una decisión.
     public Carta jugarCartaPorIndice(int indice) {
@@ -42,8 +70,35 @@ public class Jugador {
         mano.agregarCartas(cartas);
     }
 
+    public void agregarCartasAlDescarte(List<Carta> cartas){
+        pilaDescarte.agregarCartas(cartas);
+    }
+
+    public boolean pasarTurno() {
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("¿quieres seguir jugando? S o N: ");
+            String input = scanner.nextLine().trim();
+
+            switch (input) {
+                case "S":
+                    return true;
+                case "N":
+                    return false;
+                default:
+                    System.out.println("Opción inválida. Intentá de nuevo.\n");
+            }
+        }
+    }
+
     public int cartasEnMano(){
         return mano.cartasRestantes();
+    }
+
+    public int cartasEnElDescarte(){
+        return pilaDescarte.cartasEnElDescarte();
     }
 
     public int cartasRestantes() {
