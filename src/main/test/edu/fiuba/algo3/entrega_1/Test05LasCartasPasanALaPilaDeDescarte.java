@@ -17,7 +17,7 @@ public class Test05LasCartasPasanALaPilaDeDescarte {
     public void pilaDescarteRecibeCartasJugadas() {
         int cartasJugadasEsperadas = 8;
 
-        // Crear 21 mocks de Carta
+        // Crear 8 Carta
         List<Carta> cartasJugadas = new ArrayList<Carta>();
 
         for (int i = 0; i < 8; i++) {
@@ -31,7 +31,7 @@ public class Test05LasCartasPasanALaPilaDeDescarte {
         jugador.agregarCartasAlDescarte(cartasJugadas);
 
         assertEquals(cartasJugadasEsperadas, jugador.cartasEnElDescarte(),
-                "El jugador debe tener 21 cartas al comenzar el juego");
+                "El jugador debe tener 8 cartas al comenzar el juego");
     }
 
 }

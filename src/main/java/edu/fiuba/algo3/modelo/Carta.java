@@ -14,15 +14,7 @@ public abstract class Carta {
         this.valor = valor;
     }
 
-    public String mostrarCarta(){
-
-        return (nombre + modificador.mostrarModificadores());
-
-    }
-
-    public int getValor(){
-        return this.valor;
-    }
+    public abstract String mostrarCarta();
 
     //public List<String> puedeColocarse();
     // public String visualizarCartaComoString()
