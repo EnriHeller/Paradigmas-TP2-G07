@@ -20,12 +20,12 @@ public class Test04JugadorJuegaCartaYTienePuntajeParcial {
     @Test
     public void jugadorJuegaCartaYTienePuntajeParcial() throws TipoDeSeccionInvalidaError {
         // Arrange
-        CartaUnidad cartaMock = mock(CartaUnidad.class);
-        
-        when(cartaMock.ValorActual()).thenReturn(7); // Puntaje de la carta
+        List<String> seccionesCartaUnidad = new ArrayList<>();
+        seccionesCartaUnidad.add("Rango");
+        CartaUnidad cartaUnidad = new CartaUnidad(seccionesCartaUnidad, 7);
 
         List<Carta> cartas = new ArrayList<>();
-        cartas.add(cartaMock);
+        cartas.add(cartaUnidad);
         Mazo mazo = new Mazo(cartas);
         Jugador jugador = new Jugador("JugadorTest", mazo);
         jugador.agregarCartasAMano(1);

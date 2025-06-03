@@ -15,13 +15,11 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
     @Test
     public void jugadorPuedeColocarCartaEnSeccion() throws TipoDeSeccionInvalidaError {
         // Arrange
-
-        //Posiblemente haya que mockear mas
-        CartaUnidad cartaMock = mock(CartaUnidad.class);
+        CartaUnidad cartaUnidad = new CartaUnidad();
 
         List<Carta> cartas = new ArrayList<Carta>();
 
-        cartas.add(cartaMock);
+        cartas.add(cartaUnidad);
         Mazo mazo = new Mazo(cartas);
 
         Jugador jugador = new Jugador("JugadorTest", mazo);
@@ -34,6 +32,6 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
         seccion.agregarCarta((CartaUnidad) cartaJugada);
 
         // Assert: verificar que la sección recibió la carta y la mano quedó vacía
-        assertTrue(seccion.contiene(cartaMock));
+        assertTrue(seccion.contiene(cartaUnidad));
     }
 }

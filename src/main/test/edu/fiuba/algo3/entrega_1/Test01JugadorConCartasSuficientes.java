@@ -14,12 +14,12 @@ public class Test01JugadorConCartasSuficientes {
     public void jugadorTieneCartasSuficientesAlEmpezar() {
         int cartasMinimasEsperadas = 21;
 
-        // Crear 21 mocks de Carta
+        // Crear 21 Cartas
         List<Carta> cartas = new ArrayList<Carta>();
         
         for (int i = 0; i < 21; i++) {
-            Carta cartaMock = mock(Carta.class);
-            cartas.add(cartaMock);
+            Carta carta = new CartaUnidad();
+            cartas.add(carta);
         }
 
         // Crear el mazo con esas cartas
