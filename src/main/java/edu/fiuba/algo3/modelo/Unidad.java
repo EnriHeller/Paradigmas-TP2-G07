@@ -1,5 +1,7 @@
 package edu.fiuba.algo3.modelo;
 
+import java.util.List;
+
 public class Unidad implements Modificador {
 
     private final Modificador modificador;
@@ -23,8 +25,19 @@ public class Unidad implements Modificador {
     }
 
     @Override
-    public void modificarComportamientoSeccion(Seccion seccion) {
+    public void modificarComportamientoSeccion(List<CartaUnidad> cartas) {
+        int cantidadUnidad = (int) cartas.stream()
+                .filter(carta -> carta.mostrarCarta().contains("Unidad"))
+                .count();
 
+        // Solo modificar si hay 2 o más
+        if (cantidadUnidad >= 2) {
+            for (CartaUnidad carta : cartas) {
+                if (carta.mostrarCarta().contains("Unidad")) {
+                    carta.modificarValor(cantidadUnidad * carta.getPuntajeBase());
+                }
+            }
+        }
     }
 
 }

@@ -1,17 +1,20 @@
 package edu.fiuba.algo3.modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CartaUnidad extends Carta {
 
     ArrayList<String> secciones;
-    int valor;
+    private int valorBase;
+    private int valorActual;
     Modificador modificador;
 
     public CartaUnidad(ArrayList<String> secciones, int valor, Modificador modificador) {
         super(secciones, valor);
         this.secciones = secciones;
-        this.valor = valor;
+        this.valorActual = valor;
+        this.valorBase = valor;
         this.modificador = modificador;
         modificador.modificarComportamiento(this);
     }
@@ -19,7 +22,8 @@ public class CartaUnidad extends Carta {
     public CartaUnidad(ArrayList<String> secciones, int valor) {
         super(secciones, valor);
         this.secciones = secciones;
-        this.valor = valor;
+        this.valorActual = valor;
+        this.valorBase = valor;
         this.modificador = new Base();
     }
 
@@ -27,16 +31,17 @@ public class CartaUnidad extends Carta {
     public CartaUnidad() {
         super(new ArrayList<>(), 0);
         this.secciones = new ArrayList<>();
-        this.valor = 0;
+        this.valorActual = 0;
+        this.valorBase = 0;
         this.modificador = new Base();
     }
 
-    public void aplicarModificador(Modificador modificador) {
-
+    public void aplicarModificador(List<CartaUnidad> cartas) {
+        this.modificador.modificarComportamientoSeccion(cartas);
     }
 
-    public int getPuntaje() {
-        return this.valor;
+    public int getPuntajeBase() {
+        return this.valorBase;
     }
 
     public ArrayList<String> puedeColocarse() {

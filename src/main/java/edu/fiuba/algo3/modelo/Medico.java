@@ -1,5 +1,7 @@
 package edu.fiuba.algo3.modelo;
 
+import java.util.List;
+
 public class Medico implements Modificador{
 
     private final Modificador modificador;
@@ -19,7 +21,7 @@ public class Medico implements Modificador{
     }
 
     @Override
-    public void modificarComportamientoSeccion(Seccion seccion) {
+    public void modificarComportamientoSeccion(List<CartaUnidad> cartas) {
 
     }
 }
