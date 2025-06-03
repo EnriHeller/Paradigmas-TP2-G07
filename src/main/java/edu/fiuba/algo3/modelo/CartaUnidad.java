@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CartaUnidad extends Carta {
 
-    ArrayList<String> secciones;
+    List<String> secciones;
     private int valorBase;
     private int valorActual;
     Modificador modificador;
