@@ -31,8 +31,8 @@ public class Tablero {
     public int puntosEnSeccion(int jugador, String claveSeccion) {
         Seccion seccion = getSeccion(jugador, claveSeccion);
         int puntosTotales = 0;
-        for (Carta carta : seccion.getCartasActuales()) {
-            puntosTotales += carta.getValor();
+        for (CartaUnidad carta : seccion.getCartasActuales()) {
+            puntosTotales += carta.ValorActual();
         }
         return puntosTotales;
     }
@@ -41,15 +41,15 @@ public class Tablero {
     public int puntosTotalesDeLasSecciones(int jugador){
         int puntosTotales = 0;
         for (Seccion seccion : secciones.get(jugador)) {
-            for (Carta carta : seccion.getCartasActuales()) {
-                puntosTotales += carta.getValor();
+            for (CartaUnidad carta : seccion.getCartasActuales()) {
+                puntosTotales += carta.ValorActual();
             }
         }
         return puntosTotales;
     }
 
     // Jugar una carta en una sección de un jugador
-    public boolean jugarCarta(int jugador, Carta carta, String claveSeccion) {
+    public boolean jugarCarta(int jugador, CartaUnidad carta, String claveSeccion) {
         Seccion seccion = getSeccion(jugador, claveSeccion);
         try {
             seccion.agregarCarta(carta);

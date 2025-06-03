@@ -14,7 +14,7 @@ public class Medico implements Modificador{
     }
 
     @Override
-    public void modificarComportamiento(Carta carta) {
+    public void modificarComportamiento(CartaUnidad carta) {
 
     }
 

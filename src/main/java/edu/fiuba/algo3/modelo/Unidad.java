@@ -18,8 +18,8 @@ public class Unidad implements Modificador {
     }
 
     @Override
-    public void modificarComportamiento(Carta carta) {
-
+    public void modificarComportamiento(CartaUnidad carta) {
+        carta.modificarValor(2 * carta.ValorActual());
     }
 
     @Override

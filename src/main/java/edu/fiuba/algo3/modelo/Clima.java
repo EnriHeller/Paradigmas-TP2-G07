@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface Clima {
 
-    public void afectarCartas(List<Carta> cartas);
+    public abstract void afectarCartas(List<CartaUnidad> cartas);
 
 }

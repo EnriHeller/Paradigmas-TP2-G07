@@ -14,6 +14,8 @@ public abstract class Carta {
         this.valor = valor;
     }
 
+    public abstract boolean esEspecial();
+
     public abstract String mostrarCarta();
 
     //public List<String> puedeColocarse();

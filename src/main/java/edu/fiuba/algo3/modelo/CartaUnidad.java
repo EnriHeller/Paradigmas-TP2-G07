@@ -13,6 +13,7 @@ public class CartaUnidad extends Carta {
         this.secciones = secciones;
         this.valor = valor;
         this.modificador = modificador;
+        modificador.modificarComportamiento(this);
     }
 
     public CartaUnidad(ArrayList<String> secciones, int valor) {
@@ -50,6 +51,12 @@ public class CartaUnidad extends Carta {
 
     public void modificarValor(int nuevoValor){
         this.valor = nuevoValor;
+    }
+
+
+    @Override
+    public boolean esEspecial(){
+        return false;
     }
 
     public int ValorActual(){

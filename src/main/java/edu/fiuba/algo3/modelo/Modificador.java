@@ -4,7 +4,7 @@ public interface Modificador {
 
     public String mostrarModificadores();
 
-    public void modificarComportamiento(Carta carta);
+    public void modificarComportamiento(CartaUnidad carta);
 
     public void modificarComportamientoSeccion(Seccion seccion);
 

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
+import edu.fiuba.algo3.modelo.CartaUnidad;
 import edu.fiuba.algo3.modelo.Carta;
 import edu.fiuba.algo3.modelo.Jugador;
 import edu.fiuba.algo3.modelo.Mazo;
@@ -19,9 +20,9 @@ public class Test04JugadorJuegaCartaYTienePuntajeParcial {
     @Test
     public void jugadorJuegaCartaYTienePuntajeParcial() throws TipoDeSeccionInvalidaError {
         // Arrange
-        Carta cartaMock = mock(Carta.class);
+        CartaUnidad cartaMock = mock(CartaUnidad.class);
         
-        when(cartaMock.getValor()).thenReturn(7); // Puntaje de la carta
+        when(cartaMock.ValorActual()).thenReturn(7); // Puntaje de la carta
 
         List<Carta> cartas = new ArrayList<>();
         cartas.add(cartaMock);
@@ -32,7 +33,7 @@ public class Test04JugadorJuegaCartaYTienePuntajeParcial {
         Seccion seccion = new Seccion("Rango");
 
         // Act
-        Carta cartaJugada = jugador.jugarCartaPorIndice(0);
+        CartaUnidad cartaJugada = (CartaUnidad) jugador.jugarCartaPorIndice(0);
         seccion.agregarCarta(cartaJugada);
         
         int puntaje = seccion.getPuntajeTotal();

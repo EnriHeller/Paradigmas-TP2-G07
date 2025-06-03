@@ -46,10 +46,12 @@ public class Juego {
 
             while (!yaJugo) {
                 String dondeJuegaPrimero = jugadores.get(jugadorQueInicia).SeccionElegida();
-                yaJugo = tablero.jugarCarta(jugadorQueInicia, cartaJugadaPorPrimero, dondeJuegaPrimero);
+                if(!cartaJugadaPorPrimero.esEspecial()) {
+                    yaJugo = tablero.jugarCarta(jugadorQueInicia, (CartaUnidad) cartaJugadaPorPrimero, dondeJuegaPrimero);
+                    rondas[ciclos].agregarPuntajeJugador(jugadorQueInicia,((CartaUnidad) cartaJugadaPorPrimero).ValorActual());
+                }
 
             }
-            rondas[ciclos].agregarPuntajeJugador(jugadorQueInicia,cartaJugadaPorPrimero.getValor());
         }
 
         while(jugadores.get(jugadorQueInicia+moneda).pasarTurno()){
@@ -61,10 +63,12 @@ public class Juego {
 
             while (!yaJugoSegundo) {
 
-                yaJugoSegundo = tablero.jugarCarta(jugadorQueInicia + moneda, cartaJugadaPorSegundo, dondeJuegaSegundo);
-
+                if(!cartaJugadaPorSegundo.esEspecial()) {
+                    yaJugoSegundo = tablero.jugarCarta(jugadorQueInicia, (CartaUnidad) cartaJugadaPorSegundo, dondeJuegaSegundo);
+                    rondas[ciclos].agregarPuntajeJugador(jugadorQueInicia+moneda, ((CartaUnidad) cartaJugadaPorSegundo).ValorActual());
+                }
             }
-            rondas[ciclos].agregarPuntajeJugador(jugadorQueInicia+moneda,cartaJugadaPorSegundo.getValor());
+
         }
 
         ciclos++;

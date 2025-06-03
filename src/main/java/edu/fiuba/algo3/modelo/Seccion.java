@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Seccion {
-    protected List<Carta> cartasActuales;
+    protected List<CartaUnidad> cartasActuales;
     private String clave;
+    private Clima clima;
 
     public Seccion(String claveSeccion) throws TipoDeSeccionInvalidaError {
         if (!puedeEstar(claveSeccion)) {
@@ -19,7 +20,7 @@ public class Seccion {
         return claveSeccion.equals("Rango") || claveSeccion.equals("Asedio") || claveSeccion.equals("CuerpoACuerpo");
     }
 
-    public void agregarCarta(Carta carta) throws TipoDeSeccionInvalidaError {
+    public void agregarCarta(CartaUnidad carta) throws TipoDeSeccionInvalidaError {
         //Validar si entra o no la carta. 
         cartasActuales.add(carta);
     }
@@ -28,11 +29,17 @@ public class Seccion {
         return this.clave;
     }
 
+    public void afectarClima(Clima nuevoClima) {
+        this.clima = nuevoClima;
+        nuevoClima.afectarCartas(cartasActuales);
+    }
+
+
     public boolean contiene(Carta carta){
         return this.cartasActuales.contains((carta));
     }
 
-    public List<Carta> getCartasActuales() {
+    public List<CartaUnidad> getCartasActuales() {
         return this.cartasActuales;
     }
 
@@ -43,9 +50,10 @@ public class Seccion {
 
     public int getPuntajeTotal() {
         int puntaje = 0;
-        for (Carta carta : cartasActuales) {
-            puntaje += carta.getValor();
+        for (CartaUnidad carta : cartasActuales) {
+            puntaje += carta.ValorActual();
         }
         return puntaje;
     }
 }
+

@@ -17,7 +17,7 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
         // Arrange
 
         //Posiblemente haya que mockear mas
-        Carta cartaMock = mock(Carta.class);
+        CartaUnidad cartaMock = mock(CartaUnidad.class);
 
         List<Carta> cartas = new ArrayList<Carta>();
 
@@ -30,8 +30,8 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
         Seccion seccion = new Seccion("Rango");
 
         // Act
-        Carta cartaJugada = jugador.jugarCartaPorIndice(0); 
-        seccion.agregarCarta(cartaJugada);
+        Carta cartaJugada = jugador.jugarCartaPorIndice(0);
+        seccion.agregarCarta((CartaUnidad) cartaJugada);
 
         // Assert: verificar que la sección recibió la carta y la mano quedó vacía
         assertTrue(seccion.contiene(cartaMock));

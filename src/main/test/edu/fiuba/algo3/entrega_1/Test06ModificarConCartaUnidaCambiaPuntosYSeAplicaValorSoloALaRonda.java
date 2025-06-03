@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.entrega_1;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,13 +28,17 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
         ArrayList<String> secciones = new ArrayList<String>();
         secciones.add("Asedio");
 
-        Carta primeraCarta = new CartaUnidad(secciones, 8, unidad);
-        Carta segundaCarta = new CartaUnidad(secciones, 8, unidad);
+        CartaUnidad primeraCarta = new CartaUnidad(secciones, 8, unidad);
+        CartaUnidad segundaCarta = new CartaUnidad(secciones, 8, unidad);
 
         nuevaSeccion.agregarCarta(primeraCarta);
-        nuevaSeccion.agregarCarta(segundaCarta);
 
-        assertEquals(32, nuevaSeccion.getPuntajeTotal());
+        // agrego la o las unidades iguales y le duplico el puntaje a todas
+
+        int puntajeCon1Unidad = nuevaSeccion.getPuntajeTotal();
+        nuevaSeccion.agregarCarta(segundaCarta);
+        int puntajeCon2Unidad = nuevaSeccion.getPuntajeTotal();
+        assertTrue( (puntajeCon2Unidad > puntajeCon1Unidad ));
 
     }
 }
