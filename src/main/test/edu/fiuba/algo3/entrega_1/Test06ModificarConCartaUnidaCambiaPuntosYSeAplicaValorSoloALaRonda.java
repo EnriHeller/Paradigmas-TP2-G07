@@ -34,11 +34,9 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
         nuevaSeccion.agregarCarta(primeraCarta);
 
         // agrego la o las unidades iguales y le duplico el puntaje a todas
-
-        int puntajeCon1Unidad = nuevaSeccion.getPuntajeTotal();
         nuevaSeccion.agregarCarta(segundaCarta);
         int puntajeCon2Unidad = nuevaSeccion.getPuntajeTotal();
-        assertTrue( (puntajeCon2Unidad > puntajeCon1Unidad ));
+        assertTrue( (puntajeCon2Unidad == 32) );
 
     }
 }
