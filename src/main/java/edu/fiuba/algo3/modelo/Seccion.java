@@ -23,7 +23,7 @@ public class Seccion {
     public void agregarCarta(CartaUnidad carta) throws TipoDeSeccionInvalidaError {
         //Validar si entra o no la carta. 
         cartasActuales.add(carta);
-        carta.aplicarModificador(this.cartasActuales);
+        carta.aplicarModificador(this.cartasActuales); // a tablero
     }
 
     public String getClave() {

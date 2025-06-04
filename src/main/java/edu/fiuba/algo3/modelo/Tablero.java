@@ -27,6 +27,12 @@ public class Tablero {
         throw new IllegalArgumentException("No existe la sección con clave: " + claveSeccion + " para el jugador " + jugador);
     }
 
+    // persona siempre interactua con el juego-> juego le pide al jugador que juegue -> jugador juega una carta con un modificador del enunciado ->
+
+    // persona interactua con juego -> jugador1 juegue tal carta en tal seccion -> tablero recibe la carta
+    // y la seleccion a la que va -> al intentar poner la carta se aplica el modificador.
+
+
     // Puntaje de una sección para un jugador
     public int puntosEnSeccion(int jugador, String claveSeccion) {
         Seccion seccion = getSeccion(jugador, claveSeccion);

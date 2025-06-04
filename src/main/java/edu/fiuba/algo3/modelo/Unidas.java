@@ -2,16 +2,17 @@ package edu.fiuba.algo3.modelo;
 
 import java.util.List;
 
-public class Unidad implements Modificador {
+public class Unidas implements Modificador {
 
     private final Modificador modificador;
 
-    public Unidad() {
-        this.modificador = new Base();
+    public Unidas(Modificador modificador) {
+        this.modificador = modificador;
     }
 
-    public Unidad(Modificador modificador) {
-        this.modificador = modificador;
+    @Override
+    public String CartaQueLoPosee(){
+        return modificador.CartaQueLoPosee();
     }
 
     @Override

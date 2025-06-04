@@ -4,9 +4,23 @@ import java.util.List;
 
 public interface Modificador {
 
+    /*
+     *
+      Fragmentar Modificador por interfaz unica
+     *
+     *
+     *
+     * medico hace lo suyo
+     *
+     * legendaria, agil y espia modifican UNA Carta
+     *
+     * Unidas y suma valor base modicican un listado de Cartas
+     *
+     */
+
     public String mostrarModificadores();
 
-    public void modificarComportamiento(CartaUnidad carta);
+    //public void modificarComportamiento(CartaUnidad carta);
 
     public void modificarComportamientoDeCartas(List<CartaUnidad> cartas);
 

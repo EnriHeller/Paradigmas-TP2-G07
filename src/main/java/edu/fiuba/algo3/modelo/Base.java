@@ -4,7 +4,15 @@ import java.util.List;
 
 public class Base implements Modificador{
 
-    public Base(){
+    private CartaUnidad cartaUnidad;
+
+    public Base(CartaUnidad cartaUnidad) {
+        this.cartaUnidad = cartaUnidad;
+    }
+
+    @Override
+    public String CartaQueLoPosee(){
+        return cartaUnidad.nombre;
     }
 
     @Override

@@ -2,10 +2,8 @@ package edu.fiuba.algo3.entrega_1;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
 import java.util.ArrayList;
 
 import edu.fiuba.algo3.modelo.*;
@@ -21,7 +19,7 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
         // meto la segunda carta
         // dame el puntaje de seccion y deberia ser (32)
 
-        Unidad unidad = new Unidad();
+        Unidas unidad = new Unidas();
 
         Seccion nuevaSeccion = new Seccion("Asedio");
 
