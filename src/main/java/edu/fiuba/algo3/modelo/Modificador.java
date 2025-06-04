@@ -8,6 +8,6 @@ public interface Modificador {
 
     public void modificarComportamiento(CartaUnidad carta);
 
-    public void modificarComportamientoSeccion(List<CartaUnidad> cartas);
+    public void modificarComportamientoDeCartas(List<CartaUnidad> cartas);
 
 }

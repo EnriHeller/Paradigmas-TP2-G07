@@ -2,22 +2,10 @@ package edu.fiuba.algo3.modelo;
 
 import java.util.List;
 
-public abstract class Carta {
+public interface Carta {
 
-    List<String> secciones;
-    int valor;
-    String nombre;
-    Modificador modificador;
+    public boolean esEspecial();
 
-    public Carta(List<String> secciones, int valor){
-        this.secciones = secciones;
-        this.valor = valor;
-    }
+    public String mostrarCarta();
 
-    public abstract boolean esEspecial();
-
-    public abstract String mostrarCarta();
-
-    //public List<String> puedeColocarse();
-    // public String visualizarCartaComoString()
 }

@@ -4,15 +4,16 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartaUnidad extends Carta {
+public class CartaUnidad implements Carta {
 
+    String nombre;
     List<String> secciones;
-    private int valorBase;
+    private final int valorBase;
     private int valorActual;
     Modificador modificador;
 
-    public CartaUnidad(List<String> secciones, int valor, Modificador modificador) {
-        super(secciones, valor);
+    public CartaUnidad(String nombre,List<String> secciones, int valor, Modificador modificador) {
+        this.nombre = nombre;
         this.secciones = secciones;
         this.valorActual = valor;
         this.valorBase = valor;
@@ -20,8 +21,8 @@ public class CartaUnidad extends Carta {
         modificador.modificarComportamiento(this);
     }
 
-    public CartaUnidad(List<String> secciones, int valor) {
-        super(secciones, valor);
+    public CartaUnidad(String nombre, List<String> secciones, int valor) {
+        this.nombre = nombre;
         this.secciones = secciones;
         this.valorActual = valor;
         this.valorBase = valor;
@@ -30,7 +31,7 @@ public class CartaUnidad extends Carta {
 
     // Constructor sin argumentos para tests
     public CartaUnidad() {
-        super(new ArrayList<>(), 0);
+        this.nombre = "";
         this.secciones = new ArrayList<>();
         this.valorActual = 0;
         this.valorBase = 0;
@@ -38,7 +39,7 @@ public class CartaUnidad extends Carta {
     }
 
     public void aplicarModificador(List<CartaUnidad> cartas) {
-        this.modificador.modificarComportamientoSeccion(cartas);
+        this.modificador.modificarComportamientoDeCartas(cartas);
     }
 
     public int getPuntajeBase() {
@@ -56,7 +57,17 @@ public class CartaUnidad extends Carta {
     }
 
     public void modificarValor(int nuevoValor){
-        this.valor = nuevoValor;
+        this.valorActual = nuevoValor;
+    }
+
+    public void modificarValor(String posibleCartaMismoModificador, int n) throws NoEsLaMismaUnidad{
+        if (!posibleCartaMismoModificador.equals(this.nombre)){
+            throw new NoEsLaMismaUnidad("No es la misma Unidad");
+        }
+        if (n == 1){
+            this.valorActual = 1;
+        } else{ this.valorActual = n * this.valorBase; }
+
     }
 
 
@@ -66,6 +77,6 @@ public class CartaUnidad extends Carta {
     }
 
     public int ValorActual(){
-        return this.valor;
+        return this.valorActual;
     }
 }

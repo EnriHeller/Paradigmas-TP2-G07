@@ -25,7 +25,7 @@ public class Unidad implements Modificador {
     }
 
     @Override
-    public void modificarComportamientoSeccion(List<CartaUnidad> cartas) {
+    public void modificarComportamientoDeCartas(List<CartaUnidad> cartas) {
         int cantidadUnidad = (int) cartas.stream()
                 .filter(carta -> carta.mostrarCarta().contains("Unidad"))
                 .count();
@@ -34,7 +34,7 @@ public class Unidad implements Modificador {
         if (cantidadUnidad >= 2) {
             for (CartaUnidad carta : cartas) {
                 if (carta.mostrarCarta().contains("Unidad")) {
-                    carta.modificarValor(cantidadUnidad * carta.getPuntajeBase());
+                    modificador.modificarComportamiento(carta);
                 }
             }
         }

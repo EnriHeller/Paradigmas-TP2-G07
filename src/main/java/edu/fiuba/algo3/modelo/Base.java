@@ -18,7 +18,7 @@ public class Base implements Modificador{
     }
 
     @Override
-    public void modificarComportamientoSeccion(List<CartaUnidad> cartas) {
+    public void modificarComportamientoDeCartas(List<CartaUnidad> cartas) {
 
     }
 }
