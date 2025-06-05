@@ -2,7 +2,6 @@ package edu.fiuba.algo3.modelo;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CartaUnidad implements Carta {
 
@@ -12,6 +11,7 @@ public class CartaUnidad implements Carta {
     private int valorActual;
     Modificador modificador;
 
+    //Constructores
     public CartaUnidad(String nombre,List<String> secciones, int valor, Modificador modificador) {
         this.nombre = nombre;
         this.secciones = secciones;
