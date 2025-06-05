@@ -18,7 +18,6 @@ public class CartaUnidad implements Carta {
         this.valorActual = valor;
         this.valorBase = valor;
         this.modificador = modificador;
-        modificador.modificarComportamiento(this);
     }
 
     public CartaUnidad(String nombre, List<String> secciones, int valor) {
@@ -39,7 +38,7 @@ public class CartaUnidad implements Carta {
     }
 
     public void aplicarModificador(List<CartaUnidad> cartas) {
-        this.modificador.modificarComportamientoDeCartas(cartas);
+        this.modificador.modificar();
     }
 
     public int getPuntajeBase() {
@@ -78,5 +77,9 @@ public class CartaUnidad implements Carta {
 
     public int ValorActual(){
         return this.valorActual;
+    }
+
+    public boolean coincideSeccion(String seccion){
+        return this.secciones.contains(seccion);
     }
 }

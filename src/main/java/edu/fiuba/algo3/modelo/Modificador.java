@@ -20,8 +20,6 @@ public interface Modificador {
 
     public String mostrarModificadores();
 
-    //public void modificarComportamiento(CartaUnidad carta);
-
-    public void modificarComportamientoDeCartas(List<CartaUnidad> cartas);
+    public void modificar();
 
 }

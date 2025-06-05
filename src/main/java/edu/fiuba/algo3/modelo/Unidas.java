@@ -11,21 +11,19 @@ public class Unidas implements Modificador {
     }
 
     @Override
-    public String CartaQueLoPosee(){
-        return modificador.CartaQueLoPosee();
-    }
-
-    @Override
     public String mostrarModificadores() {
         return modificador.mostrarModificadores() + " Unidad";
     }
 
     @Override
+    public void modificar(){
+
+    }
+
     public void modificarComportamiento(CartaUnidad carta) {
         carta.modificarValor(2 * carta.ValorActual());
     }
 
-    @Override
     public void modificarComportamientoDeCartas(List<CartaUnidad> cartas) {
         int cantidadUnidad = (int) cartas.stream()
                 .filter(carta -> carta.mostrarCarta().contains("Unidad"))
@@ -35,7 +33,7 @@ public class Unidas implements Modificador {
         if (cantidadUnidad >= 2) {
             for (CartaUnidad carta : cartas) {
                 if (carta.mostrarCarta().contains("Unidad")) {
-                    modificador.modificarComportamiento(carta);
+                    modificarComportamiento(carta);
                 }
             }
         }

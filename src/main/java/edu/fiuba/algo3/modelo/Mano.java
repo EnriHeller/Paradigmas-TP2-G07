@@ -5,21 +5,12 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class Mano {
+public class Mano extends SeccionSinPuntaje{
+
     private List<Carta> cartasEnMano;
 
     public Mano() {
         this.cartasEnMano = new ArrayList<>();
-    }
-
-    public void agregarCarta(Carta carta) {
-        cartasEnMano.add(carta);
-    }
-
-    public void agregarCartas(List<Carta> cartas){
-
-        cartasEnMano.addAll(cartas);
-
     }
 
     private int eleccionDeCarta(int cantCartas){

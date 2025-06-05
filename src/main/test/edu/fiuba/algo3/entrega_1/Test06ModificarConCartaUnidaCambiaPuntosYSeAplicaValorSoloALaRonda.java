@@ -19,7 +19,7 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
         // meto la segunda carta
         // dame el puntaje de seccion y deberia ser (32)
 
-        Unidas unidad = new Unidas();
+        Unidas unidad = new Unidas(new Base());
 
         Seccion nuevaSeccion = new Seccion("Asedio");
 

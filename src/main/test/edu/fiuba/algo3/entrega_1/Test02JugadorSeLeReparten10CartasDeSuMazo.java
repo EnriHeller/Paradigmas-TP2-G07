@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Test02JugadorSeLeReparten10CartasDeSuMazo {
 
     @Test
-    public void jugadorRecibe10CartasInicialesEnSuMano() {
+    public void jugadorRecibe10CartasInicialesEnSuMano() throws TipoDeSeccionInvalidaError {
         
         List<Carta> cartas = new ArrayList<Carta>();
 

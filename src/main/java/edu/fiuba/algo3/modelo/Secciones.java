@@ -38,7 +38,7 @@ public class Secciones {
         return secciones.get(clave);
     }
 
-    private Seccion existeSeccion(String clave) throws TipoDeSeccionInvalidaError{
+    private Seccion seccion(String clave) throws TipoDeSeccionInvalidaError{
         Seccion seccion = secciones.get(clave);
         if (seccion == null) {
             throw new IllegalArgumentException("Clave inválida: " + clave);
@@ -46,19 +46,24 @@ public class Secciones {
         return seccion;
     }
 
-    public void agregarCarta(String clave, CartaUnidad carta) throws TipoDeSeccionInvalidaError {
-        Seccion seccion = existeSeccion(clave);
+    public void agregarCarta(String clave, CartaUnidad carta) throws TipoDeSeccionInvalidaError, CartaNoJugable {
+        Seccion seccion = seccion(clave);
         seccion.agregarCarta(carta);
     }
 
     public void afectarClima(String clave, Clima nuevoClima) throws TipoDeSeccionInvalidaError{
-        Seccion seccion = existeSeccion(clave);
+        Seccion seccion = seccion(clave);
         seccion.afectarClima(nuevoClima);
     }
 
     public int getPuntajeTotal(String clave) throws TipoDeSeccionInvalidaError {
-        Seccion seccion = existeSeccion(clave);
+        Seccion seccion = seccion(clave);
         return seccion.getPuntajeTotal();
+    }
+
+    public boolean contiene(String clave, Carta carta) throws TipoDeSeccionInvalidaError{
+        Seccion seccion = seccion(clave);
+        return seccion.contiene(carta);
     }
 }
 

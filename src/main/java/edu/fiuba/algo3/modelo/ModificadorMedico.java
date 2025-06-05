@@ -4,12 +4,13 @@ public class ModificadorMedico implements Modificador {
 
     private Modificador modificador;
 
+    @Override
     public String mostrarModificadores() {
         return modificador.mostrarModificadores() + " Medico";
     }
 
     @Override
-    public void aplicarModificador(){
+    public void modificar(){
 
     }
 

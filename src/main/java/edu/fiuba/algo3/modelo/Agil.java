@@ -16,12 +16,7 @@ public class Agil implements Modificador{
     }
 
     @Override
-    public void modificarComportamiento(CartaUnidad carta) {
-
-    }
-
-    @Override
-    public void modificarComportamientoDeCartas(List<CartaUnidad> cartas) {
+    public void modificar() {
 
     }
 }

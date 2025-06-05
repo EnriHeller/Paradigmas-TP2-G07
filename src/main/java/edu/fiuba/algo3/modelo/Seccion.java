@@ -20,10 +20,12 @@ public class Seccion {
         return claveSeccion.equals("Rango") || claveSeccion.equals("Asedio") || claveSeccion.equals("CuerpoACuerpo");
     }
 
-    public void agregarCarta(CartaUnidad carta) throws TipoDeSeccionInvalidaError {
-        //Validar si entra o no la carta. 
-        cartasActuales.add(carta);
-        carta.aplicarModificador(this.cartasActuales); // a tablero
+    public void agregarCarta(CartaUnidad carta) throws CartaNoJugable {
+        if (carta.coincideSeccion(clave)) {
+            cartasActuales.add(carta);
+        }else{
+            throw new CartaNoJugable();
+        }
     }
 
     public String getClave() {

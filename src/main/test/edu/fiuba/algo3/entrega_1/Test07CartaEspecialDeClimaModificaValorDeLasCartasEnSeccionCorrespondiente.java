@@ -16,7 +16,7 @@ public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespo
 
     //
     @Test
-    public void cartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespondiente()  throws TipoDeSeccionInvalidaError{
+    public void cartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespondiente() throws TipoDeSeccionInvalidaError, CartaNoJugable {
 
         Seccion seccionConClima = new Seccion("CuerpoACuerpo");
 
@@ -27,8 +27,8 @@ public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespo
 
         Clima climaNevado = cartaEspecialClima.CrearClima();
 
-        CartaUnidad primeraCartaPuntajeUno = new CartaUnidad(secciones, 3);
-        CartaUnidad segundaCartaPuntajeUno = new CartaUnidad(secciones, 3);
+        CartaUnidad primeraCartaPuntajeUno = new CartaUnidad("CartaTest1",secciones, 3);
+        CartaUnidad segundaCartaPuntajeUno = new CartaUnidad("CartaTest2",secciones, 3);
 
 
         seccionConClima.agregarCarta(primeraCartaPuntajeUno);

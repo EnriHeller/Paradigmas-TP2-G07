@@ -5,34 +5,29 @@ import java.util.Scanner;
 public class Jugador {
     private String nombre;
     private Mazo mazo;
-    private Mano mano;
-    private PilaDescarte pilaDescarte;
+    private SeccionesSinPuntaje seccionesDelJugador;
 
     public Jugador() {
         this.nombre = "";
         this.mazo = null;
-        this.mano = new Mano();
-        this.pilaDescarte = new PilaDescarte();
+        this.seccionesDelJugador = null;
     }
 
     public Jugador(String nombre, Mazo mazo) {
         this.nombre = nombre;
         this.mazo = mazo;
-        this.mano = new Mano();
-        this.pilaDescarte = new PilaDescarte();
+        this.seccionesDelJugador = null;
     }
 
-    public Carta jugarCarta() {
+    public Jugador(String nombre, Mazo mazo, SeccionesSinPuntaje instanciaDeSecciones) {
+        this.nombre = nombre;
+        this.mazo = mazo;
+        this.seccionesDelJugador = instanciaDeSecciones;
+    }
 
-        int eleccion = mano.mostrarCartas();
+    public Carta jugarCarta(Carta carta) throws TipoDeSeccionInvalidaError {
 
-        return  mano.removerCarta(eleccion);
-        // jugador le pide a Su mano mostrar todas las cartas disponibles sus cartas y elige 1
-        // Dentro: cada Carta se muestra abstractamente como string
-        // el jugador elije uno de esos abtractos y se le da la carta
-        // si la puede jugar se descartaCarta (mano piede su referencia) y se le da a tablero
-        // sino puede vuelve a intentarlo (manejo de errores)
-
+        return seccionesDelJugador.removerCarta("Mano",carta);
     }
 
     public String SeccionElegida() {
@@ -55,50 +50,26 @@ public class Jugador {
         }
     }
 
-
-        // Método para tests: jugar carta por índice sin interacción
-
-    //Mostramos cartas por indice porque es responsabilidad de la mano mostrar las cartas para que el jugador tome una decisión.
-    public Carta jugarCartaPorIndice(int indice) {
-        return mano.removerCarta(indice);
+    public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError {
+        List<Carta> cartas = mazo.repartirCarta(n);
+        seccionesDelJugador.agregarCartas("Mano", cartas);
     }
+
+    public void agregarCartasAlDescarte(List<Carta> cartas) throws TipoDeSeccionInvalidaError {
+
+        seccionesDelJugador.agregarCartas("Descarte", cartas);
+    }
+
+        // Método para tests: jugar carta por índice sin interacción (deben DESAPARECER en lo posible)
 
     public void descartarCarta(Carta unaCarta) {}
 
-    public void agregarCartasAMano(int n){
-        List<Carta> cartas = mazo.repartirCarta(n);
-        mano.agregarCartas(cartas);
+    public int cartasEnMano() throws TipoDeSeccionInvalidaError {
+        return seccionesDelJugador.cartasRestantes("Mano");
     }
 
-    public void agregarCartasAlDescarte(List<Carta> cartas){
-        pilaDescarte.agregarCartas(cartas);
-    }
-
-    public boolean pasarTurno() {
-
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            System.out.println("¿quieres seguir jugando? S o N: ");
-            String input = scanner.nextLine().trim();
-
-            switch (input) {
-                case "S":
-                    return true;
-                case "N":
-                    return false;
-                default:
-                    System.out.println("Opción inválida. Intentá de nuevo.\n");
-            }
-        }
-    }
-
-    public int cartasEnMano(){
-        return mano.cartasRestantes();
-    }
-
-    public int cartasEnElDescarte(){
-        return pilaDescarte.cartasEnElDescarte();
+    public int cartasEnElDescarte() throws TipoDeSeccionInvalidaError {
+        return seccionesDelJugador.cartasRestantes("Descarte");
     }
 
     public int cartasRestantes() {

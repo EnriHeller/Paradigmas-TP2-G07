@@ -55,7 +55,7 @@ public class Tablero {
     }
 
     // Jugar una carta en una sección de un jugador
-    public boolean jugarCarta(int jugador, CartaUnidad carta, String claveSeccion) {
+    /*public boolean jugarCarta(int jugador, CartaUnidad carta, String claveSeccion) {
         Seccion seccion = getSeccion(jugador, claveSeccion);
         try {
             seccion.agregarCarta(carta);
@@ -63,5 +63,5 @@ public class Tablero {
         } catch (TipoDeSeccionInvalidaError e) {
             return false;
         }
-    }
+    }*/
 }
