@@ -1,13 +1,18 @@
 package edu.fiuba.algo3.entrega_1;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.ArrayList;
 
-import edu.fiuba.algo3.modelo.*;
+import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
+import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.principal.Jugador;
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.jupiter.api.Test;
 
 public class Test04JugadorJuegaCartaYTienePuntajeParcial {

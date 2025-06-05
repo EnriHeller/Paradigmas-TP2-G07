@@ -6,7 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 
-import edu.fiuba.algo3.modelo.*;
+import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.modificadores.Base;
+import edu.fiuba.algo3.modelo.modificadores.Unidas;
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.jupiter.api.Test;
 
 public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda {
