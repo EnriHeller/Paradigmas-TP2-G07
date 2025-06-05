@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class Mano extends SeccionSinPuntaje {
+public class Mano extends SeccionJugador {
 
     private List<Carta> cartasEnMano;
 

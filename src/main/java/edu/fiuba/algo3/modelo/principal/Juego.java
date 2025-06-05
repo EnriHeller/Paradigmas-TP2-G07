@@ -3,7 +3,8 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
+import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.Secciones;
 
 import java.util.ArrayList;
@@ -13,9 +14,11 @@ import java.util.Scanner;
 public class Juego {
     private int ciclos;
     private Ronda[] rondas;
-    //private SeccionesSinPuntaje[] seccionesSinPuntaje;
+    //private SeccionesJugador[] SeccionesJugador;
     //private Secciones secciones;
     private List<Jugador> jugadores;
+    private List<Mazo> mazos;
+
     private int moneda;
     private int jugadorQueInicia;
 
@@ -23,12 +26,41 @@ public class Juego {
 
         this.ciclos = 0;
         this.rondas = new Ronda[3];
-        //this.seccionesSinPuntaje =  seccionesSinPuntaje;
+        //this.SeccionesJugador =  SeccionesJugador;
         //this.secciones = new Secciones;
-        this.jugadores = new ArrayList<Jugador>();
         this.moneda = 0;
         this.jugadorQueInicia = -1;
 
+    }
+    private void inicializarMazos() {
+        // esto de reemplaza por contructorMazo
+        List<Carta> cartasJ1 = new ArrayList<>();
+        for (int i = 0; i < 21; i++) {
+            cartasJ1.add(new CartaUnidad());
+        }
+        mazos.add(new Mazo(cartasJ1));
+
+        List<Carta> cartasJ2 = new ArrayList<>();
+        for (int i = 0; i < 21; i++) {
+            cartasJ2.add(new CartaUnidad());
+        }
+
+        mazos.add(new Mazo(cartasJ2));
+    }
+    
+    private void inicializarJugadores(List<Object> opciones_j1,List<Object> opciones_j2) {
+
+        String nombrej1 = (String) opciones_j1.get(0);
+        Mazo mazoj1 = mazos.get((int) opciones_j1.get(1));
+
+        String nombrej2 = (String) opciones_j2.get(1);
+        Mazo mazoj2 = mazos.get((int) opciones_j2.get(1));
+
+        Jugador jugador1 = new Jugador(nombrej1, mazoj1);
+        Jugador jugador2 = new Jugador(nombrej2, mazoj2);
+
+        jugadores.add(jugador1);
+        jugadores.add(jugador2);
     }
 
     public int puntaje(){
@@ -44,7 +76,6 @@ public class Juego {
         } else{
             jugadorQueInicia = 0;
         }
-
     }
 
     public String SeccionElegida() {
@@ -73,12 +104,16 @@ public class Juego {
         boolean eleccionErronea = true;
         int opcion = -1;
 
+        Jugador jugadorActual = jugadores.get(jugador);
+        int cantidadCartas = jugadorActual.cartasRestantesEnSeccion(clave);
+
+
         while (eleccionErronea) {
             System.out.print("Ingrese el número de la carta que quiere elegir: ");
             try {
                 opcion = scanner.nextInt();
 
-                if (opcion >= 0 && opcion < SeccionesSinPuntaje.cartasRestantes(jugador,clave)) {
+                if (opcion >= 0 && opcion <jugadorActual.cartasRestantesEnSeccion(clave)) {
                     eleccionErronea = false;
                 } else {
                     System.out.println("Opción inválida. Por favor ingrese un número entre 0 y 10.");
@@ -88,8 +123,8 @@ public class Juego {
                 scanner.next();
             }
         }
-
-        return seccionesSinPuntaje[jugador].removerCarta("Mano", opcion);
+        Carta cartaADevolver = jugadorActual.removerCartaDeSeccion("Mano", opcion);
+        return cartaADevolver;
 
     }
 
@@ -122,7 +157,7 @@ public class Juego {
 
                 if (!cartaJugadaPorPrimero.esEspecial()) {
                     try {
-                        secciones.agregarCarta(dondeJuegaPrimero, (CartaUnidad) cartaJugadaPorPrimero);
+                        Secciones.agregarCarta(dondeJuegaPrimero, (CartaUnidad) cartaJugadaPorPrimero);
                         cartaJugable1 = true; // Solo si no lanza excepción
                     } catch (CartaNoJugable | TipoDeSeccionInvalidaError e) {
                         System.out.println("La carta no se puede jugar en esa sección. Elegí otra.");
@@ -145,7 +180,7 @@ public class Juego {
 
                 if (!cartaJugadaPorSegundo.esEspecial()) {
                     try {
-                        secciones.agregarCarta(dondeJuegaPrimero, (CartaUnidad) cartaJugadaPorSegundo);
+                        Secciones.agregarCarta(dondeJuegaPrimero, (CartaUnidad) cartaJugadaPorSegundo);
                         cartaJugable2 = true; // Solo si no lanza excepción
                     } catch (CartaNoJugable | TipoDeSeccionInvalidaError e) {
                         System.out.println("La carta no se puede jugar en esa sección. Elegí otra.");
@@ -162,7 +197,11 @@ public class Juego {
         ciclos++;
     }
 
+    public int cartasRestantesJugador(int jugador_i){
+        Jugador jugador = jugadores.get(jugador_i);
 
+        return jugador.cartasRestantes();
+    }
 
     public String mostrarGanador(){
         return "";
@@ -172,4 +211,38 @@ public class Juego {
         return false;
     }
 
+
+    public void iniciarJuego(List<Object> opciones_j1, List<Object> opciones_j2){
+
+        inicializarMazos();
+        inicializarJugadores(opciones_j1, opciones_j2);
+        tirarMoneda();
+        //iniciarFaseInicial
+        //iniciarFasePreparacion
+        //iniciarFaseDeJuego
+        //faseFinal() = determinarGanador
+
+    }
+
+   
+    public boolean iniciarFasePreparacion() throws TipoDeSeccionInvalidaError{
+        repartirCartasAlJugador(1);
+        repartirCartasAlJugador(2);
+        boolean seRepartio = seLogroRepartirCartasDelMazoALosJugadores();
+        return seRepartio;
+    }
+    public void repartirCartasAlJugador(int jugador) throws TipoDeSeccionInvalidaError {
+        int minCartasAMano = 10;
+        Jugador jugadorElegido = jugadores.get(jugador);
+        jugadorElegido.agregarCartasAMano(minCartasAMano);
+    }
+
+    public boolean seLogroRepartirCartasDelMazoALosJugadores(){
+        Jugador jugador1 = jugadores.get(1);
+        Jugador jugador2 = jugadores.get(2);
+
+        return (jugador1.cartasRestantes() == 10 && jugador2.cartasRestantes() == 10);
+    }
+	
+    
 }

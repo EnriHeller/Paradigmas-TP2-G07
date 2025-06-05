@@ -16,8 +16,8 @@ public interface Modificador {
      *
      */
 
-    public String mostrarModificadores();
+    String mostrarModificadores();
 
-    public void modificar();
+    void modificar();
 
 }

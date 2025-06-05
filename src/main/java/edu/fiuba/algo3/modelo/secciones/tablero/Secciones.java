@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Secciones {
     private static Secciones instancia = null;
-    private Map<String, Seccion> secciones;
+    private static Map<String, Seccion> secciones;
 
     private Secciones() throws TipoDeSeccionInvalidaError {
         secciones = new HashMap<>();
@@ -44,7 +44,7 @@ public class Secciones {
         return secciones.get(clave);
     }
 
-    private Seccion seccion(String clave) throws TipoDeSeccionInvalidaError{
+    private static Seccion seccion(String clave) throws TipoDeSeccionInvalidaError{
         Seccion seccion = secciones.get(clave);
         if (seccion == null) {
             throw new IllegalArgumentException("Clave inválida: " + clave);
@@ -52,7 +52,7 @@ public class Secciones {
         return seccion;
     }
 
-    public void agregarCarta(String clave, CartaUnidad carta) throws TipoDeSeccionInvalidaError, CartaNoJugable {
+    public static void agregarCarta(String clave, CartaUnidad carta) throws TipoDeSeccionInvalidaError, CartaNoJugable {
         Seccion seccion = seccion(clave);
         seccion.agregarCarta(carta);
     }

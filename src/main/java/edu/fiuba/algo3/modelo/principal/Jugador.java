@@ -2,7 +2,7 @@ package edu.fiuba.algo3.modelo.principal;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 
 import java.util.List;
 import java.util.Scanner;
@@ -10,28 +10,28 @@ import java.util.Scanner;
 public class Jugador {
     private String nombre;
     private Mazo mazo;
-    //private SeccionesSinPuntaje seccionesDelJugador;
+    //private SeccionesJugador seccionesDelJugador;
 
-    public Jugador() {
-        this.nombre = "";
-        this.mazo = null;
-        //this.seccionesDelJugador = null;
-    }
+    // public Jugador() {
+    //     this.nombre = "";
+    //     this.mazo = null;
+    //     //this.seccionesDelJugador = null;
+    // }
+
+    // public Jugador(String nombre, Mazo mazo, SeccionesJugador instanciaDeSecciones) {
+    //     this.nombre = nombre;
+    //     this.mazo = mazo;
+    //     this.seccionesDelJugador = instanciaDeSecciones;
+    // }
 
     public Jugador(String nombre, Mazo mazo) {
         this.nombre = nombre;
         this.mazo = mazo;
-        //this.seccionesDelJugador = null;
-    }
-
-    public Jugador(String nombre, Mazo mazo, SeccionesSinPuntaje instanciaDeSecciones) {
-        this.nombre = nombre;
-        this.mazo = mazo;
-        //this.seccionesDelJugador = instanciaDeSecciones;
+        private SeccionesJugador seccionesJugador;
     }
 
     public Carta jugarCarta(Carta carta) throws TipoDeSeccionInvalidaError {
-        return SeccionesSinPuntaje.removerCarta("Mano",carta);
+        return SeccionesJugador.removerCarta("Mano",carta);
     }
 
     public String SeccionElegida() {
@@ -56,12 +56,19 @@ public class Jugador {
 
     public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError {
         List<Carta> cartas = mazo.repartirCarta(n);
-        SeccionesSinPuntaje.agregarCartas("Mano", cartas);
+        SeccionesJugador.agregarCartas("Mano", cartas);
     }
 
+    public int cartasRestantesEnSeccion(String clave) throws TipoDeSeccionInvalidaError {
+        return SeccionesJugador.cartasRestantes(clave);
+    }
+
+    public Carta removerCartaDeSeccion(String clave, int index) throws TipoDeSeccionInvalidaError {
+    return SeccionesJugador.removerCarta(clave, index);
+    }
     public void agregarCartasAlDescarte(List<Carta> cartas) throws TipoDeSeccionInvalidaError {
 
-        SeccionesSinPuntaje.agregarCartas("Descarte", cartas);
+        SeccionesJugador.agregarCartas("Descarte", cartas);
     }
 
         // Método para tests: jugar carta por índice sin interacción (deben DESAPARECER en lo posible)
@@ -69,16 +76,14 @@ public class Jugador {
     public void descartarCarta(Carta unaCarta) {}
 
     public int cartasEnMano() throws TipoDeSeccionInvalidaError {
-        return SeccionesSinPuntaje.cartasRestantes("Mano");
+        return SeccionesJugador.cartasRestantes("Mano");
     }
 
     public int cartasEnElDescarte() throws TipoDeSeccionInvalidaError {
-        return SeccionesSinPuntaje.cartasRestantes("Descarte");
+        return SeccionesJugador.cartasRestantes("Descarte");
     }
 
     public int cartasRestantes() {
-
         return mazo.cantidadDeCartas();
-
     }
 }

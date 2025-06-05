@@ -1,9 +1,6 @@
 package edu.fiuba.algo3.entrega_1;
 
-import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.principal.Jugador;
-import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.principal.Juego;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.ArrayList; // o import java.util.LinkedList;
@@ -14,7 +11,7 @@ public class Test01JugadorConCartasSuficientes {
 
     @Test
     public void jugadorTieneCartasSuficientesAlEmpezar() {
-        int cartasMinimasEsperadas = 21;
+        /*int cartasMinimasEsperadas = 21;
 
         // Crear 21 Cartas
         List<Carta> cartas = new ArrayList<Carta>();
@@ -33,5 +30,19 @@ public class Test01JugadorConCartasSuficientes {
         // Verificar que el jugador empieza con 21 cartas
         assertEquals(cartasMinimasEsperadas, jugador.cartasRestantes(),
                 "El jugador debe tener 21 cartas al comenzar el juego");
+        */
+
+        List<Object> opciones_jugador_1 = new ArrayList<>();
+        opciones_jugador_1.add("Pepito");
+        opciones_jugador_1.add(0);
+
+        List<Object> opciones_jugador_2 = new ArrayList<>();
+        opciones_jugador_2.add("Mengano");
+        opciones_jugador_2.add(1);
+
+        Juego nuevoJuego = new Juego();
+        nuevoJuego.iniciarJuego(opciones_jugador_1, opciones_jugador_2);
+
+        assertEquals(21, nuevoJuego.cartasRestantesJugador(0));
     }
 }

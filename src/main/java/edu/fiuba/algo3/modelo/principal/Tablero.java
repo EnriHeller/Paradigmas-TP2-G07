@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.modelo.principal;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.secciones.jugador.SeccionSinPuntaje;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionJugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class Tablero {
         this.secciones.add(new ArrayList<>()); // Jugador 2
     }
 
-    public Tablero(List<Seccion> seccionesJugador1, List<SeccionSinPuntaje> seccionesSinPuntaje) {
+    public Tablero(List<Seccion> seccionesJugador1, List<SeccionJugador> SeccionesJugador) {
         this();
         this.secciones.set(0, seccionesJugador1);
     }

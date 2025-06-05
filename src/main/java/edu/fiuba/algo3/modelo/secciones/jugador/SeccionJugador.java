@@ -5,11 +5,11 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeccionSinPuntaje {
+public class SeccionJugador {
 
     private List<Carta> cartasEnMano;
 
-    public SeccionSinPuntaje() {
+    public SeccionJugador() {
         this.cartasEnMano = new ArrayList<>();
     }
 
