@@ -1,7 +1,7 @@
 package edu.fiuba.algo3.entrega_1;
 
 import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
-import edu.fiuba.algo3.modelo.cartas.especiales.Nevada;
+import edu.fiuba.algo3.modelo.cartas.especiales.CartaNevada;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.cartas.especiales.Clima;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
@@ -25,7 +25,7 @@ public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespo
         ArrayList<String> secciones = new ArrayList<>();
         secciones.add("CuerpoACuerpo");
 
-        Nevada cartaEspecialClima = new Nevada();
+        CartaNevada cartaEspecialClima = new CartaNevada();
 
         Clima climaNevado = cartaEspecialClima.CrearClima();
 

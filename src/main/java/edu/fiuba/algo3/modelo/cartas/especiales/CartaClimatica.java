@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.modelo.cartas.especiales;
 
-public interface CartaEspecialClimatica{
+public interface CartaClimatica {
 
     public Clima CrearClima();
 

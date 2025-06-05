@@ -2,9 +2,9 @@ package edu.fiuba.algo3.modelo.cartas.especiales;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
 
-public class Nevada implements CartaEspecialClimatica, Carta {
+public class CartaNevada implements CartaClimatica, Carta {
 
-    public Nevada(){
+    public CartaNevada(){
 
     }
 

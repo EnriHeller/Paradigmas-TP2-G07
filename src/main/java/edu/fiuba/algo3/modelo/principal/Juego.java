@@ -13,18 +13,18 @@ import java.util.Scanner;
 public class Juego {
     private int ciclos;
     private Ronda[] rondas;
-    private SeccionesSinPuntaje[] seccionesSinPuntaje;
-    private Secciones secciones;
+    //private SeccionesSinPuntaje[] seccionesSinPuntaje;
+    //private Secciones secciones;
     private List<Jugador> jugadores;
     private int moneda;
     private int jugadorQueInicia;
 
-    public Juego(Secciones secciones, SeccionesSinPuntaje[] seccionesSinPuntaje) {
+    public Juego() {
 
         this.ciclos = 0;
         this.rondas = new Ronda[3];
-        this.seccionesSinPuntaje =  seccionesSinPuntaje;
-        this.secciones = secciones;
+        //this.seccionesSinPuntaje =  seccionesSinPuntaje;
+        //this.secciones = new Secciones;
         this.jugadores = new ArrayList<Jugador>();
         this.moneda = 0;
         this.jugadorQueInicia = -1;
@@ -78,7 +78,7 @@ public class Juego {
             try {
                 opcion = scanner.nextInt();
 
-                if (opcion >= 0 && opcion < seccionesSinPuntaje[jugador].cartasRestantes(clave)) {
+                if (opcion >= 0 && opcion < SeccionesSinPuntaje.cartasRestantes(jugador,clave)) {
                     eleccionErronea = false;
                 } else {
                     System.out.println("Opción inválida. Por favor ingrese un número entre 0 y 10.");

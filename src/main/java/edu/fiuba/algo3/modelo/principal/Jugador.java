@@ -10,29 +10,28 @@ import java.util.Scanner;
 public class Jugador {
     private String nombre;
     private Mazo mazo;
-    private SeccionesSinPuntaje seccionesDelJugador;
+    //private SeccionesSinPuntaje seccionesDelJugador;
 
     public Jugador() {
         this.nombre = "";
         this.mazo = null;
-        this.seccionesDelJugador = null;
+        //this.seccionesDelJugador = null;
     }
 
     public Jugador(String nombre, Mazo mazo) {
         this.nombre = nombre;
         this.mazo = mazo;
-        this.seccionesDelJugador = null;
+        //this.seccionesDelJugador = null;
     }
 
     public Jugador(String nombre, Mazo mazo, SeccionesSinPuntaje instanciaDeSecciones) {
         this.nombre = nombre;
         this.mazo = mazo;
-        this.seccionesDelJugador = instanciaDeSecciones;
+        //this.seccionesDelJugador = instanciaDeSecciones;
     }
 
     public Carta jugarCarta(Carta carta) throws TipoDeSeccionInvalidaError {
-
-        return seccionesDelJugador.removerCarta("Mano",carta);
+        return SeccionesSinPuntaje.removerCarta("Mano",carta);
     }
 
     public String SeccionElegida() {
@@ -57,12 +56,12 @@ public class Jugador {
 
     public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError {
         List<Carta> cartas = mazo.repartirCarta(n);
-        seccionesDelJugador.agregarCartas("Mano", cartas);
+        SeccionesSinPuntaje.agregarCartas("Mano", cartas);
     }
 
     public void agregarCartasAlDescarte(List<Carta> cartas) throws TipoDeSeccionInvalidaError {
 
-        seccionesDelJugador.agregarCartas("Descarte", cartas);
+        SeccionesSinPuntaje.agregarCartas("Descarte", cartas);
     }
 
         // Método para tests: jugar carta por índice sin interacción (deben DESAPARECER en lo posible)
@@ -70,11 +69,11 @@ public class Jugador {
     public void descartarCarta(Carta unaCarta) {}
 
     public int cartasEnMano() throws TipoDeSeccionInvalidaError {
-        return seccionesDelJugador.cartasRestantes("Mano");
+        return SeccionesSinPuntaje.cartasRestantes("Mano");
     }
 
     public int cartasEnElDescarte() throws TipoDeSeccionInvalidaError {
-        return seccionesDelJugador.cartasRestantes("Descarte");
+        return SeccionesSinPuntaje.cartasRestantes("Descarte");
     }
 
     public int cartasRestantes() {
