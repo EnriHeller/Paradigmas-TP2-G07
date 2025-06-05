@@ -1,17 +1,19 @@
 package edu.fiuba.algo3.entrega_1;
 
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
+import edu.fiuba.algo3.modelo.cartas.especiales.Nevada;
+import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.cartas.especiales.Clima;
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
 import java.util.ArrayList;
 
-import edu.fiuba.algo3.modelo.*;
-import org.junit.jupiter.api.Test;
 public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespondiente {
 
     //
