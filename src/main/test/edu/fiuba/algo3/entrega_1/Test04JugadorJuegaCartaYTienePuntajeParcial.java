@@ -10,6 +10,7 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Jugador;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
@@ -17,7 +18,7 @@ import org.junit.jupiter.api.Test;
 
 public class Test04JugadorJuegaCartaYTienePuntajeParcial {
     @Test
-    public void jugadorJuegaCartaYTienePuntajeParcial() throws TipoDeSeccionInvalidaError, CartaNoJugable {
+    public void jugadorJuegaCartaYTienePuntajeParcial() throws TipoDeSeccionInvalidaError, CartaNoJugable, NoSePuedeCumplirSolcitudDeCartas {
         // Arrange
         List<String> seccionesCartaUnidad = new ArrayList<>();
         seccionesCartaUnidad.add("Rango");

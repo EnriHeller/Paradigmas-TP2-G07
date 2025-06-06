@@ -16,7 +16,6 @@ public class Test01JugadorConCartasSuficientes {
 
     @Test
     public void jugadorTieneCartasSuficientesAlEmpezar() throws UnoDeLosMazosNoCumpleRequitos {
-        int cartasMinimasEsperadas = 21;
 
         // Crear 21 Cartas
         List<Carta> cartas = new ArrayList<Carta>();
@@ -27,8 +26,8 @@ public class Test01JugadorConCartasSuficientes {
         }
 
         // Crear el mazo con esas cartas
-        Mazo mazo = new Mazo(cartas); // Asegurate de tener este constructor
+        Mazo mazo = new Mazo(cartas);
 
-        assertDoesNotThrow(() -> new Juego(mazo, mazo));
+        assertDoesNotThrow(() -> new Juego("JugadorTest1","JugadorTest2",mazo, mazo));
     }
 }

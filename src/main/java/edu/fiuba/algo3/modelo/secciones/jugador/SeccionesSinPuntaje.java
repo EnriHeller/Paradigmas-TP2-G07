@@ -9,17 +9,24 @@ import java.util.Map;
 
 public class SeccionesSinPuntaje {
 
-    private static SeccionesSinPuntaje instancia = null;
-    Map<String, SeccionSinPuntaje> seccionesDelJugador;
+    private static final Map<String, SeccionesSinPuntaje> instancias = new HashMap<>();
+
+    private final Map<String, SeccionSinPuntaje> seccionesDelJugador;
 
     private SeccionesSinPuntaje() throws TipoDeSeccionInvalidaError {
         seccionesDelJugador = new HashMap<>();
-
         seccionesDelJugador.put("Mano", new SeccionSinPuntaje());
         seccionesDelJugador.put("Descarte", new SeccionSinPuntaje());
     }
 
-    private SeccionSinPuntaje seccionSinPuntaje(String clave) throws TipoDeSeccionInvalidaError{
+    public static SeccionesSinPuntaje seccionesDelJugador(String jugadorId) throws TipoDeSeccionInvalidaError {
+        if (!instancias.containsKey(jugadorId)) {
+            instancias.put(jugadorId, new SeccionesSinPuntaje());
+        }
+        return instancias.get(jugadorId);
+    }
+
+    private SeccionSinPuntaje seccion(String clave) {
         SeccionSinPuntaje seccion = seccionesDelJugador.get(clave);
         if (seccion == null) {
             throw new IllegalArgumentException("Clave inválida: " + clave);
@@ -27,47 +34,27 @@ public class SeccionesSinPuntaje {
         return seccion;
     }
 
-    private SeccionSinPuntaje seccion(String clave) throws TipoDeSeccionInvalidaError{
-        SeccionSinPuntaje seccion = seccionesDelJugador.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
-        }
-        return seccion;
+    public int cartasRestantes(String clave) {
+        return seccion(clave).cartasRestantes();
     }
 
-    public static SeccionesSinPuntaje seccionesDelJugador() throws TipoDeSeccionInvalidaError {
-        if (instancia == null) {
-            instancia = new SeccionesSinPuntaje();
-        }
-        return instancia;
+    public Carta removerCarta(String clave, int index) {
+        return seccion(clave).removerCarta(index);
     }
 
-    public int cartasRestantes(String clave) throws TipoDeSeccionInvalidaError {
-        SeccionSinPuntaje seccion = seccion(clave);
-        return seccion.cartasRestantes();
+    public Carta removerCarta(String clave, Carta carta) {
+        return seccion(clave).removerCarta(carta);
+    }
+    public List<Carta> removerCartas(String clave, List<Carta> cartas) {
+        return seccion(clave).removerCartas(cartas);
     }
 
-    public Carta removerCarta(String clave, int index) throws TipoDeSeccionInvalidaError {
-        SeccionSinPuntaje seccion = seccion(clave);
-        return seccion.removerCarta(index);
+    public void agregarCarta(String clave, Carta carta) {
+        seccion(clave).agregarCarta(carta);
     }
 
-    public Carta removerCarta(String clave, Carta carta) throws TipoDeSeccionInvalidaError {
-        SeccionSinPuntaje seccion = seccion(clave);
-        seccion.removerCarta(carta);
-        return carta;
+    public void agregarCartas(String clave, List<Carta> cartas) {
+        seccion(clave).agregarCartas(cartas);
     }
-
-    public void agregarCarta(String clave, Carta carta) throws TipoDeSeccionInvalidaError {
-        SeccionSinPuntaje seccion = seccion(clave);
-        seccion.agregarCarta(carta);
-    }
-
-    public void agregarCartas(String clave, List<Carta> cartas) throws TipoDeSeccionInvalidaError {
-        SeccionSinPuntaje seccion = seccion(clave);
-        seccion.agregarCartas(cartas);
-    }
-
-
-
 }
+

@@ -5,10 +5,10 @@ import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.principal.Jugador;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
-import edu.fiuba.algo3.modelo.secciones.tablero.Secciones;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
 
     @Test
-    public void jugadorPuedeColocarCartaEnSeccion() throws TipoDeSeccionInvalidaError, CartaNoJugable {
+    public void jugadorPuedeColocarCartaEnSeccion() throws TipoDeSeccionInvalidaError, CartaNoJugable, NoSePuedeCumplirSolcitudDeCartas {
         // Arrange
 
         List<String> seccionesCartaUnidad = new ArrayList<>();
@@ -34,7 +34,7 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
         Jugador jugador = new Jugador("JugadorTest", mazo);
         jugador.agregarCartasAMano(1);
 
-        Secciones secciones  = Secciones.getInstancia();
+        Tablero secciones  = Tablero.getInstancia();
 
         // Act
         Carta cartaJugada = jugador.jugarCarta(cartaUnidad);

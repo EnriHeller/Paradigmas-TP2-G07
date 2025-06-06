@@ -20,6 +20,6 @@ public interface Modificador {
 
     public String mostrarModificadores();
 
-    public void modificar(String seccion) throws TipoDeSeccionInvalidaError;
+    public void modificar() throws TipoDeSeccionInvalidaError;
 
 }

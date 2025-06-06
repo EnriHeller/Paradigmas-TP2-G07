@@ -6,17 +6,17 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tablero {
+public class TableroOld {
     private List<List<Seccion>> secciones;
 
-    public Tablero() {
+    public TableroOld() {
         this.secciones = new ArrayList<>(2);
         // Inicializa las listas de secciones para cada jugador
         this.secciones.add(new ArrayList<>()); // Jugador 1
         this.secciones.add(new ArrayList<>()); // Jugador 2
     }
 
-    public Tablero(List<Seccion> seccionesJugador1, List<SeccionSinPuntaje> seccionesSinPuntaje) {
+    public TableroOld(List<Seccion> seccionesJugador1, List<SeccionSinPuntaje> seccionesSinPuntaje) {
         this();
         this.secciones.set(0, seccionesJugador1);
     }

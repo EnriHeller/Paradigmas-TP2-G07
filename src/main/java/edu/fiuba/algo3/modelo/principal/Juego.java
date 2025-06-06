@@ -5,8 +5,7 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
-import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
-import edu.fiuba.algo3.modelo.secciones.tablero.Secciones;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,44 +14,48 @@ import java.util.Scanner;
 public class Juego {
     private int ciclos;
     private Ronda[] rondas;
-    //private SeccionesSinPuntaje[] seccionesSinPuntaje;
-    //private Secciones secciones;
+    private Tablero tablero;
     private List<Jugador> jugadores;
     private int moneda;
     private int jugadorQueInicia;
 
-    private Juego() {
+    public Juego() throws TipoDeSeccionInvalidaError {
 
         this.ciclos = 0;
         this.rondas = new Ronda[3];
-        //this.seccionesSinPuntaje =  seccionesSinPuntaje;
-        //this.secciones = new Secciones;
+        this.tablero = Tablero.getInstancia();
         this.jugadores = new ArrayList<Jugador>();
         this.moneda = 0;
         this.jugadorQueInicia = -1;
 
     }
 
-    public Juego(Mazo mazoDelJugador1, Mazo mazoDelJugador2) throws UnoDeLosMazosNoCumpleRequitos {
+    //Fase inicial
+    public Juego(String nombreJugador1, String nombreJugador2, Mazo mazoDelJugador1, Mazo mazoDelJugador2) throws UnoDeLosMazosNoCumpleRequitos, TipoDeSeccionInvalidaError {
         this.ciclos = 0;
         this.rondas = new Ronda[3];
 
         if (mazoDelJugador1.cantidadDeCartas() < 21 || mazoDelJugador2.cantidadDeCartas() < 21) {
             throw new UnoDeLosMazosNoCumpleRequitos();
         }
-
+        this.tablero = Tablero.getInstancia();
         this.jugadores = new ArrayList<>();
-        jugadores.add(new Jugador("Jugador1", mazoDelJugador1));
-        jugadores.add(new Jugador("Jugador2", mazoDelJugador2));
+        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador1));
+        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador2));
 
         this.moneda = 0;
         this.jugadorQueInicia = -1;
     }
 
-    public int puntaje(){
-        return 0;
+    //fasePreparacion
+
+    public void darMano(int jugadorID, int cantidadDeCartas) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolcitudDeCartas {
+        jugadores.get(jugadorID).agregarCartasAMano(cantidadDeCartas);
     }
 
+    public void descartarCartasDeMano(int jugadorID, List<Carta> cartasQueSeQuierenDescartar) {
+        jugadores.get(jugadorID).descartarCartas(cartasQueSeQuierenDescartar);
+    }
 
     private void tirarMoneda(){
         moneda = Math.random() < 0.5 ? -1 : 1;
@@ -63,6 +66,29 @@ public class Juego {
             jugadorQueInicia = 0;
         }
 
+    }
+
+    //fase de juego
+    public void jugarCarta(int jugadorID, Carta carta, String dondeJugarla) {
+        try {
+            if (carta.esEspecial()) {
+                // Cartas especiales aún no implementadas :b
+            } else {
+                CartaUnidad cartaUnidad = (CartaUnidad) carta;
+                tablero.agregarCarta(dondeJugarla + jugadorID, cartaUnidad);
+                cartaUnidad.aplicarModificador();
+                rondas[ciclos].agregarPuntajeJugador(jugadorID, cartaUnidad.ValorActual());
+
+            }
+        } catch (CartaNoJugable | TipoDeSeccionInvalidaError e) {
+            // No hacemos nada si hay una excepción
+        }
+    }
+
+    //Fase de win (o continuar)
+
+    public int puntaje(){
+        return 0;
     }
 
     public Jugador iniciarJugador(int jugador){
@@ -111,7 +137,7 @@ public class Juego {
 
     private Carta eleccionDeCarta(int jugador, String clave) throws TipoDeSeccionInvalidaError {
 
-        Secciones secciones = Secciones.getInstancia();
+        Tablero secciones = Tablero.getInstancia();
         SeccionesSinPuntaje secccionesDelJugador1 = SeccionesSinPuntaje.seccionesDelJugador();
         Scanner scanner = new Scanner(System.in);
         boolean eleccionErronea = true;

@@ -32,6 +32,13 @@ public class SeccionSinPuntaje {
         throw new IllegalArgumentException("La carta no está en la mano");
     }
 
+    public List<Carta>  removerCartas(List<Carta> cartas) {
+        for (Carta carta : cartas) {
+            removerCarta(carta)
+        }
+        return cartas;
+    }
+
     public void agregarCarta(Carta carta) {
         cartasEnMano.add(carta);
     }

@@ -11,7 +11,7 @@ public class Base implements Modificador {
     }
 
     @Override
-    public void modificar(String seccion) {
+    public void modificar() {
 
         }
 

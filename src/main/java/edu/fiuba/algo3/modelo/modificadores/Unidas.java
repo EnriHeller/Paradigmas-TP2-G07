@@ -2,7 +2,7 @@ package edu.fiuba.algo3.modelo.modificadores;
 
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.tablero.Secciones;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.List;
 
@@ -20,11 +20,11 @@ public class Unidas implements Modificador {
     }
 
     @Override
-    public void modificar(String seccion) throws TipoDeSeccionInvalidaError {
-        Secciones secciones = Secciones.getInstancia();
-        List<CartaUnidad> cartas = secciones.getCartas(seccion);
-        modificador.modificar(seccion);
-        modificarComportamientoDeCartas(cartas);
+    public void modificar() throws TipoDeSeccionInvalidaError {
+        Tablero secciones = Tablero.getInstancia();
+        //List<CartaUnidad> cartas = secciones.getCartas(seccion);
+        modificador.modificar();
+        //modificarComportamientoDeCartas(cartas);
 
     }
 

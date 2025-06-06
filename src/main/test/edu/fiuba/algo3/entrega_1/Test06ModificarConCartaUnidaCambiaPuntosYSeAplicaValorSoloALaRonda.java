@@ -11,8 +11,7 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Unidas;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
-import edu.fiuba.algo3.modelo.secciones.tablero.Secciones;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import org.junit.jupiter.api.Test;
 
 public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda {
@@ -27,7 +26,7 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
 
         Unidas unidad = new Unidas(new Base());
 
-        Secciones secciones = Secciones.getInstancia();
+        Tablero secciones = Tablero.getInstancia();
 
         ArrayList<String> seccionesCarta = new ArrayList<String>();
         seccionesCarta.add("Asedio");

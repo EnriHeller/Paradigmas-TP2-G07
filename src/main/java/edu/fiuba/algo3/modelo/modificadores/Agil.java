@@ -14,7 +14,7 @@ public class Agil implements Modificador {
     }
 
     @Override
-    public void modificar(String seccion) {
+    public void modificar() {
 
     }
 }

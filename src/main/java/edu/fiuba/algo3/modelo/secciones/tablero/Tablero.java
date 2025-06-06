@@ -10,25 +10,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Secciones {
-    private static Secciones instancia = null;
+public class Tablero {
+    private static Tablero instancia = null;
     private Map<String, Seccion> secciones;
 
-    private Secciones() throws TipoDeSeccionInvalidaError {
+    private Tablero() throws TipoDeSeccionInvalidaError {
         secciones = new HashMap<>();
 
-        secciones.put("RangoJugador1", new Seccion("Rango"));
-        secciones.put("AsedioJugador1", new Seccion("Asedio"));
-        secciones.put("CuerpoACuerpoJugador1", new Seccion("CuerpoACuerpo"));
+        secciones.put("Rango0", new Seccion("Rango"));
+        secciones.put("Asedio0", new Seccion("Asedio"));
+        secciones.put("CuerpoACuerpo0", new Seccion("CuerpoACuerpo"));
 
-        secciones.put("RangoJugador2", new Seccion("Rango"));
-        secciones.put("AsedioJugador2", new Seccion("Asedio"));
-        secciones.put("CuerpoACuerpoJugador2", new Seccion("CuerpoACuerpo"));
+        secciones.put("Rango1", new Seccion("Rango"));
+        secciones.put("Asedio1", new Seccion("Asedio"));
+        secciones.put("Cuerpo1", new Seccion("CuerpoACuerpo"));
     }
 
-    public static Secciones getInstancia() throws TipoDeSeccionInvalidaError {
+    public static Tablero getInstancia() throws TipoDeSeccionInvalidaError {
         if (instancia == null) {
-            instancia = new Secciones();
+            instancia = new Tablero();
         }
         return instancia;
     }
@@ -53,7 +53,7 @@ public class Secciones {
         return seccion;
     }
 
-    public void agregarCarta(String clave, CartaUnidad carta) throws TipoDeSeccionInvalidaError, CartaNoJugable {
+    public void agregarCarta(String clave, CartaUnidad carta) throws CartaNoJugable, TipoDeSeccionInvalidaError {
         Seccion seccion = seccion(clave);
         seccion.agregarCarta(carta);
     }

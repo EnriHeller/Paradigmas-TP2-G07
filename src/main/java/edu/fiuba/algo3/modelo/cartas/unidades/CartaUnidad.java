@@ -42,8 +42,8 @@ public class CartaUnidad implements Carta {
         this.modificador = new Base();
     }
 
-    public void aplicarModificador(String seccion) throws TipoDeSeccionInvalidaError {
-        this.modificador.modificar(seccion);
+    public void aplicarModificador() throws TipoDeSeccionInvalidaError {
+        this.modificador.modificar();
     }
 
     public int getPuntajeBase() {

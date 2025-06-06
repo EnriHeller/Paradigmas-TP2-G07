@@ -26,10 +26,9 @@ public class Seccion {
         return claveSeccion.equals("Rango") || claveSeccion.equals("Asedio") || claveSeccion.equals("CuerpoACuerpo");
     }
 
-    public void agregarCarta(CartaUnidad carta) throws CartaNoJugable, TipoDeSeccionInvalidaError {
+    public void agregarCarta(CartaUnidad carta) throws CartaNoJugable {
         if (carta.coincideSeccion(clave)) {
             cartasActuales.add(carta);
-            carta.aplicarModificador(this.clave + "Jugador1");
         }else{
             throw new CartaNoJugable();
         }
