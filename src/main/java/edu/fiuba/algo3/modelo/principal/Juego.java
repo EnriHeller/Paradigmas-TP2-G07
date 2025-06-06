@@ -138,7 +138,7 @@ public class Juego {
     private Carta eleccionDeCarta(int jugador, String clave) throws TipoDeSeccionInvalidaError {
 
         Tablero secciones = Tablero.getInstancia();
-        SeccionesSinPuntaje secccionesDelJugador1 = SeccionesSinPuntaje.seccionesDelJugador();
+        //SeccionesSinPuntaje secccionesDelJugador1 = SeccionesSinPuntaje.seccionesDelJugador();
         Scanner scanner = new Scanner(System.in);
         boolean eleccionErronea = true;
         int opcion = -1;
@@ -148,7 +148,7 @@ public class Juego {
             try {
                 opcion = scanner.nextInt();
 
-                if (opcion >= 0 && opcion < secccionesDelJugador1.cartasRestantes("Jugador" + String.valueOf(jugador))) {
+                if (opcion >= 0 /*&& opcion < secccionesDelJugador1.cartasRestantes("Jugador" + String.valueOf(jugador))*/) {
                     eleccionErronea = false;
                 } else {
                     System.out.println("Opción inválida. Por favor ingrese un número entre 0 y 10.");

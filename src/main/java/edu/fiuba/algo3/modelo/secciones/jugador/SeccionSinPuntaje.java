@@ -34,7 +34,7 @@ public class SeccionSinPuntaje {
 
     public List<Carta>  removerCartas(List<Carta> cartas) {
         for (Carta carta : cartas) {
-            removerCarta(carta)
+            removerCarta(carta);
         }
         return cartas;
     }

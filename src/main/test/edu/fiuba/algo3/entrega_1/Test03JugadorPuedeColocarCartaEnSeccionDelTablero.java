@@ -8,6 +8,7 @@ import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,16 +32,16 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
         cartas.add(cartaUnidad);
         Mazo mazo = new Mazo(cartas);
 
-        Jugador jugador = new Jugador("JugadorTest", mazo);
+        Jugador jugador = new Jugador("JugadorTest", mazo, SeccionesSinPuntaje.seccionesDelJugador("Jugador0"));
         jugador.agregarCartasAMano(1);
 
         Tablero secciones  = Tablero.getInstancia();
 
         // Act
         Carta cartaJugada = jugador.jugarCarta(cartaUnidad);
-        secciones.agregarCarta("RangoJugador1", (CartaUnidad) cartaJugada);
+        secciones.agregarCarta("Rango0", (CartaUnidad) cartaJugada);
 
         // Assert: verificar que la sección recibió la carta y la mano quedó vacía
-        assertTrue(secciones.contiene("RangoJugador1", cartaJugada));
+        assertTrue(secciones.contiene("Rango0", cartaJugada));
     }
 }

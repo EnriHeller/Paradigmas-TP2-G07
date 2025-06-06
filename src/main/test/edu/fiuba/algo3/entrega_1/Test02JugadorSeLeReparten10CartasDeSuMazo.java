@@ -6,6 +6,7 @@ import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class Test02JugadorSeLeReparten10CartasDeSuMazo {
         // Crear el mazo con esas cartas
         Mazo mazo = new Mazo(cartas);
 
-        Jugador jugador = new Jugador("JugadorTest", mazo);
+        Jugador jugador = new Jugador("JugadorTest", mazo, SeccionesSinPuntaje.seccionesDelJugador("Jugador0"));
 
         assertDoesNotThrow(() -> jugador.agregarCartasAMano(10));
     }
