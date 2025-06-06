@@ -6,16 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Unidas;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+import edu.fiuba.algo3.modelo.secciones.tablero.Secciones;
 import org.junit.jupiter.api.Test;
 
 public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda {
     @Test
-    public void modificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda() throws TipoDeSeccionInvalidaError {
+    public void modificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda() throws TipoDeSeccionInvalidaError, CartaNoJugable {
         //new seccion
         // creamos 2 carta con modificador unidad
         // la metemos en seccion
@@ -25,19 +27,19 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
 
         Unidas unidad = new Unidas(new Base());
 
-        Seccion nuevaSeccion = new Seccion("Asedio");
+        Secciones secciones = Secciones.getInstancia();
 
-        ArrayList<String> secciones = new ArrayList<String>();
-        secciones.add("Asedio");
+        ArrayList<String> seccionesCarta = new ArrayList<String>();
+        seccionesCarta.add("Asedio");
 
-        CartaUnidad primeraCarta = new CartaUnidad(secciones, 8, unidad);
-        CartaUnidad segundaCarta = new CartaUnidad(secciones, 8, unidad);
+        CartaUnidad primeraCarta = new CartaUnidad("TipoTest", seccionesCarta, 8, unidad);
+        CartaUnidad segundaCarta = new CartaUnidad("TipoTest",seccionesCarta, 8, unidad);
 
-        nuevaSeccion.agregarCarta(primeraCarta);
+        secciones.agregarCarta("AsedioJugador1", primeraCarta);
 
         // agrego la o las unidades iguales y le duplico el puntaje a todas
-        nuevaSeccion.agregarCarta(segundaCarta);
-        int puntajeCon2Unidad = nuevaSeccion.getPuntajeTotal();
+        secciones.agregarCarta("AsedioJugador1", segundaCarta);
+        int puntajeCon2Unidad = secciones.getPuntaje("AsedioJugador1");
         assertTrue( (puntajeCon2Unidad == 32) );
 
     }

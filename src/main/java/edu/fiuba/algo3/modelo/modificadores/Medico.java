@@ -10,7 +10,7 @@ public class Medico implements Modificador {
     }
 
     @Override
-    public void modificar(){
+    public void modificar(String seccion){
 
     }
 

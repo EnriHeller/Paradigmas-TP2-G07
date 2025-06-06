@@ -26,9 +26,10 @@ public class Seccion {
         return claveSeccion.equals("Rango") || claveSeccion.equals("Asedio") || claveSeccion.equals("CuerpoACuerpo");
     }
 
-    public void agregarCarta(CartaUnidad carta) throws CartaNoJugable {
+    public void agregarCarta(CartaUnidad carta) throws CartaNoJugable, TipoDeSeccionInvalidaError {
         if (carta.coincideSeccion(clave)) {
             cartasActuales.add(carta);
+            carta.aplicarModificador(this.clave + "Jugador1");
         }else{
             throw new CartaNoJugable();
         }
@@ -43,6 +44,9 @@ public class Seccion {
         nuevoClima.afectarCartas(cartasActuales);
     }
 
+    public List<CartaUnidad> getCartas() {
+        return cartasActuales;
+    }
 
     public boolean contiene(Carta carta){
         return this.cartasActuales.contains((carta));

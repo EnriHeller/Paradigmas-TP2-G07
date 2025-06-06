@@ -3,6 +3,7 @@ package edu.fiuba.algo3.modelo.cartas.unidades;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -41,8 +42,8 @@ public class CartaUnidad implements Carta {
         this.modificador = new Base();
     }
 
-    public void aplicarModificador(List<CartaUnidad> cartas) {
-        this.modificador.modificar();
+    public void aplicarModificador(String seccion) throws TipoDeSeccionInvalidaError {
+        this.modificador.modificar(seccion);
     }
 
     public int getPuntajeBase() {

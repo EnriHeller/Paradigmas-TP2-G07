@@ -7,6 +7,7 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.cartas.especiales.Clima;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Secciones {
@@ -65,6 +66,11 @@ public class Secciones {
     public int getPuntajeTotal(String clave) throws TipoDeSeccionInvalidaError {
         Seccion seccion = seccion(clave);
         return seccion.getPuntajeTotal();
+    }
+
+    public List<CartaUnidad> getCartas(String clave) throws TipoDeSeccionInvalidaError {
+        Seccion seccion = seccion(clave);
+        return  seccion.getCartas();
     }
 
     public boolean contiene(String clave, Carta carta) throws TipoDeSeccionInvalidaError{

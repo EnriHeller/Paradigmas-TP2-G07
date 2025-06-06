@@ -1,5 +1,7 @@
 package edu.fiuba.algo3.modelo.modificadores;
 
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+
 public interface Modificador {
 
     /*
@@ -18,6 +20,6 @@ public interface Modificador {
 
     public String mostrarModificadores();
 
-    public void modificar();
+    public void modificar(String seccion) throws TipoDeSeccionInvalidaError;
 
 }

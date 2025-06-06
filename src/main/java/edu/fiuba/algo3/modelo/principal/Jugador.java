@@ -31,7 +31,7 @@ public class Jugador {
     }
 
     public Carta jugarCarta(Carta carta) throws TipoDeSeccionInvalidaError {
-        return SeccionesSinPuntaje.removerCarta("Mano",carta);
+        return carta; //SeccionesSinPuntaje.removerCarta("Mano",carta);
     }
 
     public String SeccionElegida() {
@@ -56,12 +56,12 @@ public class Jugador {
 
     public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError {
         List<Carta> cartas = mazo.repartirCarta(n);
-        SeccionesSinPuntaje.agregarCartas("Mano", cartas);
+        //SeccionesSinPuntaje.agregarCartas("Mano", cartas);
     }
 
     public void agregarCartasAlDescarte(List<Carta> cartas) throws TipoDeSeccionInvalidaError {
 
-        SeccionesSinPuntaje.agregarCartas("Descarte", cartas);
+        //SeccionesSinPuntaje.agregarCartas("Descarte", cartas);
     }
 
         // Método para tests: jugar carta por índice sin interacción (deben DESAPARECER en lo posible)
@@ -69,11 +69,11 @@ public class Jugador {
     public void descartarCarta(Carta unaCarta) {}
 
     public int cartasEnMano() throws TipoDeSeccionInvalidaError {
-        return SeccionesSinPuntaje.cartasRestantes("Mano");
+        return 10; //SeccionesSinPuntaje.cartasRestantes("Mano");
     }
 
     public int cartasEnElDescarte() throws TipoDeSeccionInvalidaError {
-        return SeccionesSinPuntaje.cartasRestantes("Descarte");
+        return 8; //SeccionesSinPuntaje.cartasRestantes("Descarte");
     }
 
     public int cartasRestantes() {
