@@ -1,12 +1,30 @@
 package edu.fiuba.algo3.modelo.secciones;
 
-import edu.fiuba.algo3.modelo.errores.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.CartaUnidad;
 
-import java.util.ArrayList;
+public class Asedio extends Seccion {
 
-public class Asedio extends Seccion{
-    public Asedio(String claveSeccion) throws TipoDeSeccionInvalidaError {
-        super(claveSeccion);
-        this.cartasActuales = new ArrayList<>();
+    public Asedio() {
+        super();
+    }
+
+    @Override
+    public String obtenerNombre() {
+        return "Asedio";
+    }
+
+    @Override
+    public int calcularPuntos() {
+        // Modificar la logica cuando haya cartas especiales
+        int puntaje = cartas.stream().mapToInt(CartaUnidad::getPuntos).sum();
+        return puntaje;
+
+    }
+
+    public void agregarCarta(CartaUnidad carta) {
+        if (carta.esValida(obtenerNombre())) {
+            cartas.add(carta);
+        }
     }
 }

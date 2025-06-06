@@ -1,54 +1,39 @@
 package edu.fiuba.algo3.modelo.secciones;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.errores.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.cartas.CartaUnidad;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Seccion {
-    protected List<Carta> cartasActuales;
-    private String clave;
+public abstract class Seccion {
 
-    public Seccion(String claveSeccion) throws TipoDeSeccionInvalidaError {
-        if (!puedeEstar(claveSeccion)) {
-            throw new TipoDeSeccionInvalidaError();
-        }
-        this.clave = claveSeccion;
-        this.cartasActuales = new ArrayList<>();
+    // Lista de cartas en esta sección
+    protected List<CartaUnidad> cartas;
+
+    public Seccion() {
+        this.cartas = new ArrayList<>();
     }
 
-    private boolean puedeEstar(String claveSeccion){
-        return claveSeccion.equals("Rango") || claveSeccion.equals("Asedio") || claveSeccion.equals("CuerpoACuerpo");
+    public void agregarCarta(Carta carta) {
+        this.cartas.add((CartaUnidad) carta);
     }
 
-    public void agregarCarta(Carta carta) throws TipoDeSeccionInvalidaError {
-        //Validar si entra o no la carta. 
-        cartasActuales.add(carta);
+    public List<Carta> obtenerCartas() {
+        return new ArrayList<>(this.cartas);
     }
 
-    public String getClave() {
-        return this.clave;
-    }
+    public abstract int calcularPuntos();
 
-    public boolean contiene(Carta carta){
-        return this.cartasActuales.contains((carta));
-    }
+    public abstract String obtenerNombre();
 
-    public List<Carta> getCartasActuales() {
-        return this.cartasActuales;
+    public static boolean esValida(String nombreSeccion) {
+        // Lista de secciones válidas en el juego
+        List<String> seccionesValidas = Arrays.asList("Asedio", "Rango", "Cuerpo a Cuerpo");
+        return seccionesValidas.contains(nombreSeccion);
     }
-
-    // Método para tests: remover carta por índice sin interacción
-    public Carta removerCartaPorIndice(int indice) {
-        return cartasActuales.remove(indice);
-    }
-
-    public int getPuntajeTotal() {
-        int puntaje = 0;
-        for (Carta carta : cartasActuales) {
-            puntaje += carta.getValor();
-        }
-        return puntaje;
+    public void limpiar() {
+        this.cartas.clear();
     }
 }

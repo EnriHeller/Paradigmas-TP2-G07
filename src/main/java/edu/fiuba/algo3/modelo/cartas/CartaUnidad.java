@@ -1,39 +1,40 @@
 package edu.fiuba.algo3.modelo.cartas;
 
-import edu.fiuba.algo3.modelo.Modificador;
+import edu.fiuba.algo3.modelo.modificadores.Modificador;
+import edu.fiuba.algo3.modelo.secciones.Seccion;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CartaUnidad extends Carta {
 
-    ArrayList<String> secciones;
-    int valor;
-    ArrayList<Modificador> modificadores;
+    private final List<String> secciones;
+    private final int puntos;
+    private List<Modificador> modificadores;
+    // private final boolean tieneModificadores;
 
-    public CartaUnidad(ArrayList<String> secciones, int valor) {
-        super(secciones, valor);
+    public CartaUnidad(String nombre, List<String> secciones, int puntos) {
+        super(nombre);
+        this.puntos = puntos;
         this.secciones = secciones;
-        this.valor = valor;
-        this.modificadores = new ArrayList<>();
+        // this.tieneModificadores = tieneModificadores;
     }
 
-    // Constructor sin argumentos para tests
-    public CartaUnidad(int valor) {
-        super(new ArrayList<>(), 0);
-        this.secciones = new ArrayList<>();
-        this.valor = valor;
-        this.modificadores = new ArrayList<>();
+    public List<String> getSecciones() {
+        return secciones;
     }
 
-    public void aplicarModificador(Modificador modificador) {
+    public int getPuntos() {
+        return this.puntos;
+    }
+    public void agregarModificador(Modificador modificador) {
         this.modificadores.add(modificador);
     }
 
-    public int getPuntaje() {
-        return this.valor;
-    }
+//    public boolean tieneModificadores() {
+//        return tieneModificadores;
+//    }
 
-    public ArrayList<String> puedeColocarse() {
-        return this.secciones;
+    public boolean esValida(String nombreSeccion) {
+        return secciones.contains(nombreSeccion);
     }
 }

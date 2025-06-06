@@ -1,31 +1,20 @@
 package edu.fiuba.algo3.modelo.cartas;
 
-import edu.fiuba.algo3.modelo.Modificador;
+import java.util.List;
 
-import java.util.ArrayList;
+public class Carta {
 
-public abstract class Carta {
+    private final String nombre;
 
-    ArrayList<String> secciones;
-    int valor;
-    String nombre;
-    Modificador modificador;
-
-    public Carta(ArrayList<String> secciones, int valor){
-        this.secciones = secciones;
-        this.valor = valor;
+    public Carta(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String mostrarCarta(){
-
-        return (nombre + modificador.mostrarModificadores());
-
+    public String obtenerNombre() {
+        return nombre;
     }
 
-    public int getValor(){
-        return this.valor;
+    public int obtenerPuntos() {
+        return puntos;
     }
-
-    //public List<String> puedeColocarse();
-    // public String visualizarCartaComoString()
 }
