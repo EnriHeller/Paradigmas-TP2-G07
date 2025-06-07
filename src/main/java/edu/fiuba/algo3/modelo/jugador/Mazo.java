@@ -25,14 +25,24 @@ public class Mazo {
     public Mazo copiar() {
         return new Mazo(mazo);
     }
+
     public Carta obtenerCarta() {
         return mazo.remove(0);
     }
+
     public void agregarCarta(Carta carta) {
         mazo.add(carta);
     }
+
     private void mezclar() {
         Collections.shuffle(mazo);
+    }
+
+    public int cantidad() {
+        return mazo.size();
+    }
+    public List<Carta> obtenerCartas() {
+        return mazo;
     }
 
 }

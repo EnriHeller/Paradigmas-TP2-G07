@@ -3,8 +3,8 @@ package edu.fiuba.algo3.modelo.principal;
 import edu.fiuba.algo3.modelo.jugador.Jugador;
 
 public class Ronda {
-    private AdministradorDeTurno turnos;
-    private Tablero tablero;
+    private final AdministradorDeTurno turnos;
+    private final Tablero tablero;
 
     public Ronda(Jugador j1, Jugador j2, Tablero tablero) {
         this.turnos = new AdministradorDeTurno(j1, j2);
@@ -26,6 +26,7 @@ public class Ronda {
     public void siguienteTurno() {
         turnos.siguiente();
     }
+
 // Por ahora no lo hacemos pq tablero no conoce jugador
 //    public Jugador determinarGanador() {
 //        Jugador j1 = turnos.getJugador(0);

@@ -5,4 +5,6 @@ public class CartaEspecial extends Carta{
     public CartaEspecial(String nombre) {
         super(nombre);
     }
+
+    public boolean esEspecial() { return true;}
 }

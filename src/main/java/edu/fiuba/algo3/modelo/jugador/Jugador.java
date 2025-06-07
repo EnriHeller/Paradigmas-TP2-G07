@@ -4,13 +4,15 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 
 public class Jugador {
 
+    private String nombre;
     private Mazo mazo;
     private Mano mano;
     private boolean pasoDeRonda;
     // Revisar si hace falta / vale la pena tener las secciones que
     // corresponden a cada jugador
 
-    public Jugador(Mazo mazo){
+    public Jugador(String nombre,Mazo mazo){
+        this.nombre = nombre;
         this.mazo = mazo;
         this.mano = new Mano(mazo.repartirMano());
         pasoDeRonda = false;
@@ -35,6 +37,20 @@ public class Jugador {
     public void reiniciarPaso() {
         this.pasoDeRonda = false;
     }
+
+    public int cantidadEnMano() {
+        return mano.cantidad();
+    }
+
+    public int cantidadEnMazo() {
+        return mazo.cantidad();
+    }
+
+    public boolean compararNombre(String nombre) {
+        return this.nombre.equals(nombre);
+    }
+
+    public Mano obtenerMano() { return mano;}
 
 
 }

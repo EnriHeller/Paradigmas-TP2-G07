@@ -26,5 +26,11 @@ public class Mano {
         }
         throw new CartaInvalidadError();
     }
+    public int cantidad() {
+        return mano.size();
+    }
+    public List<Carta> obtenerCartas() {
+        return mano;
+    }
 
 }

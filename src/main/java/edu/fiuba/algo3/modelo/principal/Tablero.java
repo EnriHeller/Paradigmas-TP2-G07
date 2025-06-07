@@ -1,5 +1,8 @@
 package edu.fiuba.algo3.modelo.principal;
 
+import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.CartaUnidad;
+import edu.fiuba.algo3.modelo.jugador.Jugador;
 import edu.fiuba.algo3.modelo.secciones.Asedio;
 import edu.fiuba.algo3.modelo.secciones.CuerpoACuerpo;
 import edu.fiuba.algo3.modelo.secciones.Rango;
@@ -43,6 +46,41 @@ public class Tablero {
 
     public List<Seccion> getSeccionesJugador2() {
         return new ArrayList<>(this.seccionesJugador2);
+    }
+
+    public void jugarCarta(Jugador jugador, Carta carta, Seccion seccionDestino) {
+
+        // Esto se puede cambiar void por boolean agregando "boolean cartaColocada"
+        // con esto si devuelve true sigue el juego y en caso contrario, usar el metodo jugador.devolverCarta
+
+        List<Seccion> seccionesJugador = identificarJugador(jugador);
+
+        if (!carta.esEspecial()) {
+
+            CartaUnidad cartaU = (CartaUnidad) carta;       // Parseo carta a CartaUnidad
+            List<String> seccionesCarta = cartaU.getSecciones();
+
+            for (Seccion seccion : seccionesJugador) {
+                for (String seccionCarta: seccionesCarta) {
+                    if (seccion.obtenerNombre().equals(seccionCarta) &&  seccionDestino.obtenerNombre().equals(seccionCarta)) {
+                        seccion.agregarCarta(carta);
+                        break;
+                    }
+                }
+            }
+
+        } else {
+            // Hacer logica del comportamiento de las especiales
+        }
+    }
+
+    private List<Seccion> identificarJugador(Jugador jugador) {
+
+        // Revisar como debe quedar la logica cuando el jugador elija el nombre
+        if (jugador.compararNombre("Jugador1")) {
+            return seccionesJugador1;
+        }
+        return seccionesJugador2;
     }
 
 

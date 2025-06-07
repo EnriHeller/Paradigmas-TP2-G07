@@ -2,7 +2,7 @@ package edu.fiuba.algo3.modelo.cartas;
 
 import java.util.List;
 
-public class Carta {
+public abstract class Carta {
 
     private final String nombre;
 
@@ -14,7 +14,6 @@ public class Carta {
         return nombre;
     }
 
-    public int obtenerPuntos() {
-        return puntos;
-    }
+    public abstract boolean esEspecial();
+
 }

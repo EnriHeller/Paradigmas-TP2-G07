@@ -34,7 +34,10 @@ public class CartaUnidad extends Carta {
 //        return tieneModificadores;
 //    }
 
+    public boolean esEspecial() { return false;}
+
     public boolean esValida(String nombreSeccion) {
         return secciones.contains(nombreSeccion);
     }
+
 }

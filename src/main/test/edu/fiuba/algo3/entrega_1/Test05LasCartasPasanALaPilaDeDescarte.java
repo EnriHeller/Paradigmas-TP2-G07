@@ -1,9 +1,9 @@
 package edu.fiuba.algo3.entrega_1;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.CartaUnidad;
-import edu.fiuba.algo3.modelo.Jugador;
-import edu.fiuba.algo3.modelo.Mazo;
+
+import edu.fiuba.algo3.modelo.cartas.CartaUnidad;
+import edu.fiuba.algo3.modelo.jugador.Jugador;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

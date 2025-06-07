@@ -36,4 +36,8 @@ public abstract class Seccion {
     public void limpiar() {
         this.cartas.clear();
     }
+
+    public boolean contieneCarta(CartaUnidad cartaSeleccionada) {
+        return this.cartas.contains(cartaSeleccionada);
+    }
 }
