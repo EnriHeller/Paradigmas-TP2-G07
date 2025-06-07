@@ -1,0 +1,102 @@
+@startuml
+package pkg {
+
+  class Jugador {
+    - identificador : string
+    + Jugador(nombre : string, mazo : CartaPuntuada[21]) : Jugador
+    + jugarCarta() : CartaPuntuada
+    + descartarCarta() : void
+    + pasarTurno() : Turno
+    + puntajeEnSeccion(seccion : string) : int
+  }
+
+  class Mano {
+    - cartasActuales : CartaPuntuada[0..*]
+  }
+
+  class PilaDescarte {
+    - cartasActuales : CartaPuntuada[0..*]
+  }
+
+  class Tablero {
+    + MostrarTablero() : void
+    + puntaje(unJugador : string) : int
+  }
+
+  class Seccion {
+    - MapaSecciones : Seccion[3..*]
+    + Seccion(claveSeccion : string) : Seccion
+    + PuedeEstar(claveColocacion : string) : boolean
+    + puntos() : int
+  }
+
+  class SeccionEspecial {
+    - Nopuntuables : Seccion[2..*]
+    + SeccionEspecial(claveSeccion : String) : SeccionEspecial
+    + PuedeEstar(claveColocacion : String) : boolean
+  }
+
+  class Rango {
+    - cartasActuales : CartaPuntuada[0..*]
+    - clima : Clima
+    + aplicar(clima : Clima) : void
+  }
+
+  class CuerpoACuerpo {
+    - cartasActuales : CartaPuntuada[0..*]
+    - clima : Clima
+    + aplicar(clima : Clima) : void
+  }
+
+  class Asedio {
+    - cartasActuales : CartaPuntuada[0..*]
+    - clima : Clima
+    + aplicar(clima : Clima) : void
+  }
+
+  interface Carta {
+    + dondePuedenSerColocada() : string[1..*]
+  }
+
+  interface CartaEspecial {
+    + afectarEstadoDeJuego(unTablero : Tablero) : void
+    + afectarCartas(cartasTablero : CartaPuntuada) : void
+  }
+
+  class TierraArrazada
+  class ClimaNevado
+  class MoralBoosts
+
+  class Unidad {
+    - modificador : Modificador[1..*]
+    - puntaje : int
+    - dondePuedeEstarColocada : string[1..*]
+    + puntuacion() : int
+  }
+
+  class Modificador
+
+  ' Associations and multiplicities
+  Jugador o-- Mano
+  Jugador o-- PilaDescarte
+  Tablero *-- "6" Seccion
+  Tablero *-- "2" SeccionEspecial
+
+
+  Unidad o-- "1..*" Modificador     
+
+  Seccion <|-- Rango
+  Seccion <|-- CuerpoACuerpo
+  Seccion <|-- Asedio
+
+  CartaEspecial ..|> Carta
+  Unidad ..|> Carta
+
+  TierraArrazada ..|> CartaEspecial
+  ClimaNevado    ..|> CartaEspecial
+  MoralBoosts    ..|> CartaEspecial
+
+
+
+}
+@enduml
