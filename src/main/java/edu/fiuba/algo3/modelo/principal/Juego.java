@@ -16,6 +16,7 @@ public class Juego {
     private Ronda[] rondas;
     private Tablero tablero;
     private List<Jugador> jugadores;
+    private SeccionesSinPuntaje[] sinPuntajes;
     private int moneda;
     private int jugadorQueInicia;
 
@@ -25,6 +26,9 @@ public class Juego {
         this.rondas = new Ronda[3];
         this.tablero = Tablero.getInstancia();
         this.jugadores = new ArrayList<Jugador>();
+        this.sinPuntajes = new SeccionesSinPuntaje[2];
+        sinPuntajes[0] = SeccionesSinPuntaje.seccionesDelJugador(String.valueOf(0));
+        sinPuntajes[1] = SeccionesSinPuntaje.seccionesDelJugador(String.valueOf(1));
         this.moneda = 0;
         this.jugadorQueInicia = -1;
 
@@ -40,8 +44,11 @@ public class Juego {
         }
         this.tablero = Tablero.getInstancia();
         this.jugadores = new ArrayList<>();
-        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador1));
-        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador2));
+        this.sinPuntajes = new SeccionesSinPuntaje[2];
+        sinPuntajes[0] = SeccionesSinPuntaje.seccionesDelJugador(String.valueOf(0));
+        sinPuntajes[1] = SeccionesSinPuntaje.seccionesDelJugador(String.valueOf(1));
+        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador1, sinPuntajes[0]));
+        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador2, sinPuntajes[1]));
 
         this.moneda = 0;
         this.jugadorQueInicia = -1;
@@ -71,16 +78,17 @@ public class Juego {
     //fase de juego
     public void jugarCarta(int jugadorID, Carta carta, String dondeJugarla) {
         try {
+            Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, sinPuntajes[jugadorID], jugadores.get(jugadorID));
             if (carta.esEspecial()) {
                 // Cartas especiales aún no implementadas :b
             } else {
                 CartaUnidad cartaUnidad = (CartaUnidad) carta;
-                tablero.agregarCarta(dondeJugarla + jugadorID, cartaUnidad);
-                cartaUnidad.aplicarModificador();
+                tablero.agregarCarta(dondeJugarla + String.valueOf(jugadorID), cartaUnidad);
+                cartaUnidad.aplicarModificador(contexto);
                 rondas[ciclos].agregarPuntajeJugador(jugadorID, cartaUnidad.ValorActual());
 
             }
-        } catch (CartaNoJugable | TipoDeSeccionInvalidaError e) {
+        } catch (TipoDeSeccionInvalidaError e) {
             // No hacemos nada si hay una excepción
         }
     }
@@ -235,7 +243,20 @@ public class Juego {
 
 
     public String mostrarGanador(){
-        return "";
+        String ganador = "";
+        int contadorJ1 = 0;
+        int contadorJ2 = 0;
+
+        for (Ronda ronda : rondas) {
+            String ganadorRonda = ronda.getGanadorRonda();
+            if (ganadorRonda.equals("Jugador 1")) {
+                contadorJ1++;
+            } else if (ganadorRonda.equals("Jugador 2")) {
+                contadorJ2++;
+            }
+        }
+
+        return contadorJ1 > contadorJ2 ? "Jugador 1" : "Jugador 2";
     }
 
     public boolean juegoTerminado(){

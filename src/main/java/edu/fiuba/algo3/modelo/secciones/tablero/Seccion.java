@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.modelo.secciones.tablero;
 
+import edu.fiuba.algo3.modelo.cartas.especiales.SinClima;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
@@ -20,25 +21,49 @@ public class Seccion {
         }
         this.clave = claveSeccion;
         this.cartasActuales = new ArrayList<>();
+        this.clima = new SinClima();
     }
 
     private boolean puedeEstar(String claveSeccion){
         return claveSeccion.equals("Rango") || claveSeccion.equals("Asedio") || claveSeccion.equals("CuerpoACuerpo");
     }
 
-    public void agregarCarta(CartaUnidad carta) throws CartaNoJugable {
-        if (carta.coincideSeccion(clave)) {
-            cartasActuales.add(carta);
-        }else{
-            throw new CartaNoJugable();
+    public CartaUnidad removerCarta(CartaUnidad carta) {
+        for (int i = 0; i < cartasActuales.size(); i++) {
+            if (cartasActuales.get(i).equals(carta)) {
+                return cartasActuales.remove(i);
+            }
         }
+        throw new IllegalArgumentException("La carta no está en la mano");
+    }
+
+    public List<CartaUnidad> removerCartas(List<CartaUnidad> cartas) {
+        for (CartaUnidad carta : cartas) {
+            removerCarta(carta);
+        }
+        return cartas;
+    }
+
+    public void agregarCarta(CartaUnidad carta) {
+        cartasActuales.add(carta);
+    }
+
+    public void agregarCartas(List<CartaUnidad> cartas){
+
+        cartasActuales.addAll(cartas);
+
     }
 
     public String getClave() {
         return this.clave;
     }
 
-    public void afectarClima(Clima nuevoClima) {
+    public boolean hayClima(){
+        return clima.hayCLima();
+    }
+
+    public void afectarClima(Clima nuevoClima) throws NoSePuedeEliminarClimaSiNoHayClima {
+        // retrotraer el cambio del clima anterior
         this.clima = nuevoClima;
         nuevoClima.afectarCartas(cartasActuales);
     }

@@ -10,7 +10,10 @@ import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Unidas;
+import edu.fiuba.algo3.modelo.principal.Contexto;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import org.junit.jupiter.api.Test;
 
@@ -30,8 +33,10 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
 
         secciones.agregarCarta("Asedio0", primeraCarta);
 
-        // agrego la o las unidades iguales y le duplico el puntaje a todas
+        Contexto contexto = new Contexto(secciones, "Asedio", segundaCarta,  0, SeccionesSinPuntaje.seccionesDelJugador("0"), new Jugador());
+
         secciones.agregarCarta("Asedio0", segundaCarta);
+        segundaCarta.aplicarModificador(contexto);
         int puntajeCon2Unidad = secciones.getPuntaje("Asedio0");
         assertTrue( (puntajeCon2Unidad == 32) );
 
