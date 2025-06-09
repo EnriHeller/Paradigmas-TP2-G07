@@ -4,7 +4,7 @@ import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.ArrayList;
@@ -14,17 +14,19 @@ import java.util.Scanner;
 public class Juego {
     private int ciclos;
     private Ronda[] rondas;
-    //private SeccionesSinPuntaje[] seccionesSinPuntaje;
+    //private SeccionesJugador[] SeccionesJugador;
     //private Secciones secciones;
     private List<Jugador> jugadores;
     private int moneda;
     private int jugadorQueInicia;
+    private Tablero tablero;
+    private SeccionesJugador[] sinPuntajes;
 
     public Juego() throws TipoDeSeccionInvalidaError {
 
         this.ciclos = 0;
         this.rondas = new Ronda[3];
-        //this.seccionesSinPuntaje =  seccionesSinPuntaje;
+        //this.SeccionesJugador =  SeccionesJugador;
         //this.secciones = new Secciones;
         this.jugadores = new ArrayList<Jugador>();
         this.moneda = 0;
@@ -42,11 +44,11 @@ public class Juego {
         }
         this.tablero = Tablero.getInstancia();
         this.jugadores = new ArrayList<>();
-        this.sinPuntajes = new SeccionesSinPuntaje[2];
-        sinPuntajes[0] = SeccionesSinPuntaje.seccionesDelJugador(String.valueOf(0));
-        sinPuntajes[1] = SeccionesSinPuntaje.seccionesDelJugador(String.valueOf(1));
+        this.sinPuntajes = new SeccionesJugador[2];
+        sinPuntajes[0] = SeccionesJugador.seccionesDelJugador("0");
+        sinPuntajes[1] = SeccionesJugador.seccionesDelJugador("1");
         jugadores.add(new Jugador(nombreJugador1, mazoDelJugador1, sinPuntajes[0]));
-        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador2, sinPuntajes[1]));
+        jugadores.add(new Jugador(nombreJugador2, mazoDelJugador2, sinPuntajes[1]));
 
         this.moneda = 0;
         this.jugadorQueInicia = -1;
@@ -142,9 +144,7 @@ public class Juego {
     }
 
     private Carta eleccionDeCarta(int jugador, String clave) throws TipoDeSeccionInvalidaError {
-
         Tablero secciones = Tablero.getInstancia();
-        //SeccionesSinPuntaje secccionesDelJugador1 = SeccionesSinPuntaje.seccionesDelJugador();
         Scanner scanner = new Scanner(System.in);
         boolean eleccionErronea = true;
         int opcion = -1;
@@ -152,13 +152,11 @@ public class Juego {
         Jugador jugadorActual = jugadores.get(jugador);
         int cantidadCartas = jugadorActual.cartasRestantesEnSeccion(clave);
 
-
         while (eleccionErronea) {
             System.out.print("Ingrese el número de la carta que quiere elegir: ");
             try {
                 opcion = scanner.nextInt();
-
-                if (opcion >= 0 && opcion < SeccionesSinPuntaje.cartasRestantes(jugador,clave)) {
+                if (opcion >= 0 && opcion < sinPuntajes[jugador].cartasRestantes(clave)) {
                     eleccionErronea = false;
                 } else {
                     System.out.println("Opción inválida. Por favor ingrese un número entre 0 y 10.");
@@ -168,9 +166,7 @@ public class Juego {
                 scanner.next();
             }
         }
-
-        return new CartaUnidad(); //seccionesSinPuntaje[jugador].removerCarta("Mano", opcion);
-
+        return new CartaUnidad(); //SeccionesJugador[jugador].removerCarta("Mano", opcion);
     }
 
     public boolean pasarTurno() {
@@ -271,15 +267,13 @@ public class Juego {
 
 
     public void iniciarJuego(List<Object> opciones_j1, List<Object> opciones_j2){
-
-        inicializarMazos();
-        inicializarJugadores(opciones_j1, opciones_j2);
+        //inicializarMazos();
+        //inicializarJugadores(opciones_j1, opciones_j2);
         tirarMoneda();
         //iniciarFaseInicial
         //iniciarFasePreparacion
         //iniciarFaseDeJuego
         //faseFinal() = determinarGanador
-
     }
 
    
@@ -292,7 +286,11 @@ public class Juego {
     public void repartirCartasAlJugador(int jugador) throws TipoDeSeccionInvalidaError {
         int minCartasAMano = 10;
         Jugador jugadorElegido = jugadores.get(jugador);
-        jugadorElegido.agregarCartasAMano(minCartasAMano);
+        try {
+            jugadorElegido.agregarCartasAMano(minCartasAMano);
+        } catch (NoSePuedeCumplirSolcitudDeCartas e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean seLogroRepartirCartasDelMazoALosJugadores(){

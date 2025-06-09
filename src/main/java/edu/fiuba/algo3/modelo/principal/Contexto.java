@@ -2,18 +2,18 @@ package edu.fiuba.algo3.modelo.principal;
 
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 public class Contexto {
     private Tablero tablero;
     private String seccion;
     private CartaUnidad carta;
-    private SeccionesSinPuntaje sinPuntaje;
+    private SeccionesJugador sinPuntaje;
     private int jugadorID;
     private Jugador jugador;
 
-    public Contexto(Tablero tablero, String seccion, CartaUnidad carta,  int jugadorID, SeccionesSinPuntaje sinPuntaje, Jugador jugador) {
+    public Contexto(Tablero tablero, String seccion, CartaUnidad carta,  int jugadorID, SeccionesJugador sinPuntaje, Jugador jugador) {
         this.tablero = tablero;
         this.seccion = seccion;
         this.carta = carta;
@@ -42,7 +42,7 @@ public class Contexto {
         return jugadorID;
     }
 
-    public SeccionesSinPuntaje getSinPuntaje(){
+    public SeccionesJugador getSinPuntaje(){
         return sinPuntaje;
     }
 

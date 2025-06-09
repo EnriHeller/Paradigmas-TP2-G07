@@ -1,7 +1,7 @@
 package edu.fiuba.algo3.modelo.modificadores;
 
 import edu.fiuba.algo3.modelo.principal.Contexto;
-import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 
 public class Medico implements Modificador {
 

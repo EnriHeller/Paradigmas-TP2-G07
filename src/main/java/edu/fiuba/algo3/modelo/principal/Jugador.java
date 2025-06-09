@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Jugador {
     private String nombre;
     private Mazo mazo;
-    private SeccionesSinPuntaje seccionesDelJugador;
+    private SeccionesJugador seccionesDelJugador;
 
     public Jugador() {
         this.nombre = "";
@@ -24,14 +24,14 @@ public class Jugador {
         this.seccionesDelJugador = null;
     }
 
-    public Jugador(String nombre, Mazo mazo, SeccionesSinPuntaje instanciaDeSecciones) {
+    public Jugador(String nombre, Mazo mazo, SeccionesJugador instanciaDeSecciones) {
         this.nombre = nombre;
         this.mazo = mazo;
         this.seccionesDelJugador = instanciaDeSecciones;
     }
 
-    public Carta jugarCarta(Carta carta) throws TipoDeSeccionInvalidaError {
-        return seccionesDelJugador.removerCarta("Mano",carta);
+    public Carta jugarCarta(Carta carta) {
+        return seccionesDelJugador.removerCarta("Mano", carta);
     }
     //Fase inicial y preparacion
     public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolcitudDeCartas {
@@ -43,26 +43,25 @@ public class Jugador {
         mazo.recibirCartas(seccionesDelJugador.removerCartas("Mano", unasCartas));
     }
 
-    public int cartasRestantesEnSeccion(String clave) throws TipoDeSeccionInvalidaError {
-        return SeccionesJugador.cartasRestantes(clave);
+    public int cartasRestantesEnSeccion(String clave) {
+        return seccionesDelJugador.cartasRestantes(clave);
     }
 
-    public Carta removerCartaDeSeccion(String clave, int index) throws TipoDeSeccionInvalidaError {
-    return SeccionesJugador.removerCarta(clave, index);
+    public Carta removerCartaDeSeccion(String clave, int index) {
+        return seccionesDelJugador.removerCarta(clave, index);
     }
-    public void agregarCartasAlDescarte(List<Carta> cartas) throws TipoDeSeccionInvalidaError {
-
+    public void agregarCartasAlDescarte(List<Carta> cartas) {
         seccionesDelJugador.agregarCartas("Descarte", cartas);
     }
 
         // Método para tests: jugar carta por índice sin interacción (deben DESAPARECER en lo posible)
 
     public int cartasEnMano() throws TipoDeSeccionInvalidaError {
-        return 10; //SeccionesSinPuntaje.cartasRestantes("Mano");
+        return 10; //SeccionesJugador.cartasRestantes("Mano");
     }
 
     public int cartasEnElDescarte() throws TipoDeSeccionInvalidaError {
-        return 8; //SeccionesSinPuntaje.cartasRestantes("Descarte");
+        return 8; //SeccionesJugador.cartasRestantes("Descarte");
     }
 
     public int cartasRestantes() {

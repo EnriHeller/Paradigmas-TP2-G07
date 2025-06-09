@@ -7,7 +7,7 @@ import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,21 +18,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Test02JugadorSeLeReparten10CartasDeSuMazo {
 
     @Test
-    public void jugadorRecibe10CartasInicialesEnSuMano() throws TipoDeSeccionInvalidaError {
-
+    public void jugadorRecibe10CartasInicialesEnSuMano() {
         // Crear 21 Cartas
-        List<Carta> cartas = new ArrayList<Carta>();
-
+        List<Carta> cartas = new ArrayList<>();
         for (int i = 0; i < 21; i++) {
-            Carta carta = new CartaUnidad();
-            cartas.add(carta);
+            cartas.add(new CartaUnidad());
         }
-
-        // Crear el mazo con esas cartas
         Mazo mazo = new Mazo(cartas);
-
-        Jugador jugador = new Jugador("JugadorTest", mazo, SeccionesSinPuntaje.seccionesDelJugador("Jugador0"));
-
-        assertDoesNotThrow(() -> jugador.agregarCartasAMano(10));
+        try {
+            Juego juego = new Juego("JugadorTest1", "JugadorTest2", mazo, mazo);
+            assertDoesNotThrow(() -> juego.darMano(0, 10));
+        } catch (TipoDeSeccionInvalidaError | edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos e) {
+            fail("No se esperaba excepción: " + e.getMessage());
+        }
     }
 }

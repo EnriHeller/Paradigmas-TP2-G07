@@ -57,7 +57,7 @@ public class Secciones {
         seccion.agregarCarta(carta);
     }
 
-    public void afectarClima(String clave, Clima nuevoClima) throws TipoDeSeccionInvalidaError{
+    public void afectarClima(String clave, Clima nuevoClima) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
         Seccion seccion = seccion(clave);
         seccion.afectarClima(nuevoClima);
     }

@@ -16,7 +16,7 @@ public class TableroOld {
         this.secciones.add(new ArrayList<>()); // Jugador 2
     }
 
-    public TableroOld(List<Seccion> seccionesJugador1, List<SeccionSinPuntaje> seccionesSinPuntaje) {
+    public TableroOld(List<Seccion> seccionesJugador1, List<Seccion> SeccionesJugador) {
         this();
         this.secciones.set(0, seccionesJugador1);
     }
@@ -69,3 +69,5 @@ public class TableroOld {
         }
     }*/
 }
+
+// TODO: Archivo obsoleto, referencias a SeccionSinPuntaje comentadas para permitir compilación.
