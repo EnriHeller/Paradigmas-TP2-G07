@@ -26,12 +26,30 @@ public class Seccion {
         return claveSeccion.equals("Rango") || claveSeccion.equals("Asedio") || claveSeccion.equals("CuerpoACuerpo");
     }
 
-    public void agregarCarta(CartaUnidad carta) throws CartaNoJugable {
-        if (carta.coincideSeccion(clave)) {
-            cartasActuales.add(carta);
-        }else{
-            throw new CartaNoJugable();
+    public CartaUnidad removerCarta(CartaUnidad carta) {
+        for (int i = 0; i < cartasActuales.size(); i++) {
+            if (cartasActuales.get(i).equals(carta)) {
+                return cartasActuales.remove(i);
+            }
         }
+        throw new IllegalArgumentException("La carta no está en la mano");
+    }
+
+    public List<CartaUnidad> removerCartas(List<CartaUnidad> cartas) {
+        for (CartaUnidad carta : cartas) {
+            removerCarta(carta);
+        }
+        return cartas;
+    }
+
+    public void agregarCarta(CartaUnidad carta) {
+        cartasActuales.add(carta);
+    }
+
+    public void agregarCartas(List<CartaUnidad> cartas){
+
+        cartasActuales.addAll(cartas);
+
     }
 
     public String getClave() {
