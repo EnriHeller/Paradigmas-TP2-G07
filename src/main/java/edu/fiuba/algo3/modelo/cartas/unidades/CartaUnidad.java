@@ -3,6 +3,9 @@ package edu.fiuba.algo3.modelo.cartas.unidades;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.principal.Contexto;
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -14,7 +17,6 @@ public class CartaUnidad implements Carta {
     private final int valorBase;
     private int valorActual;
     Modificador modificador;
-
     //Constructores
     public CartaUnidad(String nombre,List<String> secciones, int valor, Modificador modificador) {
         this.nombre = nombre;
@@ -41,8 +43,11 @@ public class CartaUnidad implements Carta {
         this.modificador = new Base();
     }
 
-    public void aplicarModificador(List<CartaUnidad> cartas) {
-        this.modificador.modificar();
+    public void aplicarModificador(Contexto contexto) throws TipoDeSeccionInvalidaError {
+        try {
+            this.modificador.modificar(contexto);
+        } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {
+        }
     }
 
     public int getPuntajeBase() {
@@ -53,23 +58,37 @@ public class CartaUnidad implements Carta {
         return this.secciones;
     }
 
+    public String getNombre() {
+        return this.nombre;
+    }
+
     public String mostrarCarta(){
 
         return (nombre + modificador.mostrarModificadores());
 
     }
 
-    public void modificarValor(int nuevoValor){
+    public void modificarValor(int nuevoValor) {
+
         this.valorActual = nuevoValor;
     }
 
-    public void modificarValor(String posibleCartaMismoModificador, int n) throws NoEsLaMismaUnidad {
+    public void multiplicarValor(String posibleCartaMismoModificador, int n) throws NoEsLaMismaUnidad {
         if (!posibleCartaMismoModificador.equals(this.nombre)){
             throw new NoEsLaMismaUnidad("No es la misma Unidad");
         }
-        if (n == 1){
-            this.valorActual = 1;
-        } else{ this.valorActual = n * this.valorBase; }
+        this.valorActual = n * this.valorActual;
+
+    }
+    public void multiplicarValor(int n) {
+
+        this.valorActual = n * this.valorActual;
+
+    }
+
+    public void sumaValor( int aSumar) {
+
+        this.valorActual = aSumar + this.valorActual;
 
     }
 

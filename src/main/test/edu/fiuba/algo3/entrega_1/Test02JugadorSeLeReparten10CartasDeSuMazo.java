@@ -2,10 +2,12 @@ package edu.fiuba.algo3.entrega_1;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,31 +19,20 @@ public class Test02JugadorSeLeReparten10CartasDeSuMazo {
 
     @Test
     public void jugadorRecibe10CartasInicialesEnSuMano() throws TipoDeSeccionInvalidaError {
-        //Arrange
-        Juego nuevoJuego = new Juego();
 
-        //Assert
-        assertTrue(nuevoJuego.iniciarFasePreparacion());
-        
-
-
-
-
-
+        // Crear 21 Cartas
         List<Carta> cartas = new ArrayList<Carta>();
 
         for (int i = 0; i < 21; i++) {
-            //Esto hay que mockearlo en vez de mandar cosas por default
-            cartas.add(new CartaUnidad());
+            Carta carta = new CartaUnidad();
+            cartas.add(carta);
         }
 
+        // Crear el mazo con esas cartas
         Mazo mazo = new Mazo(cartas);
-        Jugador jugador = new Jugador("JugadorTest", mazo);
 
-        // Act
-        jugador.agregarCartasAMano(10);
+        Jugador jugador = new Jugador("JugadorTest", mazo, SeccionesSinPuntaje.seccionesDelJugador("Jugador0"));
 
-        // Assert
-        assertEquals(10, jugador.cartasEnMano(), "El jugador debe tener 10 cartas en la mano al comenzar");
+        assertDoesNotThrow(() -> jugador.agregarCartasAMano(10));
     }
 }

@@ -1,6 +1,11 @@
 package edu.fiuba.algo3.entrega_1;
 
+import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.principal.Jugador;
+import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
+import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.ArrayList; // o import java.util.LinkedList;
@@ -10,8 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Test01JugadorConCartasSuficientes {
 
     @Test
+<<<<<<< HEAD
     public void jugadorTieneCartasSuficientesAlEmpezar() {
         /*int cartasMinimasEsperadas = 21;
+=======
+    public void jugadorTieneCartasSuficientesAlEmpezar() throws UnoDeLosMazosNoCumpleRequitos {
+>>>>>>> aMoyano
 
         // Crear 21 Cartas
         List<Carta> cartas = new ArrayList<Carta>();
@@ -22,8 +31,9 @@ public class Test01JugadorConCartasSuficientes {
         }
 
         // Crear el mazo con esas cartas
-        Mazo mazo = new Mazo(cartas); // Asegurate de tener este constructor
+        Mazo mazo = new Mazo(cartas);
 
+<<<<<<< HEAD
         // Crear el jugador (el constructor debe aceptar el mazo)
         Jugador jugador = new Jugador("jugadorTest", mazo); // No más "mockito de mazo"
 
@@ -44,5 +54,8 @@ public class Test01JugadorConCartasSuficientes {
         nuevoJuego.iniciarJuego(opciones_jugador_1, opciones_jugador_2);
 
         assertEquals(21, nuevoJuego.cartasRestantesJugador(0));
+=======
+        assertDoesNotThrow(() -> new Juego("JugadorTest1","JugadorTest2",mazo, mazo));
+>>>>>>> aMoyano
     }
 }

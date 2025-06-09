@@ -5,6 +5,7 @@ import edu.fiuba.algo3.modelo.cartas.especiales.CartaNevada;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.cartas.especiales.Clima;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,7 @@ public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespo
 
     //
     @Test
-    public void cartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespondiente() throws TipoDeSeccionInvalidaError, CartaNoJugable {
+    public void cartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespondiente() throws TipoDeSeccionInvalidaError, CartaNoJugable, NoSePuedeEliminarClimaSiNoHayClima {
 
         Seccion seccionConClima = new Seccion("CuerpoACuerpo");
 
@@ -27,7 +28,7 @@ public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespo
 
         CartaNevada cartaEspecialClima = new CartaNevada();
 
-        Clima climaNevado = cartaEspecialClima.CrearClima();
+        Clima climaNevado = cartaEspecialClima.crearClima();
 
         CartaUnidad primeraCartaPuntajeUno = new CartaUnidad("CartaTest1",secciones, 3);
         CartaUnidad segundaCartaPuntajeUno = new CartaUnidad("CartaTest2",secciones, 3);

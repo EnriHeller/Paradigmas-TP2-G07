@@ -1,12 +1,15 @@
 package edu.fiuba.algo3.entrega_1;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.principal.Jugador;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,11 +21,12 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
     // Verificar que un jugador pueda colocar una carta en una sección del tablero
 
     @Test
-    public void jugadorPuedeColocarCartaEnSeccion() throws TipoDeSeccionInvalidaError {
+    public void jugadorPuedeColocarCartaEnSeccion() throws TipoDeSeccionInvalidaError, CartaNoJugable, NoSePuedeCumplirSolcitudDeCartas {
         // Arrange
-        List<Object> opciones_jugador_1 = new ArrayList<>();
-        opciones_jugador_1.add("Pepito");
-        opciones_jugador_1.add(0);
+
+        List<String> seccionesCartaUnidad = new ArrayList<>();
+        seccionesCartaUnidad.add("Rango");
+        CartaUnidad cartaUnidad = new CartaUnidad("CartaTest", seccionesCartaUnidad, 8, new Base());
 
         List<Object> opciones_jugador_2 = new ArrayList<>();
         opciones_jugador_2.add("Mengano");
@@ -32,7 +36,16 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
         juego.iniciarJuego(opciones_jugador_1, opciones_jugador_2);
         assertTrue(juego.iniciarFasePreparacion());
 
-        // Act: Simular que el J1 juega la primera carta
-        Carta cartaAJugar =
+        Jugador jugador = new Jugador("JugadorTest", mazo, SeccionesSinPuntaje.seccionesDelJugador("Jugador0"));
+        jugador.agregarCartasAMano(1);
+
+        Tablero secciones  = Tablero.getInstancia();
+
+        // Act
+        Carta cartaJugada = jugador.jugarCarta(cartaUnidad);
+        secciones.agregarCarta("Rango0", (CartaUnidad) cartaJugada);
+
+        // Assert: verificar que la sección recibió la carta y la mano quedó vacía
+        assertTrue(secciones.contiene("Rango0", cartaJugada));
     }
 }

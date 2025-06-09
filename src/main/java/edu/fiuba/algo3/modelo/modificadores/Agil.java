@@ -1,8 +1,11 @@
 package edu.fiuba.algo3.modelo.modificadores;
 
+import edu.fiuba.algo3.modelo.principal.Contexto;
+
 public class Agil implements Modificador {
 
     private final Modificador modificador;
+
 
     public Agil(Modificador modificador){
         this.modificador = modificador;
@@ -14,8 +17,9 @@ public class Agil implements Modificador {
     }
 
     @Override
-    public void modificar() {
-
+    public void modificar(Contexto contextoModificador) {
     }
+
+
 }
 

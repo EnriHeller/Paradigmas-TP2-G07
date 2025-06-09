@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface Clima {
 
+    boolean hayCLima();
+
     void afectarCartas(List<CartaUnidad> cartas);
 
     }

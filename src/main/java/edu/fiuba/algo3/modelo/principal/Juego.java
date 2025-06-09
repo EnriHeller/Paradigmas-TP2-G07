@@ -4,8 +4,8 @@ import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
-import edu.fiuba.algo3.modelo.secciones.tablero.Secciones;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesSinPuntaje;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,59 +14,53 @@ import java.util.Scanner;
 public class Juego {
     private int ciclos;
     private Ronda[] rondas;
-    //private SeccionesJugador[] SeccionesJugador;
+    //private SeccionesSinPuntaje[] seccionesSinPuntaje;
     //private Secciones secciones;
     private List<Jugador> jugadores;
-    private List<Mazo> mazos;
-
     private int moneda;
     private int jugadorQueInicia;
 
-    public Juego() {
+    public Juego() throws TipoDeSeccionInvalidaError {
 
         this.ciclos = 0;
         this.rondas = new Ronda[3];
-        //this.SeccionesJugador =  SeccionesJugador;
+        //this.seccionesSinPuntaje =  seccionesSinPuntaje;
         //this.secciones = new Secciones;
+        this.jugadores = new ArrayList<Jugador>();
         this.moneda = 0;
         this.jugadorQueInicia = -1;
 
     }
-    private void inicializarMazos() {
-        // esto de reemplaza por contructorMazo
-        List<Carta> cartasJ1 = new ArrayList<>();
-        for (int i = 0; i < 21; i++) {
-            cartasJ1.add(new CartaUnidad());
+
+    //Fase inicial
+    public Juego(String nombreJugador1, String nombreJugador2, Mazo mazoDelJugador1, Mazo mazoDelJugador2) throws UnoDeLosMazosNoCumpleRequitos, TipoDeSeccionInvalidaError {
+        this.ciclos = 0;
+        this.rondas = new Ronda[3];
+
+        if (mazoDelJugador1.cantidadDeCartas() < 21 || mazoDelJugador2.cantidadDeCartas() < 21) {
+            throw new UnoDeLosMazosNoCumpleRequitos();
         }
-        mazos.add(new Mazo(cartasJ1));
+        this.tablero = Tablero.getInstancia();
+        this.jugadores = new ArrayList<>();
+        this.sinPuntajes = new SeccionesSinPuntaje[2];
+        sinPuntajes[0] = SeccionesSinPuntaje.seccionesDelJugador(String.valueOf(0));
+        sinPuntajes[1] = SeccionesSinPuntaje.seccionesDelJugador(String.valueOf(1));
+        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador1, sinPuntajes[0]));
+        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador2, sinPuntajes[1]));
 
-        List<Carta> cartasJ2 = new ArrayList<>();
-        for (int i = 0; i < 21; i++) {
-            cartasJ2.add(new CartaUnidad());
-        }
-
-        mazos.add(new Mazo(cartasJ2));
-    }
-    
-    private void inicializarJugadores(List<Object> opciones_j1,List<Object> opciones_j2) {
-
-        String nombrej1 = (String) opciones_j1.get(0);
-        Mazo mazoj1 = mazos.get((int) opciones_j1.get(1));
-
-        String nombrej2 = (String) opciones_j2.get(1);
-        Mazo mazoj2 = mazos.get((int) opciones_j2.get(1));
-
-        Jugador jugador1 = new Jugador(nombrej1, mazoj1);
-        Jugador jugador2 = new Jugador(nombrej2, mazoj2);
-
-        jugadores.add(jugador1);
-        jugadores.add(jugador2);
+        this.moneda = 0;
+        this.jugadorQueInicia = -1;
     }
 
-    public int puntaje(){
-        return 0;
+    //fasePreparacion
+
+    public void darMano(int jugadorID, int cantidadDeCartas) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolcitudDeCartas {
+        jugadores.get(jugadorID).agregarCartasAMano(cantidadDeCartas);
     }
 
+    public void descartarCartasDeMano(int jugadorID, List<Carta> cartasQueSeQuierenDescartar) {
+        jugadores.get(jugadorID).descartarCartas(cartasQueSeQuierenDescartar);
+    }
 
     private void tirarMoneda(){
         moneda = Math.random() < 0.5 ? -1 : 1;
@@ -76,6 +70,55 @@ public class Juego {
         } else{
             jugadorQueInicia = 0;
         }
+
+    }
+
+    //fase de juego
+    public void jugarCarta(int jugadorID, Carta carta, String dondeJugarla) {
+        try {
+            Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, sinPuntajes[jugadorID], jugadores.get(jugadorID));
+            if (carta.esEspecial()) {
+                // Cartas especiales aún no implementadas :b
+            } else {
+                CartaUnidad cartaUnidad = (CartaUnidad) carta;
+                tablero.agregarCarta(dondeJugarla + String.valueOf(jugadorID), cartaUnidad);
+                cartaUnidad.aplicarModificador(contexto);
+                rondas[ciclos].agregarPuntajeJugador(jugadorID, cartaUnidad.ValorActual());
+
+            }
+        } catch (TipoDeSeccionInvalidaError e) {
+            // No hacemos nada si hay una excepción
+        }
+    }
+
+    //Fase de win (o continuar)
+
+    public int puntaje(){
+        return 0;
+    }
+
+    public Jugador iniciarJugador(int jugador){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("¿Cual es el nombre que quieres tener al jugar?\n");
+        String nombreInput = scanner.nextLine().trim();
+        String nombre;
+        if (nombreInput.equals("\n")) {
+            nombre = "Jugador" + String.valueOf(jugador);
+        } else{
+            nombre = nombreInput;
+        }
+
+        System.out.println("¿Tienes un mazo creado para jugar?\nSi es asi, por favor dar la ruta donde se encuentra");
+        String mazoInput = scanner.nextLine().trim();
+        Mazo mazo;
+        if (mazoInput.equals("\n")) {
+            mazo = new Mazo(new ArrayList<Carta>()); // crear el creador de mazo porfis
+        } else{
+            mazo = new Mazo(new ArrayList<Carta>()); // Simil, crear el creador de mazos
+        }
+
+        return new Jugador(nombre, mazo);
+
     }
 
     public String SeccionElegida() {
@@ -100,6 +143,8 @@ public class Juego {
 
     private Carta eleccionDeCarta(int jugador, String clave) throws TipoDeSeccionInvalidaError {
 
+        Tablero secciones = Tablero.getInstancia();
+        //SeccionesSinPuntaje secccionesDelJugador1 = SeccionesSinPuntaje.seccionesDelJugador();
         Scanner scanner = new Scanner(System.in);
         boolean eleccionErronea = true;
         int opcion = -1;
@@ -113,7 +158,7 @@ public class Juego {
             try {
                 opcion = scanner.nextInt();
 
-                if (opcion >= 0 && opcion <jugadorActual.cartasRestantesEnSeccion(clave)) {
+                if (opcion >= 0 && opcion < SeccionesSinPuntaje.cartasRestantes(jugador,clave)) {
                     eleccionErronea = false;
                 } else {
                     System.out.println("Opción inválida. Por favor ingrese un número entre 0 y 10.");
@@ -123,8 +168,8 @@ public class Juego {
                 scanner.next();
             }
         }
-        Carta cartaADevolver = jugadorActual.removerCartaDeSeccion("Mano", opcion);
-        return cartaADevolver;
+
+        return new CartaUnidad(); //seccionesSinPuntaje[jugador].removerCarta("Mano", opcion);
 
     }
 
@@ -156,12 +201,12 @@ public class Juego {
                 String dondeJuegaPrimero = SeccionElegida();
 
                 if (!cartaJugadaPorPrimero.esEspecial()) {
-                    try {
-                        Secciones.agregarCarta(dondeJuegaPrimero, (CartaUnidad) cartaJugadaPorPrimero);
-                        cartaJugable1 = true; // Solo si no lanza excepción
-                    } catch (CartaNoJugable | TipoDeSeccionInvalidaError e) {
-                        System.out.println("La carta no se puede jugar en esa sección. Elegí otra.");
-                    }
+                    //try {
+                        //secciones.agregarCarta(dondeJuegaPrimero, (CartaUnidad) cartaJugadaPorPrimero);
+                        //cartaJugable1 = true; // Solo si no lanza excepción
+                    //} catch (CartaNoJugable | TipoDeSeccionInvalidaError e) {
+                        //System.out.println("La carta no se puede jugar en esa sección. Elegí otra.");
+                    //}
                 } else {
                     cartaJugable1 = true; // Por si las cartas especiales no necesitan validación
                 }
@@ -179,12 +224,12 @@ public class Juego {
                 String dondeJuegaPrimero = SeccionElegida();
 
                 if (!cartaJugadaPorSegundo.esEspecial()) {
-                    try {
-                        Secciones.agregarCarta(dondeJuegaPrimero, (CartaUnidad) cartaJugadaPorSegundo);
-                        cartaJugable2 = true; // Solo si no lanza excepción
-                    } catch (CartaNoJugable | TipoDeSeccionInvalidaError e) {
-                        System.out.println("La carta no se puede jugar en esa sección. Elegí otra.");
-                    }
+                    //try {
+                        //secciones.agregarCarta(dondeJuegaPrimero, (CartaUnidad) cartaJugadaPorSegundo);
+                        //cartaJugable2 = true; // Solo si no lanza excepción
+                    //} catch (CartaNoJugable | TipoDeSeccionInvalidaError e) {
+                        //System.out.println("La carta no se puede jugar en esa sección. Elegí otra.");
+                    //}
                 } else {
                     cartaJugable2 = true; // Por si las cartas especiales no necesitan validación
                 }
@@ -204,7 +249,20 @@ public class Juego {
     }
 
     public String mostrarGanador(){
-        return "";
+        String ganador = "";
+        int contadorJ1 = 0;
+        int contadorJ2 = 0;
+
+        for (Ronda ronda : rondas) {
+            String ganadorRonda = ronda.getGanadorRonda();
+            if (ganadorRonda.equals("Jugador 1")) {
+                contadorJ1++;
+            } else if (ganadorRonda.equals("Jugador 2")) {
+                contadorJ2++;
+            }
+        }
+
+        return contadorJ1 > contadorJ2 ? "Jugador 1" : "Jugador 2";
     }
 
     public boolean juegoTerminado(){
