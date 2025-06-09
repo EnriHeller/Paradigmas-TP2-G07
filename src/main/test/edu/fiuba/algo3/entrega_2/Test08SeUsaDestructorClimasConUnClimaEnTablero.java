@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-public class Test08SeUsaDescructorClimasConUnClimaEnTablero {
+public class Test08SeUsaDestructorClimasConUnClimaEnTablero {
     @Test
     public void SeUsaDescructorClimasConUnClimaEnTablero() throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
         Tablero tablero = Tablero.getInstancia();
@@ -23,8 +23,5 @@ public class Test08SeUsaDescructorClimasConUnClimaEnTablero {
 
         nevada.modificar(contexto);
         assertDoesNotThrow(() -> destructoraDeClima.modificar(contexto));
-
-
     }
-
 }
