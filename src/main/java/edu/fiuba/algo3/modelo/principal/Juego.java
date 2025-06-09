@@ -30,6 +30,11 @@ public class Juego {
 
         // El Juego delega al tablero la colocación de la carta
         tablero.jugarCarta(jugadorActual, cartaJugada, seccionDestino);
+
+    }
+
+    public int calularPuntajeJugador(Jugador jugador) {
+        return tablero.calcularPuntajeJugador(jugador);
     }
 
 

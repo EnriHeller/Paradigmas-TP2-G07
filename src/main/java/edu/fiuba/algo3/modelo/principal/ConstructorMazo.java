@@ -16,7 +16,6 @@ public class ConstructorMazo {
         for (int i = 0; i < 21; i++) {
             cartasJugador.add(new CartaUnidad("carta1", Collections.singletonList("Asedio"), 1));
         }
-        Mazo mazo = new Mazo(cartasJugador);
-        return mazo;
+        return new Mazo(cartasJugador);
     }
 }

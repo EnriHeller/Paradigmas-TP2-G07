@@ -1,16 +1,15 @@
 package edu.fiuba.algo3.entrega_1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.List;
-import java.util.ArrayList;
-
+import edu.fiuba.algo3.modelo.jugador.Jugador;
+import edu.fiuba.algo3.modelo.jugador.Mano;
+import edu.fiuba.algo3.modelo.principal.ConstructorMazo;
+import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.principal.Tablero;
 import org.junit.jupiter.api.Test;
 
-import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.CartaUnidad; // O la implementación específica de Carta
-import edu.fiuba.algo3.modelo.Jugador;
-import edu.fiuba.algo3.modelo.Mazo;
+
 import edu.fiuba.algo3.modelo.secciones.Seccion;
 import edu.fiuba.algo3.modelo.errores.TipoDeSeccionInvalidaError;
 
@@ -18,30 +17,32 @@ public class Test04JugadorJuegaCartaYTienePuntajeParcial {
 
     @Test
     public void jugadorJuegaCartaYTienePuntajeParcial() throws TipoDeSeccionInvalidaError {
-        // Arrange: Crear una carta real con un puntaje de 7
-        Carta cartaReal = new CartaUnidad(1); // Suponiendo que el constructor acepta un valor de puntaje
+        // Verificar que un jugador juegue una carta de su mazo y tenga un puntaje parcial.
+        //Arrange
+        Tablero tablero = new Tablero();
+        ConstructorMazo constructorMazo = new ConstructorMazo();
 
-        List<Carta> cartas = new ArrayList<>();
-        cartas.add(cartaReal);
+        Jugador jugador1 = new Jugador("Jugador1", constructorMazo.construirMazo());
+        Jugador jugador2 = new Jugador("pepita", constructorMazo.construirMazo());
+        Juego juego = new Juego(jugador1, jugador2, tablero);
 
-        // Crear el mazo con la carta real
-        Mazo mazo = new Mazo(cartas);
+        Jugador jugadorActual = juego.jugadorActual();
 
-        // Crear el jugador con el mazo
-        Jugador jugador = new Jugador("JugadorTest", mazo);
-        jugador.agregarCartasAMano(1); // Agregar la carta a la mano del jugador
+        Mano manoJugadorActual = jugadorActual.obtenerMano();
+        CartaUnidad cartaSeleccionada = (CartaUnidad) manoJugadorActual.obtenerCartas().get(0);
 
-        // Crear una sección real
-        Seccion seccion = new Seccion("Rango");
+        Seccion asedioJugadorActual = tablero.getSeccionesJugador1().stream()
+                .filter(seccion -> seccion.obtenerNombre().equals("Asedio"))
+                .findFirst()
+                .orElse(null);
 
         // Act
-        Carta cartaJugada = jugador.jugarCartaPorIndice(0);
-        seccion.agregarCarta(cartaJugada);
-
-        // Obtener el puntaje total de la sección
-        int puntaje = seccion.getPuntajeTotal();
+        juego.jugarCarta(cartaSeleccionada, asedioJugadorActual);
 
         // Assert
-        assertEquals(7, puntaje, "El puntaje parcial de la sección debe ser igual al valor de la carta jugada");
+        assertEquals(1, juego.calularPuntajeJugador(jugadorActual),
+                "El jugador actual juega una carta de valor 1 y debería tener un puntaje parcial de 1.");
+
     }
+
 }

@@ -74,6 +74,17 @@ public class Tablero {
         }
     }
 
+    public int calcularPuntajeJugador(Jugador jugador) {
+        List<Seccion> seccionesJugador = identificarJugador(jugador);
+
+        int puntajeTotal = 0;
+        for (Seccion seccion : seccionesJugador) {
+            puntajeTotal += seccion.calcularPuntos();
+        }
+        return puntajeTotal;
+    }
+
+
     private List<Seccion> identificarJugador(Jugador jugador) {
 
         // Revisar como debe quedar la logica cuando el jugador elija el nombre
