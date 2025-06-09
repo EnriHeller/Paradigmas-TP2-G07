@@ -85,6 +85,10 @@ public class Juego {
                 CartaUnidad cartaUnidad = (CartaUnidad) carta;
                 tablero.agregarCarta(dondeJugarla + String.valueOf(jugadorID), cartaUnidad);
                 cartaUnidad.aplicarModificador(contexto);
+                if (this.rondas[this.ciclos] == null) {
+                    this.rondas[this.ciclos] = new Ronda();
+                }
+
                 rondas[ciclos].agregarPuntajeJugador(jugadorID, cartaUnidad.ValorActual());
 
             }
