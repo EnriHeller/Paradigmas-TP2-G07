@@ -50,11 +50,7 @@ public class Test05LasCartasPasanALaPilaDeDescarte {
             }
             try {
                 int cartasEnDescarte = 0;
-                try {
-                    cartasEnDescarte = jugador.cartasEnElDescarte();
-                } catch (edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError e) {
-                    org.junit.jupiter.api.Assertions.fail("No se esperaba TipoDeSeccionInvalidaError al consultar cartas en el descarte: " + e.getMessage());
-                }
+                cartasEnDescarte = jugador.cartasRestantesEnSeccion("Descarte");
                 assertEquals(cartasJugadasEsperadas, cartasEnDescarte,
                         "El jugador debe tener 8 cartas al comenzar el juego");
             } catch (Exception e) {
