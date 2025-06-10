@@ -99,8 +99,9 @@ public class Juego {
 
     //Fase de win (o continuar)
 
-    public int puntaje(){
-        return 0;
+    public int puntajeEnSeccion(String nombreSeccion) {
+
+        return tablero.getPuntaje(nombreSeccion);
     }
 
     public Jugador iniciarJugador(int jugador){
@@ -242,10 +243,9 @@ public class Juego {
         ciclos++;
     }
 
-    public int cartasRestantesJugador(int jugador_i){
+    public int cartasRestantesJugador(int jugador_i) throws TipoDeSeccionInvalidaError {
         Jugador jugador = jugadores.get(jugador_i);
-
-        return jugador.cartasRestantes();
+        return jugador.cartasRestantesEnSeccion("Mano");
     }
 
     public String mostrarGanador(){

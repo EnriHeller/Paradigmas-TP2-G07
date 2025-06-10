@@ -56,14 +56,6 @@ public class Jugador {
 
         // Método para tests: jugar carta por índice sin interacción (deben DESAPARECER en lo posible)
 
-    public int cartasEnMano() throws TipoDeSeccionInvalidaError {
-        return 10; //SeccionesJugador.cartasRestantes("Mano");
-    }
-
-    public int cartasEnElDescarte() throws TipoDeSeccionInvalidaError {
-        return 8; //SeccionesJugador.cartasRestantes("Descarte");
-    }
-
     public int cartasRestantes() {
         return mazo.cantidadDeCartas();
     }
