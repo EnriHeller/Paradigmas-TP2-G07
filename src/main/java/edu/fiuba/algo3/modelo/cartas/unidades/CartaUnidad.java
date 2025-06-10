@@ -81,9 +81,7 @@ public class CartaUnidad implements Carta {
 
     }
     public void multiplicarValor(int n) {
-
         this.valorActual = n * this.valorActual;
-
     }
 
     public void sumaValor( int aSumar) {
@@ -105,4 +103,10 @@ public class CartaUnidad implements Carta {
     public boolean coincideSeccion(String seccion){
         return this.secciones.contains(seccion);
     }
+
+    @Override
+    public String toString() {
+        return nombre + modificador.getClass().getSimpleName();
+    }
+
 }

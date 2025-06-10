@@ -5,9 +5,6 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.cartas.especiales.Clima;
 import java.util.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Tablero {
     private static Tablero instancia = null;
@@ -75,10 +72,25 @@ public class Tablero {
         return  seccion.hayClima();
     }
 
-    public List<CartaUnidad> getCartas(String clave) throws TipoDeSeccionInvalidaError {
-        Seccion seccion = seccion(clave);
-        return  seccion.getCartas();
+    //Obtengo todas las cartas del tablero
+    public List<CartaUnidad> getCartas() {
+        List<CartaUnidad> cartasTotales = new ArrayList<>();
+
+        for (Seccion seccion : secciones.values()) {
+            cartasTotales.addAll(seccion.getCartas());
+        }
+
+        return cartasTotales;
     }
+
+    public List<CartaUnidad> getCartasSeccion(String clave) throws TipoDeSeccionInvalidaError {
+        Seccion seccion = seccion(clave);
+        return seccion.getCartas();
+    }
+
+    public Map<String, Seccion> getSecciones() {
+        return secciones;
+}
 
     public boolean contiene(String clave, Carta carta) throws TipoDeSeccionInvalidaError{
         Seccion seccion = seccion(clave);
@@ -106,6 +118,7 @@ public class Tablero {
 
         return seccion.removerCarta(carta);
     }
+    
     public List<CartaUnidad> removerCartas(String clave, List<CartaUnidad> cartas) {
         Seccion seccion = secciones.get(clave);
         if (seccion == null) {

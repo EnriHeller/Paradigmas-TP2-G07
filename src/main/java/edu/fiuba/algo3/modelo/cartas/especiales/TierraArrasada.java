@@ -31,13 +31,14 @@ public class TierraArrasada implements Carta, Modificador {
     @Override
     public void modificar(Contexto contextoModificador) {
         var tablero = contextoModificador.getTablero();
-        String claveSeccion = contextoModificador.getSeccion();
+        //String claveSeccion = contextoModificador.getSeccion();
         try {
-            List<CartaUnidad> cartas = tablero.getCartas(claveSeccion);
+            List<CartaUnidad> cartas = tablero.getCartas();
             if (cartas.isEmpty()) return;
 
             // Buscar el valor máximo entre cartas NO legendarias
-            int max = Integer.MIN_VALUE;
+            int max = 0;
+
             for (CartaUnidad carta : cartas) {
                 // Usar mostrarCarta() para detectar si tiene el modificador Legendaria
                 if (!carta.mostrarCarta().contains("Legendaria")) {
@@ -45,16 +46,22 @@ public class TierraArrasada implements Carta, Modificador {
                     if (valor > max) max = valor;
                 }
             }
-            if (max == Integer.MIN_VALUE) return; // No hay cartas no legendarias
+            if (max == 0) return; // No hay cartas no legendarias
 
             // Identificar las cartas a eliminar (no legendarias y con valor == max)
+
             List<CartaUnidad> aEliminar = new java.util.ArrayList<>();
+
             for (CartaUnidad carta : cartas) {
                 if (!carta.mostrarCarta().contains("Legendaria") && carta.ValorActual() == max) {
                     aEliminar.add(carta);
                 }
             }
-            tablero.removerCartas(claveSeccion, aEliminar);
+
+            for (String claveSeccion : tablero.getSecciones().keySet()) {
+                tablero.removerCartas(claveSeccion, aEliminar);
+            }
+
         } catch (Exception e) {
             // Manejo simple: no hacer nada si hay error
         }

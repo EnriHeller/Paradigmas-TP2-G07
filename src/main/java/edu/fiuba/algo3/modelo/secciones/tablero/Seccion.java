@@ -66,6 +66,8 @@ public class Seccion {
         return cartasActuales;
     }
 
+    
+
     public boolean contiene(Carta carta){
         return this.cartasActuales.contains((carta));
     }

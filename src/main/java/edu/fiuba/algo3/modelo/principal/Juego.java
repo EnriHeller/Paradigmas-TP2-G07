@@ -2,9 +2,11 @@ package edu.fiuba.algo3.modelo.principal;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
+import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.ArrayList;
@@ -75,14 +77,18 @@ public class Juego {
 
     }
 
+    public void aplicarEspecial(int jugadorID, Modificador cartaEspecial)  throws NoSePuedeEliminarClimaSiNoHayClima, TipoDeSeccionInvalidaError {
+        CartaUnidad carta = new CartaUnidad();
+        Contexto contexto = new Contexto(this.tablero, "", (CartaUnidad) carta, jugadorID, sinPuntajes[jugadorID], jugadores.get(jugadorID));
+        cartaEspecial.modificar(contexto);
+    }
+
     //fase de juego
-    public void jugarCarta(int jugadorID, Carta carta, String dondeJugarla) {
+    public void jugarCarta(int jugadorID, CartaUnidad carta, String dondeJugarla) {
         try {
             Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, sinPuntajes[jugadorID], jugadores.get(jugadorID));
-            if (carta.esEspecial()) {
-                // Cartas especiales aún no implementadas :b
-            } else {
-                CartaUnidad cartaUnidad = (CartaUnidad) carta;
+
+            CartaUnidad cartaUnidad = (CartaUnidad) carta;
                 // Reemplaza agregarCarta por agregarCartas con una lista de una sola carta
                 tablero.agregarCartas(dondeJugarla + String.valueOf(jugadorID), java.util.Collections.singletonList(cartaUnidad));
                 cartaUnidad.aplicarModificador(contexto);
@@ -92,7 +98,6 @@ public class Juego {
 
                 rondas[ciclos].agregarPuntajeJugador(jugadorID, cartaUnidad.ValorActual());
 
-            }
         } catch (TipoDeSeccionInvalidaError e) {
             // No hacemos nada si hay una excepción
         }

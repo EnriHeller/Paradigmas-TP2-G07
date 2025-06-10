@@ -6,4 +6,6 @@ public interface Carta {
 
     String mostrarCarta();
 
+    
+
 }

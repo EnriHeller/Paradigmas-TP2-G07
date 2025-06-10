@@ -38,7 +38,7 @@ public class Test10EspiaSeJuegaEnRivalYaumentaMano {
 
         juego.jugarCarta(0, new CartaUnidad("SpyBlack",secciones, 8 , spyBlack), "Rango");
 
-
+        
 
         int cartasEnMano = juego.cartasRestantesJugador(0);
         int puntajeDelOtroJugador = juego.puntajeEnSeccion("Rango1");
