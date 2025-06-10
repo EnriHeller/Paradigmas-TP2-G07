@@ -1,10 +1,84 @@
 package edu.fiuba.algo3.entrega_2;
+
+import edu.fiuba.algo3.modelo.cartas.especiales.TierraArrasada;
+import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.modificadores.Base;
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
+import edu.fiuba.algo3.modelo.modificadores.Legendaria;
+import edu.fiuba.algo3.modelo.principal.Contexto;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+
+//Tierra arrasada: Quema a las cartas más fuertes del tablero
+
+//Nos piden verificar que si se usa un TierraArrasada se eliminen las cartas correctamente.
+
 // las más fuertes son las que más puntos tienen en esa ronda, por ejemplo:
 // Si tenés cartas con puntaje 2, 3, 4, 4, 4 - se queman las tres cartas de puntaje 4
 // Si tenés cartas con puntaje 4, 5, 6, 9 - se quema solo la de 9
 // Si tenés 7, 8 y una legendaria de 10 (es legendaria , no le afecta) - se quema la de 8
 // Es la del maximo
 
+//-> habría que tener un Juego inicializado en una instancia particular donde haya varias cartas jugadas ya para verificar que el jugador, al jugar la carta especial tierra arrasada, haga lo correspondiente.
+
+
 public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
-    
+
+    @Test
+    public void testTierraArrasadaEliminaCartasMasFuertes() throws Exception {
+        // 1. Crear cartas de unidad y una legendaria (como modificador)
+        ArrayList<String> secciones = new ArrayList<>();
+        secciones.add("Rango");
+        CartaUnidad carta2 = new CartaUnidad("Soldado", secciones, 2, new Base());
+        CartaUnidad carta4a = new CartaUnidad("Arquero", secciones, 4, new Base());
+        CartaUnidad carta4b = new CartaUnidad("Lancero", secciones, 4, new Base());
+        CartaUnidad carta4c = new CartaUnidad("Caballero", secciones, 4, new Base());
+        CartaUnidad carta3 = new CartaUnidad("Mago", secciones, 3, new Base());
+        // Carta legendaria: unidad con modificador Legendaria
+        CartaUnidad legendaria10 = new CartaUnidad("Dragon", secciones, 10, new Legendaria());
+
+        // 2. Crear el mazo y el juego
+        List<CartaUnidad> cartasUnidad = new ArrayList<>();
+        cartasUnidad.add(carta2);
+        cartasUnidad.add(carta3);
+        cartasUnidad.add(carta4a);
+        cartasUnidad.add(carta4b);
+        cartasUnidad.add(carta4c);
+        cartasUnidad.add(legendaria10);
+        for (int i = 0; i < 13; i++) cartasUnidad.add(new CartaUnidad()); // completar mazo
+        Mazo mazo = new Mazo(new ArrayList<>(cartasUnidad));
+        Juego juego = new Juego("Jugador1", "Jugador2", mazo, mazo);
+        juego.darMano(0, 10);
+
+        // 3. Jugar las cartas en la sección "Rango"
+        juego.jugarCarta(0, carta2, "Rango");
+        juego.jugarCarta(0, carta3, "Rango");
+        juego.jugarCarta(0, carta4a, "Rango");
+        juego.jugarCarta(0, carta4b, "Rango");
+        juego.jugarCarta(0, carta4c, "Rango");
+        juego.jugarCarta(0, legendaria10, "Rango");
+
+        // 4. Crear TierraArrasada y aplicarla
+        TierraArrasada tierraArrasada = new TierraArrasada(new Base(), "Tierra Arrasada");
+        Contexto contexto = new Contexto(juego.getTablero(), "Rango0", null, 0, null, null);
+        tierraArrasada.modificar(contexto);
+        List<CartaUnidad> cartasRestantes;
+        try {
+            cartasRestantes = juego.getTablero().getCartas("Rango0");
+        } catch (Exception e) {
+            cartasRestantes = new ArrayList<>();
+        }
+        assertFalse(cartasRestantes.contains(carta4a));
+        assertFalse(cartasRestantes.contains(carta4b));
+        assertFalse(cartasRestantes.contains(carta4c));
+        assertTrue(cartasRestantes.contains(carta2));
+        assertTrue(cartasRestantes.contains(carta3));
+        assertTrue(cartasRestantes.contains(legendaria10)); // legendaria no se elimina
+    }
 }

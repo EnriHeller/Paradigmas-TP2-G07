@@ -6,5 +6,6 @@ import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayCli
 
 public interface Modificador {
     String mostrarModificadores();
+    
     void modificar(Contexto modificadorContexto) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima;
 }

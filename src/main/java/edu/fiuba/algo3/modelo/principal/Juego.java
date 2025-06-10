@@ -306,5 +306,8 @@ public class Juego {
         return (jugador1.cartasRestantes() == 10 && jugador2.cartasRestantes() == 10);
     }
 	
-    
+    // Helper para exponer el tablero en tests
+    public Tablero getTablero() {
+        return this.tablero;
+    }
 }

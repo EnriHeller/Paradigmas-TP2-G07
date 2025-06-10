@@ -30,6 +30,34 @@ public class TierraArrasada implements Carta, Modificador {
 
     @Override
     public void modificar(Contexto contextoModificador) {
+        var tablero = contextoModificador.getTablero();
+        String claveSeccion = contextoModificador.getSeccion();
+        try {
+            List<CartaUnidad> cartas = tablero.getCartas(claveSeccion);
+            if (cartas.isEmpty()) return;
+
+            // Buscar el valor máximo entre cartas NO legendarias
+            int max = Integer.MIN_VALUE;
+            for (CartaUnidad carta : cartas) {
+                // Usar mostrarCarta() para detectar si tiene el modificador Legendaria
+                if (!carta.mostrarCarta().contains("Legendaria")) {
+                    int valor = carta.ValorActual();
+                    if (valor > max) max = valor;
+                }
+            }
+            if (max == Integer.MIN_VALUE) return; // No hay cartas no legendarias
+
+            // Identificar las cartas a eliminar (no legendarias y con valor == max)
+            List<CartaUnidad> aEliminar = new java.util.ArrayList<>();
+            for (CartaUnidad carta : cartas) {
+                if (!carta.mostrarCarta().contains("Legendaria") && carta.ValorActual() == max) {
+                    aEliminar.add(carta);
+                }
+            }
+            tablero.removerCartas(claveSeccion, aEliminar);
+        } catch (Exception e) {
+            // Manejo simple: no hacer nada si hay error
+        }
     }
 
 }
