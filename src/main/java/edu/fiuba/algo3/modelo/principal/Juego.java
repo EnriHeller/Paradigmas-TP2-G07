@@ -287,6 +287,8 @@ public class Juego {
         boolean seRepartio = seLogroRepartirCartasDelMazoALosJugadores();
         return seRepartio;
     }
+
+
     public void repartirCartasAlJugador(int jugador) throws TipoDeSeccionInvalidaError {
         int minCartasAMano = 10;
         Jugador jugadorElegido = jugadores.get(jugador);
