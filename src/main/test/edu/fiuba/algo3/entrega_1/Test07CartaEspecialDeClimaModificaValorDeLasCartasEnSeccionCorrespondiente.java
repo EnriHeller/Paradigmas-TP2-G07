@@ -29,8 +29,8 @@ public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespo
                 Clima climaNevado = cartaEspecialClima.crearClima();
                 CartaUnidad primeraCartaPuntajeUno = new CartaUnidad("CartaTest1",secciones, 3);
                 CartaUnidad segundaCartaPuntajeUno = new CartaUnidad("CartaTest2",secciones, 3);
-                seccionConClima.agregarCarta(primeraCartaPuntajeUno);
-                seccionConClima.agregarCarta(segundaCartaPuntajeUno);
+                seccionConClima.agregarCartas(java.util.Collections.singletonList(primeraCartaPuntajeUno));
+                seccionConClima.agregarCartas(java.util.Collections.singletonList(segundaCartaPuntajeUno));
                 int puntajeSinClima = seccionConClima.getPuntajeTotal();
                 try {
                     seccionConClima.afectarClima(climaNevado);

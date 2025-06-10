@@ -55,7 +55,7 @@ public class Test04JugadorJuegaCartaYTienePuntajeParcial {
                 if (seccion != null) {
                     try {
                         CartaUnidad cartaJugada = (CartaUnidad) jugador.jugarCarta(cartaUnidad);
-                        seccion.agregarCarta(cartaJugada);
+                        seccion.agregarCartas(java.util.Collections.singletonList(cartaJugada));
                         int puntaje = seccion.getPuntajeTotal();
                         assertEquals(7, puntaje);
                     } catch (Exception e) {

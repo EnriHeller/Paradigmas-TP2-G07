@@ -30,7 +30,7 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
             CartaUnidad segundaCarta = new CartaUnidad("TipoTest",seccionesCarta, 8, unidad);
             if (secciones != null) {
                 try {
-                    secciones.agregarCarta("Asedio0", primeraCarta);
+                    secciones.agregarCartas("Asedio0", java.util.Collections.singletonList(primeraCarta));
                     SeccionesJugador seccionesJugador = null;
                     try {
                         seccionesJugador = SeccionesJugador.seccionesDelJugador("0");
@@ -39,7 +39,7 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
                     }
                     if (seccionesJugador != null) {
                         Contexto contexto = new Contexto(secciones, "Asedio", segundaCarta,  0, seccionesJugador, new Jugador());
-                        secciones.agregarCarta("Asedio0", segundaCarta);
+                        secciones.agregarCartas("Asedio0", java.util.Collections.singletonList(segundaCarta));
                         try {
                             segundaCarta.aplicarModificador(contexto);
                         } catch (edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError e) {

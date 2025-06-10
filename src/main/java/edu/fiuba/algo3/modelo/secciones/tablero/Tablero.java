@@ -114,16 +114,6 @@ public class Tablero {
         return seccion.removerCartas(cartas);
     }
 
-    public void agregarCarta(String clave, CartaUnidad carta) {
-
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
-        }
-
-        seccion.agregarCarta(carta);
-    }
-
     public void agregarCartas(String clave, List<CartaUnidad> cartas) {
 
         Seccion seccion = secciones.get(clave);

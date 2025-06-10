@@ -27,7 +27,7 @@ public class Espias implements Modificador {
         Seccion seccionContraria = contextoModificador.getTablero().getSeccion(seccion + String.valueOf(contextoModificador.getJugador() == 0 ? 1 : 0));
 
         CartaUnidad cartaAgregar = contextoModificador.getTablero().removerCarta(seccion + String.valueOf(contextoModificador.getJugador()), contextoModificador.getCarta());
-        seccionContraria.agregarCarta(cartaAgregar);
+        seccionContraria.agregarCartas(java.util.Collections.singletonList(cartaAgregar));
 
         try{
             contextoModificador.getJugadorClase().agregarCartasAMano(2);

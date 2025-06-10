@@ -83,7 +83,8 @@ public class Juego {
                 // Cartas especiales aún no implementadas :b
             } else {
                 CartaUnidad cartaUnidad = (CartaUnidad) carta;
-                tablero.agregarCarta(dondeJugarla + String.valueOf(jugadorID), cartaUnidad);
+                // Reemplaza agregarCarta por agregarCartas con una lista de una sola carta
+                tablero.agregarCartas(dondeJugarla + String.valueOf(jugadorID), java.util.Collections.singletonList(cartaUnidad));
                 cartaUnidad.aplicarModificador(contexto);
                 if (this.rondas[this.ciclos] == null) {
                     this.rondas[this.ciclos] = new Ronda();
