@@ -83,7 +83,6 @@ public class Juego {
     }
 
     //fase de juego
-    //PreCondicion: la seccion donde jugarla es correcta (asi puedo usar e instanciar el contexto)
     public void jugarCarta(int jugadorID, CartaUnidad carta, String dondeJugarla) {
         try {
                 Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, sinPuntajes[jugadorID], jugadores.get(jugadorID));
