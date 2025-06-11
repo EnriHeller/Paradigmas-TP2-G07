@@ -7,6 +7,10 @@ public class Medico implements Modificador {
 
     private Modificador modificador;
 
+    public Medico(Modificador modificador) {
+        this.modificador = modificador;
+    }
+
     @Override
     public String mostrarModificadores() {
         return modificador.mostrarModificadores() + " Medico";
