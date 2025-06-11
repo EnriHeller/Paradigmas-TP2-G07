@@ -74,7 +74,6 @@ public class Juego {
         } else{
             jugadorQueInicia = 0;
         }
-
     }
 
     public void aplicarEspecial(int jugadorID, Modificador cartaEspecial)  throws NoSePuedeEliminarClimaSiNoHayClima, TipoDeSeccionInvalidaError {

@@ -4,6 +4,7 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.principal.Contexto;
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 
 import java.util.List;
 
@@ -29,42 +30,9 @@ public class TierraArrasada implements Carta, Modificador {
     }
 
     @Override
-    public void modificar(Contexto contextoModificador) {
+    public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError{
         var tablero = contextoModificador.getTablero();
-        //String claveSeccion = contextoModificador.getSeccion();
-        try {
-            List<CartaUnidad> cartas = tablero.getCartas();
-            if (cartas.isEmpty()) return;
-
-            // Buscar el valor máximo entre cartas NO legendarias
-            int max = 0;
-
-            for (CartaUnidad carta : cartas) {
-                // Usar mostrarCarta() para detectar si tiene el modificador Legendaria
-                if (!carta.mostrarCarta().contains("Legendaria")) {
-                    int valor = carta.ValorActual();
-                    if (valor > max) max = valor;
-                }
-            }
-            if (max == 0) return; // No hay cartas no legendarias
-
-            // Identificar las cartas a eliminar (no legendarias y con valor == max)
-
-            List<CartaUnidad> aEliminar = new java.util.ArrayList<>();
-
-            for (CartaUnidad carta : cartas) {
-                if (!carta.mostrarCarta().contains("Legendaria") && carta.ValorActual() == max) {
-                    aEliminar.add(carta);
-                }
-            }
-
-            for (String claveSeccion : tablero.getSecciones().keySet()) {
-                tablero.removerCartas(claveSeccion, aEliminar);
-            }
-
-        } catch (Exception e) {
-            // Manejo simple: no hacer nada si hay error
-        }
+        tablero.removerCartasDeValorMaximo();
     }
 
 }

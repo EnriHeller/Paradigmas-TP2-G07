@@ -127,6 +127,40 @@ public class Tablero {
         return seccion.removerCartas(cartas);
     }
 
+    public void removerCartasDeValorMaximo() throws TipoDeSeccionInvalidaError{
+        int max = calcularValorMaximoEnTablero();
+        removerCartasDeValorN(max);
+    }
+
+    private void removerCartasDeValorN(int n) throws TipoDeSeccionInvalidaError {
+        for (String claveSeccion : getSecciones().keySet()) {
+            List<CartaUnidad> cartas = getCartasSeccion(claveSeccion);
+
+            // Usar removeIf sobre la lista de cartas de la sección
+            cartas.removeIf(carta ->
+                    carta.ValorActual() == n &&
+                            !carta.mostrarCarta().contains("Legendaria")
+            );
+        }
+    }
+
+    private int calcularValorMaximoEnTablero(){
+        List<CartaUnidad> cartas = getCartas();
+        if (cartas.isEmpty()) return 0;
+
+        // Buscar el valor máximo entre cartas NO legendarias
+        int max = 0;
+
+        for (CartaUnidad carta : cartas) {
+            // Usar mostrarCarta() para detectar si tiene el modificador Legendaria
+            if (!carta.mostrarCarta().contains("Legendaria")) {
+                int valor = carta.ValorActual();
+                if (valor > max) max = valor;
+            }
+        }
+        return max;
+    }
+    
     public void agregarCartas(String clave, List<CartaUnidad> cartas) {
 
         Seccion seccion = secciones.get(clave);

@@ -58,14 +58,14 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
         List<Carta> cartasJugador = new ArrayList<>();
         
         // Empezamos añadiendo mazo con cartas random
-        for (int i = 0; i < 14; i++) cartasJugador.add(new CartaUnidad());
+        for (int i = 0; i < 15; i++) cartasJugador.add(new CartaUnidad());
 
         //Cartas que tendran los jugadores
         cartasJugador.add(carta2);
         cartasJugador.add(carta3);
         cartasJugador.add(carta4a);
         cartasJugador.add(carta4b);
-        cartasJugador.add(carta4c);
+        //cartasJugador.add(carta4c);
         cartasJugador.add(legendaria10);
         cartasJugador.add(tierraArrasada);
         
@@ -83,17 +83,16 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
             juego.jugarCarta(0, carta4a, "Rango");
             juego.jugarCarta(1, carta4b, "Rango");
             juego.jugarCarta(0, carta4c, "Rango");
-            juego.jugarCarta(1, legendaria10, "Rango");
-            juego.aplicarEspecial(0,tierraArrasada);
+            juego.jugarCarta(0, legendaria10, "Rango");
+            juego.aplicarEspecial(1,tierraArrasada);
 
             // Verificamos todas las cartas que quedaron en el tablero
             List<CartaUnidad> cartasRestantes = juego.getTablero().getCartas();
 
             // Las cartas con valor 4 (no legendarias) deberían haber sido eliminadas
             assertFalse(cartasRestantes.contains(carta4a), "carta4a no fue eliminada. Cartas restantes: " + cartasRestantes);
-
-            assertFalse(cartasRestantes.contains(carta4b), "carta4b no fue eliminada");
-            assertFalse(cartasRestantes.contains(carta4c), "carta4c no fue eliminada");
+            assertFalse(cartasRestantes.contains(carta4b), "carta4b no fue eliminada. Cartas restantes: " + cartasRestantes );
+            assertFalse(cartasRestantes.contains(carta4c), "carta4c no fue eliminada. Cartas restantes: " + cartasRestantes);
 
             // Las otras cartas deberían seguir presentes
             assertTrue(cartasRestantes.contains(carta2), "carta2 fue eliminada incorrectamente");

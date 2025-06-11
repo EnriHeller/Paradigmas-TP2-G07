@@ -5,14 +5,12 @@ import edu.fiuba.algo3.modelo.principal.Contexto;
 
 public class Legendaria implements Modificador {
 
-    private Modificador modificador;
-
     public Legendaria(){
     }
 
     @Override
     public String mostrarModificadores() {
-        return modificador.mostrarModificadores() + " Legendaria" ;
+        return "Legendaria" ;
     }
 
     @Override
