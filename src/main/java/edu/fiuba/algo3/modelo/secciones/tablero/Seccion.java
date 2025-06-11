@@ -44,6 +44,10 @@ public class Seccion {
         return cartas;
     }
 
+    public void agregarCarta(CartaUnidad carta){
+        cartasActuales.add(carta);
+    }
+
     public void agregarCartas(List<CartaUnidad> cartas){
         cartasActuales.addAll(cartas);
     }

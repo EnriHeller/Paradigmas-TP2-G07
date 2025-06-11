@@ -97,19 +97,6 @@ public class Tablero {
         return seccion.contiene(carta);
     }
 
-    public List<CartaUnidad> cartasMasFuertesDelTablero(int cantidadCartas) {
-        List<CartaUnidad> cartasTotales = new ArrayList<>();
-
-        //Recorro todas las secciones para unirlas a una lista
-        for(Seccion seccion : secciones.values()) {
-            cartasTotales.addAll(seccion.getCartas());
-        }
-        //Ordeno las cartas de mayor a menor
-        Collections.sort(cartasTotales, (c1, c2) -> Integer.compare(c2.ValorActual(), c1.ValorActual()));
-
-        return cartasTotales.subList(0, cantidadCartas);
-    }
-
     public CartaUnidad removerCarta(String clave, CartaUnidad carta) {
         Seccion seccion = secciones.get(clave);
         if (seccion == null) {
@@ -159,6 +146,14 @@ public class Tablero {
             }
         }
         return max;
+    }
+
+    public void agregarCarta(String clave, CartaUnidad carta) {
+        Seccion seccion = secciones.get(clave);
+        if (seccion == null) {
+            throw new IllegalArgumentException("Clave inválida: " + clave);
+        }
+        seccion.agregarCarta(carta);
     }
     
     public void agregarCartas(String clave, List<CartaUnidad> cartas) {
