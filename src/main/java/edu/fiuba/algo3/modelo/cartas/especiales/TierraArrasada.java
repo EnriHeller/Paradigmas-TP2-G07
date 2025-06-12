@@ -10,23 +10,19 @@ import java.util.List;
 
 public class TierraArrasada implements Carta, Modificador {
 
-    private String nombre;
-    private Modificador modificador;
+    public TierraArrasada() {
 
-    public TierraArrasada(Modificador modificador, String nombre) {
-        this.modificador = modificador;
-        this.nombre = nombre;
     }
 
     public boolean esEspecial(){ return true;}
     @Override
     public String mostrarCarta(){
-        return (nombre + modificador.mostrarModificadores());
+        return "TierraArrasada";
     }
 
     @Override
     public String mostrarModificadores() {
-        return modificador.mostrarModificadores() + " TierraArrasada" ;
+        return "TierraArrasada" ;
     }
 
     @Override

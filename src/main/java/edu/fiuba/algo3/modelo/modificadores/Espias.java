@@ -21,10 +21,10 @@ public class Espias implements Modificador {
     }
 
     @Override
-    public void modificar(Contexto contextoModificador) {
+    public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError {
         String seccion = contextoModificador.getSeccion();
 
-        Seccion seccionContraria = contextoModificador.getTablero().getSeccion(seccion + String.valueOf(contextoModificador.getJugador() == 0 ? 1 : 0));
+        Seccion seccionContraria = contextoModificador.getTablero().seccion(seccion + String.valueOf(contextoModificador.getJugador() == 0 ? 1 : 0));
 
         CartaUnidad cartaAgregar = contextoModificador.getTablero().removerCarta(seccion + String.valueOf(contextoModificador.getJugador()), contextoModificador.getCarta());
         seccionContraria.agregarCartas(java.util.Collections.singletonList(cartaAgregar));

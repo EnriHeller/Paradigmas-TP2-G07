@@ -51,7 +51,7 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
         CartaUnidad legendaria10 = new CartaUnidad("Dragon", secciones, 10, new Legendaria());
 
         //Carta Tierra Arrazada
-        TierraArrasada tierraArrasada = new TierraArrasada(new Base(), "Pepe");
+        TierraArrasada tierraArrasada = new TierraArrasada();
 
 
         // 2. Añadimos cartas que va a usar

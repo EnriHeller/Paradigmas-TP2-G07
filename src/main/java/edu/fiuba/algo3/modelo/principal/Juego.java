@@ -16,8 +16,6 @@ import java.util.Scanner;
 public class Juego {
     private int ciclos;
     private Ronda[] rondas;
-    //private SeccionesJugador[] SeccionesJugador;
-    //private Secciones secciones;
     private List<Jugador> jugadores;
     private int moneda;
     private int jugadorQueInicia;

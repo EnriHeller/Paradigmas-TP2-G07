@@ -50,14 +50,6 @@ public class CartaUnidad implements Carta {
         }
     }
 
-    public int getPuntajeBase() {
-        return this.valorBase;
-    }
-
-    public List<String> puedeColocarse() {
-        return this.secciones;
-    }
-
     public String getNombre() {
         return this.nombre;
     }
@@ -105,11 +97,6 @@ public class CartaUnidad implements Carta {
 
     public boolean coincideSeccion(String seccion){
         return this.secciones.contains(seccion);
-    }
-
-    @Override
-    public String toString() {
-        return nombre + modificador.getClass().getSimpleName();
     }
 
 }

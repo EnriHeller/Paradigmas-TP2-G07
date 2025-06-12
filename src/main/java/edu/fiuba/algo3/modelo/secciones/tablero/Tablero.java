@@ -41,7 +41,7 @@ public class Tablero {
         return secciones.get(clave);
     }
 
-    private Seccion seccion(String clave) throws TipoDeSeccionInvalidaError{
+    public Seccion seccion(String clave) throws TipoDeSeccionInvalidaError{
         Seccion seccion = secciones.get(clave);
         if (seccion == null) {
             throw new IllegalArgumentException("Clave inválida: " + clave);
@@ -88,10 +88,6 @@ public class Tablero {
         return seccion.getCartas();
     }
 
-    public Map<String, Seccion> getSecciones() {
-        return secciones;
-}
-
     public boolean contiene(String clave, Carta carta) throws TipoDeSeccionInvalidaError{
         Seccion seccion = seccion(clave);
         return seccion.contiene(carta);
@@ -120,7 +116,7 @@ public class Tablero {
     }
 
     private void removerCartasDeValorN(int n) throws TipoDeSeccionInvalidaError {
-        for (String claveSeccion : getSecciones().keySet()) {
+        for (String claveSeccion : secciones.keySet()) {
             List<CartaUnidad> cartas = getCartasSeccion(claveSeccion);
 
             // Usar removeIf sobre la lista de cartas de la sección
