@@ -85,16 +85,14 @@ public class Juego {
     //fase de juego
     public void jugarCarta(int jugadorID, CartaUnidad carta, String dondeJugarla) {
         try {
-            Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, sinPuntajes[jugadorID], jugadores.get(jugadorID));
+                Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, sinPuntajes[jugadorID], jugadores.get(jugadorID));
 
-            CartaUnidad cartaUnidad = (CartaUnidad) carta;
-                // Reemplaza agregarCarta por agregarCartas con una lista de una sola carta
-                tablero.agregarCartas(dondeJugarla + String.valueOf(jugadorID), java.util.Collections.singletonList(cartaUnidad));
+                CartaUnidad cartaUnidad = (CartaUnidad) carta;
                 cartaUnidad.aplicarModificador(contexto);
+                tablero.agregarCarta(dondeJugarla + String.valueOf(jugadorID), cartaUnidad);
                 if (this.rondas[this.ciclos] == null) {
                     this.rondas[this.ciclos] = new Ronda();
                 }
-
                 rondas[ciclos].agregarPuntajeJugador(jugadorID, cartaUnidad.ValorActual());
 
         } catch (TipoDeSeccionInvalidaError e) {
@@ -273,7 +271,6 @@ public class Juego {
     public boolean juegoTerminado(){
         return false;
     }
-
 
     public void iniciarJuego(List<Object> opciones_j1, List<Object> opciones_j2){
         //inicializarMazos();

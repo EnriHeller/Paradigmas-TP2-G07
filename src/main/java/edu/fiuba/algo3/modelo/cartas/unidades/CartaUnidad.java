@@ -90,6 +90,9 @@ public class CartaUnidad implements Carta {
 
     }
 
+    public void agregarSeccion(String seccion) {
+        this.secciones.add(seccion);
+    }
 
     @Override
     public boolean esEspecial(){
