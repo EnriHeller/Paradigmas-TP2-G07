@@ -18,7 +18,7 @@ public class Medico implements Modificador {
 
     @Override
     public void modificar(Contexto contextoModificador) {
-        if (contextoModificador.getSinPuntaje().cartasRestantes("Descarte") == 0) throw new PilaDescarteNula();
+        if (contextoModificador.getseccionJugador().cartasRestantes("Descarte") == 0) throw new PilaDescarteNula();
 
     }
 
