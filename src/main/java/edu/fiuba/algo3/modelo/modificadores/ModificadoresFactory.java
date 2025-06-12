@@ -6,7 +6,7 @@ public class ModificadoresFactory {
             case "legendaria":
                 return new Legendaria();
             case "médico":
-                return new Medico();
+                return new Medico(siguienteModificador);
             case "ágil":
                 return new Agil(siguienteModificador);
             case "unidas":

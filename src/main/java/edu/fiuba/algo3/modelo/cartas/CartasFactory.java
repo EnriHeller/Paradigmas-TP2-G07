@@ -22,7 +22,7 @@ public class CartasFactory {
                 case "Tierra arrasada":
                     carta = new TierraArrasada(new Base(), nombre);
                 case "Morale boost":
-                    carta = new MoraleBoost(new Base(), nombre);
+                    //carta = new MoraleBoost(new Base(), nombre);
                 case "Clima":
                     carta = new CartaNevada();
             }
