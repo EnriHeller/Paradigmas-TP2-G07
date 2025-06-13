@@ -17,7 +17,7 @@
 
     Replace the line below by: <javafx-version>18.0.2</javafx-version>
     -->
-    <javafx-version>17.0.2</javafx-version>
+    <javafx-version>20.0.2</javafx-version>
     <pitest-plugin-version>1.17.3</pitest-plugin-version>
     <pitest-junit5-plugin-version>1.0.0</pitest-junit5-plugin-version>
     <main-class>edu.fiuba.algo3.Main</main-class>
@@ -33,7 +33,11 @@
       <artifactId>javafx-controls</artifactId>
       <version>${javafx-version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>${javafx-version}</version>
+    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
@@ -165,5 +169,23 @@
         </executions>
       </plugin>
     </plugins>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+
   </build>
+  <dependencyManagement>
+    <dependencies>
+        <!-- Aquí puedes agregar otros BOMs -->
+        <!-- JavaFX BOM -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx</artifactId>
+            <version>17</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
 </project>

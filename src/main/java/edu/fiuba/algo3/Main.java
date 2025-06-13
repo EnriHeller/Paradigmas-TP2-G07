@@ -1,9 +1,21 @@
 package edu.fiuba.algo3;
 
-import edu.fiuba.algo3.vistas.App;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 
-public class Main {
-    public static void main(String[] args) {
-        App.main(args);
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class Main extends Application {
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/fiuba/algo3/pantallaInicio.fxml"));
+        Scene escena = new Scene(loader.load(), 400, 300);
+
+        stage.setTitle("GWENT - Menú");
+        stage.setScene(escena);
+        stage.show();
     }
+
 }

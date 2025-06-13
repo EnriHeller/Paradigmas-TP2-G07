@@ -10,13 +10,13 @@ import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayCli
 import java.util.List;
 import java.util.ArrayList;
 
-public class CartaUnidad implements Carta {
+public class CartaUnidad implements Carta, Puntuable {
 
-    String nombre;
-    List<String> secciones;
+    private String nombre;
+    private List<String> secciones;
     private final int valorBase;
     private int valorActual;
-    Modificador modificador;
+    private Modificador modificador;
     //Constructores
     public CartaUnidad(String nombre,List<String> secciones, int valor, Modificador modificador) {
         this.nombre = nombre;
@@ -50,6 +50,14 @@ public class CartaUnidad implements Carta {
         }
     }
 
+    public int getPuntajeBase() {
+        return this.valorBase;
+    }
+
+    public List<String> puedeColocarse() {
+        return this.secciones;
+    }
+
     public String getNombre() {
         return this.nombre;
     }
@@ -73,7 +81,9 @@ public class CartaUnidad implements Carta {
 
     }
     public void multiplicarValor(int n) {
+
         this.valorActual = n * this.valorActual;
+
     }
 
     public void sumaValor( int aSumar) {
@@ -97,6 +107,10 @@ public class CartaUnidad implements Carta {
 
     public boolean coincideSeccion(String seccion){
         return this.secciones.contains(seccion);
+    }
+
+    public List<String> getSecciones(){
+        return this.secciones;
     }
 
     public void prepararContexto(Contexto contexto) {
