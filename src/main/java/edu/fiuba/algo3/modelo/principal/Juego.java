@@ -166,8 +166,9 @@ public class Juego {
                 Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, seccionesJugador[jugadorID], jugadores.get(jugadorID));
 
                 CartaUnidad cartaUnidad = (CartaUnidad) carta;
-                cartaUnidad.aplicarModificador(contexto);
+                cartaUnidad.prepararContexto(contexto);
                 tablero.agregarCarta(dondeJugarla + String.valueOf(jugadorID), cartaUnidad);
+                cartaUnidad.aplicarModificador(contexto);
                 if (this.rondas[this.ciclos] == null) {
                     this.rondas[this.ciclos] = new Ronda();
                 }
