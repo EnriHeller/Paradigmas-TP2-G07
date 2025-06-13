@@ -9,16 +9,16 @@ public class Contexto {
     private Tablero tablero;
     private String seccion;
     private CartaUnidad carta;
-    private SeccionesJugador sinPuntaje;
+    private SeccionesJugador seccionJugador;
     private int jugadorID;
     private Jugador jugador;
 
-    public Contexto(Tablero tablero, String seccion, CartaUnidad carta,  int jugadorID, SeccionesJugador sinPuntaje, Jugador jugador) {
+    public Contexto(Tablero tablero, String seccion, CartaUnidad carta,  int jugadorID, SeccionesJugador seccionJugador, Jugador jugador) {
         this.tablero = tablero;
         this.seccion = seccion;
         this.carta = carta;
         this.jugadorID = jugadorID;
-        this.sinPuntaje = sinPuntaje;
+        this.seccionJugador = seccionJugador;
         this.jugador = jugador;
     }
 
@@ -42,8 +42,8 @@ public class Contexto {
         return jugadorID;
     }
 
-    public SeccionesJugador getSinPuntaje(){
-        return sinPuntaje;
+    public SeccionesJugador getseccionJugador(){
+        return seccionJugador;
     }
 
     public Jugador getJugadorClase(){
