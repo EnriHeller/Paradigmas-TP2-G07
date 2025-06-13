@@ -99,4 +99,7 @@ public class CartaUnidad implements Carta {
         return this.secciones.contains(seccion);
     }
 
+    public void prepararContexto(Contexto contexto) {
+        modificador.prepararContexto(contexto);
+    }
 }

@@ -35,7 +35,6 @@ public class Test10EspiaSeJuegaEnRivalYaumentaMano {
         }
 
         Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
-
         juego.jugarCarta(0, new CartaUnidad("SpyBlack",secciones, 8 , spyBlack), "Rango");
 
         

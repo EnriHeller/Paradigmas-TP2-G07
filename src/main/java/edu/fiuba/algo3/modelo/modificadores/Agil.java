@@ -7,6 +7,10 @@ public class Agil implements Modificador {
 
     private final Modificador modificador;
 
+    //Supuesto: se puede jugar donde quiera el jugador, se quita la restriccion de la carta base.
+    public void prepararContexto(Contexto contextoModificador) {
+        contextoModificador.getCarta().agregarSeccion(contextoModificador.getSeccion());
+    }
 
     public Agil(Modificador modificador){
         this.modificador = modificador;
@@ -17,11 +21,8 @@ public class Agil implements Modificador {
         return modificador.mostrarModificadores() + " Agil" ;
     }
 
-    //Supuesto: se puede jugar donde quiera el jugador, se quita la restriccion de la carta base.
     @Override
     public void modificar(Contexto contextoModificador) {
-        CartaUnidad carta = contextoModificador.getCarta();
-        carta.agregarSeccion(contextoModificador.getSeccion());
     }
 
 
