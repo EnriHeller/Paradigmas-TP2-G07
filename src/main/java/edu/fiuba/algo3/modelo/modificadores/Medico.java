@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.modelo.modificadores;
 
 import edu.fiuba.algo3.modelo.principal.Contexto;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 
 public class Medico implements Modificador {
@@ -18,7 +19,8 @@ public class Medico implements Modificador {
 
     @Override
     public void modificar(Contexto contextoModificador) {
-        if (contextoModificador.getseccionJugador().cartasRestantes("Descarte") == 0) throw new PilaDescarteNula();
+        Jugador jugador = contextoModificador.getJugadorClase();
+        if (jugador.cartasRestantesEnSeccion("Descarte") == 0) throw new PilaDescarteNula();
 
     }
 

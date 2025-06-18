@@ -38,7 +38,7 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
                         org.junit.jupiter.api.Assertions.fail("No se esperaba TipoDeSeccionInvalidaError al obtener SeccionesJugador: " + e.getMessage());
                     }
                     if (seccionesJugador != null) {
-                        Contexto contexto = new Contexto(secciones, "Asedio", segundaCarta,  0, seccionesJugador, new Jugador());
+                        Contexto contexto = new Contexto(secciones, "Asedio", segundaCarta,  0, new Jugador());
                         secciones.agregarCartas("Asedio0", java.util.Collections.singletonList(segundaCarta));
                         try {
                             segundaCarta.aplicarModificador(contexto);

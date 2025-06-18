@@ -163,7 +163,7 @@ public class Juego {
 
     public void jugarCarta(int jugadorID, CartaUnidad carta, String dondeJugarla) {
         try {
-                Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, seccionesJugador[jugadorID], jugadores.get(jugadorID));
+                Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, jugadores.get(jugadorID));
 
                 CartaUnidad cartaUnidad = (CartaUnidad) carta;
                 cartaUnidad.prepararContexto(contexto);
@@ -181,7 +181,7 @@ public class Juego {
 
     public void aplicarEspecial(int jugadorID, Modificador cartaEspecial)  throws NoSePuedeEliminarClimaSiNoHayClima, TipoDeSeccionInvalidaError {
         CartaUnidad carta = new CartaUnidad();
-        Contexto contexto = new Contexto(this.tablero, "", (CartaUnidad) carta, jugadorID, seccionesJugador[jugadorID], jugadores.get(jugadorID));
+        Contexto contexto = new Contexto(this.tablero, "", (CartaUnidad) carta, jugadorID, jugadores.get(jugadorID));
         cartaEspecial.modificar(contexto);
     }
 
