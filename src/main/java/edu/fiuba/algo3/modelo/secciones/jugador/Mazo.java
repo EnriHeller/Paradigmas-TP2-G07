@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.modelo.secciones.jugador;
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public class Mazo {
-    private List<Carta> cartas;
+    private final List<Carta> cartas;
 
     public Mazo(List<Carta> cartas) {
 
@@ -24,21 +24,21 @@ public class Mazo {
         Collections.shuffle(this.cartas);
     }
 
-    public void recibirCartas(List<Carta> cartas) {
-        this.cartas.addAll(cartas);
+    public void recibirCarta(Carta carta) {
+        this.cartas.add(carta);
         mezclar();
     }
 
-    public List<Carta> repartirCarta(int n) throws NoSePuedeCumplirSolcitudDeCartas {
+    public List<Carta> repartirCarta(int n) throws NoSePuedeCumplirSolicitudDeCartas {
 
         if (n > cartas.size()) {
-            throw new NoSePuedeCumplirSolcitudDeCartas();
+            throw new NoSePuedeCumplirSolicitudDeCartas();
         }
 
         List<Carta> cartasRepartidas = new ArrayList<Carta>();
 
         for (int i = 0; i < n; i++) {
-            Carta cartaSacada = cartas.remove(cartas.size() -1);
+            Carta cartaSacada = cartas.removeLast();
             cartasRepartidas.add(cartaSacada);
         }
 

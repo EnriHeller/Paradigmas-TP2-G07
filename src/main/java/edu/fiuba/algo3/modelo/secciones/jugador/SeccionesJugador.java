@@ -37,10 +37,6 @@ public class SeccionesJugador {
         return seccion(clave).cartasRestantes();
     }
 
-    public Carta removerCarta(String clave, int index) {
-        return seccion(clave).removerCarta(index);
-    }
-
     public Carta removerCarta(String clave, Carta carta) {
         return seccion(clave).removerCarta(carta);
     }

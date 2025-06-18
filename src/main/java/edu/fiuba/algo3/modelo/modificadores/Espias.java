@@ -3,6 +3,7 @@ package edu.fiuba.algo3.modelo.modificadores;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 
@@ -31,7 +32,7 @@ public class Espias implements Modificador {
 
         try{
             contextoModificador.getJugadorClase().agregarCartasAMano(2);
-        }catch(TipoDeSeccionInvalidaError | NoSePuedeCumplirSolcitudDeCartas e){
+        }catch(TipoDeSeccionInvalidaError | NoSePuedeCumplirSolicitudDeCartas e){
 
         }
 

@@ -41,7 +41,7 @@ public class Test04JugadorJuegaCartaYTienePuntajeParcial {
             if (jugador != null) {
                 try {
                     jugador.agregarCartasAMano(1);
-                } catch (edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError | edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas e) {
+                } catch (edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError | edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas e) {
                     org.junit.jupiter.api.Assertions.fail("No se esperaba excepción checked al agregar cartas a la mano: " + e.getMessage());
                 } catch (Exception e) {
                     org.junit.jupiter.api.Assertions.fail("No se esperaba excepción al agregar cartas a la mano: " + e.getMessage());

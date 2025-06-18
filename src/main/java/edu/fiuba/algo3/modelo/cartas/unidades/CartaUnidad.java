@@ -116,4 +116,11 @@ public class CartaUnidad implements Carta, Puntuable {
     public void prepararContexto(Contexto contexto) {
         modificador.prepararContexto(contexto);
     }
+
+    @Override
+    public String toString() {
+        return "CartaUnidad{" +
+                "nombre='" + nombre + '\'' + ", modificador=" + modificador.getClass().getSimpleName() +
+                '}';
+    }
 }

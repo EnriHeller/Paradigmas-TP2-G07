@@ -1,16 +1,20 @@
 package edu.fiuba.algo3.modelo.principal;
+
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.jugador.Mano;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class Jugador {
     private String nombre;
     private Mazo mazo;
     private SeccionesJugador seccionesDelJugador;
+    private Mano mano;
+    private static int maxDescartable = 2;
+    private int cantidadDescartadas = 0;
 
     public Jugador() {
         this.nombre = "";
@@ -21,12 +25,17 @@ public class Jugador {
     public Jugador(String nombre, Mazo mazo) {
         this.nombre = nombre;
         this.mazo = mazo;
+        this.mano = null;
         this.seccionesDelJugador = null;
+
+        //this.mano = new Mano(mazo.repartirMano());
     }
 
     public Jugador(String nombre, Mazo mazo, SeccionesJugador instanciaDeSecciones) {
         this.nombre = nombre;
         this.mazo = mazo;
+        this.mano = null;
+
         this.seccionesDelJugador = instanciaDeSecciones;
     }
 
@@ -34,13 +43,20 @@ public class Jugador {
         return seccionesDelJugador.removerCarta("Mano", carta);
     }
     //Fase inicial y preparacion
-    public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolcitudDeCartas {
+
+    public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
         List<Carta> cartas = mazo.repartirCarta(n);
+
+
         seccionesDelJugador.agregarCartas("Mano", cartas);
     }
 
-    public void descartarCartas(List<Carta> unasCartas) {
-        mazo.recibirCartas(seccionesDelJugador.removerCartas("Mano", unasCartas));
+    public void descartarCarta(Carta carta) {
+        if (cantidadDescartadas == maxDescartable ) {
+            throw new CantidadMaximaDeDescarteAlcanzadaError("Alcanzaste el maximo de cartas que puedes cambiar ");
+        }
+        mazo.recibirCarta(carta);
+        cantidadDescartadas += 1;
     }
 
     public int cartasRestantesEnSeccion(String clave) {

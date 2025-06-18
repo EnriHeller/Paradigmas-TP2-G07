@@ -11,101 +11,55 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Juego {
     private int ciclos;
     private Ronda[] rondas;
     private List<Jugador> jugadores;
-    private int moneda;
-    private int jugadorQueInicia;
+    private Jugador jugadorQueInicia;
     private Tablero tablero;
     private SeccionesJugador[] seccionesJugador;
 
+    private static int minCartasEnMano = 10;
 
     //FASE INICIAL
-    public Juego(String nombreJugador1, String nombreJugador2, Mazo mazoDelJugador1, Mazo mazoDelJugador2) throws UnoDeLosMazosNoCumpleRequitos, TipoDeSeccionInvalidaError {
+    public Juego(Jugador j1, Jugador j2) throws UnoDeLosMazosNoCumpleRequitos, TipoDeSeccionInvalidaError {
         this.ciclos = 0;
+        this.jugadores = List.of(j1, j2);
         this.rondas = new Ronda[3];
+        this.jugadorQueInicia = null;
 
-        if (mazoDelJugador1.cantidadDeCartas() < 21 || mazoDelJugador2.cantidadDeCartas() < 21) {
-            throw new UnoDeLosMazosNoCumpleRequitos();
-        }
-
-        //Se instancia por primera vez al tablero. (A chequear si es necesario)
+        //Inicializamos tablero
+        Tablero.reiniciarInstancia();
         this.tablero = Tablero.getInstancia();
 
         //Referencia a las secciones jugador (A chequear si es necesario)
         this.seccionesJugador = new SeccionesJugador[2];
         seccionesJugador[0] = SeccionesJugador.seccionesDelJugador("0");
         seccionesJugador[1] = SeccionesJugador.seccionesDelJugador("1");
-
-        this.jugadores = new ArrayList<>();
-        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador1, seccionesJugador[0]));
-        jugadores.add(new Jugador(nombreJugador2, mazoDelJugador2, seccionesJugador[1]));
-
-        this.moneda = 0;
-        this.jugadorQueInicia = -1;
-    }
-
-    public Jugador iniciarJugador(int jugador){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("¿Cual es el nombre que quieres tener al jugar?\n");
-        String nombreInput = scanner.nextLine().trim();
-        String nombre;
-        if (nombreInput.equals("\n")) {
-            nombre = "Jugador" + String.valueOf(jugador);
-        } else{
-            nombre = nombreInput;
-        }
-
-        System.out.println("¿Tienes un mazo creado para jugar?\nSi es asi, por favor dar la ruta donde se encuentra");
-        String mazoInput = scanner.nextLine().trim();
-        Mazo mazo;
-        if (mazoInput.equals("\n")) {
-            mazo = new Mazo(new ArrayList<Carta>()); // crear el creador de mazo porfis
-        } else{
-            mazo = new Mazo(new ArrayList<Carta>()); // Simil, crear el creador de mazos
-        }
-
-        return new Jugador(nombre, mazo);
     }
 
     //FASE DE PREPARACIÓN
 
-    private void tirarMoneda(){
-        moneda = Math.random() < 0.5 ? -1 : 1;
-
-        if (moneda == -1){
-            jugadorQueInicia = 1;
-        } else{
-            jugadorQueInicia = 0;
-        }
+    public void tirarMoneda(){
+        this.jugadorQueInicia = new Random().nextInt(2) == 0 ? jugadores.get(0) : jugadores.get(1);
     }
 
-    public boolean iniciarFasePreparacion() throws TipoDeSeccionInvalidaError{
-        repartirCartasAlJugador(1);
-        repartirCartasAlJugador(2);
-        boolean seRepartio = seLogroRepartirCartasDelMazoALosJugadores();
-        return seRepartio;
+
+    public void descartarCartaDeMano(Jugador jugador, Carta carta) {
+        jugador.descartarCarta(carta);
     }
 
-    public void repartirCartasAlJugador(int jugador) throws TipoDeSeccionInvalidaError {
-        int minCartasAMano = 10;
-        Jugador jugadorElegido = jugadores.get(jugador);
-        try {
-            jugadorElegido.agregarCartasAMano(minCartasAMano);
-        } catch (NoSePuedeCumplirSolcitudDeCartas e) {
-            throw new RuntimeException(e);
-        }
+    public void repartirCartasAlJugador(Jugador jugador) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
+        jugador.agregarCartasAMano(minCartasEnMano);
     }
 
-    public void darMano(int jugadorID, int cantidadDeCartas) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolcitudDeCartas {
+
+
+    public void darMano(int jugadorID, int cantidadDeCartas) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
         jugadores.get(jugadorID).agregarCartasAMano(cantidadDeCartas);
-    }
-
-    public void descartarCartasDeMano(int jugadorID, List<Carta> cartasQueSeQuierenDescartar) {
-        jugadores.get(jugadorID).descartarCartas(cartasQueSeQuierenDescartar);
     }
 
 

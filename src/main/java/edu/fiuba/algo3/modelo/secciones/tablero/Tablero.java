@@ -29,6 +29,10 @@ public class Tablero {
         return instancia;
     }
 
+    public static void reiniciarInstancia() {
+        instancia = null;
+    }
+
     public int getPuntaje(String clave) {
         Seccion seccion = secciones.get(clave);
         if (seccion == null) {

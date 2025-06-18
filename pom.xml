@@ -6,22 +6,17 @@
   <version>0.0.1</version>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>21</maven.compiler.source> <!-- Cambiado a 21 -->
+    <maven.compiler.target>21</maven.compiler.target> <!-- Cambiado a 21 -->
     <junit.jupiter.version>5.4.0</junit.jupiter.version>
     <mockito-mockito-core-version>3.3.0</mockito-mockito-core-version>
     <maven-surefire-version>3.0.0-M3</maven-surefire-version>
     <archunit-version>0.21.0</archunit-version>
-    <!--
-    Therefore, we are very proud to announce the availability of JavaFX 17-ea+8 for MacOS AArch64, also known as the Apple M1. You can now download the JavaFX SDK for this platform from our JavaFX Download Page. Ref.: https://gluonhq.com/javafx-for-apple-m1/
-
-    Replace the line below by: <javafx-version>18.0.2</javafx-version>
-    -->
-    <javafx-version>20.0.2</javafx-version>
+    <javafx-version>20.0.2</javafx-version> <!-- Compatible con Java 21 -->
     <pitest-plugin-version>1.17.3</pitest-plugin-version>
     <pitest-junit5-plugin-version>1.0.0</pitest-junit5-plugin-version>
     <main-class>edu.fiuba.algo3.Main</main-class>
-  </properties>
+</properties>
   <dependencies>
     <dependency>
       <groupId>com.googlecode.json-simple</groupId>
@@ -107,7 +102,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.0</version>
         <configuration>
-          <release>11</release>
+          <release>21</release> <!-- Cambiado a 21 -->
         </configuration>
       </plugin>
       <plugin>
