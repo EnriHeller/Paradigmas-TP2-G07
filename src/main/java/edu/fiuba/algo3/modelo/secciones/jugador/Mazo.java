@@ -29,20 +29,22 @@ public class Mazo {
         mezclar();
     }
 
-    public List<Carta> repartirCarta(int n) throws NoSePuedeCumplirSolicitudDeCartas {
+    public void repartirCartas(int n, Mano mano) throws NoSePuedeCumplirSolicitudDeCartas {
 
         if (n > cartas.size()) {
             throw new NoSePuedeCumplirSolicitudDeCartas();
         }
 
-        List<Carta> cartasRepartidas = new ArrayList<Carta>();
+        List<Carta> cartasARepartir = new ArrayList<Carta>();
 
         for (int i = 0; i < n; i++) {
             Carta cartaSacada = cartas.removeLast();
-            cartasRepartidas.add(cartaSacada);
+            cartasARepartir.add(cartaSacada);
         }
 
-        return cartasRepartidas;
+        mano.agregarCartas(cartasARepartir);
+
+        //return cartasRepartidas;
     }
 
 }

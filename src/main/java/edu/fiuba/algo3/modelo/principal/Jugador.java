@@ -45,7 +45,7 @@ public class Jugador {
     //Fase inicial y preparacion
 
     public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
-        List<Carta> cartas = mazo.repartirCarta(n);
+        List<Carta> cartas = mazo.repartirCarta(n, this.mano);
 
 
         seccionesDelJugador.agregarCartas("Mano", cartas);
