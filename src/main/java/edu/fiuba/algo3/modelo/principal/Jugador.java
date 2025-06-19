@@ -47,9 +47,14 @@ public class Jugador {
         return seccionesDelJugador.cartasRestantes(clave);
     }
 
-    public Carta removerCartaDeSeccion(String clave, int index) {
-        return seccionesDelJugador.removerCarta(clave, index);
+    public Carta removerCartaDeSeccion(String clave, Carta carta) {
+        return seccionesDelJugador.removerCarta(clave, carta);
     }
+
+    public String nombre() {
+        return nombre;
+    }
+
     public void agregarCartasAlDescarte(List<Carta> cartas) {
         seccionesDelJugador.agregarCartas("Descarte", cartas);
     }

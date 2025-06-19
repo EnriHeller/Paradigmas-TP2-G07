@@ -29,7 +29,7 @@ public class SumaValorBase implements Modificador{
         } catch (NoSePuedeEliminarClimaSiNoHayClima | TipoDeSeccionInvalidaError ignored) {
         }
 
-        Seccion seccion = contextoModificador.getTablero().seccion(contextoModificador.getSeccion());
+        Seccion seccion = contextoModificador.getTablero().seccion(contextoModificador.getSeccion() + String.valueOf(contextoModificador.getJugador()));
 
         List<CartaUnidad> cartas = seccion.getCartasActuales();
 

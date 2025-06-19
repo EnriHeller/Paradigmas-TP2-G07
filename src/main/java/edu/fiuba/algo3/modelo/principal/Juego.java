@@ -121,13 +121,10 @@ public class Juego {
         if (this.rondas[this.ciclos] == null) {
             this.rondas[this.ciclos] = new Ronda();
         }
-        rondas[ciclos].agregarPuntajeJugador(jugadorID, cartaUnidad.ValorActual());
+        rondas[ciclos].agregarPuntajeJugador(jugadores.get(jugadorID).nombre(), cartaUnidad.ValorActual());
     }
 
     public void finalizarRonda(){
-        if (this.ciclos >= 2){
-            rondas[this.ciclos].getGanadorRonda();
-        }
 
         List<CartaUnidad> cartasDel1 = this.tablero.removerCartasDeJugador(0);
         List<CartaUnidad> cartasDel2 = this.tablero.removerCartasDeJugador(0);
@@ -144,6 +141,8 @@ public class Juego {
 
         jugadores.get(0).agregarCartasAlDescarte(new ArrayList<>(cartasDel1));
         jugadores.get(1).agregarCartasAlDescarte(new ArrayList<>(cartasDel2));
+
+        ciclos++;
 
     }
 
@@ -227,7 +226,7 @@ public class Juego {
     //VERIFICACIONES
 
     public int puntajeEnSeccion(String nombreSeccion) throws TipoDeSeccionInvalidaError {
-        return Tablero.getInstancia().getPuntaje(nombreSeccion);
+        return tablero.getPuntaje(nombreSeccion);
     }
 
     public int cartasRestantesJugador(String seccionJugador,int jugador_i) throws TipoDeSeccionInvalidaError {
@@ -240,16 +239,20 @@ public class Juego {
         int contadorJ1 = 0;
         int contadorJ2 = 0;
 
+        String nombreJugador1 = jugadores.get(0).nombre();
+        String nombreJugador2 = jugadores.get(1).nombre();
+
         for (Ronda ronda : rondas) {
             String ganadorRonda = ronda.getGanadorRonda();
-            if (ganadorRonda.equals("Jugador 1")) {
+
+            if (ganadorRonda.equals(nombreJugador1)) {
                 contadorJ1++;
-            } else if (ganadorRonda.equals("Jugador 2")) {
+            } else if (ganadorRonda.equals(nombreJugador2)) {
                 contadorJ2++;
             }
         }
 
-        return contadorJ1 > contadorJ2 ? "Jugador 1" : "Jugador 2";
+        return contadorJ1 > contadorJ2 ? nombreJugador1 : nombreJugador2;
     }
 
     public boolean juegoTerminado(){

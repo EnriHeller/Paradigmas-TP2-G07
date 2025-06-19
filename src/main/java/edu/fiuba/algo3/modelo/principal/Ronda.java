@@ -1,24 +1,41 @@
 package edu.fiuba.algo3.modelo.principal;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Ronda {
     private String ganadorRonda;
-    private final int[] puntajeJugadores;
+    private final Map<String, Integer> puntajeJugadores;
 
-    public Ronda(){
+    public Ronda() {
         this.ganadorRonda = "";
-        this.puntajeJugadores = new int[2];
+        this.puntajeJugadores = new HashMap<>();
     }
 
-    public void agregarPuntajeJugador(int jugadorIndex, int puntajeCarta){
-        this.puntajeJugadores[jugadorIndex] += puntajeCarta;
+    public void agregarPuntajeJugador(String nombreJugador, int puntajeCarta) {
+        puntajeJugadores.put(nombreJugador,
+                puntajeJugadores.getOrDefault(nombreJugador, 0) + puntajeCarta);
     }
 
-    private void ganadorRonda(){
-        this.ganadorRonda = "Jugador" + String.valueOf((puntajeJugadores[0] >= puntajeJugadores[1]) ? 0 : 1);
+    private void calcularGanadorRonda() {
+        if (puntajeJugadores.size() < 2) {
+            ganadorRonda = "Empate";
+            return;
+        }
+
+        String[] jugadores = puntajeJugadores.keySet().toArray(new String[0]);
+        int puntaje1 = puntajeJugadores.get(jugadores[0]);
+        int puntaje2 = puntajeJugadores.get(jugadores[1]);
+
+        if (puntaje1 == puntaje2) {
+            ganadorRonda = "Empate";
+        } else {
+            ganadorRonda = (puntaje1 > puntaje2) ? jugadores[0] : jugadores[1];
+        }
     }
 
     public String getGanadorRonda() {
-        ganadorRonda();
+        calcularGanadorRonda();
         return ganadorRonda;
     }
 
