@@ -30,6 +30,11 @@ public class Medico implements Modificador {
         Jugador jugador = contextoModificador.getJugadorClase();
         if (jugador.cartasRestantesEnSeccion("Descarte") == 0) throw new PilaDescarteNula();
 
+        Jugador jugador = contextoModificador.getJugadorClase();
+
+        CartaUnidad cartaDescartada = jugador.removerUltimaCartaDeDescarte();
+
+        jugador.jugarCarta(cartaDescartada);
     }
 
     @Override
