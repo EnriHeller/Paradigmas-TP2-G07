@@ -110,18 +110,23 @@ public class Juego {
 
 
     //FASE DE JUEGO
-    public void jugarCarta(int jugadorID, CartaUnidad carta, String dondeJugarla) {
-        Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, jugadores.get(jugadorID));
+    public void jugarCarta(int jugadorID, Carta carta, String dondeJugarla) {
+        if (carta.esEspecial()){
+            Contexto contexto = new Contexto(this.tablero, dondeJugarla, new CartaUnidad(), jugadorID, jugadores.get(jugadorID));
+            carta.aplicarModificador(contexto);
+        } else{
+            Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, jugadores.get(jugadorID));
 
-        CartaUnidad cartaUnidad = (CartaUnidad) carta;
-        cartaUnidad.prepararContexto(contexto);
-        tablero.agregarCarta(dondeJugarla + String.valueOf(jugadorID), cartaUnidad);
-        cartaUnidad.aplicarModificador(contexto);
-        tablero.afectarClimas();
-        if (this.rondas[this.ciclos] == null) {
-            this.rondas[this.ciclos] = new Ronda();
+            CartaUnidad cartaUnidad = (CartaUnidad) carta;
+            cartaUnidad.prepararContexto(contexto);
+            tablero.agregarCarta(dondeJugarla + String.valueOf(jugadorID), cartaUnidad);
+            cartaUnidad.aplicarModificador(contexto);
+            tablero.afectarClimas();
+            if (this.rondas[this.ciclos] == null) {
+                this.rondas[this.ciclos] = new Ronda();
+            }
+            rondas[ciclos].agregarPuntajeJugador(jugadores.get(jugadorID).nombre(), cartaUnidad.ValorActual());
         }
-        rondas[ciclos].agregarPuntajeJugador(jugadores.get(jugadorID).nombre(), cartaUnidad.ValorActual());
     }
 
     public void finalizarRonda(){
@@ -235,7 +240,7 @@ public class Juego {
     }
 
     public String mostrarGanador(){
-        String ganador = "";
+        String ganador = "empate";
         int contadorJ1 = 0;
         int contadorJ2 = 0;
 
@@ -243,6 +248,7 @@ public class Juego {
         String nombreJugador2 = jugadores.get(1).nombre();
 
         for (Ronda ronda : rondas) {
+            if (ronda == null) continue;
             String ganadorRonda = ronda.getGanadorRonda();
 
             if (ganadorRonda.equals(nombreJugador1)) {
@@ -252,10 +258,21 @@ public class Juego {
             }
         }
 
-        return contadorJ1 > contadorJ2 ? nombreJugador1 : nombreJugador2;
+        if (contadorJ1 > contadorJ2) {
+            ganador = nombreJugador1;
+        } else if (contadorJ2 > contadorJ1) {
+            ganador = nombreJugador2;
+        }
+
+        return ganador;
     }
 
     public boolean juegoTerminado(){
+        if (ciclos < 2){
+            return false;
+        } else if(!(mostrarGanador().equals("empate"))){
+            return true;
+        }
         return false;
     }
 

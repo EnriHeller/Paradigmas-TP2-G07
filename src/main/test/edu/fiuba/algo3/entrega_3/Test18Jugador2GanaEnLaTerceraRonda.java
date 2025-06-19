@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class Test13Jugador1Gana {
+public class Test18Jugador2GanaEnLaTerceraRonda {
 
     @Test
-    public void Test13Jugador1Gana() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos {
+    public void Test18Jugador2GanaEnLaTerceraRonda() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos {
         Base base = new Base();
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
         ArrayList<String> secciones = new ArrayList<String>();
@@ -31,20 +31,23 @@ public class Test13Jugador1Gana {
         juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.finalizarRonda();
+
+        assertFalse(juego.juegoTerminado());
+
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
-        juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
-        juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
-        juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+        juego.finalizarRonda();
+
+        assertFalse(juego.juegoTerminado());
+
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.finalizarRonda();
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
-        juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
-        juego.finalizarRonda();
-        assertEquals("JugadorTest1", juego.mostrarGanador(), "Gano el jugador incorrecto.\nSe esperaba: " + "JugadorTest1" + " y se obtuvo " + juego.mostrarGanador());
+
+        assertTrue(juego.juegoTerminado());
+        assertEquals("JugadorTest2", juego.mostrarGanador(), "Gano el jugador incorrecto.\nSe esperaba: " + "JugadorTest2" + " y se obtuvo " + juego.mostrarGanador());
     }
 }
