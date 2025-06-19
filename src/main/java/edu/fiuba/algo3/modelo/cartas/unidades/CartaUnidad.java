@@ -128,4 +128,8 @@ public class CartaUnidad implements Carta {
                 "nombre='" + nombre + '\'' + ", modificador=" + modificador.getClass().getSimpleName() +
                 '}';
     }
+
+    public String getModificadores() {
+        return modificador.mostrarModificadores() + " Base" ;
+    } // para construir la carta visual
 }

@@ -10,18 +10,18 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 public class DestructoraDeClima implements Carta, Modificador {
 
     @Override
-    public  boolean esEspecial(){
+    public boolean esEspecial() {
         return true;
     }
 
     @Override
-    public String mostrarCarta() {
-        return "DestructorDeClima";
+    public String getNombre() {
+        return "DestructoraDeClima";
     }
 
     @Override
-    public String mostrarModificadores(){
-        return "DestructorDeClima";
+    public String mostrarModificadores() {
+        return "DestructoraDeClima";
     }
 
     @Override

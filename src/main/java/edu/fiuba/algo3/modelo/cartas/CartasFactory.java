@@ -20,11 +20,17 @@ public class CartasFactory {
         } else if (tipo.equals("e")) {
             switch (tipoEspecial) {
                 case "Tierra arrasada":
-                    carta = new TierraArrasada();
+                    carta = new TierraArrasada(nombre, descripcion, seccionesOAfectados);
+                    break;
                 case "Morale boost":
-                    //carta = new MoraleBoost(new Base(), nombre);
+                    // carta = new MoraleBoost(new Base(), nombre);
+                    break;
                 case "Clima":
-                    carta = new CartaNevada();
+                    carta = new CartaNevada(nombre, descripcion, seccionesOAfectados);
+                    break;
+                default:
+                    // Si no coincide ningún tipo especial, podrías lanzar una excepción o dejar carta en null
+                    break;
             }
         }
         return carta;

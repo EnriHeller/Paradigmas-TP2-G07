@@ -7,11 +7,18 @@ import edu.fiuba.algo3.modelo.Errores.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.Errores.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.*;
 import java.util.List;
-public class CartaNevada implements CartaClimatica, Carta, Modificador {
-    
+public class CartaNevada implements CartaClimatica, Carta, Modificador, CartaEspecial {
 
-    public CartaNevada(){
+    private final String nombre;
+    private final String descripcion;
+    private final String tipo;
+    private final List<String> afectado;
 
+    public CartaNevada(String nombre, String descripcion, List<String> afectado) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipo = "Nevada";
+        this.afectado = afectado;
     }
 
     @Override
@@ -19,10 +26,6 @@ public class CartaNevada implements CartaClimatica, Carta, Modificador {
         return true;
     }
 
-    @Override
-    public String mostrarCarta(){
-        return "Nevada";
-    }
 
     @Override
     public Clima crearClima() {
@@ -45,4 +48,19 @@ public class CartaNevada implements CartaClimatica, Carta, Modificador {
         }
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public List<String> getAfectado() {
+        return afectado;
+    }
 }

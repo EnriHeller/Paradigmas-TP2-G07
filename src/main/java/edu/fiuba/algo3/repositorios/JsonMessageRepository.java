@@ -2,7 +2,7 @@ package edu.fiuba.algo3.repositorios;
 
 import edu.fiuba.algo3.modelo.Message;
 import edu.fiuba.algo3.modelo.MessageRepository;
-import edu.fiuba.algo3.modelo.MessagesFileInvalid;
+import edu.fiuba.algo3.modelo.errores.MessagesFileInvalid;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

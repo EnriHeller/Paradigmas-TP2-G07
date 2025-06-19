@@ -44,7 +44,7 @@ public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespo
         
         ArrayList<Carta> cartasMano = new ArrayList<>();
 
-        CartaNevada cartaEspecialClima = new CartaNevada();
+        CartaNevada cartaEspecialClima = new CartaNevada("Nevada", "Reduce el valor de las cartas a 1", secciones);
         Clima climaNevado = cartaEspecialClima.crearClima();
 
         CartaUnidad primeraCartaPuntajeUno = new CartaUnidad("CartaTest1",secciones, 3);
