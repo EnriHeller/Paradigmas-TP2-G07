@@ -1,9 +1,10 @@
 package edu.fiuba.algo3.modelo.secciones.tablero;
 
 import edu.fiuba.algo3.modelo.cartas.especiales.SinClima;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.Errores.NoSePuedeEliminarClimaSiNoHayClima;
+import edu.fiuba.algo3.modelo.Errores.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.Errores.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.cartas.especiales.Clima;
 

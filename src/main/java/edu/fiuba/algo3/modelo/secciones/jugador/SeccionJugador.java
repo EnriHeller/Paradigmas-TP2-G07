@@ -1,52 +1,48 @@
 package edu.fiuba.algo3.modelo.secciones.jugador;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.Errores.CartaNoEncontradaError;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeccionJugador {
-
-    private List<Carta> cartasEnMano;
+public abstract class SeccionJugador {
+    protected List<Carta> cartas;
 
     public SeccionJugador() {
-        this.cartasEnMano = new ArrayList<>();
+        this.cartas = new ArrayList<>();
     }
 
-    public int cartasRestantes(){
-        return this.cartasEnMano.size();
-    }
-
-    //Intentar remover este mensaje
-    public Carta removerCarta(int indice) {
-
-        return cartasEnMano.remove(indice);
+    public int cartasRestantes() {
+        return cartas.size();
     }
 
     public Carta removerCarta(Carta carta) {
-        for (int i = 0; i < cartasEnMano.size(); i++) {
-            if (cartasEnMano.get(i).equals(carta)) {
-                return cartasEnMano.remove(i);
-            }
-        }
-        throw new IllegalArgumentException("La carta no está en la mano");
+        int i = cartas.indexOf(carta);
+        if (i == -1) throw new CartaNoEncontradaError("La carta no está en la sección");
+        return cartas.remove(i);
     }
 
-    public List<Carta>  removerCartas(List<Carta> cartas) {
-        for (Carta carta : cartas) {
+    public Carta removerCarta(int indice) {
+        return cartas.remove(indice);
+    }
+
+    public List<Carta> removerCartas(List<Carta> cartasARemover) {
+        for (Carta carta : cartasARemover) {
             removerCarta(carta);
         }
-        return cartas;
+        return cartasARemover;
     }
 
     public void agregarCarta(Carta carta) {
-        cartasEnMano.add(carta);
+        cartas.add(carta);
     }
 
-    public void agregarCartas(List<Carta> cartas){
-
-        cartasEnMano.addAll(cartas);
-
+    public void agregarCartas(List<Carta> cartasNuevas) {
+        cartas.addAll(cartasNuevas);
     }
 
+    public List<Carta> obtenerCartas() {
+        return cartas;
+    }
 }

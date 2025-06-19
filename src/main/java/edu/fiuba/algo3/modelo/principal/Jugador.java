@@ -1,78 +1,95 @@
 package edu.fiuba.algo3.modelo.principal;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.Errores.*;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mano;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
+import edu.fiuba.algo3.modelo.secciones.jugador.PilaDescarte;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionJugador;
 
 import java.util.List;
 
 public class Jugador {
+    private int minCartasEnMazo = 21;
+    private int minCartasEnMano = 10;
+
     private String nombre;
     private Mazo mazo;
-    private SeccionesJugador seccionesDelJugador;
     private Mano mano;
-    private static int maxDescartable = 2;
-    private int cantidadDescartadas = 0;
+    private PilaDescarte pilaDescarte;
+    //private SeccionesJugador seccionesDelJugador;
 
-    public Jugador() {
-        this.nombre = "";
-        this.mazo = null;
-        this.seccionesDelJugador = null;
-    }
-
-    public Jugador(String nombre, Mazo mazo) {
+    public Jugador(String nombre) {
         this.nombre = nombre;
+        this.mano = new Mano();
+        this.pilaDescarte = new PilaDescarte();
+    }
+
+    //Fase Inicial
+    public void agregarMazo(Mazo mazo) throws NoSePuedeCumplirSolicitudDeCartas {
+        if (!HayCartasSuficientesEnMazo(mazo)){
+            throw new NoSePuedeCumplirSolicitudDeCartas();
+        }
         this.mazo = mazo;
-        this.mano = null;
-        this.seccionesDelJugador = null;
-
-        //this.mano = new Mano(mazo.repartirMano());
     }
-
-    public Jugador(String nombre, Mazo mazo, SeccionesJugador instanciaDeSecciones) {
-        this.nombre = nombre;
-        this.mazo = mazo;
-        this.mano = null;
-
-        this.seccionesDelJugador = instanciaDeSecciones;
-    }
-
-    public Carta jugarCarta(Carta carta) {
-        return seccionesDelJugador.removerCarta("Mano", carta);
-    }
-    //Fase inicial y preparacion
 
     public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
-        List<Carta> cartas = mazo.repartirCarta(n, this.mano);
+        mazo.repartirCartas(n, mano);
 
-
-        seccionesDelJugador.agregarCartas("Mano", cartas);
-    }
-
-    public void descartarCarta(Carta carta) {
-        if (cantidadDescartadas == maxDescartable ) {
-            throw new CantidadMaximaDeDescarteAlcanzadaError("Alcanzaste el maximo de cartas que puedes cambiar ");
+        if(!TengoCartasSuficientesEnMano()){
+            throw new NoSePuedeCumplirSolicitudDeCartas();
         }
-        mazo.recibirCarta(carta);
-        cantidadDescartadas += 1;
     }
 
-    public int cartasRestantesEnSeccion(String clave) {
-        return seccionesDelJugador.cartasRestantes(clave);
+    //Interacción con secciones generales
+    private int cartasRestantes(SeccionJugador seccion) {
+        return seccion.cartasRestantes();
     }
 
-    public Carta removerCartaDeSeccion(String clave, int index) {
-        return seccionesDelJugador.removerCarta(clave, index);
-    }
-    public void agregarCartasAlDescarte(List<Carta> cartas) {
-        seccionesDelJugador.agregarCartas("Descarte", cartas);
+    private Carta removerCarta(SeccionJugador seccion, Carta carta) {
+        return seccion.removerCarta(carta);
     }
 
-        // Método para tests: jugar carta por índice sin interacción (deben DESAPARECER en lo posible)
-
-    public int cartasRestantes() {
-        return mazo.cantidadDeCartas();
+    private void agregarCartas(SeccionJugador seccion, List<Carta> cartas) {
+        seccion.agregarCartas(cartas);
     }
+
+    //INTERACCION USUARIO - SECCIONES DE USUARIO
+
+    public boolean HayCartasSuficientesEnMazo(Mazo m){
+        return cartasRestantes(m) >= minCartasEnMazo;
+    }
+
+    //GETTERS
+    public String getNombre() {
+        return nombre;
+    }
+
+
+    //Fase de juego
+
+    public Carta jugarCarta(Carta carta) {
+        return mano.removerCarta( carta);
+    }
+
+    // Métodos de alto nivel para cumplir Demeter
+    public void RemoverCartaDeMano(Carta carta) {
+        mano.removerCarta(carta);
+    }
+
+    public List<Carta> cartasEnMano() {
+        return mano.obtenerCartas();
+    }
+
+    public void DescartarCarta(Carta carta) {
+        pilaDescarte.agregarCarta(carta);
+    }
+
+    //Validaciones
+
+    public boolean TengoCartasSuficientesEnMano(){
+        return mano.cartasRestantes() >= minCartasEnMano;
+    }
+
+
 }

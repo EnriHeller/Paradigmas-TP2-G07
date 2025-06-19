@@ -1,10 +1,10 @@
 package edu.fiuba.algo3.modelo.cartas.especiales;
 
+import edu.fiuba.algo3.modelo.Errores.*;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.principal.Contexto;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package edu.fiuba.algo3.modelo.principal;
+package edu.fiuba.algo3.controller;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,7 +30,9 @@ public class ConstructorMazo {
         this.cartasFactory = cartasFactory;
         this.analizadorJson = analizador;
     }
+
     public Mazo personalizarMazo(String rutaCartasUnidad, String rutaCartasEspeciales) throws IOException {
+        
         List<Carta> cartas = new ArrayList<>();
 
         try {

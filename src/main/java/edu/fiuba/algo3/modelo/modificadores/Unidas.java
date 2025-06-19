@@ -1,10 +1,10 @@
 package edu.fiuba.algo3.modelo.modificadores;
 
+import edu.fiuba.algo3.modelo.Errores.NoEsLaMismaUnidad;
+import edu.fiuba.algo3.modelo.Errores.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.Errores.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.cartas.unidades.NoEsLaMismaUnidad;
 import edu.fiuba.algo3.modelo.principal.Contexto;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.List;
@@ -32,7 +32,6 @@ public class Unidas implements Modificador {
         List<CartaUnidad> cartasDeSeccion = tablero.getCartasSeccion(contextoModificador.getSeccion() + String.valueOf(contextoModificador.getJugador()));
         String nombreCarta = contextoModificador.getCarta().getNombre();
         modificarComportamientoDeCartas(nombreCarta, cartasDeSeccion);
-
     }
 
     public void modificarComportamientoDeCartas(String nombreCarta,List<CartaUnidad> cartas) {
@@ -47,7 +46,7 @@ public class Unidas implements Modificador {
                     try{
                         carta.multiplicarValor(nombreCarta, cantidadUnidas);
                     } catch (NoEsLaMismaUnidad ignored){
-
+                        // Manejo centralizado del error
                     }
                 }
             }
