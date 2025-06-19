@@ -1,34 +1,21 @@
 package edu.fiuba.algo3;
 
-import edu.fiuba.algo3.modelo.principal.Tablero;
-import edu.fiuba.algo3.vistas.App;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 
-import edu.fiuba.algo3.modelo.jugador.Jugador;
-import edu.fiuba.algo3.modelo.principal.ConstructorMazo;
-import edu.fiuba.algo3.modelo.principal.Juego;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application {
 
-    public static void main(String[] args) {
+    @Override
+    public void start(Stage stage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/fiuba/algo3/pantallaInicio.fxml"));
+        Scene escena = new Scene(loader.load(), 400, 300);
 
-        Tablero tablero = new Tablero();
-        // Construir los mazos para cada jugador
-        ConstructorMazo constructorMazo = new ConstructorMazo();
-        Jugador jugador1 = new Jugador("pepito", constructorMazo.construirMazo());
-        Jugador jugador2 = new Jugador("pepita", constructorMazo.construirMazo());
-
-        // Crear una instancia del juego con los jugadores
-        Juego juego = new Juego(jugador1, jugador2, tablero);
-
-        // Iniciar el juego
-        juego.iniciarJuego();
-
-        // Lógica de bucle principal
-        while (!juego.verificarCondicionesDeVictoria()) {
-            System.out.println("Turno del jugador: " + juego.jugadorActual());
-            juego.siguienteTurno();
-        }
-
-        System.out.println("¡El juego ha terminado!");
+        stage.setTitle("GWENT - Menú");
+        stage.setScene(escena);
+        stage.show();
     }
+
 }

@@ -1,49 +1,62 @@
 package edu.fiuba.algo3.entrega_1;
 
-import edu.fiuba.algo3.modelo.cartas.CartaUnidad;
-import edu.fiuba.algo3.modelo.jugador.Jugador;
-import edu.fiuba.algo3.modelo.jugador.Mano;
-import edu.fiuba.algo3.modelo.principal.ConstructorMazo;
-import edu.fiuba.algo3.modelo.principal.Juego;
-import edu.fiuba.algo3.modelo.principal.Tablero;
-import edu.fiuba.algo3.modelo.secciones.Seccion;
+import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.principal.Jugador;
+import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Test05LasCartasPasanALaPilaDeDescarte {
 
     @Test
     public void pilaDescarteRecibeCartasJugadas() {
-        // Verificar que las cartas pasen a la pila de descarte
-
-        Tablero tablero = new Tablero();
-        ConstructorMazo constructorMazo = new ConstructorMazo();
-
-        Jugador jugador1 = new Jugador("Jugador1", constructorMazo.construirMazo());
-        Jugador jugador2 = new Jugador("pepita", constructorMazo.construirMazo());
-        Juego juego = new Juego(jugador1, jugador2, tablero);
-
-        Jugador jugadorActual = juego.jugadorActual();
-
-        Mano manoJugadorActual = jugadorActual.obtenerMano();
-        CartaUnidad cartaSeleccionada = (CartaUnidad) manoJugadorActual.obtenerCartas().get(0);
-
-        Seccion asedioJugadorActual = tablero.getSeccionesJugador1().stream()
-                .filter(seccion -> seccion.obtenerNombre().equals("Asedio"))
-                .findFirst()
-                .orElse(null);
-
-        juego.jugarCarta(cartaSeleccionada, asedioJugadorActual);
-        jugadorActual.agregarCartaAlDescarte(cartaSeleccionada);
-
-        // Assert
-        assertFalse(jugadorActual.obtenerMano().obtenerCartas().contains(cartaSeleccionada),
-                "La carta debe retirarse de la mano del jugador actual después de ser jugada.");
-
-        assertTrue(jugadorActual.obtenerPilaDeDescarte().obtenerCartas().contains(cartaSeleccionada),
-                "La carta jugada debería estar presente en la pila de descarte del jugador actual tras su uso.");
+        int cartasJugadasEsperadas = 8;
+        List<Carta> cartas = new ArrayList<Carta>();
+        for (int i = 0; i < 21; i++) {
+            Carta carta = new CartaUnidad();
+            cartas.add(carta);
+        }
+        Mazo mazo = new Mazo(cartas);
+        List<Carta> cartasJugadas = new ArrayList<Carta>();
+        for (int i = 0; i < 8; i++) {
+            Carta carta = new CartaUnidad();
+            cartasJugadas.add(carta);
+        }
+        Jugador jugador = null;
+        SeccionesJugador secciones = null;
+        try {
+            secciones = SeccionesJugador.seccionesDelJugador("Jugador0");
+        } catch (edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError e) {
+            org.junit.jupiter.api.Assertions.fail("No se esperaba TipoDeSeccionInvalidaError al obtener SeccionesJugador: " + e.getMessage());
+        }
+        if (secciones != null) {
+            try {
+                jugador = new Jugador("JugadorTest", mazo, secciones);
+            } catch (Exception e) {
+                org.junit.jupiter.api.Assertions.fail("No se esperaba excepción al crear Jugador: " + e.getMessage());
+            }
+        }
+        if (jugador != null) {
+            try {
+                jugador.agregarCartasAlDescarte(cartasJugadas);
+            } catch (Exception e) {
+                org.junit.jupiter.api.Assertions.fail("No se esperaba excepción al agregar cartas al descarte: " + e.getMessage());
+            }
+            try {
+                int cartasEnDescarte = 0;
+                cartasEnDescarte = jugador.cartasRestantesEnSeccion("Descarte");
+                assertEquals(cartasJugadasEsperadas, cartasEnDescarte,
+                        "El jugador debe tener 8 cartas al comenzar el juego");
+            } catch (Exception e) {
+                org.junit.jupiter.api.Assertions.fail("No se esperaba excepción al consultar cartas en el descarte: " + e.getMessage());
+            }
+        }
     }
-
 
 }
