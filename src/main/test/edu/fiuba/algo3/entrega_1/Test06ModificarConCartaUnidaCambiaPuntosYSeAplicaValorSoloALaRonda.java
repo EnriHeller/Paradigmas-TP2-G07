@@ -9,7 +9,7 @@ import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Unidas;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.principal.Jugador;
-import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
+import edu.fiuba.algo3.modelo.secciones.tablero.TableroSingleton;
 import org.junit.jupiter.api.Test;
 
 public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda {
@@ -17,9 +17,9 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
     public void modificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda() {
         try {
             Unidas unidad = new Unidas(new Base());
-            Tablero secciones = null;
+            TableroSingleton secciones = null;
             try {
-                secciones = Tablero.getInstancia();
+                secciones = TableroSingleton.getInstancia();
             } catch (TipoDeSeccionInvalidaError e) {
                 org.junit.jupiter.api.Assertions.fail("No se esperaba TipoDeSeccionInvalidaError al obtener Tablero: " + e.getMessage());
             }

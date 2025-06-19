@@ -1,18 +1,18 @@
 package edu.fiuba.algo3.modelo.principal;
 
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
+import edu.fiuba.algo3.modelo.secciones.tablero.TableroSingleton;
 
 import java.util.List;
 
 public class ModificadorContexto {
-    private Tablero tablero;
+    private TableroSingleton tablero;
     private String seccion;
     private CartaUnidad carta;
     private List<CartaUnidad> cartasDeLaSeccion;
     private Jugador jugador;
 
-    public ModificadorContexto(Tablero tablero, String seccion, CartaUnidad carta, List<CartaUnidad> cartasDeLaSeccion, Jugador jugador) {
+    public ModificadorContexto(TableroSingleton tablero, String seccion, CartaUnidad carta, List<CartaUnidad> cartasDeLaSeccion, Jugador jugador) {
         this.tablero = tablero;
         this.seccion = seccion;
         this.carta = carta;
@@ -20,7 +20,7 @@ public class ModificadorContexto {
         this.jugador = jugador;
     }
 
-    public Tablero getTablero(){
+    public TableroSingleton getTablero(){
         return tablero;
     }
 

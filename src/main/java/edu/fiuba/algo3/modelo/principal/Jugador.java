@@ -17,12 +17,14 @@ public class Jugador {
     private Mazo mazo;
     private Mano mano;
     private PilaDescarte pilaDescarte;
+    private Boolean pasoDeRonda;
     //private SeccionesJugador seccionesDelJugador;
 
     public Jugador(String nombre) {
         this.nombre = nombre;
         this.mano = new Mano();
         this.pilaDescarte = new PilaDescarte();
+        this.pasoDeRonda = false;
     }
 
     //Fase Inicial
@@ -64,7 +66,18 @@ public class Jugador {
     public String getNombre() {
         return nombre;
     }
+    public boolean haPasado() {
+        return pasoDeRonda;
+    }
 
+    //SETTERS
+    public void pasar() {
+        this.pasoDeRonda = true;
+    }
+
+    public void reiniciarPaso() {
+        this.pasoDeRonda = false;
+    }
 
     //Fase de juego
 

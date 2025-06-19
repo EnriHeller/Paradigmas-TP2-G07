@@ -5,7 +5,7 @@ import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.Errores.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.Errores.NoSePuedeEliminarClimaSiNoHayClima;
-import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
+import edu.fiuba.algo3.modelo.secciones.tablero.TableroSingleton;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +29,7 @@ public class DestructoraDeClima implements Carta, Modificador {
 
     @Override
     public void modificar(Contexto modificadorContexto) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
-        Tablero tablero = modificadorContexto.getTablero();
+        TableroSingleton tablero = modificadorContexto.getTablero();
 
         List<String> claves = Arrays.asList(
                 "Rango0", "Asedio0", "CuerpoACuerpo0",

@@ -2,19 +2,21 @@ package edu.fiuba.algo3.modelo.principal;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
-import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.modelo.Errores.*;
+import edu.fiuba.algo3.modelo.principal.Jugador;
+import edu.fiuba.algo3.modelo.principal.AdministradorDeTurno;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Juego {
-    private int ciclos;
     private Ronda[] rondas;
     private List<Jugador> jugadores;
-    private Jugador jugadorQueInicia;
     private Tablero tablero;
+    private AdministradorDeTurno administradorDeTurno;
 
     private static int minCartasEnMano = 10;
     private static int MaxDescarteInicial = 2;
@@ -22,14 +24,18 @@ public class Juego {
 
     //FASE INICIAL
     public Juego(Jugador j1, Jugador j2) throws UnoDeLosMazosNoCumpleRequitos, TipoDeSeccionInvalidaError {
-        this.ciclos = 0;
         this.jugadores = List.of(j1, j2);
         this.rondas = new Ronda[3];
-        this.jugadorQueInicia = null;
+
+        //Le pasamos j1 y j2 para identificar las secciones de cada jugador
+        this.tablero = new Tablero(j1, j2);
 
         //Inicializamos tablero
-        Tablero.reiniciarInstancia();
-        this.tablero = Tablero.getInstancia();
+        // TableroSingleton.reiniciarInstancia();
+        // this.tablero = TableroSingleton.getInstancia();
+
+        //Inicializamos administrador de turnos
+        this.administradorDeTurno = new AdministradorDeTurno(jugadores);
     }
 
     //FASE PREPARACIÓN
@@ -38,9 +44,6 @@ public class Juego {
         jugador.agregarCartasAMano(minCartasEnMano);
     }
 
-    public void tirarMoneda(){
-        this.jugadorQueInicia = new Random().nextInt(2) == 0 ? jugadores.get(0) : jugadores.get(1);
-    }
 
     public void descartarCartasIniciales(Jugador jugador, List<Carta> cartas) {
         if (cartas.size() > MaxDescarteInicial) {
@@ -52,10 +55,33 @@ public class Juego {
         }
     }
 
+    public void tirarMoneda() {
+        this.administradorDeTurno.tirarMoneda();
+    }
+
     //FASE DE JUEGO
 
     public void repartirNCartas(Jugador jugador, int n) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
         jugador.agregarCartasAMano(n);
+    }
+
+    public List<Seccion> mostrarTableroActual() {
+        Jugador jugadorActual = this.jugadorActual();
+        return this.tablero.mostrarTableroParaJugador(jugadorActual);
+    }
+
+    public List<Carta> mostrarManoActual(){
+        Jugador jugadorActual = this.jugadorActual();
+        return jugadorActual.cartasEnMano();
+    }
+
+    private Jugador jugadorActual() {
+        return this.administradorDeTurno.jugadorActual();
+    }
+
+    public void jugarCarta(Carta carta, Seccion seccion) throws TipoDeSeccionInvalidaError, CartaNoJugable {
+
+        tablero.jugarCarta(carta, seccion);
     }
 
     // public void jugarRonda() throws TipoDeSeccionInvalidaError {
@@ -189,9 +215,9 @@ public class Juego {
     
     //VERIFICACIONES
 
-    public int puntajeEnSeccion(String nombreSeccion) throws TipoDeSeccionInvalidaError {
-        return Tablero.getInstancia().getPuntaje(nombreSeccion);
-    }
+    // public int puntajeEnSeccion(String nombreSeccion) throws TipoDeSeccionInvalidaError {
+    //     return TableroSingleton.getInstancia().getPuntaje(nombreSeccion);
+    // }
 
     public List<Carta> cartasEnManoJugador(int jugador_i) throws TipoDeSeccionInvalidaError {
         Jugador jugador = jugadores.get(jugador_i);

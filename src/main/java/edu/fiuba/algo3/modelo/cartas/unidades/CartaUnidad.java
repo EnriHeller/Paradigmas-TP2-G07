@@ -4,8 +4,7 @@ import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.principal.Contexto;
-import edu.fiuba.algo3.modelo.Errores.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.Errores.NoSePuedeEliminarClimaSiNoHayClima;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.Errores.*;
 
 import java.util.List;
@@ -42,6 +41,10 @@ public class CartaUnidad implements Carta {
         this.valorActual = 0;
         this.valorBase = 0;
         this.modificador = new Base();
+    }
+
+    public boolean cartaAdmiteSeccion(String seccionDestino) {
+        return secciones.contains(seccionDestino);
     }
 
     public void aplicarModificador(Contexto contexto) throws TipoDeSeccionInvalidaError {

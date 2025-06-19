@@ -11,16 +11,12 @@ import edu.fiuba.algo3.modelo.cartas.especiales.Clima;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Seccion {
+public abstract class Seccion {
     protected List<CartaUnidad> cartasActuales;
-    private String clave;
     private Clima clima;
+    public String nombre;
 
-    public Seccion(String claveSeccion) throws TipoDeSeccionInvalidaError {
-        if (!puedeEstar(claveSeccion)) {
-            throw new TipoDeSeccionInvalidaError();
-        }
-        this.clave = claveSeccion;
+    public Seccion() throws TipoDeSeccionInvalidaError {
         this.cartasActuales = new ArrayList<>();
         this.clima = new SinClima();
     }
@@ -53,8 +49,8 @@ public class Seccion {
         cartasActuales.addAll(cartas);
     }
 
-    public String getClave() {
-        return this.clave;
+    public String getNombre() {
+        return this.nombre;
     }
 
     public boolean hayClima(){
@@ -71,27 +67,10 @@ public class Seccion {
         return cartasActuales;
     }
 
-    
-
     public boolean contiene(Carta carta){
         return this.cartasActuales.contains((carta));
     }
 
-    public List<CartaUnidad> getCartasActuales() {
-        return this.cartasActuales;
-    }
-
-    // Método para tests: remover carta por índice sin interacción
-    public Carta removerCartaPorIndice(int indice) {
-        return cartasActuales.remove(indice);
-    }
-
-    public int getPuntajeTotal() {
-        int puntaje = 0;
-        for (CartaUnidad carta : cartasActuales) {
-            puntaje += carta.ValorActual();
-        }
-        return puntaje;
-    }
+    
 }
 

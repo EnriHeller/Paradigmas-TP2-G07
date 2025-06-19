@@ -3,167 +3,186 @@ package edu.fiuba.algo3.modelo.secciones.tablero;
 import edu.fiuba.algo3.modelo.Errores.*;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.cartas.especiales.Clima;
 import java.util.*;
 
 public class Tablero {
-    private static Tablero instancia = null;
-    private Map<String, Seccion> secciones;
 
-    private Tablero() throws TipoDeSeccionInvalidaError {
-        secciones = new HashMap<>();
+    private final List<Seccion> seccionesJugador1;
+    private final List<Seccion> seccionesJugador2;
+    private final Map<Jugador, List<Seccion>> seccionesPorJugador; 
 
-        secciones.put("Rango0", new Seccion("Rango"));
-        secciones.put("Asedio0", new Seccion("Asedio"));
-        secciones.put("CuerpoACuerpo0", new Seccion("CuerpoACuerpo"));
-
-        secciones.put("Rango1", new Seccion("Rango"));
-        secciones.put("Asedio1", new Seccion("Asedio"));
-        secciones.put("CuerpoACuerpo1", new Seccion("CuerpoACuerpo"));
+    public Tablero(Jugador j1, Jugador j2) throws TipoDeSeccionInvalidaError{
+        this.seccionesJugador1 = new ArrayList<>();
+        this.seccionesJugador2 = new ArrayList<>();
+        this.seccionesPorJugador = new HashMap<>();
+        this.seccionesPorJugador.put(j1, seccionesJugador1);
+        this.seccionesPorJugador.put(j2, seccionesJugador2);
+        inicializarSecciones(j1, j2);
     }
 
-    public static Tablero getInstancia() throws TipoDeSeccionInvalidaError {
-        if (instancia == null) {
-            instancia = new Tablero();
-        }
-        return instancia;
+    private void inicializarSecciones(Jugador j1, Jugador j2) throws TipoDeSeccionInvalidaError{
+        seccionesJugador1.add(new Asedio());
+        seccionesJugador1.add(new Rango());
+        seccionesJugador1.add(new CuerpoACuerpo());
+        seccionesJugador2.add(new Asedio());
+        seccionesJugador2.add(new Rango());
+        seccionesJugador2.add(new CuerpoACuerpo());
     }
 
-    public static void reiniciarInstancia() {
-        instancia = null;
+    public List<Seccion> mostrarTableroParaJugador(Jugador jugador){
+        return seccionesPorJugador.get(jugador);
     }
 
-    public int getPuntaje(String clave) {
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
-        }
-        return seccion.getPuntajeTotal();
-    }
-
-    public Seccion getSeccion(String clave) {
-        return secciones.get(clave);
-    }
-
-    public Seccion seccion(String clave) throws TipoDeSeccionInvalidaError{
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
-        }
-        return seccion;
-    }
-
-    public void afectarClima(String clave, Clima nuevoClima) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
-        Seccion seccion = seccion(clave);
-        seccion.afectarClima(nuevoClima);
-    }
-
-    public int PuntajeTotalSecciones() {
-        int total = 0;
-        for (Seccion seccion : secciones.values()) {
-            total += seccion.getPuntajeTotal();
-        }
-        return total;
-    }
-
-    public int PuntajeSeccion(String clave) throws TipoDeSeccionInvalidaError {
-        Seccion seccion = seccion(clave);
-        return seccion.getPuntajeTotal();
-    }
-
-    public boolean afectadaClima(String clave) throws TipoDeSeccionInvalidaError {
-        Seccion seccion = seccion(clave);
-        return  seccion.hayClima();
-    }
-
-    //Obtengo todas las cartas del tablero
-    public List<CartaUnidad> getCartas() {
-        List<CartaUnidad> cartasTotales = new ArrayList<>();
-
-        for (Seccion seccion : secciones.values()) {
-            cartasTotales.addAll(seccion.getCartas());
+    public void jugarCarta(Carta carta, Seccion seccionDestino) throws TipoDeSeccionInvalidaError, CartaNoJugable {
+        if (carta == null || seccionDestino == null) {
+            throw new IllegalArgumentException("Carta o sección destino no pueden ser nulos");
         }
 
-        return cartasTotales;
-    }
-
-    public List<CartaUnidad> getCartasSeccion(String clave) throws TipoDeSeccionInvalidaError {
-        Seccion seccion = seccion(clave);
-        return seccion.getCartas();
-    }
-
-    public boolean contiene(String clave, Carta carta) throws TipoDeSeccionInvalidaError{
-        Seccion seccion = seccion(clave);
-        return seccion.contiene(carta);
-    }
-
-    public CartaUnidad removerCarta(String clave, CartaUnidad carta) {
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
+        if (carta.esEspecial()) {
+            throw new CartaNoJugable(); 
         }
 
-        return seccion.removerCarta(carta);
+        CartaUnidad cartaUnidad = (CartaUnidad) carta;
+        if (!cartaUnidad.cartaAdmiteSeccion(seccionDestino.getNombre())) {
+            throw new TipoDeSeccionInvalidaError();
+        }
+
+        seccionDestino.agregarCarta(cartaUnidad);
     }
     
-    public List<CartaUnidad> removerCartas(String clave, List<CartaUnidad> cartas) {
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
-        }
-        return seccion.removerCartas(cartas);
-    }
-
-    public void removerCartasDeValorMaximo() throws TipoDeSeccionInvalidaError{
-        int max = calcularValorMaximoEnTablero();
-        removerCartasDeValorN(max);
-    }
-
-    private void removerCartasDeValorN(int n) throws TipoDeSeccionInvalidaError {
-        for (String claveSeccion : secciones.keySet()) {
-            List<CartaUnidad> cartas = getCartasSeccion(claveSeccion);
-
-            // Usar removeIf sobre la lista de cartas de la sección
-            cartas.removeIf(carta ->
-                    carta.ValorActual() == n &&
-                            !carta.mostrarCarta().contains("Legendaria")
-            );
-        }
-    }
-
-    private int calcularValorMaximoEnTablero(){
-        List<CartaUnidad> cartas = getCartas();
-        if (cartas.isEmpty()) return 0;
-
-        // Buscar el valor máximo entre cartas NO legendarias
-        int max = 0;
-
-        for (CartaUnidad carta : cartas) {
-            // Usar mostrarCarta() para detectar si tiene el modificador Legendaria
-            if (!carta.mostrarCarta().contains("Legendaria")) {
-                int valor = carta.ValorActual();
-                if (valor > max) max = valor;
-            }
-        }
-        return max;
-    }
-
-    public void agregarCarta(String clave, CartaUnidad carta) {
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
-        }
-        seccion.agregarCarta(carta);
-    }
     
-    public void agregarCartas(String clave, List<CartaUnidad> cartas) {
 
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
-        }
-        seccion.agregarCartas(cartas);
-    }
+    // public int getPuntaje(String clave) {
+    //     Seccion seccion = secciones.get(clave);
+    //     if (seccion == null) {
+    //         throw new IllegalArgumentException("Clave inválida: " + clave);
+    //     }
+    //     return seccion.getPuntajeTotal();
+    // }
 
+    // public Seccion getSeccion(String clave) {
+    //     return secciones.get(clave);
+    // }
+
+    // public Seccion seccion(String clave) throws TipoDeSeccionInvalidaError{
+    //     Seccion seccion = secciones.get(clave);
+    //     if (seccion == null) {
+    //         throw new IllegalArgumentException("Clave inválida: " + clave);
+    //     }
+    //     return seccion;
+    // }
+
+    // public void afectarClima(String clave, Clima nuevoClima) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
+    //     Seccion seccion = seccion(clave);
+    //     seccion.afectarClima(nuevoClima);
+    // }
+
+    // public int PuntajeTotalSecciones() {
+    //     int total = 0;
+    //     for (Seccion seccion : secciones.values()) {
+    //         total += seccion.getPuntajeTotal();
+    //     }
+    //     return total;
+    // }
+
+    // public int PuntajeSeccion(String clave) throws TipoDeSeccionInvalidaError {
+    //     Seccion seccion = seccion(clave);
+    //     return seccion.getPuntajeTotal();
+    // }
+
+    // public boolean afectadaClima(String clave) throws TipoDeSeccionInvalidaError {
+    //     Seccion seccion = seccion(clave);
+    //     return  seccion.hayClima();
+    // }
+
+    // //Obtengo todas las cartas del tablero
+    // public List<CartaUnidad> getCartas() {
+    //     List<CartaUnidad> cartasTotales = new ArrayList<>();
+
+    //     for (Seccion seccion : secciones.values()) {
+    //         cartasTotales.addAll(seccion.getCartas());
+    //     }
+
+    //     return cartasTotales;
+    // }
+
+    // public List<CartaUnidad> getCartasSeccion(String clave) throws TipoDeSeccionInvalidaError {
+    //     Seccion seccion = seccion(clave);
+    //     return seccion.getCartas();
+    // }
+
+    // public boolean contiene(String clave, Carta carta) throws TipoDeSeccionInvalidaError{
+    //     Seccion seccion = seccion(clave);
+    //     return seccion.contiene(carta);
+    // }
+
+    // public CartaUnidad removerCarta(String clave, CartaUnidad carta) {
+    //     Seccion seccion = secciones.get(clave);
+    //     if (seccion == null) {
+    //         throw new IllegalArgumentException("Clave inválida: " + clave);
+    //     }
+
+    //     return seccion.removerCarta(carta);
+    // }
+    
+    // public List<CartaUnidad> removerCartas(String clave, List<CartaUnidad> cartas) {
+    //     Seccion seccion = secciones.get(clave);
+    //     if (seccion == null) {
+    //         throw new IllegalArgumentException("Clave inválida: " + clave);
+    //     }
+    //     return seccion.removerCartas(cartas);
+    // }
+
+    // public void removerCartasDeValorMaximo() throws TipoDeSeccionInvalidaError{
+    //     int max = calcularValorMaximoEnTablero();
+    //     removerCartasDeValorN(max);
+    // }
+
+    // private void removerCartasDeValorN(int n) throws TipoDeSeccionInvalidaError {
+    //     for (String claveSeccion : secciones.keySet()) {
+    //         List<CartaUnidad> cartas = getCartasSeccion(claveSeccion);
+
+    //         // Usar removeIf sobre la lista de cartas de la sección
+    //         cartas.removeIf(carta ->
+    //                 carta.ValorActual() == n &&
+    //                         !carta.mostrarCarta().contains("Legendaria")
+    //         );
+    //     }
+    // }
+
+    // private int calcularValorMaximoEnTablero(){
+    //     List<CartaUnidad> cartas = getCartas();
+    //     if (cartas.isEmpty()) return 0;
+
+    //     // Buscar el valor máximo entre cartas NO legendarias
+    //     int max = 0;
+
+    //     for (CartaUnidad carta : cartas) {
+    //         // Usar mostrarCarta() para detectar si tiene el modificador Legendaria
+    //         if (!carta.mostrarCarta().contains("Legendaria")) {
+    //             int valor = carta.ValorActual();
+    //             if (valor > max) max = valor;
+    //         }
+    //     }
+    //     return max;
+    // }
+
+    // public void agregarCarta(String clave, CartaUnidad carta) {
+    //     Seccion seccion = secciones.get(clave);
+    //     if (seccion == null) {
+    //         throw new IllegalArgumentException("Clave inválida: " + clave);
+    //     }
+    //     seccion.agregarCarta(carta);
+    // }
+    
+    // public void agregarCartas(String clave, List<CartaUnidad> cartas) {
+
+    //     Seccion seccion = secciones.get(clave);
+    //     if (seccion == null) {
+    //         throw new IllegalArgumentException("Clave inválida: " + clave);
+    //     }
+    //     seccion.agregarCartas(cartas);
+    // 
 }
-

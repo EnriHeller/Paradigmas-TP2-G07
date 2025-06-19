@@ -5,7 +5,7 @@ import edu.fiuba.algo3.modelo.Errores.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.Errores.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Contexto;
-import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
+import edu.fiuba.algo3.modelo.secciones.tablero.TableroSingleton;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class Unidas implements Modificador {
             modificador.modificar(contextoModificador);
         } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {
         }
-        Tablero tablero = contextoModificador.getTablero();
+        TableroSingleton tablero = contextoModificador.getTablero();
         List<CartaUnidad> cartasDeSeccion = tablero.getCartasSeccion(contextoModificador.getSeccion() + String.valueOf(contextoModificador.getJugador()));
         String nombreCarta = contextoModificador.getCarta().getNombre();
         modificarComportamientoDeCartas(nombreCarta, cartasDeSeccion);
