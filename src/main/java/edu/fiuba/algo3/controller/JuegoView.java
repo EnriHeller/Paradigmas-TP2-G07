@@ -23,7 +23,7 @@ public class JuegoView {
 
         Text texto = new Text("Partida entre " + jugador1 + " y " + jugador2);
         Button volver = new Button("Volver al menú");
-        volver.setOnAction(e -> App.cambiarEscena(new Scene(new MenuView().construir(), 600, 400)));
+        volver.setOnAction(e -> App.cambiarEscena(new Scene(new BienvenidaView().construir(), 600, 400)));
 
         layout.getChildren().addAll(texto, volver);
         return layout;

@@ -4,6 +4,6 @@ public interface Carta {
 
     boolean esEspecial();
 
-    String mostrarCarta();
+    String getNombre();
 
 }

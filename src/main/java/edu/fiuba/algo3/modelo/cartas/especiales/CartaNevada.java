@@ -2,15 +2,25 @@ package edu.fiuba.algo3.modelo.cartas.especiales;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
-//import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.Errores.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.Errores.NoSePuedeEliminarClimaSiNoHayClima;
-import edu.fiuba.algo3.modelo.secciones.tablero.TableroSingleton;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
+import edu.fiuba.algo3.modelo.principal.Contexto;
 
-public class CartaNevada implements CartaClimatica, Carta, Modificador {
+import java.util.List;
 
-    public CartaNevada(){
+public class CartaNevada implements CartaClimatica, Carta, Modificador, CartaEspecial {
 
+    private final String nombre;
+    private final String descripcion;
+    private final String tipo;
+    private final List<String> afectado;
+
+    public CartaNevada(String nombre, String descripcion, List<String> afectado) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipo = "Nevada";
+        this.afectado = afectado;
     }
 
     @Override
@@ -18,10 +28,6 @@ public class CartaNevada implements CartaClimatica, Carta, Modificador {
         return true;
     }
 
-    @Override
-    public String mostrarCarta(){
-        return "Nevada";
-    }
 
     @Override
     public Clima crearClima() {
@@ -42,4 +48,19 @@ public class CartaNevada implements CartaClimatica, Carta, Modificador {
         tablero.afectarClima("CuerpoACuerpo1", clima);
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public List<String> getAfectado() {
+        return afectado;
+    }
 }

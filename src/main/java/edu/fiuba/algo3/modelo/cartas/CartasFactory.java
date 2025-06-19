@@ -20,11 +20,11 @@ public class CartasFactory {
         } else if (tipo.equals("e")) {
             switch (tipoEspecial) {
                 case "Tierra arrasada":
-                    carta = new TierraArrasada();
+                    carta = new TierraArrasada(nombre, descripcion, seccionesOAfectados);
                 case "Morale boost":
                     //carta = new MoraleBoost(new Base(), nombre);
                 case "Clima":
-                    carta = new CartaNevada();
+                    carta = new CartaNevada(nombre, descripcion, seccionesOAfectados);
             }
         }
         return carta;
