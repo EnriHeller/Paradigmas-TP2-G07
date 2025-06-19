@@ -110,73 +110,41 @@ public class Juego {
 
 
     //FASE DE JUEGO
+    public void jugarCarta(int jugadorID, CartaUnidad carta, String dondeJugarla) {
+        Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, jugadores.get(jugadorID));
 
-    public void jugarRonda() throws TipoDeSeccionInvalidaError {
-        while (pasarTurno()) {
-            Carta cartaJugadaPorPrimero = eleccionDeCarta(jugadorQueInicia, "mano");
-            boolean cartaJugable1 = false;
-            
-            while (!cartaJugable1) {
-                String dondeJuegaPrimero = SeccionElegida();
-
-                if (!cartaJugadaPorPrimero.esEspecial()) {
-                    //try {
-                        //secciones.agregarCarta(dondeJuegaPrimero, (CartaUnidad) cartaJugadaPorPrimero);
-                        //cartaJugable1 = true; // Solo si no lanza excepción
-                    //} catch (CartaNoJugable | TipoDeSeccionInvalidaError e) {
-                        //System.out.println("La carta no se puede jugar en esa sección. Elegí otra.");
-                    //}
-                } else {
-                    cartaJugable1 = true; // Por si las cartas especiales no necesitan validación
-                }
-            }
-            if(!cartaJugadaPorPrimero.esEspecial()) {
-                rondas[ciclos].agregarPuntajeJugador(jugadorQueInicia,((CartaUnidad) cartaJugadaPorPrimero).ValorActual());
-            }
+        CartaUnidad cartaUnidad = (CartaUnidad) carta;
+        cartaUnidad.prepararContexto(contexto);
+        tablero.agregarCarta(dondeJugarla + String.valueOf(jugadorID), cartaUnidad);
+        cartaUnidad.aplicarModificador(contexto);
+        tablero.afectarClimas();
+        if (this.rondas[this.ciclos] == null) {
+            this.rondas[this.ciclos] = new Ronda();
         }
-
-        while (pasarTurno()) {
-            Carta cartaJugadaPorSegundo = eleccionDeCarta(jugadorQueInicia+moneda, "mano");
-
-            boolean cartaJugable2 = false;
-            while (!cartaJugable2) {
-                String dondeJuegaPrimero = SeccionElegida();
-
-                if (!cartaJugadaPorSegundo.esEspecial()) {
-                    //try {
-                        //secciones.agregarCarta(dondeJuegaPrimero, (CartaUnidad) cartaJugadaPorSegundo);
-                        //cartaJugable2 = true; // Solo si no lanza excepción
-                    //} catch (CartaNoJugable | TipoDeSeccionInvalidaError e) {
-                        //System.out.println("La carta no se puede jugar en esa sección. Elegí otra.");
-                    //}
-                } else {
-                    cartaJugable2 = true; // Por si las cartas especiales no necesitan validación
-                }
-            }
-            if(!cartaJugadaPorSegundo.esEspecial()) {
-                rondas[ciclos].agregarPuntajeJugador(jugadorQueInicia,((CartaUnidad) cartaJugadaPorSegundo).ValorActual());
-            }
-        }
-
-        ciclos++;
+        rondas[ciclos].agregarPuntajeJugador(jugadorID, cartaUnidad.ValorActual());
     }
 
-    public void jugarCarta(int jugadorID, CartaUnidad carta, String dondeJugarla) {
-        try {
-                Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, jugadores.get(jugadorID));
-
-                CartaUnidad cartaUnidad = (CartaUnidad) carta;
-                cartaUnidad.prepararContexto(contexto);
-                tablero.agregarCarta(dondeJugarla + String.valueOf(jugadorID), cartaUnidad);
-                cartaUnidad.aplicarModificador(contexto);
-                if (this.rondas[this.ciclos] == null) {
-                    this.rondas[this.ciclos] = new Ronda();
-                }
-                rondas[ciclos].agregarPuntajeJugador(jugadorID, cartaUnidad.ValorActual());
-
-        } catch (TipoDeSeccionInvalidaError e) {
-            // No hacemos nada si hay una excepción
+    public void finalizarRonda(){
+        if (this.ciclos >= 2){
+            rondas[this.ciclos].getGanadorRonda();
         }
+
+        List<CartaUnidad> cartasDel1 = this.tablero.removerCartasDeJugador(0);
+        List<CartaUnidad> cartasDel2 = this.tablero.removerCartasDeJugador(0);
+
+        for (CartaUnidad carta : cartasDel1) {
+            Contexto contexto = new Contexto(tablero,"", carta,  0, jugadores.get(0));
+            carta.retrotraerModificacion(contexto);
+        }
+
+        for (CartaUnidad carta : cartasDel2) {
+            Contexto contexto = new Contexto(tablero,"", carta,  1, jugadores.get(1));
+            carta.retrotraerModificacion(contexto);
+        }
+
+        jugadores.get(0).agregarCartasAlDescarte(new ArrayList<>(cartasDel1));
+        jugadores.get(1).agregarCartasAlDescarte(new ArrayList<>(cartasDel2));
+
     }
 
     public void aplicarEspecial(int jugadorID, Modificador cartaEspecial)  throws NoSePuedeEliminarClimaSiNoHayClima, TipoDeSeccionInvalidaError {
@@ -262,9 +230,9 @@ public class Juego {
         return Tablero.getInstancia().getPuntaje(nombreSeccion);
     }
 
-    public int cartasRestantesJugador(int jugador_i) throws TipoDeSeccionInvalidaError {
+    public int cartasRestantesJugador(String seccionJugador,int jugador_i) throws TipoDeSeccionInvalidaError {
         Jugador jugador = jugadores.get(jugador_i);
-        return jugador.cartasRestantesEnSeccion("Mano");
+        return jugador.cartasRestantesEnSeccion(seccionJugador);
     }
 
     public String mostrarGanador(){

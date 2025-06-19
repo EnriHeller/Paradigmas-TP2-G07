@@ -23,6 +23,15 @@ public class DestructoraDeClima implements Carta, Modificador {
     }
 
     @Override
+    public void aplicarModificador(Contexto contexto) {
+        try {
+            modificar(contexto);
+        } catch (TipoDeSeccionInvalidaError | NoSePuedeEliminarClimaSiNoHayClima e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public String mostrarModificadores(){
         return "DestructorDeClima";
     }

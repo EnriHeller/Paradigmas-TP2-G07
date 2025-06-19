@@ -21,6 +21,15 @@ public class TierraArrasada implements Carta, Modificador {
     }
 
     @Override
+    public void aplicarModificador(Contexto contexto) {
+        try {
+            modificar(contexto);
+        } catch (TipoDeSeccionInvalidaError e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public String mostrarModificadores() {
         return "TierraArrasada" ;
     }

@@ -2,7 +2,9 @@ package edu.fiuba.algo3.modelo.modificadores;
 
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.principal.Jugador;
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
+import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 
 public class Medico implements Modificador {
 
@@ -19,9 +21,20 @@ public class Medico implements Modificador {
 
     @Override
     public void modificar(Contexto contextoModificador) {
+
+        try {
+            modificador.modificar(contextoModificador);
+        } catch (NoSePuedeEliminarClimaSiNoHayClima | TipoDeSeccionInvalidaError ignored) {
+        }
+
         Jugador jugador = contextoModificador.getJugadorClase();
         if (jugador.cartasRestantesEnSeccion("Descarte") == 0) throw new PilaDescarteNula();
 
+    }
+
+    @Override
+    public void retrotraerContexto(Contexto contexto){
+        modificador.retrotraerContexto(contexto);
     }
 
 

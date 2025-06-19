@@ -39,7 +39,7 @@ public class Test10EspiaSeJuegaEnRivalYaumentaMano {
 
         
 
-        int cartasEnMano = juego.cartasRestantesJugador(0);
+        int cartasEnMano = juego.cartasRestantesJugador("Mano", 0);
         int puntajeDelOtroJugador = juego.puntajeEnSeccion("Rango1");
         assertTrue((cartasEnMano == 2) && (puntajeDelOtroJugador == 8));
     }

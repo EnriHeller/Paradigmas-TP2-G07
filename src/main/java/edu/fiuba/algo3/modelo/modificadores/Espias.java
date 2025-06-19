@@ -4,6 +4,7 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 
 public class Espias implements Modificador {
@@ -22,6 +23,12 @@ public class Espias implements Modificador {
 
     @Override
     public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError {
+
+        try {
+            modificador.modificar(contextoModificador);
+        } catch (NoSePuedeEliminarClimaSiNoHayClima | TipoDeSeccionInvalidaError ignored) {
+        }
+
         String seccion = contextoModificador.getSeccion();
 
         Seccion seccionContraria = contextoModificador.getTablero().seccion(seccion + String.valueOf(contextoModificador.getJugador() == 0 ? 1 : 0));
@@ -38,5 +45,9 @@ public class Espias implements Modificador {
 
     }
 
+    @Override
+    public void retrotraerContexto(Contexto contexto){
+        modificador.retrotraerContexto(contexto);
+    }
 
 }

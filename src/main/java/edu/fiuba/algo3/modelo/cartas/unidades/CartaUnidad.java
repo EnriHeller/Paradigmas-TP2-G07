@@ -43,11 +43,17 @@ public class CartaUnidad implements Carta, Puntuable {
         this.modificador = new Base();
     }
 
-    public void aplicarModificador(Contexto contexto) throws TipoDeSeccionInvalidaError {
+    @Override
+    public void aplicarModificador(Contexto contexto) {
         try {
             this.modificador.modificar(contexto);
-        } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {
+        } catch (TipoDeSeccionInvalidaError | NoSePuedeEliminarClimaSiNoHayClima ignored) {
         }
+    }
+
+    @Override
+    public void retrotraerModificacion(Contexto contexto){
+        modificador.retrotraerContexto(contexto);
     }
 
     public int getPuntajeBase() {
@@ -73,15 +79,10 @@ public class CartaUnidad implements Carta, Puntuable {
         this.valorActual = nuevoValor;
     }
 
-    public void multiplicarValor(String posibleCartaMismoModificador, int n) throws NoEsLaMismaUnidad {
-        if (!posibleCartaMismoModificador.equals(this.nombre)){
-            throw new NoEsLaMismaUnidad("No es la misma Unidad");
-        }
-        this.valorActual = n * this.valorActual;
-
-    }
     public void multiplicarValor(int n) {
-
+        if(n == 1){
+            this.valorActual = this.valorBase;
+        }
         this.valorActual = n * this.valorActual;
 
     }
@@ -94,6 +95,12 @@ public class CartaUnidad implements Carta, Puntuable {
 
     public void agregarSeccion(String seccion) {
         this.secciones.add(seccion);
+    }
+
+    public void quitarUltimaSeccion() {
+        if (!this.secciones.isEmpty()) {
+            this.secciones.remove(this.secciones.size() - 1);
+        }
     }
 
     @Override

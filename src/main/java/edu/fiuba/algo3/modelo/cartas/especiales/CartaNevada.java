@@ -24,6 +24,15 @@ public class CartaNevada implements CartaClimatica, Carta, Modificador {
     }
 
     @Override
+    public void aplicarModificador(Contexto contexto) {
+        try {
+            modificar(contexto);
+        } catch (TipoDeSeccionInvalidaError | NoSePuedeEliminarClimaSiNoHayClima e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public Clima crearClima() {
         return (new ClimaNevado());
     }

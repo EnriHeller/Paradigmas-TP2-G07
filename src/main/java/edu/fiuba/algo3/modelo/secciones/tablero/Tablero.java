@@ -54,6 +54,12 @@ public class Tablero {
         seccion.afectarClima(nuevoClima);
     }
 
+    public void afectarClimas(){
+        for (Seccion seccion : secciones.values()) {
+            seccion.afectarClima();
+        }
+    }
+
     public int PuntajeTotalSecciones() {
         int total = 0;
         for (Seccion seccion : secciones.values()) {
@@ -126,6 +132,31 @@ public class Tablero {
             );
         }
     }
+
+    public List<CartaUnidad> removerCartasDeJugador(int jugadorID){
+        List<CartaUnidad> cartasJugador = new ArrayList<>();
+
+        String[] seccionesJugador = {
+                "Rango" + jugadorID,
+                "Asedio" + jugadorID,
+                "CuerpoACuerpo" + jugadorID
+        };
+
+        for (String claveSeccion : seccionesJugador) {
+            cartasJugador.addAll(removerCartas(claveSeccion));
+        }
+
+        return cartasJugador;
+    }
+
+    private List<CartaUnidad> removerCartas(String clave) {
+        Seccion seccion = secciones.get(clave);
+        if (seccion == null) {
+            throw new IllegalArgumentException("Clave inválida: " + clave);
+        }
+        return seccion.removerCartas();
+    }
+
 
     private int calcularValorMaximoEnTablero(){
         List<CartaUnidad> cartas = getCartas();

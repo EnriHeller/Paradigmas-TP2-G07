@@ -35,6 +35,15 @@ public class Unidas implements Modificador {
 
     }
 
+    public void retrotraerContexto(Contexto contexto){
+
+        CartaUnidad carta = contexto.getCarta();
+        carta.multiplicarValor(1);
+
+        modificador.retrotraerContexto(contexto);
+
+    }
+
     public void modificarComportamientoDeCartas(String nombreCarta,List<CartaUnidad> cartas) {
         int cantidadUnidas = (int) cartas.stream()
                 .filter(carta -> carta.mostrarCarta().contains(nombreCarta))
@@ -44,11 +53,7 @@ public class Unidas implements Modificador {
         if (cantidadUnidas >= 2) {
             for (CartaUnidad carta : cartas) {
                 if (carta.mostrarCarta().contains("Unidas")) {
-                    try{
-                        carta.multiplicarValor(nombreCarta, cantidadUnidas);
-                    } catch (NoEsLaMismaUnidad ignored){
-
-                    }
+                    carta.multiplicarValor(cantidadUnidas);
                 }
             }
         }

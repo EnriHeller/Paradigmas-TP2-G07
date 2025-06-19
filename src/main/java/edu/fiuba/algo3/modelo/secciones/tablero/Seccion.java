@@ -66,6 +66,11 @@ public class Seccion {
         nuevoClima.afectarCartas(cartasActuales);
     }
 
+    public void afectarClima() {
+        this.clima.afectarCartas(cartasActuales);
+    }
+
+
     public List<CartaUnidad> getCartas() {
         return cartasActuales;
     }
@@ -91,6 +96,12 @@ public class Seccion {
             puntaje += carta.ValorActual();
         }
         return puntaje;
+    }
+
+    public List<CartaUnidad> removerCartas() {
+        List<CartaUnidad> copia = new ArrayList<CartaUnidad>(cartasActuales);
+        cartasActuales.clear();
+        return copia;
     }
 }
 

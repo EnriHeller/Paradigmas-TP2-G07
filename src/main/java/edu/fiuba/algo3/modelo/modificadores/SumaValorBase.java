@@ -3,6 +3,7 @@ package edu.fiuba.algo3.modelo.modificadores;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 
 import java.util.List;
@@ -22,6 +23,12 @@ public class SumaValorBase implements Modificador{
 
     @Override
     public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError {
+
+        try {
+            modificador.modificar(contextoModificador);
+        } catch (NoSePuedeEliminarClimaSiNoHayClima | TipoDeSeccionInvalidaError ignored) {
+        }
+
         Seccion seccion = contextoModificador.getTablero().seccion(contextoModificador.getSeccion());
 
         List<CartaUnidad> cartas = seccion.getCartasActuales();
@@ -30,4 +37,25 @@ public class SumaValorBase implements Modificador{
             carta.sumaValor(1);
         }
     }
+
+    @Override
+    public void retrotraerContexto(Contexto contexto) {
+
+        try {
+
+            Seccion seccion = contexto.getTablero().seccion(contexto.getSeccion());
+
+            List<CartaUnidad> cartas = seccion.getCartasActuales();
+
+            for (CartaUnidad carta : cartas) {
+                carta.sumaValor(-1);
+            }
+        } catch (TipoDeSeccionInvalidaError ignored){
+
+        }
+
+        modificador.retrotraerContexto(contexto);
+
+    }
+
 }
