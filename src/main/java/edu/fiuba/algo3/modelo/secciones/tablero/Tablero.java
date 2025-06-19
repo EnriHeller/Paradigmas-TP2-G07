@@ -50,6 +50,7 @@ public class Tablero {
         }
 
         seccionDestino.agregarCarta(cartaUnidad);
+        seccionDestino.sumarPuntaje(cartaUnidad.getPuntaje());
     }
     
     

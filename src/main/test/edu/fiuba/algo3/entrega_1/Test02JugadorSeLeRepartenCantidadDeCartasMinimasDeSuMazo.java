@@ -1,5 +1,7 @@
 package edu.fiuba.algo3.entrega_1;
 
+import edu.fiuba.algo3.controller.ConstructorMazo;
+import edu.fiuba.algo3.mocks.ConstructorMazoMock;
 import edu.fiuba.algo3.modelo.Errores.*;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
@@ -17,19 +19,17 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Test02JugadorSeLeRepartenCantidadDeCartasMinimasDeSuMazo {
 
     @Test
-    public void jugadorRecibe10CartasInicialesEnSuMano() throws NoSePuedeCumplirSolicitudDeCartas, UnoDeLosMazosNoCumpleRequitos, TipoDeSeccionInvalidaError  {
+    public void jugadorRecibe10CartasInicialesEnSuMano() throws Exception, NoSePuedeCumplirSolicitudDeCartas, UnoDeLosMazosNoCumpleRequitos, TipoDeSeccionInvalidaError  {
 
-        // Crear 21 Cartas
-        List<Carta> cartas = new ArrayList<>();
-        for (int i = 0; i < 21; i++) {
-            cartas.add(new CartaUnidad());
-        }
+        ConstructorMazo constructorMazo = ConstructorMazoMock.crearDosMazosEstandar();
 
-        Mazo m1 = new Mazo(cartas);
-        Mazo m2 = new Mazo(cartas);
-        
+        List<Mazo> mazos = constructorMazo.construirMazos("mock");
+
+        Mazo m1 = mazos.get(0);
+        Mazo m2 = mazos.get(1);
+
         Jugador j1 = new Jugador("Pepito");
-        Jugador j2 = new Jugador("Juanito");
+        Jugador j2 = new Jugador("Fulano");
 
         j1.agregarMazo(m1);
         j2.agregarMazo(m2);

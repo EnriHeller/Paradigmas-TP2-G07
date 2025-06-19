@@ -13,12 +13,14 @@ import java.util.List;
 
 public abstract class Seccion {
     protected List<CartaUnidad> cartasActuales;
-    private Clima clima;
     public String nombre;
+    public int puntaje;
+    private Clima clima;
 
     public Seccion() throws TipoDeSeccionInvalidaError {
         this.cartasActuales = new ArrayList<>();
         this.clima = new SinClima();
+        this.puntaje = 0;
     }
 
     private boolean puedeEstar(String claveSeccion){
@@ -51,6 +53,14 @@ public abstract class Seccion {
 
     public String getNombre() {
         return this.nombre;
+    }
+
+    public void sumarPuntaje(int n){
+        puntaje += n;
+    }
+
+    public int getPuntaje(){
+        return puntaje;
     }
 
     public boolean hayClima(){

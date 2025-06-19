@@ -18,48 +18,12 @@ public class Jugador {
     private Mano mano;
     private PilaDescarte pilaDescarte;
     private Boolean pasoDeRonda;
-    //private SeccionesJugador seccionesDelJugador;
 
     public Jugador(String nombre) {
         this.nombre = nombre;
         this.mano = new Mano();
         this.pilaDescarte = new PilaDescarte();
         this.pasoDeRonda = false;
-    }
-
-    //Fase Inicial
-    public void agregarMazo(Mazo mazo) throws NoSePuedeCumplirSolicitudDeCartas {
-        if (!HayCartasSuficientesEnMazo(mazo)){
-            throw new NoSePuedeCumplirSolicitudDeCartas();
-        }
-        this.mazo = mazo;
-    }
-
-    public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
-        mazo.repartirCartas(n, mano);
-
-        if(!TengoCartasSuficientesEnMano()){
-            throw new NoSePuedeCumplirSolicitudDeCartas();
-        }
-    }
-
-    //Interacción con secciones generales
-    private int cartasRestantes(SeccionJugador seccion) {
-        return seccion.cartasRestantes();
-    }
-
-    private Carta removerCarta(SeccionJugador seccion, Carta carta) {
-        return seccion.removerCarta(carta);
-    }
-
-    private void agregarCartas(SeccionJugador seccion, List<Carta> cartas) {
-        seccion.agregarCartas(cartas);
-    }
-
-    //INTERACCION USUARIO - SECCIONES DE USUARIO
-
-    public boolean HayCartasSuficientesEnMazo(Mazo m){
-        return cartasRestantes(m) >= minCartasEnMazo;
     }
 
     //GETTERS
@@ -79,19 +43,45 @@ public class Jugador {
         this.pasoDeRonda = false;
     }
 
-    //Fase de juego
-
-    public Carta jugarCarta(Carta carta) {
-        return mano.removerCarta( carta);
+    //Fase Inicial
+    public void agregarMazo(Mazo mazo) throws NoSePuedeCumplirSolicitudDeCartas {
+        if (!HayCartasSuficientesEnMazo(mazo)){
+            throw new NoSePuedeCumplirSolicitudDeCartas();
+        }
+        this.mazo = mazo;
     }
 
-    // Métodos de alto nivel para cumplir Demeter
+    public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
+        mazo.repartirCartas(n, mano);
+
+        if(!TengoCartasSuficientesEnMano()){
+            throw new NoSePuedeCumplirSolicitudDeCartas();
+        }
+    }
+
+
+    //INTERACCION CON SECCIONES DE USUARIO
+    
+    public boolean HayCartasSuficientesEnMazo(Mazo mazo){
+        return mazo.cartasRestantes() >= minCartasEnMazo;
+    }
+
+    public void quitarCartaDeMano(Carta carta){
+        mano.removerCarta(carta);
+    }
+
+    //Fase de juego
+
     public void RemoverCartaDeMano(Carta carta) {
         mano.removerCarta(carta);
     }
 
     public List<Carta> cartasEnMano() {
         return mano.obtenerCartas();
+    }
+
+    public List<Carta> cartasEnDescarte() {
+        return pilaDescarte.obtenerCartas();
     }
 
     public void DescartarCarta(Carta carta) {

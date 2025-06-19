@@ -3,7 +3,6 @@ package edu.fiuba.algo3.modelo.cartas.unidades;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.Errores.*;
 
@@ -47,14 +46,14 @@ public class CartaUnidad implements Carta {
         return secciones.contains(seccionDestino);
     }
 
-    public void aplicarModificador(Contexto contexto) throws TipoDeSeccionInvalidaError {
-        try {
-            this.modificador.modificar(contexto);
-        } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {
-        }
-    }
+    // public void aplicarModificador(Contexto contexto) throws TipoDeSeccionInvalidaError {
+    //     try {
+    //         this.modificador.modificar(contexto);
+    //     } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {
+    //     }
+    // }
 
-    public int getPuntajeBase() {
+    public int getPuntaje() {
         return this.valorBase;
     }
 
@@ -117,10 +116,12 @@ public class CartaUnidad implements Carta {
         return this.secciones;
     }
 
-    public void prepararContexto(Contexto contexto) {
-        modificador.prepararContexto(contexto);
-    }
+    // public void prepararContexto(Contexto contexto) {
+    //     modificador.prepararContexto(contexto);
+    // }
 
+
+    //Funcion para debug (no borrar hasta entrega final)
     @Override
     public String toString() {
         return "CartaUnidad{" +

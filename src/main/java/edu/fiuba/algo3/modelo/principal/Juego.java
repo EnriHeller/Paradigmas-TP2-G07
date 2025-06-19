@@ -45,26 +45,27 @@ public class Juego {
     }
 
 
-    public void descartarCartasIniciales(Jugador jugador, List<Carta> cartas) {
-        if (cartas.size() > MaxDescarteInicial) {
-            throw new CantidadMaximaDeDescarteAlcanzadaError("No se pueden descartar más de " + MaxDescarteInicial + " cartas en la fase inicial.");
-        }
-        for (Carta carta : cartas) {
-            jugador.RemoverCartaDeMano(carta);
-            jugador.DescartarCarta(carta);
-        }
+    public void descartarCarta(Carta carta) {
+        Jugador jugador = jugadorActual();
+        jugador.RemoverCartaDeMano(carta);
+        jugador.DescartarCarta(carta);
+
+        //Falta añadir logica que al principio sean solo dos cartas
+
+        // if (cartas.size() > MaxDescarteInicial) {
+        //     throw new CantidadMaximaDeDescarteAlcanzadaError("No se pueden descartar más de " + MaxDescarteInicial + " cartas en la fase inicial.");
+        // }
+        // for (Carta carta : cartas) {
+        //     jugador.RemoverCartaDeMano(carta);
+        //     jugador.DescartarCarta(carta);
+        // }
     }
 
     public void tirarMoneda() {
         this.administradorDeTurno.tirarMoneda();
     }
 
-    //FASE DE JUEGO
-
-    public void repartirNCartas(Jugador jugador, int n) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
-        jugador.agregarCartasAMano(n);
-    }
-
+    //RENDERIZACION
     public List<Seccion> mostrarTableroActual() {
         Jugador jugadorActual = this.jugadorActual();
         return this.tablero.mostrarTableroParaJugador(jugadorActual);
@@ -75,13 +76,29 @@ public class Juego {
         return jugadorActual.cartasEnMano();
     }
 
+    public List<Carta> mostrarDescarteActual(){
+        Jugador jugadorActual = this.jugadorActual();
+        return jugadorActual.cartasEnDescarte();
+    }
+
+    //FASE DE JUEGO
+
+    public void repartirNCartas(Jugador jugador, int n) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
+        jugador.agregarCartasAMano(n);
+    }
+
     private Jugador jugadorActual() {
         return this.administradorDeTurno.jugadorActual();
     }
 
     public void jugarCarta(Carta carta, Seccion seccion) throws TipoDeSeccionInvalidaError, CartaNoJugable {
-
+        Jugador jugador = jugadorActual();
+        jugador.quitarCartaDeMano(carta);
         tablero.jugarCarta(carta, seccion);
+    }
+
+    public void siguienteJugador(){
+        administradorDeTurno.siguiente();
     }
 
     // public void jugarRonda() throws TipoDeSeccionInvalidaError {
