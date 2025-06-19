@@ -64,4 +64,7 @@ public class Jugador {
     public int cartasRestantes() {
         return mazo.cantidadDeCartas();
     }
+    public CartaUnidad removerUltimaCartaDeDescarte(){
+        return (CartaUnidad) seccionesDelJugador.removerCarta("Descarte", seccionesDelJugador.cartasRestantes("Descarte") - 1);
+    }
 }
