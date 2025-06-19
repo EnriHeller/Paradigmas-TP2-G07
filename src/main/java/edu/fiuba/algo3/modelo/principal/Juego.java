@@ -31,8 +31,8 @@ public class Juego {
         this.tablero = new Tablero(j1, j2);
 
         //Inicializamos tablero
-        // TableroSingleton.reiniciarInstancia();
-        // this.tablero = TableroSingleton.getInstancia();
+        // Tablero.reiniciarInstancia();
+        // this.tablero = Tablero.getInstancia();
 
         //Inicializamos administrador de turnos
         this.administradorDeTurno = new AdministradorDeTurno(jugadores);
@@ -233,7 +233,7 @@ public class Juego {
     //VERIFICACIONES
 
     // public int puntajeEnSeccion(String nombreSeccion) throws TipoDeSeccionInvalidaError {
-    //     return TableroSingleton.getInstancia().getPuntaje(nombreSeccion);
+    //     return Tablero.getInstancia().getPuntaje(nombreSeccion);
     // }
 
     public List<Carta> cartasEnManoJugador(int jugador_i) throws TipoDeSeccionInvalidaError {

@@ -43,7 +43,6 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero  {
         juego.repartirManoInicial(j2);
         juego.tirarMoneda();
 
-
         //FASE DE JUEGO
 
         //Mostramos estado actual del juego (Para renderizar, SOLO JUGADOR ACTUAL)

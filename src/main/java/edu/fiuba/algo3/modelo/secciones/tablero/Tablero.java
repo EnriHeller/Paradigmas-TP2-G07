@@ -52,138 +52,43 @@ public class Tablero {
         seccionDestino.agregarCarta(cartaUnidad);
         seccionDestino.sumarPuntaje(cartaUnidad.getPuntaje());
     }
+
+    public void afectarClima(Seccion seccion, Clima nuevoClima) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
+        seccion.afectarClima(nuevoClima);
+    }
+
+    public void afectarClimas(){
+        for (List<Seccion> listaSecciones : seccionesPorJugador.values()) {
+            for (Seccion seccion : listaSecciones) {
+                seccion.afectarClima();
+            }
+        }
+    }
+
+    public Map<Jugador, List<Seccion>> getSeccionesPorJugador(){
+        return seccionesPorJugador;
+    }
     
+    public List<Seccion> todasLasSecciones() {
+        List<Seccion> todas = new ArrayList<>();
+        for (List<Seccion> lista : seccionesPorJugador.values()) {
+            todas.addAll(lista);
+        }
+        return todas;
+    }
+
+    public void removerCartasDeValorMaximo() {
+        for (Seccion seccion : todasLasSecciones()) {
+            List<CartaUnidad> cartas = seccion.getCartas();
+            if (!cartas.isEmpty()) {
+                int max = cartas.stream()
+                    .filter(c -> !c.mostrarCarta().contains("Legendaria"))
+                    .mapToInt(CartaUnidad::ValorActual)
+                    .max().orElse(0);
+                cartas.removeIf(c -> c.ValorActual() == max && !c.mostrarCarta().contains("Legendaria"));
+            }
+        }
+    }
+
     
-
-    // public int getPuntaje(String clave) {
-    //     Seccion seccion = secciones.get(clave);
-    //     if (seccion == null) {
-    //         throw new IllegalArgumentException("Clave inválida: " + clave);
-    //     }
-    //     return seccion.getPuntajeTotal();
-    // }
-
-    // public Seccion getSeccion(String clave) {
-    //     return secciones.get(clave);
-    // }
-
-    // public Seccion seccion(String clave) throws TipoDeSeccionInvalidaError{
-    //     Seccion seccion = secciones.get(clave);
-    //     if (seccion == null) {
-    //         throw new IllegalArgumentException("Clave inválida: " + clave);
-    //     }
-    //     return seccion;
-    // }
-
-    // public void afectarClima(String clave, Clima nuevoClima) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
-    //     Seccion seccion = seccion(clave);
-    //     seccion.afectarClima(nuevoClima);
-    // }
-
-    // public int PuntajeTotalSecciones() {
-    //     int total = 0;
-    //     for (Seccion seccion : secciones.values()) {
-    //         total += seccion.getPuntajeTotal();
-    //     }
-    //     return total;
-    // }
-
-    // public int PuntajeSeccion(String clave) throws TipoDeSeccionInvalidaError {
-    //     Seccion seccion = seccion(clave);
-    //     return seccion.getPuntajeTotal();
-    // }
-
-    // public boolean afectadaClima(String clave) throws TipoDeSeccionInvalidaError {
-    //     Seccion seccion = seccion(clave);
-    //     return  seccion.hayClima();
-    // }
-
-    // //Obtengo todas las cartas del tablero
-    // public List<CartaUnidad> getCartas() {
-    //     List<CartaUnidad> cartasTotales = new ArrayList<>();
-
-    //     for (Seccion seccion : secciones.values()) {
-    //         cartasTotales.addAll(seccion.getCartas());
-    //     }
-
-    //     return cartasTotales;
-    // }
-
-    // public List<CartaUnidad> getCartasSeccion(String clave) throws TipoDeSeccionInvalidaError {
-    //     Seccion seccion = seccion(clave);
-    //     return seccion.getCartas();
-    // }
-
-    // public boolean contiene(String clave, Carta carta) throws TipoDeSeccionInvalidaError{
-    //     Seccion seccion = seccion(clave);
-    //     return seccion.contiene(carta);
-    // }
-
-    // public CartaUnidad removerCarta(String clave, CartaUnidad carta) {
-    //     Seccion seccion = secciones.get(clave);
-    //     if (seccion == null) {
-    //         throw new IllegalArgumentException("Clave inválida: " + clave);
-    //     }
-
-    //     return seccion.removerCarta(carta);
-    // }
-    
-    // public List<CartaUnidad> removerCartas(String clave, List<CartaUnidad> cartas) {
-    //     Seccion seccion = secciones.get(clave);
-    //     if (seccion == null) {
-    //         throw new IllegalArgumentException("Clave inválida: " + clave);
-    //     }
-    //     return seccion.removerCartas(cartas);
-    // }
-
-    // public void removerCartasDeValorMaximo() throws TipoDeSeccionInvalidaError{
-    //     int max = calcularValorMaximoEnTablero();
-    //     removerCartasDeValorN(max);
-    // }
-
-    // private void removerCartasDeValorN(int n) throws TipoDeSeccionInvalidaError {
-    //     for (String claveSeccion : secciones.keySet()) {
-    //         List<CartaUnidad> cartas = getCartasSeccion(claveSeccion);
-
-    //         // Usar removeIf sobre la lista de cartas de la sección
-    //         cartas.removeIf(carta ->
-    //                 carta.ValorActual() == n &&
-    //                         !carta.mostrarCarta().contains("Legendaria")
-    //         );
-    //     }
-    // }
-
-    // private int calcularValorMaximoEnTablero(){
-    //     List<CartaUnidad> cartas = getCartas();
-    //     if (cartas.isEmpty()) return 0;
-
-    //     // Buscar el valor máximo entre cartas NO legendarias
-    //     int max = 0;
-
-    //     for (CartaUnidad carta : cartas) {
-    //         // Usar mostrarCarta() para detectar si tiene el modificador Legendaria
-    //         if (!carta.mostrarCarta().contains("Legendaria")) {
-    //             int valor = carta.ValorActual();
-    //             if (valor > max) max = valor;
-    //         }
-    //     }
-    //     return max;
-    // }
-
-    // public void agregarCarta(String clave, CartaUnidad carta) {
-    //     Seccion seccion = secciones.get(clave);
-    //     if (seccion == null) {
-    //         throw new IllegalArgumentException("Clave inválida: " + clave);
-    //     }
-    //     seccion.agregarCarta(carta);
-    // }
-    
-    // public void agregarCartas(String clave, List<CartaUnidad> cartas) {
-
-    //     Seccion seccion = secciones.get(clave);
-    //     if (seccion == null) {
-    //         throw new IllegalArgumentException("Clave inválida: " + clave);
-    //     }
-    //     seccion.agregarCartas(cartas);
-    // 
 }

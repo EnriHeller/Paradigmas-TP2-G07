@@ -73,6 +73,10 @@ public abstract class Seccion {
         nuevoClima.afectarCartas(cartasActuales);
     }
 
+    public void afectarClima() {
+        this.clima.afectarCartas(cartasActuales);
+    }
+
     public List<CartaUnidad> getCartas() {
         return cartasActuales;
     }
@@ -81,6 +85,11 @@ public abstract class Seccion {
         return this.cartasActuales.contains((carta));
     }
 
-    
+    public List<CartaUnidad> removerCartas() {
+        List<CartaUnidad> copia = new ArrayList<>(cartasActuales);
+        cartasActuales.clear();
+        puntaje = 0; // Reinicia el puntaje de la sección al remover todas las cartas
+        return copia;
+    }
 }
 

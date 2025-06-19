@@ -12,10 +12,6 @@ public class Mazo extends SeccionJugador {
         this.cartas.addAll(cartas);
     }
 
-    public int cantidadDeCartas() {
-        return cartas.size();
-    }
-
     public void mezclar() {
         Collections.shuffle(this.cartas);
     }

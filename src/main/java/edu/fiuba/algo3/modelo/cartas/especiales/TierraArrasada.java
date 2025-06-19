@@ -5,6 +5,8 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.principal.Contexto;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
+
 
 import java.util.List;
 
@@ -26,8 +28,8 @@ public class TierraArrasada implements Carta, Modificador {
     }
 
     @Override
-    public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError{
-        var tablero = contextoModificador.getTablero();
+    public void modificar(Contexto contexto) throws TipoDeSeccionInvalidaError{
+        Tablero tablero = contexto.getTablero();
         tablero.removerCartasDeValorMaximo();
     }
 

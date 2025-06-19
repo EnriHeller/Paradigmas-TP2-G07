@@ -11,7 +11,7 @@ import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
-import edu.fiuba.algo3.modelo.secciones.tablero.TableroSingleton;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import org.junit.Test;
 
 import java.util.ArrayList;

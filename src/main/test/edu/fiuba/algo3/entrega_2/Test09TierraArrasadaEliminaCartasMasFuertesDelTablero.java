@@ -6,7 +6,7 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
-import edu.fiuba.algo3.modelo.secciones.tablero.TableroSingleton;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
@@ -87,7 +87,7 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
             juego.aplicarEspecial(1,tierraArrasada);
 
             // Verificamos todas las cartas que quedaron en el tablero
-            List<CartaUnidad> cartasRestantes = TableroSingleton.getInstancia().getCartas();
+            List<CartaUnidad> cartasRestantes = Tablero.getInstancia().getCartas();
 
             // Las cartas con valor 4 (no legendarias) deberían haber sido eliminadas
             assertFalse(cartasRestantes.contains(carta4a), "carta4a no fue eliminada. Cartas restantes: " + cartasRestantes);
