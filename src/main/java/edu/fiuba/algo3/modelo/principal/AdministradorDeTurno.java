@@ -1,21 +1,21 @@
 package edu.fiuba.algo3.modelo.principal;
 
-import edu.fiuba.algo3.modelo.principal.Jugador;
-
-import java.util.Random;
-import java.util.ArrayList;
-import java.util.List;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 
+import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
+
 public class AdministradorDeTurno {
     private final List<Jugador> jugadores;
+    private Ronda[] rondas = new Ronda[3];
     private int indiceActual;
+    private int ciclos = 0;
 
     public AdministradorDeTurno(List<Jugador> jugadores) {
         this.jugadores = jugadores;
-        
     }
 
     public void tirarMoneda(){
@@ -41,9 +41,7 @@ public class AdministradorDeTurno {
     }
 
     public void finalizarRonda(Tablero tablero){
-        // Remover cartas de ambos jugadores correctamente
-        for (int i = 0; i < jugadores.size(); i++) {
-            Jugador jugador = jugadores.get(i);
+        for (Jugador jugador : jugadores) {
             List<Seccion> secciones = tablero.mostrarTableroParaJugador(jugador);
             for (Seccion seccion : secciones) {
                 List<CartaUnidad> cartasRemovidas = seccion.removerCartas();
@@ -54,6 +52,53 @@ public class AdministradorDeTurno {
                 }
             }
         }
+        ciclos++;
+    }
+
+    private void agregarRonda() {
+        rondas[ciclos] = new Ronda();
+    }
+
+    public void actualizarRonda(int puntaje){
+        if (rondas[ciclos] == null){
+            agregarRonda();
+        }
+        rondas[ciclos].agregarPuntajeJugador(indiceActual,puntaje);
+    }
+
+    public String mostrarGanador(){
+        String ganador = "empate";
+        int contadorJ1 = 0;
+        int contadorJ2 = 0;
+
+        String nombreJugador1 = jugadores.get(0).getNombre();
+        String nombreJugador2 = jugadores.get(1).getNombre();
+
+        for (Ronda ronda : rondas) {
+            if (ronda == null) continue;
+            String ganadorRonda = ronda.getGanadorRonda();
+
+            if (ganadorRonda.equals(nombreJugador1)) {
+                contadorJ1++;
+            } else if (ganadorRonda.equals(nombreJugador2)) {
+                contadorJ2++;
+            }
+        }
+
+        if (contadorJ1 > contadorJ2) {
+            ganador = nombreJugador1;
+        } else if (contadorJ2 > contadorJ1) {
+            ganador = nombreJugador2;
+        }
+
+        return ganador;
+    }
+
+    public boolean juegoTerminado(){
+        if (ciclos < 2){
+            return false;
+        } else return !mostrarGanador().equals("empate");
     }
 }
+
 

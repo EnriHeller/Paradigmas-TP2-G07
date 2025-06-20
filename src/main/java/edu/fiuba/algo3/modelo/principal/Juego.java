@@ -108,6 +108,7 @@ public class Juego {
             tablero.jugarCarta(carta, seccion);
             carta.aplicarModificador(contexto);
             this.tablero.afectarClimas();
+            administradorDeTurno.actualizarRonda(((CartaUnidad) carta).getPuntaje());
         }
     }
 
@@ -256,21 +257,11 @@ public class Juego {
     }
 
     public String mostrarGanador(){
-        int contadorJ1 = 0;
-        int contadorJ2 = 0;
-        for (Ronda ronda : rondas) {
-            String ganadorRonda = ronda.getGanadorRonda();
-            if (ganadorRonda.equals("Jugador 1")) {
-                contadorJ1++;
-            } else if (ganadorRonda.equals("Jugador 2")) {
-                contadorJ2++;
-            }
-        }
-        return contadorJ1 > contadorJ2 ? "Jugador 1" : "Jugador 2";
+        return administradorDeTurno.mostrarGanador();
     }
 
     public boolean juegoTerminado(){
-        return false;
+        return administradorDeTurno.juegoTerminado();
     }
 
     // public boolean seLogroRepartirCartasDelMazoALosJugadores(){

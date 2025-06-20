@@ -9,6 +9,7 @@ import edu.fiuba.algo3.modelo.Errores.*;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CartaUnidad implements Carta {
 
@@ -134,5 +135,24 @@ public class CartaUnidad implements Carta {
     public String getModificadores() {
         return modificador.mostrarModificadores() + " Base" ;
     } // para construir la carta visual
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        CartaUnidad otra = (CartaUnidad) obj;
+
+        return valorActual == otra.valorActual &&
+                valorBase == otra.valorBase &&
+                modificador == otra.modificador &&
+                nombre.equals(otra.nombre) &&
+                secciones.equals(otra.secciones);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nombre, secciones, valorActual, valorBase, modificador);
+    }
 
 }

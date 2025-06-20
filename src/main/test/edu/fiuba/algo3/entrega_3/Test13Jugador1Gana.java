@@ -38,24 +38,24 @@ public class Test13Jugador1Gana {
         assertDoesNotThrow(() -> juego.repartirManoInicial(jugador1));
         assertDoesNotThrow(() -> juego.repartirManoInicial(jugador2));
         // Ronda 1
-        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Vengador", secciones, 8, base), buscarSeccion(juego, "Rango")));
-        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Vengador", secciones, 8, base), buscarSeccion(juego, "Rango")));
+        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Cualesquiera", secciones, 8, base), buscarSeccion(juego, "Rango")));
+        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Cualesquiera", secciones, 8, base), buscarSeccion(juego, "Rango")));
         juego.siguienteJugador();
-        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Vengador", secciones, 8, base), buscarSeccion(juego, "Rango")));
+        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Cualesquiera", secciones, 8, base), buscarSeccion(juego, "Rango")));
         juego.finalizarRonda();
         // Ronda 2
         juego.siguienteJugador();
         for (int i = 0; i < 7; i++) {
-            assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Vengador", secciones, 8, base), buscarSeccion(juego, "Rango")));
+            assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Cualesquiera", secciones, 8, base), buscarSeccion(juego, "Rango")));
         }
         juego.siguienteJugador();
-        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Vengador", secciones, 8, base), buscarSeccion(juego, "Rango")));
+        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Cualesquiera", secciones, 8, base), buscarSeccion(juego, "Rango")));
         juego.finalizarRonda();
         // Ronda 3
-        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Vengador", secciones, 8, base), buscarSeccion(juego, "Rango")));
-        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Vengador", secciones, 8, base), buscarSeccion(juego, "Rango")));
+        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Cualesquiera", secciones, 8, base), buscarSeccion(juego, "Rango")));
+        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Cualesquiera", secciones, 8, base), buscarSeccion(juego, "Rango")));
         juego.siguienteJugador();
-        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Vengador", secciones, 8, base), buscarSeccion(juego, "Rango")));
+        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Cualesquiera", secciones, 8, base), buscarSeccion(juego, "Rango")));
         juego.finalizarRonda();
         assertEquals("JugadorTest1", juego.mostrarGanador(), "Gano el jugador incorrecto.\nSe esperaba: JugadorTest1 y se obtuvo " + juego.mostrarGanador());
     }
