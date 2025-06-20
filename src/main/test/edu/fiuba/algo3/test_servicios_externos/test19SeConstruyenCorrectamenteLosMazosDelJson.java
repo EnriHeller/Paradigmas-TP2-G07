@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class test13SeConstruyenCorrectamenteLosMazosDelJson {
+public class test19SeConstruyenCorrectamenteLosMazosDelJson {
 
     String rutaGwent = "src/main/resources/json/gwent.json";
     //String rutaUnidades = "src/main/resources/json/unidades.json";

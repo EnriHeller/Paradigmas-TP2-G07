@@ -91,10 +91,24 @@ public class Juego {
         return this.administradorDeTurno.jugadorActual();
     }
 
+    public void finalizarRonda(){
+        administradorDeTurno.finalizarRonda(tablero);
+    }
+    
     public void jugarCarta(Carta carta, Seccion seccion) throws TipoDeSeccionInvalidaError, CartaNoJugable {
-        Jugador jugador = jugadorActual();
-        jugador.quitarCartaDeMano(carta);
-        tablero.jugarCarta(carta, seccion);
+        
+        if(carta.esEspecial()){
+            Contexto contexto = new Contexto(this.tablero, seccion, new CartaUnidad(), jugadorActual());
+            carta.aplicarModificador(contexto);
+        } else {
+            Jugador jugador = jugadorActual();
+            Contexto contexto = new Contexto(this.tablero, seccion, (CartaUnidad) carta, jugador);
+            jugador.quitarCartaDeMano(carta);
+            carta.cartaPreparaContexto(contexto);
+            tablero.jugarCarta(carta, seccion);
+            carta.aplicarModificador(contexto);
+            this.tablero.afectarClimas();
+        }
     }
 
     public void siguienteJugador(){

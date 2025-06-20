@@ -3,19 +3,19 @@ package edu.fiuba.algo3.modelo.principal;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
-
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 public class Contexto {
     private Tablero tablero;
-    private String seccion;
+    private Seccion seccion;
     private CartaUnidad carta;
-    private int jugadorID;
+    //private int jugadorID;
     private Jugador jugador;
 
-    public Contexto(Tablero tablero, String seccion, CartaUnidad carta,  int jugadorID, Jugador jugador) {
+    public Contexto(Tablero tablero, Seccion seccion, CartaUnidad carta, Jugador jugador) {
         this.tablero = tablero;
         this.seccion = seccion;
         this.carta = carta;
-        this.jugadorID = jugadorID;
+        //this.jugadorID = jugadorID;
         this.jugador = jugador;
     }
 
@@ -27,7 +27,7 @@ public class Contexto {
         return tablero;
     }
 
-    public String getSeccion(){
+    public Seccion getSeccion(){
         return seccion;
     }
 
@@ -35,9 +35,9 @@ public class Contexto {
         return carta;
     }
 
-    public int getJugador(){
-        return jugadorID;
-    }
+    //public int getJugador(){
+    //    return jugadorID;
+    //}
 
     public Jugador getJugadorClase(){
         return jugador;

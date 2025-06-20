@@ -27,7 +27,7 @@ public class Unidas implements Modificador {
     public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima, edu.fiuba.algo3.modelo.Errores.NoSePuedeCumplirSolicitudDeCartas {
         modificador.modificar(contextoModificador);
         Tablero tablero = contextoModificador.getTablero();
-        String seccionNombre = contextoModificador.getSeccion();
+        String seccionNombre = contextoModificador.getSeccion().getNombre();
         // Buscar la sección correspondiente en el tablero
         Seccion seccion = null;
         for (Seccion s : tablero.todasLasSecciones()) {

@@ -13,7 +13,7 @@ public class Agil implements Modificador {
         modificador.prepararContexto(contextoModificador);
         // Solo agrega la sección si aún no está presente
         if (!contextoModificador.getCarta().getSecciones().contains(contextoModificador.getSeccion())) {
-            contextoModificador.getCarta().agregarSeccion(contextoModificador.getSeccion());
+            contextoModificador.getCarta().agregarSeccion(contextoModificador.getSeccion().getNombre());
         }
     }
 
@@ -33,7 +33,7 @@ public class Agil implements Modificador {
 
     @Override
     public void retrotraerContexto(Contexto contexto){
-        var secciones = contexto.getCarta().getSecciones();
+        java.util.List<String> secciones = contexto.getCarta().getSecciones();
         if (secciones.size() > 1) {
             secciones.remove(secciones.size() - 1);
         }

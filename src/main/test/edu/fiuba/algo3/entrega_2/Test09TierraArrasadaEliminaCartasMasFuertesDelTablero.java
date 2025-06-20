@@ -1,102 +1,131 @@
 package edu.fiuba.algo3.entrega_2;
 
+import edu.fiuba.algo3.controller.ConstructorMazo;
+import edu.fiuba.algo3.mocks.ConstructorMazoMock;
+import edu.fiuba.algo3.modelo.Errores.CartaNoJugable;
+import edu.fiuba.algo3.modelo.Errores.NoSePuedeCumplirSolicitudDeCartas;
+import edu.fiuba.algo3.modelo.Errores.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.Errores.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.especiales.TierraArrasada;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
-import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
-import edu.fiuba.algo3.modelo.principal.Juego;
-import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
-import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Legendaria;
-import java.util.ArrayList;
-import java.util.List;
+import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.principal.Jugador;
+import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-
-//Tierra arrasada: Quema a las cartas más fuertes del tablero
-
-//Nos piden verificar que si se usa un TierraArrasada se eliminen las cartas correctamente.
-
-// las más fuertes son las que más puntos tienen en esa ronda, por ejemplo:
-// Si tenés cartas con puntaje 2, 3, 4, 4, 4 - se queman las tres cartas de puntaje 4
-// Si tenés cartas con puntaje 4, 5, 6, 9 - se quema solo la de 9
-// Si tenés 7, 8 y una legendaria de 10 (es legendaria , no le afecta) - se quema la de 8
-// Es la del maximo
-
-//-> habría que tener un Juego inicializado en una instancia particular donde haya varias cartas jugadas ya para verificar que el jugador, al jugar la carta especial tierra arrasada, haga lo correspondiente.
-
+import static org.mockito.Mockito.*;
+import java.util.*;
 
 public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
 
     @Test
-    public void testTierraArrasadaEliminaCartasMasFuertes() throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima, NoSePuedeCumplirSolcitudDeCartas, UnoDeLosMazosNoCumpleRequitos {
-        // 1. Crear cartas de unidad y una con legendaria como modificador
-
+    public void testTierraArrasadaEliminaCartasMasFuertes() throws Exception {
+        // Secciones válidas para las cartas
         ArrayList<String> secciones = new ArrayList<>();
         secciones.add("Rango");
 
+        // Cartas de unidad
         CartaUnidad carta2 = new CartaUnidad("Soldado", secciones, 2, new Base());
         CartaUnidad carta3 = new CartaUnidad("Mago", secciones, 3, new Base());
-        
         CartaUnidad carta4a = new CartaUnidad("Arquero", secciones, 4, new Base());
         CartaUnidad carta4b = new CartaUnidad("Lancero", secciones, 4, new Base());
         CartaUnidad carta4c = new CartaUnidad("Caballero", secciones, 4, new Base());
-
-
-        // Carta con modificador legendaria
         CartaUnidad legendaria10 = new CartaUnidad("Dragon", secciones, 10, new Legendaria());
 
-        //Carta Tierra Arrazada
-        TierraArrasada tierraArrasada = new TierraArrasada();
+        // Carta especial Tierra Arrasada
+        TierraArrasada tierraArrasada = new TierraArrasada(
+            "Tierra Arrasada",
+            "Elimina las cartas más fuertes de la sección",
+            secciones
+        );
 
-        // 2. Añadimos cartas que va a usar
-        List<Carta> cartasJugador = new ArrayList<>();
-        
-        // Empezamos añadiendo mazo con cartas random
-        for (int i = 0; i < 15; i++) cartasJugador.add(new CartaUnidad());
+        // Mock de la mano del jugador 1
+        ArrayList<Carta> cartasMano = new ArrayList<>();
+        cartasMano.add(carta2);
+        cartasMano.add(carta3);
+        cartasMano.add(carta4a);
+        cartasMano.add(carta4b);
+        cartasMano.add(carta4c);
+        cartasMano.add(legendaria10);
+        cartasMano.add(tierraArrasada);
 
-        //Cartas que tendran los jugadores
-        cartasJugador.add(carta2);
-        cartasJugador.add(carta3);
-        cartasJugador.add(carta4a);
-        cartasJugador.add(carta4b);
-        //cartasJugador.add(carta4c);
-        cartasJugador.add(legendaria10);
-        cartasJugador.add(tierraArrasada);
-        
-        Mazo mazo_j1 = new Mazo(new ArrayList<>(cartasJugador));
-        Mazo mazo_j2 = new Mazo(new ArrayList<>(cartasJugador));
+        Jugador j1 = spy(new Jugador("Pepito"));
+        doReturn(cartasMano).when(j1).cartasEnMano();
+        Jugador j2 = new Jugador("Fulano");
+
+        // Mazos (no se usan realmente porque la mano está mockeada)
+        ConstructorMazo constructorMazo = ConstructorMazoMock.crearDosMazosEstandar();
+        List<Mazo> mazos = constructorMazo.construirMazos("mock");
+        Mazo m1 = mazos.get(0);
+        Mazo m2 = mazos.get(1);
+        try {
+            j1.agregarMazo(m1);
+            j2.agregarMazo(m2);
+        } catch (NoSePuedeCumplirSolicitudDeCartas e) {
+            fail("No se pudo agregar el mazo: " + e.getMessage());
+        }
 
         Juego juego;
+        try {
+            juego = new Juego(j1, j2);
+        } catch (TipoDeSeccionInvalidaError e) {
+            fail("No se pudo crear el juego: " + e.getMessage());
+            return;
+        }
+        juego.tirarMoneda();
 
-        juego = new Juego("Jugador1", "Jugador2", mazo_j1, mazo_j2);
-        juego.darMano(0, 10);
+        // Jugar cartas en la sección "Rango"
+        List<Seccion> tableroActual = juego.mostrarTableroActual();
+        final Seccion seccionRango;
+        {
+            Seccion encontrada = null;
+            for (Seccion s : tableroActual) {
+                if (s.getNombre().equals("Rango")) {
+                    encontrada = s;
+                    break;
+                }
+            }
+            seccionRango = encontrada;
+        }
+        assertNotNull(seccionRango, "No se encontró la sección Rango en el tablero");
 
-        // 3. Jugar las cartas en la sección "Rango"
-        juego.jugarCarta(0, carta2, "Rango");
-            juego.jugarCarta(1, carta3, "Rango");
-            juego.jugarCarta(0, carta4a, "Rango");
-            juego.jugarCarta(1, carta4b, "Rango");
-            juego.jugarCarta(0, carta4c, "Rango");
-            juego.jugarCarta(0, legendaria10, "Rango");
-            juego.aplicarEspecial(1,tierraArrasada);
+        // Juega todas las cartas de unidad
+        for (Carta carta : Arrays.asList(carta2, carta3, carta4a, carta4b, carta4c, legendaria10)) {
+            assertDoesNotThrow(() -> juego.jugarCarta((CartaUnidad) carta, seccionRango),
+                "No se pudo jugar la carta de unidad: " + ((CartaUnidad)carta).getNombre());
+            juego.siguienteJugador();
+            juego.siguienteJugador(); // Para que siempre juegue j1
+        }
 
-            // Verificamos todas las cartas que quedaron en el tablero
-            List<CartaUnidad> cartasRestantes = Tablero.getInstancia().getCartas();
+        // Guardar cartas antes de Tierra Arrasada
+        List<CartaUnidad> cartasAntes = new ArrayList<>(seccionRango.getCartas());
+        assertTrue(cartasAntes.contains(carta4a));
+        assertTrue(cartasAntes.contains(carta4b));
+        assertTrue(cartasAntes.contains(carta4c));
+        assertTrue(cartasAntes.contains(legendaria10));
 
-            // Las cartas con valor 4 (no legendarias) deberían haber sido eliminadas
-            assertFalse(cartasRestantes.contains(carta4a), "carta4a no fue eliminada. Cartas restantes: " + cartasRestantes);
-            assertFalse(cartasRestantes.contains(carta4b), "carta4b no fue eliminada. Cartas restantes: " + cartasRestantes );
-            assertFalse(cartasRestantes.contains(carta4c), "carta4c no fue eliminada. Cartas restantes: " + cartasRestantes);
+        // Jugar Tierra Arrasada
+        try {
+            juego.jugarCarta(tierraArrasada, seccionRango);
+        } catch (TipoDeSeccionInvalidaError | CartaNoJugable e) {
+            fail("No se pudo jugar Tierra Arrasada: " + e.getMessage());
+        }
 
-            // Las otras cartas deberían seguir presentes
-            assertTrue(cartasRestantes.contains(carta2), "carta2 fue eliminada incorrectamente");
-            assertTrue(cartasRestantes.contains(carta3), "carta3 fue eliminada incorrectamente");
-            assertTrue(cartasRestantes.contains(legendaria10), "la carta legendaria fue eliminada incorrectamente");
+        // Cartas después de Tierra Arrasada
+        List<CartaUnidad> cartasRestantes = new ArrayList<>(seccionRango.getCartas());
+
+        // Las cartas con valor 4 (no legendarias) deberían haber sido eliminadas
+        assertFalse(cartasRestantes.contains(carta4a), "carta4a no fue eliminada. Cartas restantes: " + cartasRestantes);
+        assertFalse(cartasRestantes.contains(carta4b), "carta4b no fue eliminada. Cartas restantes: " + cartasRestantes);
+        assertFalse(cartasRestantes.contains(carta4c), "carta4c no fue eliminada. Cartas restantes: " + cartasRestantes);
+
+        // Las otras cartas deberían seguir presentes
+        assertTrue(cartasRestantes.contains(carta2), "carta2 fue eliminada incorrectamente");
+        assertTrue(cartasRestantes.contains(carta3), "carta3 fue eliminada incorrectamente");
+        assertTrue(cartasRestantes.contains(legendaria10), "la carta legendaria fue eliminada incorrectamente");
     }
 }

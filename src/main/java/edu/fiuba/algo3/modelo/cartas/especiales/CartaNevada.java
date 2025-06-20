@@ -63,4 +63,18 @@ public class CartaNevada implements CartaClimatica, Carta, Modificador, CartaEsp
     public List<String> getAfectado() {
         return afectado;
     }
+
+	@Override
+	public String mostrarCarta() {
+		return "CartaNevada";
+	}
+
+	@Override
+	public void aplicarModificador(Contexto contexto) {
+		try {
+            modificar(contexto);
+        } catch (TipoDeSeccionInvalidaError | NoSePuedeEliminarClimaSiNoHayClima e) {
+            throw new RuntimeException(e);
+        }
+	}
 }
