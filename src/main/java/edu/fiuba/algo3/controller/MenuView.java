@@ -2,41 +2,47 @@ package edu.fiuba.algo3.controller;
 
 import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.controller.ConstructorMazo;
 import edu.fiuba.algo3.modelo.cartas.CartasFactory;
 import edu.fiuba.algo3.modelo.modificadores.ModificadoresFactory;
-import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import javafx.scene.image.Image;
-import org.json.simple.parser.JSONParser;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import org.json.simple.parser.JSONParser;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Objects;
 
 public class MenuView {
 
-    private final TextField inputJ1 = new TextField();
-    private final TextField inputJ2 = new TextField();
-    private final Button botonIniciar = new Button("Comenzar Partida");
-
-    private Mazo mazoJugador1 = null;
-    private Mazo mazoJugador2 = null;
-
     private final Mazo mazoA;
     private final Mazo mazoB;
 
-    public MenuView() {
+    private Mazo mazoJugador1;
+    private Mazo mazoJugador2;
 
-        // Cargar los mazos desde JSON
-        Mazo tempA, tempB;
+    private final TextField inputJ1 = new TextField();
+    private final TextField inputJ2 = new TextField();
+    private final Button botonIniciar = new Button("➜");
+
+    // Estilo botones
+    private static final String ESTILO_MAZO = "-fx-background-color: rgba(255,255,255,0.8);";
+    private static final String ESTILO_MAZO_SELECCIONADO = "-fx-background-color: #444; -fx-text-fill: white;";
+
+    // Botones seleccionables
+    private Button botonMazo1J1;
+    private Button botonMazo2J1;
+    private Button botonMazo1J2;
+    private Button botonMazo2J2;
+
+    public MenuView() {
         try {
             ConstructorMazo constructor = new ConstructorMazo(
                     new ModificadoresFactory(),
@@ -45,27 +51,22 @@ public class MenuView {
             );
 
             InputStream jsonStream = Objects.requireNonNull(getClass().getResourceAsStream("/json/gwent.json"));
-            List<Mazo> mazos = constructor.construirMazos(jsonStream.toString());
+            List<Mazo> mazos = constructor.construirMazos(jsonStream);
 
-            tempA = mazos.get(0);
-            tempB = mazos.get(1);
+            mazoA = mazos.get(0);
+            mazoB = mazos.get(1);
+
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error al cargar los mazos desde JSON");
+            throw new RuntimeException("Error al cargar mazos desde JSON", e);
         }
-
-        mazoA = tempA;
-        mazoB = tempB;
     }
 
-    public VBox construir() {
+    public BorderPane construir() {
+        BorderPane layout = new BorderPane();
+        layout.setPrefSize(800, 600);
 
-        VBox layout = new VBox(15);
-        layout.setPadding(new Insets(30));
-        layout.setAlignment(Pos.CENTER);
-
-        // Fondo con imagen
-        Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/menu.png")).toExternalForm());
+        // Fondo
+        Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/menu2.png")).toExternalForm());
         BackgroundImage bgImage = new BackgroundImage(
                 fondo,
                 BackgroundRepeat.NO_REPEAT,
@@ -75,74 +76,120 @@ public class MenuView {
         );
         layout.setBackground(new Background(bgImage));
 
-        Text titulo = new Text("GWENT - Ingreso de jugadores");
-        titulo.setStyle("-fx-fill: white; -fx-font-size: 24; -fx-font-weight: bold;");
+        // Centro: secciones jugadores
+        HBox seccionesJugadores = new HBox(40);
+        seccionesJugadores.setPadding(new Insets(40));
+        seccionesJugadores.setAlignment(Pos.CENTER);
 
-        configurarCampo(inputJ1, "Nombre del Jugador 1");
-        configurarCampo(inputJ2, "Nombre del Jugador 2");
+        VBox seccionJ1 = construirSeccionJugador("Jugador 1", inputJ1, true);
+        VBox seccionJ2 = construirSeccionJugador("Jugador 2", inputJ2, false);
 
-        HBox botonesMazo = crearSelectorDeMazo();
+        seccionesJugadores.getChildren().addAll(seccionJ1, seccionJ2);
+        layout.setCenter(seccionesJugadores);
 
+        // Botón comenzar
+        botonIniciar.setStyle("-fx-font-size: 20px; -fx-background-radius: 50%; -fx-padding: 10;");
         botonIniciar.setDisable(true);
-        botonIniciar.setOnAction(e -> {
-            try {
-                iniciarPartida();
-            } catch (Errores.TipoDeSeccionInvalidaError | Errores.UnoDeLosMazosNoCumpleRequitos ex) {
-                throw new RuntimeException(ex);
-            }
-        });
+        botonIniciar.setOnAction(e -> iniciarPartida());
 
-        layout.getChildren().addAll(titulo, inputJ1, inputJ2, botonesMazo, botonIniciar);
+        HBox contenedorBoton = new HBox(botonIniciar);
+        contenedorBoton.setAlignment(Pos.TOP_CENTER);
+        contenedorBoton.setPadding(new Insets(20));
+        layout.setBottom(contenedorBoton);
+
         return layout;
     }
 
-    private void configurarCampo(TextField campo, String placeholder) {
-        campo.setPromptText(placeholder);
-        campo.setMaxWidth(250);
-        campo.setStyle(
-                "-fx-background-color: rgba(255,255,255,0.5); " +
-                        "-fx-text-fill: black; " +
-                        "-fx-background-radius: 10;"
-        );
-        campo.textProperty().addListener((obs, oldVal, newVal) -> validarInicio());
+    private VBox construirSeccionJugador(String titulo, TextField campoNombre, boolean esJugador1) {
+        VBox seccion = new VBox(10);
+        seccion.setAlignment(Pos.TOP_CENTER);
+
+        Label label = new Label(titulo);
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 16;");
+
+        campoNombre.setPromptText("Nombre...");
+        campoNombre.setMaxWidth(200);
+        campoNombre.textProperty().addListener((obs, o, n) -> validarInicio());
+
+        Label elegir = new Label("Elegí tu mazo:");
+        elegir.setStyle("-fx-text-fill: white;");
+
+        Button botonMazo1 = new Button("Mazo A");
+        Button botonMazo2 = new Button("Mazo B");
+
+        botonMazo1.setStyle(ESTILO_MAZO);
+        botonMazo2.setStyle(ESTILO_MAZO);
+
+        botonMazo1.setOnAction(e -> seleccionarMazo(esJugador1, mazoA));
+        botonMazo2.setOnAction(e -> seleccionarMazo(esJugador1, mazoB));
+
+        if (esJugador1) {
+            botonMazo1J1 = botonMazo1;
+            botonMazo2J1 = botonMazo2;
+        } else {
+            botonMazo1J2 = botonMazo1;
+            botonMazo2J2 = botonMazo2;
+        }
+
+        HBox mazos = new HBox(10, botonMazo1, botonMazo2);
+        mazos.setAlignment(Pos.CENTER);
+
+        seccion.getChildren().addAll(label, campoNombre, elegir, mazos);
+        return seccion;
     }
 
-    private HBox crearSelectorDeMazo() {
-        HBox contenedor = new HBox(20);
-        contenedor.setAlignment(Pos.CENTER);
+    private void seleccionarMazo(boolean esJugador1, Mazo mazoSeleccionado) {
+        if (esJugador1) {
+            mazoJugador1 = mazoSeleccionado;
+            mazoJugador2 = (mazoSeleccionado == mazoA) ? mazoB : mazoA;
 
-        Button botonMazo1 = new Button("Elegir Mazo A");
-        Button botonMazo2 = new Button("Elegir Mazo B");
+            // Estilo visual jugador 1
+            botonMazo1J1.setStyle(mazoJugador1 == mazoA ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
+            botonMazo2J1.setStyle(mazoJugador1 == mazoB ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
 
-        botonMazo1.setOnAction(e -> {
-            mazoJugador1 = mazoA;
-            mazoJugador2 = mazoB;
-            botonMazo1.setDisable(true);
-            botonMazo2.setDisable(true);
-            validarInicio();
-        });
+            // Estilo visual jugador 2 automático
+            botonMazo1J2.setStyle(mazoJugador2 == mazoA ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
+            botonMazo2J2.setStyle(mazoJugador2 == mazoB ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
 
-        botonMazo2.setOnAction(e -> {
-            mazoJugador1 = mazoB;
-            mazoJugador2 = mazoA;
-            botonMazo1.setDisable(true);
-            botonMazo2.setDisable(true);
-            validarInicio();
-        });
+            // Deshabilitar ambos paneles
+            botonMazo1J1.setDisable(true);
+            botonMazo2J1.setDisable(true);
+            botonMazo1J2.setDisable(true);
+            botonMazo2J2.setDisable(true);
 
-        contenedor.getChildren().addAll(botonMazo1, botonMazo2);
-        return contenedor;
+        } else {
+            mazoJugador2 = mazoSeleccionado;
+            mazoJugador1 = (mazoSeleccionado == mazoA) ? mazoB : mazoA;
+
+            // Estilo visual jugador 2
+            botonMazo1J2.setStyle(mazoJugador2 == mazoA ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
+            botonMazo2J2.setStyle(mazoJugador2 == mazoB ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
+
+            // Estilo visual jugador 1 automático
+            botonMazo1J1.setStyle(mazoJugador1 == mazoA ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
+            botonMazo2J1.setStyle(mazoJugador1 == mazoB ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
+
+            botonMazo1J1.setDisable(true);
+            botonMazo2J1.setDisable(true);
+            botonMazo1J2.setDisable(true);
+            botonMazo2J2.setDisable(true);
+        }
+
+        validarInicio();
     }
+
 
     private void validarInicio() {
         boolean nombresValidos = !inputJ1.getText().trim().isEmpty()
                 && !inputJ2.getText().trim().isEmpty()
-                && !inputJ1.getText().equals(inputJ2.getText());
-        boolean mazoElegido = mazoJugador1 != null;
-        botonIniciar.setDisable(!(nombresValidos && mazoElegido));
+                && !inputJ1.getText().trim().equals(inputJ2.getText().trim());
+
+        boolean mazosElegidos = mazoJugador1 != null && mazoJugador2 != null;
+
+        botonIniciar.setDisable(!(nombresValidos && mazosElegidos));
     }
 
-    private void iniciarPartida() throws Errores.TipoDeSeccionInvalidaError, Errores.UnoDeLosMazosNoCumpleRequitos {
+    private void iniciarPartida() {
         Jugador j1 = new Jugador(inputJ1.getText().trim());
         Jugador j2 = new Jugador(inputJ2.getText().trim());
 
@@ -150,14 +197,11 @@ public class MenuView {
             j1.agregarMazo(mazoJugador1);
             j2.agregarMazo(mazoJugador2);
         } catch (Errores.NoSePuedeCumplirSolicitudDeCartas e) {
-            mostrarAlerta("Error al asignar mazos", "Los mazos no tienen suficientes cartas.");
+            mostrarAlerta("Error", "No se pudo asignar el mazo.");
             return;
         }
-            // Idea aprox
-//        Juego juego = new Juego(j1, j2);
-//        JuegoController controller = new JuegoController(juego);
-//        VistaJuego vista = new VistaJuego(controller);
-//        App.cambiarEscena(new Scene(vista.construir(), 1000, 700));
+
+        App.cambiarEscena(new Scene(new JuegoView(j1, j2).construir(), 1000, 700));
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
@@ -168,92 +212,3 @@ public class MenuView {
         alerta.showAndWait();
     }
 }
-
-
-//package edu.fiuba.algo3.controller;
-//
-//import edu.fiuba.algo3.App;
-//import javafx.geometry.Insets;
-//import javafx.geometry.Pos;
-//import javafx.scene.Scene;
-//import javafx.scene.control.Alert;
-//import javafx.scene.control.Button;
-//import javafx.scene.control.TextField;
-//import javafx.scene.image.Image;
-//import javafx.scene.layout.*;
-//import javafx.scene.text.Text;
-//
-//import java.util.Objects;
-//
-//public class MenuView {
-//
-//    public VBox construir() {
-//        VBox layout = new VBox(15);
-//        layout.setPadding(new Insets(40));
-//        layout.setAlignment(Pos.CENTER);
-//
-//        // Fondo con imagen
-//        Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/menu.png")).toExternalForm());
-//
-//        BackgroundImage bgImage = new BackgroundImage(
-//                fondo,
-//                BackgroundRepeat.NO_REPEAT,
-//                BackgroundRepeat.NO_REPEAT,
-//                BackgroundPosition.CENTER,
-//                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)
-//        );
-//
-//        layout.setBackground(new Background(bgImage));
-//
-//        // Título
-//        Text titulo = new Text("GWENT - Ingreso de jugadores");
-//        titulo.setStyle("-fx-fill: white; -fx-font-size: 24; -fx-font-weight: bold;");
-//
-//        // Campos de nombre con estilo
-//        TextField inputJ1 = crearCampoTexto("Nombre del Jugador 1");
-//        TextField inputJ2 = crearCampoTexto("Nombre del Jugador 2");
-//
-//        // Botón
-//        Button boton = new Button("Comenzar Partida");
-//        boton.setStyle("-fx-background-color: #ffffffaa; -fx-background-radius: 8;");
-//        boton.setOnAction(e -> {
-//            String j1 = inputJ1.getText().trim();
-//            String j2 = inputJ2.getText().trim();
-//
-//            if (j1.isEmpty() || j2.isEmpty() || j1.equals(j2)) {
-//                mostrarAlerta("Nombres inválidos", "Los nombres no pueden estar vacíos ni repetidos.");
-//                return;
-//            }
-//
-//            // Simular inicio de juego
-//            JuegoView juego = new JuegoView(j1, j2);
-//            Scene escenaJuego = new Scene(juego.construir(), 800, 600);
-//            App.cambiarEscena(escenaJuego);
-//        });
-//
-//        layout.getChildren().addAll(titulo, inputJ1, inputJ2, boton);
-//        return layout;
-//    }
-//
-//    private TextField crearCampoTexto(String placeholder) {
-//        TextField campo = new TextField();
-//        campo.setPromptText(placeholder);
-//        campo.setMaxWidth(250);
-//        campo.setStyle(
-//                "-fx-background-color: rgba(255,255,255,0.5); " +
-//                        "-fx-text-fill: black; " +
-//                        "-fx-background-radius: 10; " +
-//                        "-fx-border-radius: 10; " +
-//                        "-fx-border-color: transparent;"
-//        );
-//        return campo;
-//    }
-//
-//    private void mostrarAlerta(String titulo, String mensaje) {
-//        Alert alerta = new Alert(Alert.AlertType.WARNING);
-//        alerta.setTitle(titulo);
-//        alerta.setHeaderText(null);
-//        alerta.setContentText(mensaje);
-//        alerta.showAndWait();
-//    }
-//}
