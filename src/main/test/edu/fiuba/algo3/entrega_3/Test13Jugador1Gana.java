@@ -27,8 +27,12 @@ public class Test13Jugador1Gana {
         }
 
         Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
+
+        juego.definirQuienEmpieza(0);
         juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+
+        juego.siguienteJugador();
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.finalizarRonda();
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
@@ -39,10 +43,14 @@ public class Test13Jugador1Gana {
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+
+        juego.siguienteJugador();
         juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.finalizarRonda();
         juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+
+        juego.siguienteJugador();
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.finalizarRonda();
         assertEquals("JugadorTest1", juego.mostrarGanador(), "Gano el jugador incorrecto.\nSe esperaba: " + "JugadorTest1" + " y se obtuvo " + juego.mostrarGanador());

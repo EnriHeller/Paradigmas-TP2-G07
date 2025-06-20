@@ -7,6 +7,7 @@ import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.ArrayList;
@@ -14,19 +15,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Juego {
-    private int ciclos;
-    private Ronda[] rondas;
     private List<Jugador> jugadores;
-    private int moneda;
-    private int jugadorQueInicia;
+    private AdministradorDeTurno administradorTurno;
     private Tablero tablero;
     private SeccionesJugador[] seccionesJugador;
 
 
     //FASE INICIAL
     public Juego(String nombreJugador1, String nombreJugador2, Mazo mazoDelJugador1, Mazo mazoDelJugador2) throws UnoDeLosMazosNoCumpleRequitos, TipoDeSeccionInvalidaError {
-        this.ciclos = 0;
-        this.rondas = new Ronda[3];
 
         if (mazoDelJugador1.cantidadDeCartas() < 21 || mazoDelJugador2.cantidadDeCartas() < 21) {
             throw new UnoDeLosMazosNoCumpleRequitos();
@@ -44,51 +40,20 @@ public class Juego {
         jugadores.add(new Jugador(nombreJugador1, mazoDelJugador1, seccionesJugador[0]));
         jugadores.add(new Jugador(nombreJugador2, mazoDelJugador2, seccionesJugador[1]));
 
-        this.moneda = 0;
-        this.jugadorQueInicia = -1;
+        this.administradorTurno = new AdministradorDeTurno(jugadores);
+
     }
 
-    public Jugador iniciarJugador(int jugador){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("¿Cual es el nombre que quieres tener al jugar?\n");
-        String nombreInput = scanner.nextLine().trim();
-        String nombre;
-        if (nombreInput.equals("\n")) {
-            nombre = "Jugador" + String.valueOf(jugador);
-        } else{
-            nombre = nombreInput;
-        }
+    public void definirQuienEmpieza(int indice){
+        administradorTurno.indiceActual(indice);
+    }
 
-        System.out.println("¿Tienes un mazo creado para jugar?\nSi es asi, por favor dar la ruta donde se encuentra");
-        String mazoInput = scanner.nextLine().trim();
-        Mazo mazo;
-        if (mazoInput.equals("\n")) {
-            mazo = new Mazo(new ArrayList<Carta>()); // crear el creador de mazo porfis
-        } else{
-            mazo = new Mazo(new ArrayList<Carta>()); // Simil, crear el creador de mazos
-        }
-
-        return new Jugador(nombre, mazo);
+    public void siguienteJugador(){
+        administradorTurno.siguiente();
     }
 
     //FASE DE PREPARACIÓN
 
-    private void tirarMoneda(){
-        moneda = Math.random() < 0.5 ? -1 : 1;
-
-        if (moneda == -1){
-            jugadorQueInicia = 1;
-        } else{
-            jugadorQueInicia = 0;
-        }
-    }
-
-    public boolean iniciarFasePreparacion() throws TipoDeSeccionInvalidaError{
-        repartirCartasAlJugador(1);
-        repartirCartasAlJugador(2);
-        boolean seRepartio = seLogroRepartirCartasDelMazoALosJugadores();
-        return seRepartio;
-    }
 
     public void repartirCartasAlJugador(int jugador) throws TipoDeSeccionInvalidaError {
         int minCartasAMano = 10;
@@ -122,33 +87,8 @@ public class Juego {
             tablero.agregarCarta(dondeJugarla + String.valueOf(jugadorID), cartaUnidad);
             cartaUnidad.aplicarModificador(contexto);
             tablero.afectarClimas();
-            if (this.rondas[this.ciclos] == null) {
-                this.rondas[this.ciclos] = new Ronda();
-            }
-            rondas[ciclos].agregarPuntajeJugador(jugadores.get(jugadorID).nombre(), cartaUnidad.ValorActual());
+            administradorTurno.actualizarRonda(((CartaUnidad) carta).ValorActual());
         }
-    }
-
-    public void finalizarRonda(){
-
-        List<CartaUnidad> cartasDel1 = this.tablero.removerCartasDeJugador(0);
-        List<CartaUnidad> cartasDel2 = this.tablero.removerCartasDeJugador(0);
-
-        for (CartaUnidad carta : cartasDel1) {
-            Contexto contexto = new Contexto(tablero,"", carta,  0, jugadores.get(0));
-            carta.retrotraerModificacion(contexto);
-        }
-
-        for (CartaUnidad carta : cartasDel2) {
-            Contexto contexto = new Contexto(tablero,"", carta,  1, jugadores.get(1));
-            carta.retrotraerModificacion(contexto);
-        }
-
-        jugadores.get(0).agregarCartasAlDescarte(new ArrayList<>(cartasDel1));
-        jugadores.get(1).agregarCartasAlDescarte(new ArrayList<>(cartasDel2));
-
-        ciclos++;
-
     }
 
     public void aplicarEspecial(int jugadorID, Modificador cartaEspecial)  throws NoSePuedeEliminarClimaSiNoHayClima, TipoDeSeccionInvalidaError {
@@ -240,40 +180,11 @@ public class Juego {
     }
 
     public String mostrarGanador(){
-        String ganador = "empate";
-        int contadorJ1 = 0;
-        int contadorJ2 = 0;
-
-        String nombreJugador1 = jugadores.get(0).nombre();
-        String nombreJugador2 = jugadores.get(1).nombre();
-
-        for (Ronda ronda : rondas) {
-            if (ronda == null) continue;
-            String ganadorRonda = ronda.getGanadorRonda();
-
-            if (ganadorRonda.equals(nombreJugador1)) {
-                contadorJ1++;
-            } else if (ganadorRonda.equals(nombreJugador2)) {
-                contadorJ2++;
-            }
-        }
-
-        if (contadorJ1 > contadorJ2) {
-            ganador = nombreJugador1;
-        } else if (contadorJ2 > contadorJ1) {
-            ganador = nombreJugador2;
-        }
-
-        return ganador;
+        return administradorTurno.mostrarGanador();
     }
 
     public boolean juegoTerminado(){
-        if (ciclos < 2){
-            return false;
-        } else if(!(mostrarGanador().equals("empate"))){
-            return true;
-        }
-        return false;
+        return administradorTurno.juegoTerminado();
     }
 
     public boolean seLogroRepartirCartasDelMazoALosJugadores(){
@@ -282,5 +193,8 @@ public class Juego {
 
         return (jugador1.cartasRestantes() == 10 && jugador2.cartasRestantes() == 10);
     }
-	
+
+    public void finalizarRonda() {
+        administradorTurno.finalizarRonda(tablero);
+    }
 }

@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.modelo.modificadores;
 
+import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
@@ -29,8 +30,6 @@ public class Medico implements Modificador {
 
         Jugador jugador = contextoModificador.getJugadorClase();
         if (jugador.cartasRestantesEnSeccion("Descarte") == 0) throw new PilaDescarteNula();
-
-        Jugador jugador = contextoModificador.getJugadorClase();
 
         CartaUnidad cartaDescartada = jugador.removerUltimaCartaDeDescarte();
 

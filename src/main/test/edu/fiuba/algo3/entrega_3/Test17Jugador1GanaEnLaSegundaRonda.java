@@ -27,12 +27,18 @@ public class Test17Jugador1GanaEnLaSegundaRonda {
         }
 
         Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
+        juego.definirQuienEmpieza(0);
+
         juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+
+        juego.siguienteJugador();
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.finalizarRonda();
 
         juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+
+        juego.siguienteJugador();
         juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
         juego.finalizarRonda();

@@ -14,6 +14,16 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/*
+       Juega Super Carta
+       Resuelve SumavalorBase = le suma 1 al valor de la carta. SuperCarta ahora con 9 puntos
+       Intenta resolver Unidas = solo hay una, no se aplica ninguna modificacion
+       Juga segunda Super Carta
+       Resuelve SumaValorBase de la primera carta. Ahora tiene 10 puntos.
+       Resuelve Unidas de la primera carta. Ahora tiene 20 puntos (se duplico porque hay 2 "SuperCartas").
+       Resuelve SumaValorBase de la segunda carta. ahora tiene 9 puntos.
+       Resuelve Unidas de la segunda carta. ahora tiene 18 puntos (se duplico porque hay 2 "SuperCartas").
+*/
 public class Test14ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRonda {
 
     @Test
@@ -36,16 +46,6 @@ public class Test14ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRonda {
         juego.jugarCarta(0, carta1, "Rango");
         juego.jugarCarta(0, carta2, "Rango");
 
-        /*
-        Juega Super Carta
-        Resuelve SumavalorBase = le suma 1 al valor de la carta. SuperCarta ahora con 9 puntos
-        Intenta resolver Unidas = solo hay una, no se aplica ninguna modificacion
-        Juga segunda Super Carta
-        Resuelve SumaValorBase de la primera carta. Ahora tiene 10 puntos.
-        Resuelve Unidas de la primera carta. Ahora tiene 20 puntos (se duplico porque hay 2 "SuperCartas").
-        Resuelve SumaValorBase de la segunda carta. ahora tiene 9 puntos.
-        Resuelve Unidas de la segunda carta. ahora tiene 18 puntos (se duplico porque hay 2 "SuperCartas").
-         */
         int actual = juego.puntajeEnSeccion("Rango0");
         assertTrue(actual == 38);
         juego.finalizarRonda();
