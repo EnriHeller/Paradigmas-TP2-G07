@@ -26,7 +26,7 @@ public class App extends Application {
 
     public static void mostrarMenu() {
         MenuView menu = new MenuView();
-        Scene escenaMenu = new Scene(menu.construir(), 800, 600);
+        Scene escenaMenu = new Scene(menu.construir(), 1366, 768);
         stage.setScene(escenaMenu);
     }
 
