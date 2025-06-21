@@ -49,7 +49,7 @@ public class CartaNevada implements CartaClimatica, Carta, Modificador {
         Clima clima = crearClima();
 
         tablero.afectarClima(new Seccion("CuerpoACuerpo", 0), clima);
-        tablero.afectarClima(new Seccion("CuerpoACuerpo", 0), clima);
+        tablero.afectarClima(new Seccion("CuerpoACuerpo", 1), clima);
 
     }
 
