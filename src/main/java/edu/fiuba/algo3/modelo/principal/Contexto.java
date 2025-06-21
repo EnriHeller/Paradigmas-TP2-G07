@@ -15,13 +15,15 @@ public class Contexto {
         this.tablero = tablero;
         this.seccion = seccion;
         this.carta = carta;
-        //this.jugadorID = jugadorID;
         this.jugador = jugador;
     }
 
-    public Contexto() {
-
+    public Contexto(Tablero tablero, Seccion seccion, Jugador jugador) {
+        this.tablero = tablero;
+        this.seccion = seccion;
+        this.jugador = jugador;
     }
+
 
     public Tablero getTablero(){
         return tablero;

@@ -1,59 +1,42 @@
 package edu.fiuba.algo3.entrega_1;
 
-import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.modificadores.Base;
+import edu.fiuba.algo3.mocks.CartaUnidadMock;
+import edu.fiuba.algo3.mocks.ConstructorDeMazoMock;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
-import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class Test05LasCartasPasanALaPilaDeDescarte {
-
     @Test
-    public void pilaDescarteRecibeCartasJugadas() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos {
-        int cartasJugadasEsperadas = 8;
-        List<Carta> cartas = new ArrayList<Carta>();
-        for (int i = 0; i < 21; i++) {
-            Carta carta = new CartaUnidad();
-            cartas.add(carta);
+    public void pilaDescarteRecibeCartasJugadas() {
+        try {
+            int cartasJugadasEsperadas = 8;
+            List<Jugador> jugadores = new ArrayList<>();
+            for (var mazo : ConstructorDeMazoMock.crearDosMazosDeUnidades().construirMazos("")) {
+                jugadores.add(new Jugador("Jugador", mazo));
+            }
+            Jugador jugador1 = jugadores.get(0);
+            Jugador jugador2 = jugadores.get(1);
+            Juego juego = new Juego(jugador1, jugador2);
+            Seccion seccionSimulada = new Seccion("Rango", 0);
+            for (int i = 1; i <= cartasJugadasEsperadas; i++) {
+                CartaUnidadMock carta = new CartaUnidadMock("Cualesquiera"+i, java.util.Arrays.asList("Rango"), 8);
+                juego.jugarCarta(carta, seccionSimulada);
+            }
+            juego.finalizarRonda();
+            assertEquals(cartasJugadasEsperadas, jugador1.cartasRestantesEnSeccion("Descarte"));
+        } catch (TipoDeSeccionInvalidaError e) {
+            fail("Excepción de sección inválida: " + e.getMessage());
+        } catch (Exception e) {
+            fail("Excepción inesperada: " + e.getMessage());
         }
-        Mazo mazo = new Mazo(cartas);
-        List<CartaUnidad> cartasJugadas = new ArrayList<CartaUnidad>();
-
-        ArrayList<String> secciones = new ArrayList<String>();
-
-        Seccion seccionSimulada = new Seccion("Rango", 0);
-
-        secciones.add("Rango");
-
-        Jugador jugador1 = new Jugador("JugadorTest1", mazo);
-
-        Juego juego = new Juego(jugador1, new Jugador("JugadorTest2", mazo));
-
-        juego.jugarCarta(new CartaUnidad("Cualesquiera1",secciones, 8 , new Base()), seccionSimulada);
-        juego.jugarCarta(new CartaUnidad("Cualesquiera2",secciones, 8 , new Base()), seccionSimulada);
-        juego.jugarCarta(new CartaUnidad("Cualesquiera3",secciones, 8 , new Base()), seccionSimulada);
-        juego.jugarCarta(new CartaUnidad("Cualesquiera4",secciones, 8 , new Base()), seccionSimulada);
-        juego.jugarCarta(new CartaUnidad("Cualesquiera5",secciones, 8 , new Base()), seccionSimulada);
-        juego.jugarCarta(new CartaUnidad("Cualesquiera6",secciones, 8 , new Base()), seccionSimulada);
-        juego.jugarCarta(new CartaUnidad("Cualesquiera7",secciones, 8 , new Base()), seccionSimulada);
-        juego.jugarCarta(new CartaUnidad("Cualesquiera8",secciones, 8 , new Base()), seccionSimulada);
-
-        juego.finalizarRonda();
-
-        assertEquals(cartasJugadasEsperadas, jugador1.cartasRestantesEnSeccion("Descarte"));
-
-
     }
-
 }

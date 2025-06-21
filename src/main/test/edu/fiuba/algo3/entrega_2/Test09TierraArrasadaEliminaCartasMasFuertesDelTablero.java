@@ -1,8 +1,9 @@
 package edu.fiuba.algo3.entrega_2;
 
+import edu.fiuba.algo3.mocks.CartaUnidadMock;
+import edu.fiuba.algo3.mocks.CartaUnidadLegendariaMock;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.especiales.TierraArrasada;
-import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
@@ -12,31 +13,17 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
-import edu.fiuba.algo3.modelo.modificadores.Base;
-import edu.fiuba.algo3.modelo.modificadores.Legendaria;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-
-//Tierra arrasada: Quema a las cartas más fuertes del tablero
-
-//Nos piden verificar que si se usa un TierraArrasada se eliminen las cartas correctamente.
-
-// las más fuertes son las que más puntos tienen en esa ronda, por ejemplo:
-// Si tenés cartas con puntaje 2, 3, 4, 4, 4 - se queman las tres cartas de puntaje 4
-// Si tenés cartas con puntaje 4, 5, 6, 9 - se quema solo la de 9
-// Si tenés 7, 8 y una legendaria de 10 (es legendaria , no le afecta) - se quema la de 8
-// Es la del maximo
-
-//-> habría que tener un Juego inicializado en una instancia particular donde haya varias cartas jugadas ya para verificar que el jugador, al jugar la carta especial tierra arrasada, haga lo correspondiente.
-
+import java.io.IOException;
+import org.json.simple.parser.ParseException;
 
 public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
 
     @Test
-    public void testTierraArrasadaEliminaCartasMasFuertes() throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima, NoSePuedeCumplirSolcitudDeCartas, UnoDeLosMazosNoCumpleRequitos {
+    public void testTierraArrasadaEliminaCartasMasFuertes() throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima, NoSePuedeCumplirSolcitudDeCartas, UnoDeLosMazosNoCumpleRequitos, IOException, ParseException {
         // 1. Crear cartas de unidad y una con legendaria como modificador
 
         ArrayList<String> secciones = new ArrayList<>();
@@ -44,15 +31,15 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
 
         Seccion seccionSimulada = new Seccion("Rango", 0);
 
-        CartaUnidad carta2 = new CartaUnidad("Soldado", secciones, 2, new Base());
-        CartaUnidad carta3 = new CartaUnidad("Mago", secciones, 3, new Base());
+        CartaUnidadMock carta2 = new CartaUnidadMock("Soldado", secciones, 2);
+        CartaUnidadMock carta3 = new CartaUnidadMock("Mago", secciones, 3);
 
-        CartaUnidad carta4a = new CartaUnidad("Arquero", secciones, 4, new Base());
-        CartaUnidad carta4b = new CartaUnidad("Lancero", secciones, 4, new Base());
-        CartaUnidad carta4c = new CartaUnidad("Caballero", secciones, 4, new Base());
+        CartaUnidadMock carta4a = new CartaUnidadMock("Arquero", secciones, 4);
+        CartaUnidadMock carta4b = new CartaUnidadMock("Lancero", secciones, 4);
+        CartaUnidadMock carta4c = new CartaUnidadMock("Caballero", secciones, 4);
 
         // Carta con modificador legendaria
-        CartaUnidad legendaria10 = new CartaUnidad("Dragon", secciones, 10, new Legendaria());
+        CartaUnidadLegendariaMock legendaria10 = new CartaUnidadLegendariaMock("Dragon", secciones, 10);
 
         //Carta Tierra Arrazada
         TierraArrasada tierraArrasada = new TierraArrasada();
@@ -61,7 +48,7 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
         List<Carta> cartasJugador = new ArrayList<>();
 
         // Empezamos añadiendo mazo con cartas random
-        for (int i = 0; i < 15; i++) cartasJugador.add(new CartaUnidad());
+        for (int i = 0; i < 15; i++) cartasJugador.add(new CartaUnidadMock());
 
         //Cartas que tendran los jugadores
         cartasJugador.add(carta2);

@@ -1,13 +1,10 @@
 package edu.fiuba.algo3.entrega_1;
 
-import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.modificadores.Base;
+import edu.fiuba.algo3.mocks.CartaUnidadMock;
+import edu.fiuba.algo3.mocks.ConstructorDeMazoMock;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
-import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.jupiter.api.Test;
 
@@ -15,31 +12,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class Test04JugadorJuegaCartaYTienePuntajeParcial {
     @Test
-    public void jugadorJuegaCartaYTienePuntajeParcial() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos {
-        List<Carta> cartas = new ArrayList<Carta>();
-        for (int i = 0; i < 21; i++) {
-            Carta carta = new CartaUnidad();
-            cartas.add(carta);
+    public void jugadorJuegaCartaYTienePuntajeParcial() {
+        try {
+            // Usar mazos mockeados
+            List<Jugador> jugadores = new ArrayList<>();
+            for (var mazo : ConstructorDeMazoMock.crearDosMazosDeUnidades().construirMazos("")) {
+                jugadores.add(new Jugador("Jugador", mazo));
+            }
+            Jugador jugador1 = jugadores.get(0);
+            Jugador jugador2 = jugadores.get(1);
+            Juego juego = new Juego(jugador1, jugador2);
+            Seccion seccionSimulada = new Seccion("Rango", 0);
+            CartaUnidadMock carta = new CartaUnidadMock("Cualesquiera", java.util.Arrays.asList("Rango"), 8);
+            juego.jugarCarta(carta, seccionSimulada);
+            assertEquals(8, juego.puntajeEnSeccion(seccionSimulada));
+        } catch (TipoDeSeccionInvalidaError e) {
+            fail("Excepción de sección inválida: " + e.getMessage());
+        } catch (Exception e) {
+            fail("Excepción inesperada: " + e.getMessage());
         }
-        // Se crea el mazo con esas cartas
-        Mazo mazo = new Mazo(cartas);
-        Jugador jugador1 = new Jugador("Jugador1", mazo);
-        Jugador jugador2 = new Jugador("Jugador2", mazo);
-
-        ArrayList<String> secciones = new ArrayList<String>();
-
-        Seccion seccionSimulada = new Seccion("Rango", 0);
-
-        secciones.add("Rango");
-
-        Juego juego = new Juego(jugador1, jugador2);
-
-        juego.jugarCarta(new CartaUnidad("Cualesquiera",secciones, 8 , new Base()), seccionSimulada);
-
-        assertEquals(8, juego.puntajeEnSeccion(seccionSimulada));
-
     }
 }

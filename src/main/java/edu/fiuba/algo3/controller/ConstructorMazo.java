@@ -1,14 +1,11 @@
-package edu.fiuba.algo3.modelo.principal;
+package edu.fiuba.algo3.controller;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
-
-import java.io.FileReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -19,11 +19,7 @@ public class Mano implements SeccionJugador<Carta>{
         return this.cartas.size();
     }
 
-    @Override
-    public Carta removerCarta(int indice) {
 
-        return cartas.remove(indice);
-    }
 
     @Override
     public Carta removerCarta(Carta carta) {

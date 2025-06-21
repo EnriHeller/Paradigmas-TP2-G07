@@ -1,49 +1,35 @@
 package edu.fiuba.algo3.entrega_1;
 
-import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.modificadores.Base;
+import edu.fiuba.algo3.mocks.CartaUnidadMock;
+import edu.fiuba.algo3.mocks.ConstructorDeMazoMock;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
+import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
 import java.util.ArrayList;
-
+import java.io.IOException;
+import org.json.simple.parser.ParseException;
 
 public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
     // Verificar que un jugador pueda colocar una carta en una sección del tablero
 
     @Test
-    public void jugadorPuedeColocarCartaEnSeccion() throws Exception, TipoDeSeccionInvalidaError {
-        // Arrange
-        List<String> seccionesCartaUnidad = new ArrayList<>();
-
+    public void jugadorPuedeColocarCartaEnSeccion() throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolcitudDeCartas, UnoDeLosMazosNoCumpleRequitos, IOException, ParseException {
         Seccion seccionSimulada = new Seccion("Rango", 0);
-
-        seccionesCartaUnidad.add("Rango"); // La carta puede ir en Rango
-        CartaUnidad cartaUnidad = new CartaUnidad("CartaTest", seccionesCartaUnidad, 8, new Base());
-        List<Carta> cartas = new ArrayList<>();
-        cartas.add(cartaUnidad);
-
-        for (int i = 0; i < 20; i++) cartas.add(new CartaUnidad());
-        Mazo mazo = new Mazo(cartas);
-        Jugador jugador1 = new Jugador("Jugador1", mazo);
-        Jugador jugador2 = new Jugador("Jugador2", mazo);
-
-        try {
-            Juego juego = new Juego(jugador1, jugador2);
-            juego.darMano(0, 10);
-
-            // Pasar "Rango" para que la clave generada sea "Rango0"
-            assertDoesNotThrow(() -> juego.jugarCarta(cartaUnidad, seccionSimulada));
-        } catch (TipoDeSeccionInvalidaError | NoSePuedeCumplirSolcitudDeCartas e) {
-            fail("No se esperaba excepción: " + e.getMessage());
+        CartaUnidadMock cartaUnidad = new CartaUnidadMock("CartaTest", java.util.Arrays.asList("Rango"), 8);
+        List<Jugador> jugadores = new ArrayList<>();
+        for (var mazo : ConstructorDeMazoMock.crearDosMazosDeUnidades().construirMazos("")) {
+            jugadores.add(new Jugador("Jugador", mazo));
         }
+        Jugador jugador1 = jugadores.get(0);
+        Jugador jugador2 = jugadores.get(1);
+        Juego juego = new Juego(jugador1, jugador2);
+        juego.darMano(0, 10);
+        assertDoesNotThrow(() -> juego.jugarCarta(cartaUnidad, seccionSimulada));
     }
 }

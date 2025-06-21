@@ -27,23 +27,6 @@ public class CartaUnidad implements Carta, Puntuable {
         this.modificador = modificador;
     }
 
-    public CartaUnidad(String nombre, List<String> secciones, int valor) {
-        this.nombre = nombre;
-        this.secciones = secciones;
-        this.valorActual = valor;
-        this.valorBase = valor;
-        this.modificador = new Base();
-    }
-
-    // Constructor sin argumentos para tests
-    public CartaUnidad() {
-        this.nombre = "";
-        this.secciones = new ArrayList<>();
-        this.valorActual = 0;
-        this.valorBase = 0;
-        this.modificador = new Base();
-    }
-
     @Override
     public void aplicarModificador(Contexto contexto) {
         try {
@@ -55,14 +38,6 @@ public class CartaUnidad implements Carta, Puntuable {
     @Override
     public void retrotraerModificacion(Contexto contexto){
         modificador.retrotraerContexto(contexto);
-    }
-
-    public int getPuntajeBase() {
-        return this.valorBase;
-    }
-
-    public List<String> puedeColocarse() {
-        return this.secciones;
     }
 
     public String getNombre() {
@@ -94,6 +69,7 @@ public class CartaUnidad implements Carta, Puntuable {
 
     }
 
+    //METODOS PARA AGIL. Se podria hacer test de lo interno.
     public void agregarSeccion(String seccion) {
         this.secciones.add(seccion);
     }
@@ -113,9 +89,7 @@ public class CartaUnidad implements Carta, Puntuable {
         return this.valorActual;
     }
 
-    public boolean coincideSeccion(String seccion){
-        return this.secciones.contains(seccion);
-    }
+
 
     public List<String> getSecciones(){
         return this.secciones;

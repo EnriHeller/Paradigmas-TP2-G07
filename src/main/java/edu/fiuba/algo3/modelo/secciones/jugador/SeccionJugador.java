@@ -8,8 +8,6 @@ import java.util.List;
 public interface SeccionJugador<T extends Carta> {
 
     public int cartasRestantes();
-    //Intentar remover este mensaje
-    public Carta removerCarta(int indice);
 
     public Carta removerCarta(Carta carta);
 

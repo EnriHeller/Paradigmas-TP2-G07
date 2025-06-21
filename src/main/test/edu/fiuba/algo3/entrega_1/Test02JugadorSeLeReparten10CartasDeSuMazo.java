@@ -6,6 +6,7 @@ import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.mocks.CartaUnidadMock;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class Test02JugadorSeLeReparten10CartasDeSuMazo {
         // Crear 21 Cartas
         List<Carta> cartas = new ArrayList<>();
         for (int i = 0; i < 21; i++) {
-            cartas.add(new CartaUnidad());
+            cartas.add(new CartaUnidadMock());
         }
         Mazo mazo = new Mazo(cartas);
         Jugador jugador1 = new Jugador("Jugador1", mazo);

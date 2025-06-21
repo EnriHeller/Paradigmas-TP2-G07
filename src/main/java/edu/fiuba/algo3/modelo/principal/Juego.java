@@ -67,7 +67,7 @@ public class Juego {
     //FASE DE JUEGO
     public void jugarCarta(Carta carta, Seccion seccion) throws TipoDeSeccionInvalidaError {
         if (carta.esEspecial()){
-            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), new CartaUnidad(), administradorTurno.jugadorActual());
+            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), administradorTurno.jugadorActual());
             carta.aplicarModificador(contexto);
         } else{
             Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), (CartaUnidad) carta, administradorTurno.jugadorActual());

@@ -1,60 +1,47 @@
 package edu.fiuba.algo3.entrega_1;
 
-import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.cartas.especiales.CartaNevada;
-import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.cartas.especiales.Clima;
-import edu.fiuba.algo3.modelo.modificadores.Base;
-import edu.fiuba.algo3.modelo.modificadores.Modificador;
-import edu.fiuba.algo3.modelo.modificadores.SumaValorBase;
-import edu.fiuba.algo3.modelo.modificadores.Unidas;
+import edu.fiuba.algo3.mocks.CartaUnidadMock;
+import edu.fiuba.algo3.mocks.CartaEspecialMock;
+import edu.fiuba.algo3.mocks.ConstructorDeMazoMock;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
-import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.cartas.especiales.CartaNevada;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespondiente {
-
-    //
     @Test
-    public void cartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespondiente() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos {
-        Base base = new Base();
-        ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
-        ArrayList<String> secciones = new ArrayList<String>();
-        secciones.add("CuerpoACuerpo");
-        for (int i = 0; i < 21; i++) {
-            CartaUnidad carta = new CartaUnidad("Aldeano",secciones, 8 , base);
-            cartasDelMazo.add(carta);
+    public void cartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespondiente() {
+        try {
+            List<Jugador> jugadores = new ArrayList<>();
+            for (var mazo : ConstructorDeMazoMock.crearDosMazosDeUnidades().construirMazos("")) {
+                jugadores.add(new Jugador("Jugador", mazo));
+            }
+            Jugador jugador1 = jugadores.get(0);
+            Jugador jugador2 = jugadores.get(1);
+            Juego juego = new Juego(jugador1, jugador2);
+            Seccion seccionSimulada = new Seccion("CuerpoACuerpo", 0);
+            CartaUnidadMock carta1 = new CartaUnidadMock("Aldeano", java.util.Arrays.asList("CuerpoACuerpo"), 8);
+            CartaUnidadMock carta2 = new CartaUnidadMock("Aldeano", java.util.Arrays.asList("CuerpoACuerpo"), 8);
+            juego.jugarCarta(carta1, seccionSimulada);
+            juego.jugarCarta(carta2, seccionSimulada);
+            int actual = juego.puntajeEnSeccion(seccionSimulada);
+            assertEquals(16, actual);
+            CartaNevada cartaClima = new CartaNevada();
+            juego.jugarCarta(cartaClima, seccionSimulada);
+            actual = juego.puntajeEnSeccion(seccionSimulada);
+            assertEquals(2, actual);
+        } catch (TipoDeSeccionInvalidaError e) {
+            fail("Excepción de sección inválida: " + e.getMessage());
+        } catch (Exception e) {
+            fail("Excepción inesperada: " + e.getMessage());
         }
-
-        Seccion seccionSimulada = new Seccion("CuerpoACuerpo", 0);
-
-        Jugador jugador1 = new Jugador("Jugador1", new Mazo(cartasDelMazo));
-        Jugador jugador2 = new Jugador("Jugador2", new Mazo(cartasDelMazo));
-
-        Juego juego = new Juego(jugador1, jugador2);
-
-        CartaUnidad carta1 = new CartaUnidad("Aldeano",secciones, 8 , base);
-
-        CartaUnidad carta2 = new CartaUnidad("Aldeano",secciones, 8 , base);
-
-        juego.jugarCarta(carta1, seccionSimulada);
-        juego.jugarCarta(carta2, seccionSimulada);
-
-        int actual = juego.puntajeEnSeccion(seccionSimulada);
-        assertEquals(16, actual);
-
-        juego.jugarCarta(new CartaNevada(), seccionSimulada);
-
-        actual = juego.puntajeEnSeccion(seccionSimulada);
-        assertEquals(2, actual);
     }
 }
