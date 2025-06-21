@@ -45,11 +45,10 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
 
         CartaUnidad carta2 = new CartaUnidad("Soldado", secciones, 2, new Base());
         CartaUnidad carta3 = new CartaUnidad("Mago", secciones, 3, new Base());
-        
+
         CartaUnidad carta4a = new CartaUnidad("Arquero", secciones, 4, new Base());
         CartaUnidad carta4b = new CartaUnidad("Lancero", secciones, 4, new Base());
         CartaUnidad carta4c = new CartaUnidad("Caballero", secciones, 4, new Base());
-
 
         // Carta con modificador legendaria
         CartaUnidad legendaria10 = new CartaUnidad("Dragon", secciones, 10, new Legendaria());
@@ -59,7 +58,7 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
 
         // 2. Añadimos cartas que va a usar
         List<Carta> cartasJugador = new ArrayList<>();
-        
+
         // Empezamos añadiendo mazo con cartas random
         for (int i = 0; i < 15; i++) cartasJugador.add(new CartaUnidad());
 
@@ -71,7 +70,7 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
         //cartasJugador.add(carta4c);
         cartasJugador.add(legendaria10);
         cartasJugador.add(tierraArrasada);
-        
+
         Mazo mazo_j1 = new Mazo(new ArrayList<>(cartasJugador));
         Mazo mazo_j2 = new Mazo(new ArrayList<>(cartasJugador));
 
@@ -82,24 +81,16 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
 
         // 3. Jugar las cartas en la sección "Rango"
         juego.jugarCarta(carta2, seccionSimulada);
-            juego.jugarCarta(carta3, seccionSimulada);
-            juego.jugarCarta(carta4a, seccionSimulada);
-            juego.jugarCarta(carta4b, seccionSimulada);
-            juego.jugarCarta(carta4c, seccionSimulada);
-            juego.jugarCarta(legendaria10, seccionSimulada);
-            juego.jugarCarta(tierraArrasada, seccionSimulada);
+        juego.jugarCarta(carta3, seccionSimulada);
+        juego.jugarCarta(carta4a, seccionSimulada);
+        juego.jugarCarta(carta4b, seccionSimulada);
+        juego.jugarCarta(carta4c, seccionSimulada);
+        juego.jugarCarta(legendaria10, seccionSimulada);
+        juego.jugarCarta(tierraArrasada, seccionSimulada);
 
-            // Verificamos todas las cartas que quedaron en el tablero
-            List<CartaUnidad> cartasRestantes = Tablero.getInstancia().getCartas();
+        // Verificamos todas las cartas que quedaron en el tablero
+        int puntajePosArrazada = juego.puntajeEnSeccion(seccionSimulada);
 
-            // Las cartas con valor 4 (no legendarias) deberían haber sido eliminadas
-            assertFalse(cartasRestantes.contains(carta4a), "carta4a no fue eliminada. Cartas restantes: " + cartasRestantes);
-            assertFalse(cartasRestantes.contains(carta4b), "carta4b no fue eliminada. Cartas restantes: " + cartasRestantes );
-            assertFalse(cartasRestantes.contains(carta4c), "carta4c no fue eliminada. Cartas restantes: " + cartasRestantes);
-
-            // Las otras cartas deberían seguir presentes
-            assertTrue(cartasRestantes.contains(carta2), "carta2 fue eliminada incorrectamente");
-            assertTrue(cartasRestantes.contains(carta3), "carta3 fue eliminada incorrectamente");
-            assertTrue(cartasRestantes.contains(legendaria10), "la carta legendaria fue eliminada incorrectamente");
+        assertEquals(15, puntajePosArrazada);
     }
 }

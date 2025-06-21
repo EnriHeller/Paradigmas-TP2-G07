@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 public class Test08EsPosibleEliminarAfectoDelClimaEnTablero {
     @Test
     public void EsPosibleEliminarAfectoDelClimaEnTablero () throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
-        Tablero tablero = Tablero.getInstancia();
+        Tablero tablero = new Tablero();
         CartaNevada nevada = new CartaNevada();
         DestructoraDeClima destructoraDeClima = new DestructoraDeClima();
         Contexto contexto = new Contexto(tablero,new Seccion(),new CartaUnidad(),new Jugador());

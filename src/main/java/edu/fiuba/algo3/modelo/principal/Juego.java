@@ -23,8 +23,7 @@ public class Juego {
             throw new UnoDeLosMazosNoCumpleRequitos();
         }
 
-        //Se instancia por primera vez al tablero. (A chequear si es necesario)
-        this.tablero = Tablero.getInstancia();
+        this.tablero = new Tablero();
 
         this.jugadores = new ArrayList<>();
         jugadores.add(new Jugador(nombreJugador1, mazoDelJugador1));
@@ -41,7 +40,7 @@ public class Juego {
         }
 
         //Se instancia por primera vez al tablero. (A chequear si es necesario)
-        this.tablero = Tablero.getInstancia();
+        this.tablero = new Tablero();
 
         this.jugadores = new ArrayList<>();
         jugadores.add(jugador1);
