@@ -17,22 +17,6 @@ public class Juego {
 
 
     //FASE INICIAL
-    public Juego(String nombreJugador1, String nombreJugador2, Mazo mazoDelJugador1, Mazo mazoDelJugador2) throws UnoDeLosMazosNoCumpleRequitos, TipoDeSeccionInvalidaError {
-
-        if (mazoDelJugador1.cartasRestantes() < 21 || mazoDelJugador2.cartasRestantes() < 21) {
-            throw new UnoDeLosMazosNoCumpleRequitos();
-        }
-
-        this.tablero = new Tablero();
-
-        this.jugadores = new ArrayList<>();
-        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador1));
-        jugadores.add(new Jugador(nombreJugador2, mazoDelJugador2));
-
-        this.administradorTurno = new AdministradorDeTurno(jugadores);
-
-    }
-
     public Juego(Jugador jugador1, Jugador jugador2) throws UnoDeLosMazosNoCumpleRequitos, TipoDeSeccionInvalidaError {
 
         if (jugador1.cartasRestantesEnSeccion("Mazo") < 21 || jugador2.cartasRestantesEnSeccion("Mazo") < 21) {

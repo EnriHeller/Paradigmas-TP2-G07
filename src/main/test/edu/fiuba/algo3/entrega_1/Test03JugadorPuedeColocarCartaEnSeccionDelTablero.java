@@ -4,6 +4,7 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
@@ -32,9 +33,11 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
 
         for (int i = 0; i < 20; i++) cartas.add(new CartaUnidad());
         Mazo mazo = new Mazo(cartas);
+        Jugador jugador1 = new Jugador("Jugador1", mazo);
+        Jugador jugador2 = new Jugador("Jugador2", mazo);
 
         try {
-            Juego juego = new Juego("Jugador1", "Jugador2", mazo, mazo);
+            Juego juego = new Juego(jugador1, jugador2);
             juego.darMano(0, 10);
 
             // Pasar "Rango" para que la clave generada sea "Rango0"

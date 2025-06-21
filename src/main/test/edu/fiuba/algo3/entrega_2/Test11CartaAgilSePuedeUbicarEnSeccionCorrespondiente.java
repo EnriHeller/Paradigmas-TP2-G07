@@ -6,6 +6,7 @@ import edu.fiuba.algo3.modelo.modificadores.Agil;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Espias;
 import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
@@ -32,7 +33,7 @@ public class Test11CartaAgilSePuedeUbicarEnSeccionCorrespondiente {
             cartasDelMazo.add(carta);
         }
 
-        Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
+        Juego juego = new Juego(new Jugador("JugadorTest1", new Mazo(cartasDelMazo)), new Jugador("JugadorTest2", new Mazo(cartasDelMazo)));
 
         assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Agil'e",secciones, 8 , agil), seccionSimulada));
     }

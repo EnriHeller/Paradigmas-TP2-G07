@@ -3,6 +3,7 @@ package edu.fiuba.algo3.entrega_2;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.especiales.TierraArrasada;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
@@ -67,7 +68,7 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
         cartasJugador.add(carta3);
         cartasJugador.add(carta4a);
         cartasJugador.add(carta4b);
-        //cartasJugador.add(carta4c);
+        cartasJugador.add(carta4c);
         cartasJugador.add(legendaria10);
         cartasJugador.add(tierraArrasada);
 
@@ -76,7 +77,7 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
 
         Juego juego;
 
-        juego = new Juego("Jugador1", "Jugador2", mazo_j1, mazo_j2);
+        juego = new Juego(new Jugador("JugadorTest1", mazo_j1), new Jugador("JugadorTest2", mazo_j2));
         juego.darMano(0, 10);
 
         // 3. Jugar las cartas en la sección "Rango"
@@ -91,6 +92,6 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
         // Verificamos todas las cartas que quedaron en el tablero
         int puntajePosArrazada = juego.puntajeEnSeccion(seccionSimulada);
 
-        assertEquals(15, puntajePosArrazada);
+        assertEquals(25, puntajePosArrazada);
     }
 }

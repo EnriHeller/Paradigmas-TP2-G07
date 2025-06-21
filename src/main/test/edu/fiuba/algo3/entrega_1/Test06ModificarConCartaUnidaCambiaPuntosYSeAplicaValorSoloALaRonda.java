@@ -10,6 +10,7 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Unidas;
 import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
@@ -31,7 +32,10 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
             cartasDelMazo.add(carta);
         }
 
-        Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
+        Jugador jugador1 = new Jugador("Jugador1", new Mazo(cartasDelMazo));
+        Jugador jugador2 = new Jugador("Jugador2", new Mazo(cartasDelMazo));
+
+        Juego juego = new Juego(jugador1,jugador2);
         juego.jugarCarta(new CartaUnidad("Vengador",secciones, 8 , unidas), seccionSimulada);
         juego.jugarCarta(new CartaUnidad("Vengador",secciones, 8 , unidas), seccionSimulada);
         int puntaje = juego.puntajeEnSeccion(seccionSimulada);

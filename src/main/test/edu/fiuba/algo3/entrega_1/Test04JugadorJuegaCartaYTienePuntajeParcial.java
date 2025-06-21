@@ -4,6 +4,7 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
@@ -25,6 +26,8 @@ public class Test04JugadorJuegaCartaYTienePuntajeParcial {
         }
         // Se crea el mazo con esas cartas
         Mazo mazo = new Mazo(cartas);
+        Jugador jugador1 = new Jugador("Jugador1", mazo);
+        Jugador jugador2 = new Jugador("Jugador2", mazo);
 
         ArrayList<String> secciones = new ArrayList<String>();
 
@@ -32,7 +35,7 @@ public class Test04JugadorJuegaCartaYTienePuntajeParcial {
 
         secciones.add("Rango");
 
-        Juego juego = new Juego("JugadorTest1", "JugadorTest2", mazo, mazo);
+        Juego juego = new Juego(jugador1, jugador2);
 
         juego.jugarCarta(new CartaUnidad("Cualesquiera",secciones, 8 , new Base()), seccionSimulada);
 

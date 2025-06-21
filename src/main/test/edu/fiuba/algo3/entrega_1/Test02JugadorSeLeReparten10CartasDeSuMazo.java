@@ -3,6 +3,7 @@ package edu.fiuba.algo3.entrega_1;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import org.junit.jupiter.api.Test;
@@ -22,8 +23,10 @@ public class Test02JugadorSeLeReparten10CartasDeSuMazo {
             cartas.add(new CartaUnidad());
         }
         Mazo mazo = new Mazo(cartas);
+        Jugador jugador1 = new Jugador("Jugador1", mazo);
+        Jugador jugador2 = new Jugador("Jugador2", mazo);
         try {
-            Juego juego = new Juego("JugadorTest1", "JugadorTest2", mazo, mazo);
+            Juego juego = new Juego(jugador1, jugador2);
             assertDoesNotThrow(() -> juego.darMano(0, 10));
         } catch (TipoDeSeccionInvalidaError | edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos e) {
             fail("No se esperaba excepción: " + e.getMessage());
