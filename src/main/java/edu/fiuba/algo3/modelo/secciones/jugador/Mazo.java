@@ -3,12 +3,13 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 
-public class Mazo {
+public class Mazo implements SeccionJugador<Carta> {
     private List<Carta> cartas;
 
     public Mazo(List<Carta> cartas) {
@@ -16,17 +17,47 @@ public class Mazo {
         this.cartas = cartas;
     }
 
-    public int cantidadDeCartas(){
+    @Override
+    public int cartasRestantes(){
         return cartas.size();
+    }
+
+    @Override
+    public Carta removerCarta(int indice) {
+        return cartas.remove(indice);
+    }
+
+    @Override
+    public Carta removerCarta(Carta carta) {
+        for (int i = 0; i < cartas.size(); i++) {
+            if (cartas.get(i).equals(carta)) {
+                return cartas.remove(i);
+            }
+        }
+        throw new IllegalArgumentException("La carta no está en la mazo");
+    }
+
+    @Override
+    public List<Carta> removerCartas(List<Carta> cartas) {
+        for (Carta carta : cartas) {
+            removerCarta(carta);
+        }
+        return cartas;
+    }
+
+    @Override
+    public void agregarCarta(Carta carta) {
+        cartas.add(carta);
+    }
+
+    @Override
+    public void agregarCartas(List<Carta> cartas) {
+        this.cartas.addAll(cartas);
+        mezclar();
     }
 
     public void mezclar() {
         Collections.shuffle(this.cartas);
-    }
-
-    public void recibirCartas(List<Carta> cartas) {
-        this.cartas.addAll(cartas);
-        mezclar();
     }
 
     public List<Carta> repartirCarta(int n) throws NoSePuedeCumplirSolcitudDeCartas {

@@ -1,12 +1,8 @@
 package edu.fiuba.algo3.modelo.principal;
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
-import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
@@ -18,27 +14,38 @@ public class Juego {
     private List<Jugador> jugadores;
     private AdministradorDeTurno administradorTurno;
     private Tablero tablero;
-    private SeccionesJugador[] seccionesJugador;
 
 
     //FASE INICIAL
     public Juego(String nombreJugador1, String nombreJugador2, Mazo mazoDelJugador1, Mazo mazoDelJugador2) throws UnoDeLosMazosNoCumpleRequitos, TipoDeSeccionInvalidaError {
 
-        if (mazoDelJugador1.cantidadDeCartas() < 21 || mazoDelJugador2.cantidadDeCartas() < 21) {
+        if (mazoDelJugador1.cartasRestantes() < 21 || mazoDelJugador2.cartasRestantes() < 21) {
             throw new UnoDeLosMazosNoCumpleRequitos();
         }
 
         //Se instancia por primera vez al tablero. (A chequear si es necesario)
         this.tablero = Tablero.getInstancia();
 
-        //Referencia a las secciones jugador (A chequear si es necesario)
-        this.seccionesJugador = new SeccionesJugador[2];
-        seccionesJugador[0] = SeccionesJugador.seccionesDelJugador("0");
-        seccionesJugador[1] = SeccionesJugador.seccionesDelJugador("1");
+        this.jugadores = new ArrayList<>();
+        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador1));
+        jugadores.add(new Jugador(nombreJugador2, mazoDelJugador2));
+
+        this.administradorTurno = new AdministradorDeTurno(jugadores);
+
+    }
+
+    public Juego(Jugador jugador1, Jugador jugador2) throws UnoDeLosMazosNoCumpleRequitos, TipoDeSeccionInvalidaError {
+
+        if (jugador1.cartasRestantesEnSeccion("Mazo") < 21 || jugador2.cartasRestantesEnSeccion("Mazo") < 21) {
+            throw new UnoDeLosMazosNoCumpleRequitos();
+        }
+
+        //Se instancia por primera vez al tablero. (A chequear si es necesario)
+        this.tablero = Tablero.getInstancia();
 
         this.jugadores = new ArrayList<>();
-        jugadores.add(new Jugador(nombreJugador1, mazoDelJugador1, seccionesJugador[0]));
-        jugadores.add(new Jugador(nombreJugador2, mazoDelJugador2, seccionesJugador[1]));
+        jugadores.add(jugador1);
+        jugadores.add(jugador2);
 
         this.administradorTurno = new AdministradorDeTurno(jugadores);
 
@@ -70,7 +77,7 @@ public class Juego {
     }
 
     public void descartarCartasDeMano(int jugadorID, List<Carta> cartasQueSeQuierenDescartar) {
-        jugadores.get(jugadorID).descartarCartas(cartasQueSeQuierenDescartar);
+        jugadores.get(jugadorID).descartarAlMazo(cartasQueSeQuierenDescartar);
     }
 
 
@@ -109,67 +116,11 @@ public class Juego {
             }
         }
     }
-
-    //COMUNICACION
-
-        private Carta eleccionDeCarta(int jugador, String clave) throws TipoDeSeccionInvalidaError {
-        Tablero secciones = Tablero.getInstancia();
-
-        Scanner scanner = new Scanner(System.in);
-
-        boolean eleccionErronea = true;
-        int opcion = -1;
-
-        Jugador jugadorActual = jugadores.get(jugador);
-        int cantidadCartas = jugadorActual.cartasRestantesEnSeccion(clave);
-
-        while (eleccionErronea) {
-            System.out.print("Ingrese el número de la carta que quiere elegir: ");
-            try {
-                opcion = scanner.nextInt();
-                //Si la carta se encuentra en el rango dado, ya no hay eleccion erronea
-                if (opcion >= 0 && opcion < seccionesJugador[jugador].cartasRestantes(clave)) {
-                    eleccionErronea = false;
-                } else {
-                    System.out.println("Opción inválida. Por favor ingrese un número entre 0 y 10.");
-                }
-            } catch (Exception e) {
-                System.out.println("Entrada inválida. Por favor ingrese un número válido.");
-                scanner.next();
-            }
-        }
-        //Esto a chequear. Terminará de definirse con la interfaz
-        return new CartaUnidad(); //SeccionesJugador[jugador].removerCarta("Mano", opcion);
-    }
-
-        public String SeccionElegida() {
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            System.out.println("¿En qué sección querés jugar?\n1 - Cuerpo a Cuerpo\n2 - Rango\n3 - Asedio\nElegí una opción (1, 2 o 3): ");
-            String input = scanner.nextLine().trim();
-
-            switch (input) {
-                case "1":
-                    return "CuerpoACuerpo";
-                case "2":
-                    return "Rango";
-                case "3":
-                    return "Asedio";
-                default:
-                    System.out.println("Opción inválida. Intentá de nuevo.\n");
-            }
-        }
-    }
     
     //VERIFICACIONES
 
     public int puntajeEnSeccion(Seccion seccion) throws TipoDeSeccionInvalidaError {
         return tablero.PuntajeSeccion(seccion);
-    }
-
-    public int puntajeEnSeccion(String nombreSeccion) throws TipoDeSeccionInvalidaError {
-        return tablero.getPuntaje(nombreSeccion);
     }
 
     public int cartasRestantesJugador(String seccionJugador,int jugador_i) throws TipoDeSeccionInvalidaError {
@@ -189,7 +140,7 @@ public class Juego {
         Jugador jugador1 = jugadores.get(1);
         Jugador jugador2 = jugadores.get(2);
 
-        return (jugador1.cartasRestantes() == 10 && jugador2.cartasRestantes() == 10);
+        return (jugador1.cartasRestantesEnSeccion("Mano") == 10 && jugador2.cartasRestantesEnSeccion("Mano") == 10);
     }
 
     public void finalizarRonda() {

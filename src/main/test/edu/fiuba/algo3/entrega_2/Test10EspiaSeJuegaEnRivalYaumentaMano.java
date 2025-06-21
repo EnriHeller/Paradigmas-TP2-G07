@@ -1,22 +1,16 @@
 package edu.fiuba.algo3.entrega_2;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.cartas.especiales.CartaNevada;
-import edu.fiuba.algo3.modelo.cartas.especiales.DestructoraDeClima;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Espias;
 import edu.fiuba.algo3.modelo.principal.*;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
-import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
-import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,7 +36,7 @@ public class Test10EspiaSeJuegaEnRivalYaumentaMano {
         
 
         int cartasEnMano = juego.cartasRestantesJugador("Mano", 0);
-        int puntajeDelOtroJugador = juego.puntajeEnSeccion("Rango1");
+        int puntajeDelOtroJugador = juego.puntajeEnSeccion(new Seccion("Rango", 1));
         assertTrue((cartasEnMano == 2) && (puntajeDelOtroJugador == 8));
     }
 

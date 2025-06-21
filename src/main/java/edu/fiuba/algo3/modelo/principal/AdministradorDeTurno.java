@@ -16,6 +16,9 @@ public class AdministradorDeTurno {
 
     public AdministradorDeTurno(List<Jugador> jugadores) {
         this.jugadores = jugadores;
+        for (int i = 0; i < jugadores.size(); i++) {
+            jugadores.get(i).setOrdenDeJuego(i);
+        }
     }
 
     public void indiceActual(int indice) {

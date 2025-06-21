@@ -50,7 +50,7 @@ public class Test14ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRonda {
         juego.jugarCarta(carta1, seccionSimulada);
         juego.jugarCarta(carta2, seccionSimulada);
 
-        int actual = juego.puntajeEnSeccion("Rango0");
+        int actual = juego.puntajeEnSeccion(seccionSimulada);
         assertTrue(actual == 38);
         juego.finalizarRonda();
         int cartasEnDesacarte = juego.cartasRestantesJugador("Descarte", 0);

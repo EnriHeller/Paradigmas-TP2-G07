@@ -170,7 +170,7 @@ public class Tablero {
         if (seccion == null) {
             throw new IllegalArgumentException("Clave inválida: " + clave);
         }
-        return seccion.removerCartas();
+        return obtenerSeccion(seccion).removerCartas();
     }
 
 
@@ -193,13 +193,13 @@ public class Tablero {
 
     public void agregarCarta(Seccion seccion, CartaUnidad carta) throws TipoDeSeccionInvalidaError {
         existeSeccion(seccion);
-        seccion.agregarCarta(carta);
+        obtenerSeccion(seccion).agregarCarta(carta);
     }
     
     public void agregarCartas(Seccion seccion, List<CartaUnidad> cartas) throws TipoDeSeccionInvalidaError {
 
         existeSeccion(seccion);
-        seccion.agregarCartas(cartas);
+        obtenerSeccion(seccion).agregarCartas(cartas);
     }
 
 }

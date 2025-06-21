@@ -8,17 +8,12 @@ import java.util.ArrayList;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Base;
-import edu.fiuba.algo3.modelo.modificadores.Espias;
 import edu.fiuba.algo3.modelo.modificadores.Unidas;
-import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.principal.Juego;
-import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
-import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import org.junit.jupiter.api.Test;
 
 public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda {

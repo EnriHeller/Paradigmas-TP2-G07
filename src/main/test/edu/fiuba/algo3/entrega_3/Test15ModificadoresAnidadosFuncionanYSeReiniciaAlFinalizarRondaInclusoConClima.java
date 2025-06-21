@@ -42,12 +42,12 @@ public class Test15ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRondaIncl
         juego.jugarCarta(carta1, seccionSimulada);
         juego.jugarCarta(carta2, seccionSimulada);
 
-        int actual = juego.puntajeEnSeccion("CuerpoACuerpo0");
+        int actual = juego.puntajeEnSeccion(seccionSimulada);
         assertTrue(actual == 38);
 
         juego.jugarCarta(new CartaNevada(), seccionSimulada);
 
-        actual = juego.puntajeEnSeccion("CuerpoACuerpo0");
+        actual = juego.puntajeEnSeccion(seccionSimulada);
         assertTrue(actual == 2);
 
         juego.finalizarRonda();
