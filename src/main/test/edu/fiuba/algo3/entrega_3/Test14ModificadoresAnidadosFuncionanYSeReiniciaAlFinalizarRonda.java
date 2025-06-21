@@ -47,8 +47,8 @@ public class Test14ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRonda {
 
         CartaUnidad carta2 = new CartaUnidad("SuperCarta",secciones, 8 , superModificador);
 
-        juego.jugarCarta(0, carta1, seccionSimulada);
-        juego.jugarCarta(0, carta2, seccionSimulada);
+        juego.jugarCarta(carta1, seccionSimulada);
+        juego.jugarCarta(carta2, seccionSimulada);
 
         int actual = juego.puntajeEnSeccion("Rango0");
         assertTrue(actual == 38);

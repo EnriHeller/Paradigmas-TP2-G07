@@ -33,31 +33,31 @@ public class Test18Jugador2GanaEnLaTerceraRonda {
         Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
         juego.definirQuienEmpieza(0);
 
-        juego.jugarCarta(0, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
-        juego.jugarCarta(0, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
 
         juego.siguienteJugador();
-        juego.jugarCarta(1, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
         juego.finalizarRonda();
 
         assertFalse(juego.juegoTerminado());
 
-        juego.jugarCarta(1, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
-        juego.jugarCarta(1, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
 
         juego.siguienteJugador();
-        juego.jugarCarta(0, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
         juego.finalizarRonda();
 
         assertFalse(juego.juegoTerminado());
 
         juego.siguienteJugador();
-        juego.jugarCarta(1, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
-        juego.jugarCarta(1, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
-        juego.jugarCarta(1, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
 
         juego.siguienteJugador();
-        juego.jugarCarta(0, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
         juego.finalizarRonda();
 
         assertTrue(juego.juegoTerminado());

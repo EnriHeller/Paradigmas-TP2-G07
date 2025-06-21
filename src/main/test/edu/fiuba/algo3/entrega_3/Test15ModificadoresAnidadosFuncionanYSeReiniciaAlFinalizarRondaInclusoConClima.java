@@ -39,13 +39,13 @@ public class Test15ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRondaIncl
 
         CartaUnidad carta2 = new CartaUnidad("SuperCarta",secciones, 8 , superModificador);
 
-        juego.jugarCarta(0, carta1, seccionSimulada);
-        juego.jugarCarta(0, carta2, seccionSimulada);
+        juego.jugarCarta(carta1, seccionSimulada);
+        juego.jugarCarta(carta2, seccionSimulada);
 
         int actual = juego.puntajeEnSeccion("CuerpoACuerpo0");
         assertTrue(actual == 38);
 
-        juego.jugarCarta(0, new CartaNevada(), seccionSimulada);
+        juego.jugarCarta(new CartaNevada(), seccionSimulada);
 
         actual = juego.puntajeEnSeccion("CuerpoACuerpo0");
         assertTrue(actual == 2);

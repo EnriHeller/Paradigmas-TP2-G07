@@ -42,13 +42,13 @@ public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespo
 
         CartaUnidad carta2 = new CartaUnidad("Aldeano",secciones, 8 , base);
 
-        juego.jugarCarta(0, carta1, seccionSimulada);
-        juego.jugarCarta(0, carta2, seccionSimulada);
+        juego.jugarCarta(carta1, seccionSimulada);
+        juego.jugarCarta(carta2, seccionSimulada);
 
         int actual = juego.puntajeEnSeccion(seccionSimulada);
-        assertEquals(38, actual);
+        assertEquals(16, actual);
 
-        juego.jugarCarta(0, new CartaNevada(), seccionSimulada);
+        juego.jugarCarta(new CartaNevada(), seccionSimulada);
 
         actual = juego.puntajeEnSeccion(seccionSimulada);
         assertEquals(2, actual);

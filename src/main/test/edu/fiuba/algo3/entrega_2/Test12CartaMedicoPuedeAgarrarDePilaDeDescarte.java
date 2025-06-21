@@ -46,6 +46,6 @@ public class Test12CartaMedicoPuedeAgarrarDePilaDeDescarte {
 
         Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
 
-        assertDoesNotThrow(() -> juego.jugarCarta(0, new CartaUnidad("LaPeorCarta",secciones, 8 , medico), seccionSimulada));
+        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("LaPeorCarta",secciones, 8 , medico), seccionSimulada));
     }
 }

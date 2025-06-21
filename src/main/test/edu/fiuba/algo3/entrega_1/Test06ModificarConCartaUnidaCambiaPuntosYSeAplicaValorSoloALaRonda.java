@@ -37,8 +37,8 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
         }
 
         Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , unidas), seccionSimulada);
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , unidas), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Vengador",secciones, 8 , unidas), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Vengador",secciones, 8 , unidas), seccionSimulada);
         int puntaje = juego.puntajeEnSeccion(seccionSimulada);
         assertEquals(32, puntaje, "Cantidad incorrecta puntos al sumar el poder de las cratas con el modificadorAplicado\nEn realidad se esperaban " + 32 + "Puntos y se obtuvo " + puntaje);
         juego.finalizarRonda();

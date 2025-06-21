@@ -81,13 +81,13 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
         juego.darMano(0, 10);
 
         // 3. Jugar las cartas en la sección "Rango"
-        juego.jugarCarta(0, carta2, seccionSimulada);
-            juego.jugarCarta(1, carta3, seccionSimulada);
-            juego.jugarCarta(0, carta4a, seccionSimulada);
-            juego.jugarCarta(1, carta4b, seccionSimulada);
-            juego.jugarCarta(0, carta4c, seccionSimulada);
-            juego.jugarCarta(0, legendaria10, seccionSimulada);
-            juego.jugarCarta(1,tierraArrasada, seccionSimulada);
+        juego.jugarCarta(carta2, seccionSimulada);
+            juego.jugarCarta(carta3, seccionSimulada);
+            juego.jugarCarta(carta4a, seccionSimulada);
+            juego.jugarCarta(carta4b, seccionSimulada);
+            juego.jugarCarta(carta4c, seccionSimulada);
+            juego.jugarCarta(legendaria10, seccionSimulada);
+            juego.jugarCarta(tierraArrasada, seccionSimulada);
 
             // Verificamos todas las cartas que quedaron en el tablero
             List<CartaUnidad> cartasRestantes = Tablero.getInstancia().getCartas();

@@ -34,6 +34,6 @@ public class Test11CartaAgilSePuedeUbicarEnSeccionCorrespondiente {
 
         Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
 
-        assertDoesNotThrow(() -> juego.jugarCarta(0, new CartaUnidad("Agil'e",secciones, 8 , agil), seccionSimulada));
+        assertDoesNotThrow(() -> juego.jugarCarta(new CartaUnidad("Agil'e",secciones, 8 , agil), seccionSimulada));
     }
 }

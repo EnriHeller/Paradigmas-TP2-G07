@@ -38,7 +38,7 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
             juego.darMano(0, 10);
 
             // Pasar "Rango" para que la clave generada sea "Rango0"
-            assertDoesNotThrow(() -> juego.jugarCarta(0, cartaUnidad, seccionSimulada));
+            assertDoesNotThrow(() -> juego.jugarCarta(cartaUnidad, seccionSimulada));
         } catch (TipoDeSeccionInvalidaError | NoSePuedeCumplirSolcitudDeCartas e) {
             fail("No se esperaba excepción: " + e.getMessage());
         }

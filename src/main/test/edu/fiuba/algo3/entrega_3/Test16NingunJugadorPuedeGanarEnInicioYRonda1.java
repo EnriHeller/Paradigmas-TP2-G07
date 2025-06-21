@@ -33,11 +33,11 @@ public class Test16NingunJugadorPuedeGanarEnInicioYRonda1 {
 
         assertFalse(juego.juegoTerminado());
         juego.definirQuienEmpieza(0);
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), seccionSimulada);
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Vengador",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Vengador",secciones, 8 , base), seccionSimulada);
 
         juego.siguienteJugador();
-        juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(new CartaUnidad("Vengador",secciones, 8 , base), seccionSimulada);
         juego.finalizarRonda();
 
         assertFalse(juego.juegoTerminado());
