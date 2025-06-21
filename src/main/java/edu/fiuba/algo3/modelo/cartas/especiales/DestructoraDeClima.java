@@ -5,6 +5,7 @@ import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.Arrays;
@@ -41,15 +42,17 @@ public class DestructoraDeClima implements Carta, Modificador {
         Tablero tablero = modificadorContexto.getTablero();
 
         List<String> claves = Arrays.asList(
-                "Rango0", "Asedio0", "CuerpoACuerpo0",
-                "Rango1", "Asedio1", "CuerpoACuerpo1"
+                "Rango", "Asedio", "CuerpoACuerpo"
         );
         int seccionesSinClima = 0;
-        for (String clave : claves) {
-            if (!tablero.afectadaClima(clave)) {
-                seccionesSinClima++;
-            } else{
-                tablero.afectarClima(clave, new SinClima());
+        for (int i = 0; i < 2; i++) {
+            for (String clave : claves) {
+                Seccion seccion = new Seccion(clave, i);
+                if (!tablero.afectadaClima(seccion)) {
+                    seccionesSinClima++;
+                } else {
+                    tablero.afectarClima(seccion, new SinClima());
+                }
             }
         }
         if (seccionesSinClima == 6) {

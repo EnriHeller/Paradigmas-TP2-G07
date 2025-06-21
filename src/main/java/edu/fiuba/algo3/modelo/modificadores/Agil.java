@@ -12,7 +12,7 @@ public class Agil implements Modificador {
     //Supuesto: se puede jugar donde quiera el jugador, se quita la restriccion de la carta base.
     public void prepararContexto(Contexto contextoModificador) {
         modificador.prepararContexto(contextoModificador);
-        contextoModificador.getCarta().agregarSeccion(contextoModificador.getSeccion());
+        contextoModificador.getCarta().agregarSeccion(contextoModificador.getSeccion().getClave());
     }
 
     public Agil(Modificador modificador){

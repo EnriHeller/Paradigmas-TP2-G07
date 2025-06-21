@@ -5,6 +5,7 @@ import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 public class CartaNevada implements CartaClimatica, Carta, Modificador {
@@ -47,8 +48,8 @@ public class CartaNevada implements CartaClimatica, Carta, Modificador {
         Tablero tablero = modificadorContexto.getTablero();
         Clima clima = crearClima();
 
-        tablero.afectarClima("CuerpoACuerpo0", clima);
-        tablero.afectarClima("CuerpoACuerpo1", clima);
+        tablero.afectarClima(new Seccion("CuerpoACuerpo", 0), clima);
+        tablero.afectarClima(new Seccion("CuerpoACuerpo", 0), clima);
 
     }
 

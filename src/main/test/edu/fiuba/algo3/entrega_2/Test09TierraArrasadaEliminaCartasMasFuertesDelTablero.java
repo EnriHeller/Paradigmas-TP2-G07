@@ -6,6 +6,7 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
@@ -39,6 +40,8 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
 
         ArrayList<String> secciones = new ArrayList<>();
         secciones.add("Rango");
+
+        Seccion seccionSimulada = new Seccion("Rango", 0);
 
         CartaUnidad carta2 = new CartaUnidad("Soldado", secciones, 2, new Base());
         CartaUnidad carta3 = new CartaUnidad("Mago", secciones, 3, new Base());
@@ -78,13 +81,13 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
         juego.darMano(0, 10);
 
         // 3. Jugar las cartas en la sección "Rango"
-        juego.jugarCarta(0, carta2, "Rango");
-            juego.jugarCarta(1, carta3, "Rango");
-            juego.jugarCarta(0, carta4a, "Rango");
-            juego.jugarCarta(1, carta4b, "Rango");
-            juego.jugarCarta(0, carta4c, "Rango");
-            juego.jugarCarta(0, legendaria10, "Rango");
-            juego.aplicarEspecial(1,tierraArrasada);
+        juego.jugarCarta(0, carta2, seccionSimulada);
+            juego.jugarCarta(1, carta3, seccionSimulada);
+            juego.jugarCarta(0, carta4a, seccionSimulada);
+            juego.jugarCarta(1, carta4b, seccionSimulada);
+            juego.jugarCarta(0, carta4c, seccionSimulada);
+            juego.jugarCarta(0, legendaria10, seccionSimulada);
+            juego.jugarCarta(1,tierraArrasada, seccionSimulada);
 
             // Verificamos todas las cartas que quedaron en el tablero
             List<CartaUnidad> cartasRestantes = Tablero.getInstancia().getCartas();

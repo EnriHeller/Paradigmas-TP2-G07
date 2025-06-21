@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.modelo.principal;
 
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.ArrayList;
@@ -48,12 +49,12 @@ public class AdministradorDeTurno {
         List<CartaUnidad> cartasDel2 = tablero.removerCartasDeJugador(1);
 
         for (CartaUnidad carta : cartasDel1) {
-            Contexto contexto = new Contexto(tablero, "", carta, 0, jugadores.get(0));
+            Contexto contexto = new Contexto(tablero, new Seccion(), carta, jugadores.get(0));
             carta.retrotraerModificacion(contexto);
         }
 
         for (CartaUnidad carta : cartasDel2) {
-            Contexto contexto = new Contexto(tablero, "", carta, 1, jugadores.get(1));
+            Contexto contexto = new Contexto(tablero, new Seccion(), carta, jugadores.get(1));
             carta.retrotraerModificacion(contexto);
         }
 

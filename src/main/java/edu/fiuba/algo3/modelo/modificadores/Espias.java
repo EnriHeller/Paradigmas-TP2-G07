@@ -6,6 +6,7 @@ import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 public class Espias implements Modificador {
 
@@ -29,12 +30,11 @@ public class Espias implements Modificador {
         } catch (NoSePuedeEliminarClimaSiNoHayClima | TipoDeSeccionInvalidaError ignored) {
         }
 
-        String seccion = contextoModificador.getSeccion();
+        Tablero tablero = contextoModificador.getTablero();
+        Seccion seccion = contextoModificador.getSeccion();
 
-        Seccion seccionContraria = contextoModificador.getTablero().seccion(seccion + String.valueOf(contextoModificador.getJugador() == 0 ? 1 : 0));
-
-        CartaUnidad cartaAgregar = contextoModificador.getTablero().removerCarta(seccion + String.valueOf(contextoModificador.getJugador()), contextoModificador.getCarta());
-        seccionContraria.agregarCartas(java.util.Collections.singletonList(cartaAgregar));
+        CartaUnidad cartaAgregar = tablero.removerCarta(seccion, contextoModificador.getCarta());
+        tablero.agregarCarta(tablero.seccionContraria(seccion), cartaAgregar);
 
         try{
             contextoModificador.getJugadorClase().agregarCartasAMano(2);

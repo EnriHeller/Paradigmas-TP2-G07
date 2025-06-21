@@ -11,6 +11,7 @@ import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import org.junit.Test;
 
@@ -28,6 +29,7 @@ public class Test10EspiaSeJuegaEnRivalYaumentaMano {
         Espias spyBlack = new Espias(new Base());
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
         ArrayList<String> secciones = new ArrayList<String>();
+        Seccion seccionSimulada = new Seccion("Rango", 0);
         secciones.add("Rango");
         for (int i = 0; i < 21; i++) {
             CartaUnidad carta = new CartaUnidad("SpyBlack",secciones, 8 , spyBlack);
@@ -35,7 +37,7 @@ public class Test10EspiaSeJuegaEnRivalYaumentaMano {
         }
 
         Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
-        juego.jugarCarta(0, new CartaUnidad("SpyBlack",secciones, 8 , spyBlack), "Rango");
+        juego.jugarCarta(0, new CartaUnidad("SpyBlack",secciones, 8 , spyBlack), seccionSimulada);
 
         
 

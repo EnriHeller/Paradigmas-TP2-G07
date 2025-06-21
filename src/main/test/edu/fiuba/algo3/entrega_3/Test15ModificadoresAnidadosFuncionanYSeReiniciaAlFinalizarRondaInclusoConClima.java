@@ -11,6 +11,7 @@ import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -30,19 +31,21 @@ public class Test15ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRondaIncl
             cartasDelMazo.add(carta);
         }
 
+        Seccion seccionSimulada = new Seccion("CuerpoACuerpo", 0);
+
         Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
 
         CartaUnidad carta1 = new CartaUnidad("SuperCarta",secciones, 8 , superModificador);
 
         CartaUnidad carta2 = new CartaUnidad("SuperCarta",secciones, 8 , superModificador);
 
-        juego.jugarCarta(0, carta1, "CuerpoACuerpo");
-        juego.jugarCarta(0, carta2, "CuerpoACuerpo");
+        juego.jugarCarta(0, carta1, seccionSimulada);
+        juego.jugarCarta(0, carta2, seccionSimulada);
 
         int actual = juego.puntajeEnSeccion("CuerpoACuerpo0");
         assertTrue(actual == 38);
 
-        juego.jugarCarta(0, new CartaNevada(), "");
+        juego.jugarCarta(0, new CartaNevada(), seccionSimulada);
 
         actual = juego.puntajeEnSeccion("CuerpoACuerpo0");
         assertTrue(actual == 2);

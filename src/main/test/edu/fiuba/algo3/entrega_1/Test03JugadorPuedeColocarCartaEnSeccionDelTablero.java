@@ -7,6 +7,7 @@ import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,9 +19,12 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
     // Verificar que un jugador pueda colocar una carta en una sección del tablero
 
     @Test
-    public void jugadorPuedeColocarCartaEnSeccion() throws Exception {
+    public void jugadorPuedeColocarCartaEnSeccion() throws Exception, TipoDeSeccionInvalidaError {
         // Arrange
         List<String> seccionesCartaUnidad = new ArrayList<>();
+
+        Seccion seccionSimulada = new Seccion("Rango", 0);
+
         seccionesCartaUnidad.add("Rango"); // La carta puede ir en Rango
         CartaUnidad cartaUnidad = new CartaUnidad("CartaTest", seccionesCartaUnidad, 8, new Base());
         List<Carta> cartas = new ArrayList<>();
@@ -34,7 +38,7 @@ public class Test03JugadorPuedeColocarCartaEnSeccionDelTablero {
             juego.darMano(0, 10);
 
             // Pasar "Rango" para que la clave generada sea "Rango0"
-            assertDoesNotThrow(() -> juego.jugarCarta(0, cartaUnidad, "Rango"));
+            assertDoesNotThrow(() -> juego.jugarCarta(0, cartaUnidad, seccionSimulada));
         } catch (TipoDeSeccionInvalidaError | NoSePuedeCumplirSolcitudDeCartas e) {
             fail("No se esperaba excepción: " + e.getMessage());
         }

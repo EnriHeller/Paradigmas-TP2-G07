@@ -17,6 +17,7 @@ import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import org.junit.jupiter.api.Test;
 
@@ -27,15 +28,18 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
         ArrayList<String> secciones = new ArrayList<String>();
         secciones.add("Rango");
+
+        Seccion seccionSimulada = new Seccion("Rango", 0);
+
         for (int i = 0; i < 21; i++) {
             CartaUnidad carta = new CartaUnidad("Vengador",secciones, 8 , unidas);
             cartasDelMazo.add(carta);
         }
 
         Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , unidas), "Rango");
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , unidas), "Rango");
-        int puntaje = juego.puntajeEnSeccion("Rango0");
+        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , unidas), seccionSimulada);
+        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , unidas), seccionSimulada);
+        int puntaje = juego.puntajeEnSeccion(seccionSimulada);
         assertEquals(32, puntaje, "Cantidad incorrecta puntos al sumar el poder de las cratas con el modificadorAplicado\nEn realidad se esperaban " + 32 + "Puntos y se obtuvo " + puntaje);
         juego.finalizarRonda();
         int actual = juego.cartasRestantesJugador("Descarte", 0);

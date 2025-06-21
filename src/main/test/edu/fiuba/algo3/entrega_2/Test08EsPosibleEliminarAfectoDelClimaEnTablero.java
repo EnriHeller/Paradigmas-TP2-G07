@@ -8,6 +8,7 @@ import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.SeccionesJugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class Test08EsPosibleEliminarAfectoDelClimaEnTablero {
         Tablero tablero = Tablero.getInstancia();
         CartaNevada nevada = new CartaNevada();
         DestructoraDeClima destructoraDeClima = new DestructoraDeClima();
-        Contexto contexto = new Contexto(tablero,"",new CartaUnidad(),0,new Jugador());
+        Contexto contexto = new Contexto(tablero,new Seccion(),new CartaUnidad(),new Jugador());
 
         nevada.modificar(contexto);
         assertDoesNotThrow(() -> destructoraDeClima.modificar(contexto));

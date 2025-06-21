@@ -29,7 +29,7 @@ public class Unidas implements Modificador {
         } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {
         }
         Tablero tablero = contextoModificador.getTablero();
-        List<CartaUnidad> cartasDeSeccion = tablero.getCartasSeccion(contextoModificador.getSeccion() + String.valueOf(contextoModificador.getJugador()));
+        List<CartaUnidad> cartasDeSeccion = contextoModificador.getSeccion().getCartas();
         String nombreCarta = contextoModificador.getCarta().getNombre();
         modificarComportamientoDeCartas(nombreCarta, cartasDeSeccion);
 

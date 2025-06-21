@@ -9,6 +9,7 @@ import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ public class Test11CartaAgilSePuedeUbicarEnSeccionCorrespondiente {
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
         ArrayList<String> secciones = new ArrayList<String>();
         secciones.add("CuerpoACuerpo");
+
+        Seccion seccionSimulada = new Seccion("CuerpoACuerpo", 0);
+
         for (int i = 0; i < 21; i++) {
             CartaUnidad carta = new CartaUnidad("Agil'e",secciones, 8 , agil);
             cartasDelMazo.add(carta);
@@ -30,6 +34,6 @@ public class Test11CartaAgilSePuedeUbicarEnSeccionCorrespondiente {
 
         Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
 
-        assertDoesNotThrow(() -> juego.jugarCarta(0, new CartaUnidad("Agil'e",secciones, 8 , agil), "Rango"));
+        assertDoesNotThrow(() -> juego.jugarCarta(0, new CartaUnidad("Agil'e",secciones, 8 , agil), seccionSimulada));
     }
 }

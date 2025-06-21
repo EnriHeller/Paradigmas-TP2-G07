@@ -33,6 +33,7 @@ public class Medico implements Modificador {
 
         CartaUnidad cartaDescartada = jugador.removerUltimaCartaDeDescarte();
 
+        jugador.agregarCartaAMano(cartaDescartada);
         jugador.jugarCarta(cartaDescartada);
     }
 

@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.modelo.secciones.tablero;
 
+import edu.fiuba.algo3.modelo.cartas.unidades.Puntuable;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
@@ -13,13 +14,13 @@ public class Tablero {
     private Tablero() throws TipoDeSeccionInvalidaError {
         secciones = new HashMap<>();
 
-        secciones.put("Rango0", new Seccion("Rango"));
-        secciones.put("Asedio0", new Seccion("Asedio"));
-        secciones.put("CuerpoACuerpo0", new Seccion("CuerpoACuerpo"));
+        secciones.put("Rango0", new Seccion("Rango",0));
+        secciones.put("Asedio0", new Seccion("Asedio",0));
+        secciones.put("CuerpoACuerpo0", new Seccion("CuerpoACuerpo",0));
 
-        secciones.put("Rango1", new Seccion("Rango"));
-        secciones.put("Asedio1", new Seccion("Asedio"));
-        secciones.put("CuerpoACuerpo1", new Seccion("CuerpoACuerpo"));
+        secciones.put("Rango1", new Seccion("Rango",1));
+        secciones.put("Asedio1", new Seccion("Asedio",1));
+        secciones.put("CuerpoACuerpo1", new Seccion("CuerpoACuerpo",1));
     }
 
     public static Tablero getInstancia() throws TipoDeSeccionInvalidaError {
@@ -27,6 +28,10 @@ public class Tablero {
             instancia = new Tablero();
         }
         return instancia;
+    }
+
+    public boolean contieneSeccion(Seccion seccionBuscada) {
+        return secciones.values().contains(seccionBuscada);
     }
 
     public int getPuntaje(String clave) {
@@ -37,21 +42,16 @@ public class Tablero {
         return seccion.getPuntajeTotal();
     }
 
-    public Seccion getSeccion(String clave) {
-        return secciones.get(clave);
-    }
+    public void existeSeccion(Seccion seccion) throws TipoDeSeccionInvalidaError{
 
-    public Seccion seccion(String clave) throws TipoDeSeccionInvalidaError{
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
+        if (!contieneSeccion(seccion)) {
+            throw new IllegalArgumentException("Clave inválida: " + seccion);
         }
-        return seccion;
     }
 
-    public void afectarClima(String clave, Clima nuevoClima) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
-        Seccion seccion = seccion(clave);
-        seccion.afectarClima(nuevoClima);
+    public void afectarClima(Seccion seccion, Clima nuevoClima) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
+        existeSeccion(seccion);
+        obtenerSeccion(seccion).afectarClima(nuevoClima);
     }
 
     public void afectarClimas(){
@@ -68,14 +68,22 @@ public class Tablero {
         return total;
     }
 
-    public int PuntajeSeccion(String clave) throws TipoDeSeccionInvalidaError {
-        Seccion seccion = seccion(clave);
-        return seccion.getPuntajeTotal();
+    public int PuntajeSeccion(Seccion seccion) throws TipoDeSeccionInvalidaError {
+        existeSeccion(seccion);
+
+        return obtenerSeccion(seccion).getPuntajeTotal();
     }
 
-    public boolean afectadaClima(String clave) throws TipoDeSeccionInvalidaError {
-        Seccion seccion = seccion(clave);
-        return  seccion.hayClima();
+    public Seccion obtenerSeccion(Seccion seccion) {
+        String clave = seccion.getClave() + seccion.getJugadorId();
+        Seccion seccionReal = secciones.get(clave);
+
+        return seccionReal;
+    }
+
+    public boolean afectadaClima(Seccion seccion) throws TipoDeSeccionInvalidaError {
+        existeSeccion(seccion);
+        return  obtenerSeccion(seccion).hayClima();
     }
 
     //Obtengo todas las cartas del tablero
@@ -89,31 +97,25 @@ public class Tablero {
         return cartasTotales;
     }
 
-    public List<CartaUnidad> getCartasSeccion(String clave) throws TipoDeSeccionInvalidaError {
-        Seccion seccion = seccion(clave);
-        return seccion.getCartas();
+    public List<CartaUnidad> getCartasSeccion(Seccion seccion) throws TipoDeSeccionInvalidaError {
+        existeSeccion(seccion);
+        return obtenerSeccion(seccion).getCartas();
     }
 
-    public boolean contiene(String clave, Carta carta) throws TipoDeSeccionInvalidaError{
-        Seccion seccion = seccion(clave);
-        return seccion.contiene(carta);
+    public boolean contiene(Seccion seccion, Carta carta) throws TipoDeSeccionInvalidaError{
+        existeSeccion(seccion);
+        return obtenerSeccion(seccion).contiene(carta);
     }
 
-    public CartaUnidad removerCarta(String clave, CartaUnidad carta) {
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
-        }
+    public CartaUnidad removerCarta(Seccion seccion, CartaUnidad carta) throws TipoDeSeccionInvalidaError {
+        existeSeccion(seccion);
 
-        return seccion.removerCarta(carta);
+        return obtenerSeccion(seccion).removerCarta(carta);
     }
     
-    public List<CartaUnidad> removerCartas(String clave, List<CartaUnidad> cartas) {
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
-        }
-        return seccion.removerCartas(cartas);
+    public List<CartaUnidad> removerCartas(Seccion seccion, List<CartaUnidad> cartas) throws TipoDeSeccionInvalidaError {
+        existeSeccion(seccion);
+        return obtenerSeccion(seccion).removerCartas(cartas);
     }
 
     public void removerCartasDeValorMaximo() throws TipoDeSeccionInvalidaError{
@@ -121,9 +123,23 @@ public class Tablero {
         removerCartasDeValorN(max);
     }
 
+    public Seccion seccionContraria(Seccion seccion) throws TipoDeSeccionInvalidaError {
+        existeSeccion(seccion);
+        String clave = seccion.getClave();
+        int jugadorId = seccion.getJugadorId();
+        int jugadorContrario = 1 - jugadorId;
+
+        String claveContraria = clave + jugadorContrario;
+
+        Seccion seccionContraria = secciones.get(claveContraria);
+
+        return seccionContraria;
+
+    }
+
     private void removerCartasDeValorN(int n) throws TipoDeSeccionInvalidaError {
-        for (String claveSeccion : secciones.keySet()) {
-            List<CartaUnidad> cartas = getCartasSeccion(claveSeccion);
+        for (Seccion seccion : secciones.values()) {
+            List<CartaUnidad> cartas = getCartasSeccion(seccion);
 
             // Usar removeIf sobre la lista de cartas de la sección
             cartas.removeIf(carta ->
@@ -175,20 +191,14 @@ public class Tablero {
         return max;
     }
 
-    public void agregarCarta(String clave, CartaUnidad carta) {
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
-        }
+    public void agregarCarta(Seccion seccion, CartaUnidad carta) throws TipoDeSeccionInvalidaError {
+        existeSeccion(seccion);
         seccion.agregarCarta(carta);
     }
     
-    public void agregarCartas(String clave, List<CartaUnidad> cartas) {
+    public void agregarCartas(Seccion seccion, List<CartaUnidad> cartas) throws TipoDeSeccionInvalidaError {
 
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
-        }
+        existeSeccion(seccion);
         seccion.agregarCartas(cartas);
     }
 

@@ -13,13 +13,22 @@ import java.util.List;
 public class Seccion {
     protected List<CartaUnidad> cartasActuales;
     private String clave;
+    private final int jugadorId;
     private Clima clima;
 
-    public Seccion(String claveSeccion) throws TipoDeSeccionInvalidaError {
+    public Seccion(){
+        this.cartasActuales = new ArrayList<>();
+        this.jugadorId = -1;
+        this.clave = "";
+        this.clima = new SinClima();
+    }
+
+    public Seccion(String claveSeccion, int jugadorId) throws TipoDeSeccionInvalidaError {
         if (!puedeEstar(claveSeccion)) {
             throw new TipoDeSeccionInvalidaError();
         }
         this.clave = claveSeccion;
+        this.jugadorId = jugadorId;
         this.cartasActuales = new ArrayList<>();
         this.clima = new SinClima();
     }
@@ -34,7 +43,7 @@ public class Seccion {
                 return cartasActuales.remove(i);
             }
         }
-        throw new IllegalArgumentException("La carta no está en la mano");
+        throw new IllegalArgumentException("La carta no está en la seccion " + clave);
     }
 
     public List<CartaUnidad> removerCartas(List<CartaUnidad> cartas) {
@@ -102,6 +111,25 @@ public class Seccion {
         List<CartaUnidad> copia = new ArrayList<CartaUnidad>(cartasActuales);
         cartasActuales.clear();
         return copia;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Seccion seccion = (Seccion) obj;
+        return jugadorId == seccion.jugadorId && clave.equals(seccion.clave);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = clave.hashCode();
+        result = 31 * result + jugadorId;
+        return result;
+    }
+
+    public int getJugadorId() {
+        return jugadorId;
     }
 }
 

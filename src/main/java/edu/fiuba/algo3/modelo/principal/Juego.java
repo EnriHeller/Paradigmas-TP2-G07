@@ -75,26 +75,20 @@ public class Juego {
 
 
     //FASE DE JUEGO
-    public void jugarCarta(int jugadorID, Carta carta, String dondeJugarla) {
+    public void jugarCarta(int jugadorID, Carta carta, Seccion seccion) throws TipoDeSeccionInvalidaError {
         if (carta.esEspecial()){
-            Contexto contexto = new Contexto(this.tablero, dondeJugarla, new CartaUnidad(), jugadorID, jugadores.get(jugadorID));
+            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), new CartaUnidad(), jugadores.get(jugadorID));
             carta.aplicarModificador(contexto);
         } else{
-            Contexto contexto = new Contexto(this.tablero, dondeJugarla, (CartaUnidad) carta, jugadorID, jugadores.get(jugadorID));
+            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), (CartaUnidad) carta, jugadores.get(jugadorID));
 
             CartaUnidad cartaUnidad = (CartaUnidad) carta;
             cartaUnidad.prepararContexto(contexto);
-            tablero.agregarCarta(dondeJugarla + String.valueOf(jugadorID), cartaUnidad);
+            tablero.agregarCarta(tablero.obtenerSeccion(seccion), cartaUnidad);
             cartaUnidad.aplicarModificador(contexto);
             tablero.afectarClimas();
             administradorTurno.actualizarRonda(((CartaUnidad) carta).ValorActual());
         }
-    }
-
-    public void aplicarEspecial(int jugadorID, Modificador cartaEspecial)  throws NoSePuedeEliminarClimaSiNoHayClima, TipoDeSeccionInvalidaError {
-        CartaUnidad carta = new CartaUnidad();
-        Contexto contexto = new Contexto(this.tablero, "", (CartaUnidad) carta, jugadorID, jugadores.get(jugadorID));
-        cartaEspecial.modificar(contexto);
     }
 
     public boolean pasarTurno() {
@@ -169,6 +163,10 @@ public class Juego {
     }
     
     //VERIFICACIONES
+
+    public int puntajeEnSeccion(Seccion seccion) throws TipoDeSeccionInvalidaError {
+        return tablero.PuntajeSeccion(seccion);
+    }
 
     public int puntajeEnSeccion(String nombreSeccion) throws TipoDeSeccionInvalidaError {
         return tablero.getPuntaje(nombreSeccion);

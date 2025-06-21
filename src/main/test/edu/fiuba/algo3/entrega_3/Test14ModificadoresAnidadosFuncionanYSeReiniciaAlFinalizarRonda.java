@@ -7,6 +7,7 @@ import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ public class Test14ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRonda {
         Modificador superModificador = new Unidas(new SumaValorBase(new Base()));
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
         ArrayList<String> secciones = new ArrayList<String>();
+
+        Seccion seccionSimulada = new Seccion("Rango", 0);
+
         secciones.add("Rango");
         for (int i = 0; i < 21; i++) {
             CartaUnidad carta = new CartaUnidad("SuperCarta",secciones, 8 , superModificador);
@@ -43,8 +47,8 @@ public class Test14ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRonda {
 
         CartaUnidad carta2 = new CartaUnidad("SuperCarta",secciones, 8 , superModificador);
 
-        juego.jugarCarta(0, carta1, "Rango");
-        juego.jugarCarta(0, carta2, "Rango");
+        juego.jugarCarta(0, carta1, seccionSimulada);
+        juego.jugarCarta(0, carta2, seccionSimulada);
 
         int actual = juego.puntajeEnSeccion("Rango0");
         assertTrue(actual == 38);

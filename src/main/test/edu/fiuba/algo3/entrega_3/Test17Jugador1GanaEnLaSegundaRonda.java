@@ -7,6 +7,7 @@ import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ public class Test17Jugador1GanaEnLaSegundaRonda {
         Base base = new Base();
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
         ArrayList<String> secciones = new ArrayList<String>();
+
+        Seccion seccionSimulada = new Seccion("Rango", 0);
+
         secciones.add("Rango");
         for (int i = 0; i < 21; i++) {
             CartaUnidad carta = new CartaUnidad("Cualesquiera",secciones, 8 , base);
@@ -29,18 +33,18 @@ public class Test17Jugador1GanaEnLaSegundaRonda {
         Juego juego = new Juego("JugadorTest1", "JugadorTest2", new Mazo(cartasDelMazo), new Mazo(cartasDelMazo));
         juego.definirQuienEmpieza(0);
 
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+        juego.jugarCarta(0, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(0, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
 
         juego.siguienteJugador();
-        juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+        juego.jugarCarta(1, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
         juego.finalizarRonda();
 
-        juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+        juego.jugarCarta(1, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
 
         juego.siguienteJugador();
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+        juego.jugarCarta(0, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(0, new CartaUnidad("Cualesquiera",secciones, 8 , base), seccionSimulada);
         juego.finalizarRonda();
 
         assertTrue(juego.juegoTerminado());

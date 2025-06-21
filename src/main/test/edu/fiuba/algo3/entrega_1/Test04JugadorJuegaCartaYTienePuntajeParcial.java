@@ -48,14 +48,14 @@ public class Test04JugadorJuegaCartaYTienePuntajeParcial {
                 }
                 Seccion seccion = null;
                 try {
-                    seccion = new Seccion("Rango");
+                    seccion = new Seccion("Rango", 0);
                 } catch (edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError e) {
                     org.junit.jupiter.api.Assertions.fail("No se esperaba TipoDeSeccionInvalidaError al crear Seccion: " + e.getMessage());
                 }
                 if (seccion != null) {
                     try {
                         CartaUnidad cartaJugada = (CartaUnidad) jugador.jugarCarta(cartaUnidad);
-                        seccion.agregarCartas(java.util.Collections.singletonList(cartaJugada));
+                        seccion.agregarCarta(cartaJugada);
                         int puntaje = seccion.getPuntajeTotal();
                         assertEquals(7, puntaje);
                     } catch (Exception e) {

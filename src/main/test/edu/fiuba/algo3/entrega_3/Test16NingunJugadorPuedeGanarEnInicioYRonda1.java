@@ -7,6 +7,7 @@ import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,6 +21,9 @@ public class Test16NingunJugadorPuedeGanarEnInicioYRonda1 {
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
         ArrayList<String> secciones = new ArrayList<String>();
         secciones.add("Rango");
+
+        Seccion seccionSimulada = new Seccion("Rango", 0);
+
         for (int i = 0; i < 21; i++) {
             CartaUnidad carta = new CartaUnidad("Cualesquiera",secciones, 8 , base);
             cartasDelMazo.add(carta);
@@ -29,11 +33,11 @@ public class Test16NingunJugadorPuedeGanarEnInicioYRonda1 {
 
         assertFalse(juego.juegoTerminado());
         juego.definirQuienEmpieza(0);
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
-        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), seccionSimulada);
+        juego.jugarCarta(0, new CartaUnidad("Vengador",secciones, 8 , base), seccionSimulada);
 
         juego.siguienteJugador();
-        juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), "Rango");
+        juego.jugarCarta(1, new CartaUnidad("Vengador",secciones, 8 , base), seccionSimulada);
         juego.finalizarRonda();
 
         assertFalse(juego.juegoTerminado());

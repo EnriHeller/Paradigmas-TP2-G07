@@ -10,12 +10,11 @@ import java.util.List;
 
 public class SumaValorBase implements Modificador{
     private final Modificador modificador;
-    private String dondeSeJugo;
+    private Seccion dondeSeJugo;
 
 
     public SumaValorBase(Modificador modificador){
         this.modificador = modificador;
-        this.dondeSeJugo = "";
     }
 
     @Override
@@ -31,9 +30,8 @@ public class SumaValorBase implements Modificador{
         } catch (NoSePuedeEliminarClimaSiNoHayClima | TipoDeSeccionInvalidaError ignored) {
         }
 
-        String seccionClave = contextoModificador.getSeccion() + String.valueOf(contextoModificador.getJugador());
-        this.dondeSeJugo = seccionClave;
-        Seccion seccion = contextoModificador.getTablero().seccion(seccionClave);
+        Seccion seccion = contextoModificador.getSeccion();
+        this.dondeSeJugo = seccion;
 
         List<CartaUnidad> cartas = seccion.getCartasActuales();
 
@@ -45,15 +43,10 @@ public class SumaValorBase implements Modificador{
     @Override
     public void retrotraerContexto(Contexto contexto) {
 
-        try {
+        List<CartaUnidad> cartas = dondeSeJugo.getCartasActuales();
 
-            List<CartaUnidad> cartas = contexto.getTablero().getCartasSeccion(this.dondeSeJugo);
-
-            for (CartaUnidad carta : cartas) {
-                carta.sumaValor(-1);
-            }
-        } catch (TipoDeSeccionInvalidaError ignored){
-
+        for (CartaUnidad carta : cartas) {
+            carta.sumaValor(-1);
         }
 
         modificador.retrotraerContexto(contexto);

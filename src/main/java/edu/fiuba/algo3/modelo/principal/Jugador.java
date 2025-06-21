@@ -39,6 +39,9 @@ public class Jugador {
         List<Carta> cartas = mazo.repartirCarta(n);
         seccionesDelJugador.agregarCartas("Mano", cartas);
     }
+    public void agregarCartaAMano(Carta carta) {
+        seccionesDelJugador.agregarCarta("Mano", carta);
+    }
 
     public void descartarCartas(List<Carta> unasCartas) {
         mazo.recibirCartas(seccionesDelJugador.removerCartas("Mano", unasCartas));

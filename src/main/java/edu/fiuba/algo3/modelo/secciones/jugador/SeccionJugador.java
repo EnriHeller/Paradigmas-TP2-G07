@@ -7,26 +7,26 @@ import java.util.List;
 
 public class SeccionJugador {
 
-    private List<Carta> cartasEnMano;
+    private List<Carta> cartas;
 
     public SeccionJugador() {
-        this.cartasEnMano = new ArrayList<>();
+        this.cartas = new ArrayList<>();
     }
 
     public int cartasRestantes(){
-        return this.cartasEnMano.size();
+        return this.cartas.size();
     }
 
     //Intentar remover este mensaje
     public Carta removerCarta(int indice) {
 
-        return cartasEnMano.remove(indice);
+        return cartas.remove(indice);
     }
 
     public Carta removerCarta(Carta carta) {
-        for (int i = 0; i < cartasEnMano.size(); i++) {
-            if (cartasEnMano.get(i).equals(carta)) {
-                return cartasEnMano.remove(i);
+        for (int i = 0; i < cartas.size(); i++) {
+            if (cartas.get(i).equals(carta)) {
+                return cartas.remove(i);
             }
         }
         throw new IllegalArgumentException("La carta no está en la mano");
@@ -40,12 +40,12 @@ public class SeccionJugador {
     }
 
     public void agregarCarta(Carta carta) {
-        cartasEnMano.add(carta);
+        cartas.add(carta);
     }
 
     public void agregarCartas(List<Carta> cartas){
 
-        cartasEnMano.addAll(cartas);
+        this.cartas.addAll(cartas);
 
     }
 
