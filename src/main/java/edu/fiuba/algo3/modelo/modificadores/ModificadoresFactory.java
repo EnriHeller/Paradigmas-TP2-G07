@@ -1,17 +1,29 @@
 package edu.fiuba.algo3.modelo.modificadores;
+import edu.fiuba.algo3.modelo.cartas.especiales.*;
 
 public class ModificadoresFactory {
     public Modificador crearModificador(String tipoModificador, Modificador siguienteModificador) {
-        switch (tipoModificador.toLowerCase()) {
+        String normalizado = tipoModificador.trim().toLowerCase().replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
+        // Si es una carta especial, devolver null
+        if (
+            normalizado.equals("quemar") ||
+            normalizado.equals("tierra arrasada") ||
+            normalizado.equals("morale boost") ||
+            normalizado.equals("cuerno del comandante") ||
+            normalizado.equals("clima")
+        ) {
+            return null;
+        }
+        switch (normalizado) {
             case "legendaria":
                 return new Legendaria();
-            case "médico":
+            case "medico":
                 return new Medico(siguienteModificador);
-            case "ágil":
+            case "agil":
                 return new Agil(siguienteModificador);
-            case "unidas":
+            case "carta unida":
                 return new Unidas(siguienteModificador);
-            case "espías":
+            case "espia":
                 return new Espias(siguienteModificador);
             case "suma valor base":
                 return new SumaValorBase(siguienteModificador);

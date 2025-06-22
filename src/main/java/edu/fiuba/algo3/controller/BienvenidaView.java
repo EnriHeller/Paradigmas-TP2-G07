@@ -28,7 +28,7 @@ public class BienvenidaView {
         root.setBackground(new Background(bgImage));
 
         // Título superpuesto
-        Text texto = new Text("Gwent versión FIUBA - G27 - 2025C1");
+        Text texto = new Text("Gwent versión FIUBA - G07 - 2025C1");
         texto.setFont(Font.font("Georgia", 24));
         texto.setStyle("-fx-fill: white; -fx-font-weight: bold;");
 
