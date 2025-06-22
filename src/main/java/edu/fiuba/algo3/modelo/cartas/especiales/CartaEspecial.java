@@ -2,13 +2,25 @@ package edu.fiuba.algo3.modelo.cartas.especiales;
 
 import java.util.List;
 
-public interface CartaEspecial{
+public abstract class CartaEspecial {
+    protected String nombre;
+    protected String descripcion;
+    protected String tipo;
+    protected List<String> afectado;
 
-    String getNombre();
+    public String getNombre() {
+        return nombre;
+    }
 
-    String getDescripcion();
-    
-    String getTipo();
-    
-    List<String> getAfectado();
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public List<String> getAfectado() {
+        return afectado;
+    }
 }

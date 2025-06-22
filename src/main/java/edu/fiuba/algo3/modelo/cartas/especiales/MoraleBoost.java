@@ -9,16 +9,20 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 
 import java.util.List;
 
-public class MoraleBoost implements Carta, Modificador {
+public class MoraleBoost extends CartaEspecial implements Carta, Modificador {
 
     public MoraleBoost() {
+        this.nombre = "MoraleBoost";
+        this.descripcion = "Duplica el valor de las cartas aliadas en la seccion.";
+        this.tipo = "Especial";
+        this.afectado = List.of("CuerpoACuerpo", "Rango", "Asedio");
+    }
 
-    }
-    public boolean esEspecial(){ return true;}
     @Override
-    public String mostrarCarta(){
-        return "MoraleBoost";
-    }
+    public boolean esEspecial() { return true; }
+
+    @Override
+    public String mostrarCarta() { return nombre; }
 
     @Override
     public void aplicarModificador(Contexto contexto) {
@@ -31,15 +35,13 @@ public class MoraleBoost implements Carta, Modificador {
 
     @Override
     public String mostrarModificadores() {
-        return "TierraArrasada" ;
+        return nombre;
     }
 
     @Override
-    public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError{
+    public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError {
         Seccion seccion = contextoModificador.getSeccion();
-
         List<CartaUnidad> cartasActuales = seccion.getCartasActuales();
-
         for (CartaUnidad carta : cartasActuales) {
             carta.multiplicarValor(2);
         }

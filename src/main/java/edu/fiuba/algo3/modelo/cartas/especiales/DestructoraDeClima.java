@@ -11,19 +11,7 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import java.util.Arrays;
 import java.util.List;
 
-public class DestructoraDeClima implements Carta, Modificador, CartaEspecial {
-
-    private final String nombre;
-    private final String descripcion;
-    private final String tipo;
-    private final java.util.List<String> afectado;
-
-    public DestructoraDeClima(String nombre, String descripcion, java.util.List<String> afectado) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.tipo = "Destructora de clima";
-        this.afectado = afectado;
-    }
+public class DestructoraDeClima extends CartaEspecial implements Carta, Modificador {
 
     public DestructoraDeClima() {
         this.nombre = "DestructoraDeClima";
@@ -33,7 +21,7 @@ public class DestructoraDeClima implements Carta, Modificador, CartaEspecial {
     }
 
     @Override
-    public  boolean esEspecial(){
+    public boolean esEspecial() {
         return true;
     }
 
@@ -52,17 +40,14 @@ public class DestructoraDeClima implements Carta, Modificador, CartaEspecial {
     }
 
     @Override
-    public String mostrarModificadores(){
+    public String mostrarModificadores() {
         return "DestructorDeClima";
     }
 
     @Override
     public void modificar(Contexto modificadorContexto) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
         Tablero tablero = modificadorContexto.getTablero();
-
-        List<String> claves = Arrays.asList(
-                "Rango", "Asedio", "CuerpoACuerpo"
-        );
+        List<String> claves = Arrays.asList("Rango", "Asedio", "CuerpoACuerpo");
         int seccionesSinClima = 0;
         for (int i = 0; i < 2; i++) {
             for (String clave : claves) {
@@ -77,25 +62,5 @@ public class DestructoraDeClima implements Carta, Modificador, CartaEspecial {
         if (seccionesSinClima == 6) {
             throw new NoSePuedeEliminarClimaSiNoHayClima();
         }
-    }
-
-    @Override
-    public String getNombre() {
-        return nombre;
-    }
-
-    @Override
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    @Override
-    public String getTipo() {
-        return tipo;
-    }
-
-    @Override
-    public java.util.List<String> getAfectado() {
-        return afectado;
     }
 }

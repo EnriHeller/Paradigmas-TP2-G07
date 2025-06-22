@@ -5,16 +5,41 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface SeccionJugador<T extends Carta> {
+public abstract class SeccionJugador<Carta> {
+    protected List<Carta> cartas;
 
-    public int cartasRestantes();
+    public SeccionJugador() {
+        this.cartas = new ArrayList<>();
+    }
 
-    public Carta removerCarta(Carta carta);
+    public int cartasRestantes() {
+        return cartas.size();
+    }
 
-    public List<T>  removerCartas(List<T> cartas);
+    public Carta removerCarta(Carta carta) {
+        for (int i = 0; i < cartas.size(); i++) {
+            if (cartas.get(i).equals(carta)) {
+                return cartas.remove(i);
+            }
+        }
+        throw new IllegalArgumentException("La carta no está en la sección");
+    }
 
-    public void agregarCarta(Carta carta);
+    public List<Carta> removerCartas(List<Carta> cartasARemover) {
+        for (Carta carta : cartasARemover) {
+            removerCarta(carta);
+        }
+        return cartasARemover;
+    }
 
-    public void agregarCartas(List<T> cartas);
+    // Delega el casteo a la subclase si es necesario
+    public abstract void agregarCarta(Carta carta);
 
+    public void agregarCartas(List<Carta> cartas) {
+        this.cartas.addAll(cartas);
+    }
+
+    public List<Carta> getCartas(){
+        return cartas;
+    }
 }

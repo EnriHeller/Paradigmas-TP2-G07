@@ -21,10 +21,15 @@ public class CartasFactory {
             switch (tipoEspecial) {
                 case "Tierra arrasada":
                     carta = new TierraArrasada();
+                    break;
                 case "Morale boost":
                     //carta = new MoraleBoost(new Base(), nombre);
+                    break;
                 case "Clima":
                     carta = new CartaNevada();
+                    break;
+                default:
+                    carta = null;
             }
         }
         return carta;

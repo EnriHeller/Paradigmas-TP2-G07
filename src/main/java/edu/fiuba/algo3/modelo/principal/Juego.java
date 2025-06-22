@@ -80,25 +80,11 @@ public class Juego {
         }
     }
 
-    public boolean pasarTurno() {
-
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            System.out.println("¿quieres seguir jugando? S o N: ");
-            String input = scanner.nextLine().trim();
-
-            switch (input) {
-                case "S":
-                    return true;
-                case "N":
-                    return false;
-                default:
-                    System.out.println("Opción inválida. Intentá de nuevo.\n");
-            }
-        }
+    public List<Carta> mostrarManoActual(){
+        Jugador jugadorActual = administradorTurno.jugadorActual();
+        return jugadorActual.cartasEnMano();
     }
-    
+
     //VERIFICACIONES
 
     public int puntajeEnSeccion(Seccion seccion) throws TipoDeSeccionInvalidaError {

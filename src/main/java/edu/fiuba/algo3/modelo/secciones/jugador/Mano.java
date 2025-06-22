@@ -6,12 +6,15 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mano implements SeccionJugador<Carta>{
-
-    private List<Carta> cartas;
+public class Mano extends SeccionJugador<Carta> {
 
     public Mano() {
-        this.cartas = new ArrayList<>();
+        super();
+    }
+
+    @Override
+    public void agregarCarta(Carta carta) {
+        cartas.add(carta);
     }
 
     @Override
@@ -19,8 +22,7 @@ public class Mano implements SeccionJugador<Carta>{
         return this.cartas.size();
     }
 
-
-
+    
     @Override
     public Carta removerCarta(Carta carta) {
         for (int i = 0; i < cartas.size(); i++) {
@@ -38,17 +40,4 @@ public class Mano implements SeccionJugador<Carta>{
         }
         return cartas;
     }
-
-    @Override
-    public void agregarCarta(Carta carta) {
-        cartas.add(carta);
-    }
-
-    @Override
-    public void agregarCartas(List<Carta> cartas){
-
-        this.cartas.addAll(cartas);
-
-    }
-
 }

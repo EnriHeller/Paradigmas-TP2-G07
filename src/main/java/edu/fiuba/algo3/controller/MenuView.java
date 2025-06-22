@@ -1,11 +1,10 @@
 package edu.fiuba.algo3.controller;
 
 import edu.fiuba.algo3.App;
-import edu.fiuba.algo3.modelo.*;
-import edu.fiuba.algo3.modelo.cartas.CartasFactory;
-import edu.fiuba.algo3.modelo.modificadores.ModificadoresFactory;
-import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.modificadores.ModificadoresFactory;
+import edu.fiuba.algo3.modelo.cartas.CartasFactory;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

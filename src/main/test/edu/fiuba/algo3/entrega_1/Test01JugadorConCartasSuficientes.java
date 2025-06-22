@@ -24,4 +24,16 @@ public class Test01JugadorConCartasSuficientes {
             fail("Falló inicializar Jugadores con cartas suficientes " + e.getMessage());
         }
     }
+
+    @Test
+    public void testMetodosBasicosJugador() {
+        Jugador jugador = new Jugador("TestJugador");
+        assertEquals("TestJugador", jugador.getNombre());
+        jugador.setOrdenDeJuego(2);
+        assertEquals(2, jugador.ordenDeJuego());
+        // Test agregarCartaAMano y cartasEnMano
+        edu.fiuba.algo3.mocks.CartaUnidadMock carta = new edu.fiuba.algo3.mocks.CartaUnidadMock();
+        jugador.agregarCartaAMano(carta);
+        assertTrue(jugador.cartasEnMano().contains(carta));
+    }
 }

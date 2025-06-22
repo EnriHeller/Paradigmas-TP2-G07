@@ -50,6 +50,10 @@ public class Jugador {
         mazo.agregarCartas(mano.removerCartas(unasCartas));
     }
 
+    public List<Carta> cartasEnMano(){
+        return mano.getCartas();
+    }
+
     public int cartasRestantesEnSeccion(String clave) {
 
         switch (clave) {
@@ -60,6 +64,10 @@ public class Jugador {
             default:
                 return mazo.cartasRestantes();
         }
+    }
+
+    public List<Carta> obtenerCartasEnMano(){
+        return mano.getCartas();
     }
 
     public String nombre() {
@@ -74,11 +82,11 @@ public class Jugador {
         this.nombre = nombre;
     }
 
-    public void agregarCartasAlDescarte(List<CartaUnidad> cartas) {
+    public void agregarCartasAlDescarte(List<Carta> cartas) {
         descarte.agregarCartas(cartas);
     }
 
-    public CartaUnidad removerUltimaCartaDeDescarte(){
+    public Carta removerUltimaCartaDeDescarte(){
         return descarte.removerUnidad();
     }
 }
