@@ -1,11 +1,12 @@
 package edu.fiuba.algo3.controller;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
+
+import java.io.FileReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +28,9 @@ public class ConstructorMazo {
         this.cartasFactory = cartasFactory;
         this.analizadorJson = analizador;
     }
+
     public Mazo personalizarMazo(String rutaCartasUnidad, String rutaCartasEspeciales) throws IOException {
+        
         List<Carta> cartas = new ArrayList<>();
 
         try {
@@ -43,9 +46,12 @@ public class ConstructorMazo {
         return new Mazo(cartas);
     }
 
-    public List<Mazo> construirMazos(String rutaMazos) throws IOException, ParseException {
+    public List<Mazo> construirMazos(InputStream jsonStream) throws IOException, ParseException {
 
-        JSONObject rutaJson = (JSONObject) analizadorJson.parse(new FileReader(rutaMazos));
+        // Cambiar de FileReader a InputStreamReader
+        InputStreamReader reader = new InputStreamReader(jsonStream);
+
+        JSONObject rutaJson = (JSONObject) analizadorJson.parse(reader);
 
         JSONObject mazoUno = obtenerMazo(rutaJson,"mazo_jugador_uno");
         JSONObject mazoDos = obtenerMazo(rutaJson,"mazo_jugador_dos");
@@ -66,8 +72,10 @@ public class ConstructorMazo {
 
         mazos.add(new Mazo(cartasJugador1));
         mazos.add(new Mazo(cartasJugador2));
+
         return mazos;
     }
+
 
 
     public JSONObject obtenerMazo(JSONObject ruta ,String mazoJugador){

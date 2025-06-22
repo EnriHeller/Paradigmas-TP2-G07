@@ -1,0 +1,55 @@
+[
+    {
+        "nombre": "Quemar",
+        "descripcion": "Elimina las cartas más fuertes del campo de batalla.",
+        "tipo": "Tierra arrasada"
+    },
+    {
+        "nombre": "Cuerno del comandante",
+        "descripcion": "Duplica la fuerza de todas las cartas de una sección específica.",
+        "tipo": "Morale boost"
+    },
+    {
+        "nombre": "Escarcha mordaz",
+        "descripcion": "Establece la fuerza de todas las cartas de Combate Cuerpo a Cuerpo en 1 para ambos jugadores.",
+        "tipo": "Clima",
+        "afectado": [
+            "Cuerpo a Cuerpo"
+        ]
+    },
+    {
+        "nombre": "Niebla impenetrable",
+        "descripcion": "Establece la fuerza de todas las cartas de Combate a Distancia en 1 para ambos jugadores.",
+        "tipo": "Clima",
+        "afectado": [
+            "Rango"
+        ]
+    },
+    {
+        "nombre": "Lluvia torrencial",
+        "descripcion": "Establece la fuerza de todas las cartas de Asedio en 1 para ambos jugadores.",
+        "tipo": "Clima",
+        "afectado": [
+            "Asedio"
+        ]
+    },
+    {
+        "nombre": "Tormeta de Skellige",
+        "descripcion": "Establece la fuerza de todas las cartas de Combate Cuerpo a Cuerpo y Combate a Distancia en 1 para ambos jugadores.",
+        "tipo": "Clima",
+        "afectado": [
+            "Cuerpo a Cuerpo",
+            "Rango"
+        ]
+    },
+    {
+        "nombre": "Tiempo despejado",
+        "descripcion": "Elimina todos los efectos de clima en el tablero.",
+        "tipo": "Clima",
+        "afectado": [
+            "Cuerpo a Cuerpo",
+            "Rango",
+            "Asedio"
+        ]
+    }
+]

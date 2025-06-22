@@ -20,8 +20,10 @@ public class Test05LasCartasPasanALaPilaDeDescarte {
         try {
             int cartasJugadasEsperadas = 8;
             List<Jugador> jugadores = new ArrayList<>();
-            for (var mazo : ConstructorDeMazoMock.crearDosMazosDeUnidades().construirMazos("")) {
-                jugadores.add(new Jugador("Jugador", mazo));
+            for (var mazo : ConstructorDeMazoMock.crearDosMazosDeUnidades().construirMazos(null)) {
+                Jugador jugador = new Jugador("Jugador");
+                jugador.agregarMazo(mazo);
+                jugadores.add(jugador);
             }
             Jugador jugador1 = jugadores.get(0);
             Jugador jugador2 = jugadores.get(1);

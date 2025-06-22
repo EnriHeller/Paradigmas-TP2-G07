@@ -50,12 +50,12 @@ public class Juego {
         Jugador jugadorElegido = jugadores.get(jugador);
         try {
             jugadorElegido.agregarCartasAMano(minCartasAMano);
-        } catch (NoSePuedeCumplirSolcitudDeCartas e) {
+        } catch (NoSePuedeCumplirSolicitudDeCartas e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void darMano(int jugadorID, int cantidadDeCartas) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolcitudDeCartas {
+    public void darMano(int jugadorID, int cantidadDeCartas) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
         jugadores.get(jugadorID).agregarCartasAMano(cantidadDeCartas);
     }
 
@@ -67,11 +67,10 @@ public class Juego {
     //FASE DE JUEGO
     public void jugarCarta(Carta carta, Seccion seccion) throws TipoDeSeccionInvalidaError {
         if (carta.esEspecial()){
-            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), administradorTurno.jugadorActual());
+            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), administradorTurno.jugadorActual(), jugadores);
             carta.aplicarModificador(contexto);
         } else{
-            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), (CartaUnidad) carta, administradorTurno.jugadorActual());
-
+            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), (CartaUnidad) carta, administradorTurno.jugadorActual(), jugadores);
             CartaUnidad cartaUnidad = (CartaUnidad) carta;
             cartaUnidad.prepararContexto(contexto);
             tablero.agregarCarta(tablero.obtenerSeccion(seccion), cartaUnidad);

@@ -30,7 +30,11 @@ public class Test16NingunJugadorPuedeGanarEnInicioYRonda1 {
             cartasDelMazo.add(carta);
         }
 
-        Juego juego = new Juego(new Jugador("JugadorTest1", new Mazo(cartasDelMazo)), new Jugador("JugadorTest2", new Mazo(cartasDelMazo)));
+        Jugador jugador1 = new Jugador("JugadorTest1");
+        jugador1.agregarMazo(new Mazo(cartasDelMazo));
+        Jugador jugador2 = new Jugador("JugadorTest2");
+        jugador2.agregarMazo(new Mazo(cartasDelMazo));
+        Juego juego = new Juego(jugador1, jugador2);
 
         assertFalse(juego.juegoTerminado());
         juego.definirQuienEmpieza(0);

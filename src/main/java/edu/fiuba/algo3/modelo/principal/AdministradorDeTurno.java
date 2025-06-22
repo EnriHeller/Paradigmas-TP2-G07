@@ -52,12 +52,12 @@ public class AdministradorDeTurno {
         List<CartaUnidad> cartasDel2 = tablero.removerCartasDeJugador(1);
 
         for (CartaUnidad carta : cartasDel1) {
-            Contexto contexto = new Contexto(tablero, new Seccion(), carta, jugadores.get(0));
+            Contexto contexto = new Contexto(tablero, new Seccion(), carta, jugadores.get(0), jugadores);
             carta.retrotraerModificacion(contexto);
         }
 
         for (CartaUnidad carta : cartasDel2) {
-            Contexto contexto = new Contexto(tablero, new Seccion(), carta, jugadores.get(1));
+            Contexto contexto = new Contexto(tablero, new Seccion(), carta, jugadores.get(1), jugadores);
             carta.retrotraerModificacion(contexto);
         }
 

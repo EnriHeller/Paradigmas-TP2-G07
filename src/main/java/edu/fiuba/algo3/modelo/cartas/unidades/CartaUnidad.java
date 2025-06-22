@@ -118,4 +118,7 @@ public class CartaUnidad implements Carta, Puntuable {
         return Objects.hash(nombre, secciones, valorActual, valorBase, modificador);
     }
 
+    public String getModificadores() {
+        return modificador.mostrarModificadores();
+    }
 }

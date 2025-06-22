@@ -28,8 +28,10 @@ public class Test06ModificarConCartaUnidaCambiaPuntosYSeAplicaValorSoloALaRonda 
         for (int i = 0; i < 21; i++) {
             cartasDelMazo.add(new CartaUnidadUnidasMock("Vengador", secciones, 8));
         }
-        Jugador jugador1 = new Jugador("Jugador1", new Mazo(cartasDelMazo));
-        Jugador jugador2 = new Jugador("Jugador2", new Mazo(cartasDelMazo));
+        Jugador jugador1 = new Jugador("Jugador1");
+        jugador1.agregarMazo(new Mazo(cartasDelMazo));
+        Jugador jugador2 = new Jugador("Jugador2");
+        jugador2.agregarMazo(new Mazo(cartasDelMazo));
         Juego juego = new Juego(jugador1,jugador2);
         juego.jugarCarta(new CartaUnidadUnidasMock("Vengador", secciones, 8), seccionSimulada);
         juego.jugarCarta(new CartaUnidadUnidasMock("Vengador", secciones, 8), seccionSimulada);

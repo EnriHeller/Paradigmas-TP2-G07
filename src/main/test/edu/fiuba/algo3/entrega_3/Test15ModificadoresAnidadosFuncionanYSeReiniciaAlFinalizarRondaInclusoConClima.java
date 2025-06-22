@@ -34,7 +34,12 @@ public class Test15ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRondaIncl
 
         Seccion seccionSimulada = new Seccion("CuerpoACuerpo", 0);
 
-        Juego juego = new Juego(new Jugador("JugadorTest1", new Mazo(cartasDelMazo)), new Jugador("JugadorTest2", new Mazo(cartasDelMazo)));
+        Jugador jugador1 = new Jugador("JugadorTest1");
+        jugador1.agregarMazo(new Mazo(cartasDelMazo));
+        Jugador jugador2 = new Jugador("JugadorTest2");
+        jugador2.agregarMazo(new Mazo(cartasDelMazo));
+
+        Juego juego = new Juego(jugador1, jugador2);
 
         CartaUnidad carta1 = new CartaUnidad("SuperCarta",secciones, 8 , superModificador);
 

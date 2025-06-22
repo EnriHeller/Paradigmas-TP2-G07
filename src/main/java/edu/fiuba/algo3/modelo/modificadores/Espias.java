@@ -2,7 +2,7 @@ package edu.fiuba.algo3.modelo.modificadores;
 
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Contexto;
-import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
@@ -23,26 +23,24 @@ public class Espias implements Modificador {
     }
 
     @Override
-    public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError {
-
-        try {
-            modificador.modificar(contextoModificador);
-        } catch (NoSePuedeEliminarClimaSiNoHayClima | TipoDeSeccionInvalidaError ignored) {
-        }
+    public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
+        modificador.modificar(contextoModificador);
 
         Tablero tablero = contextoModificador.getTablero();
         Seccion seccion = contextoModificador.getSeccion();
 
-        CartaUnidad cartaAgregar = tablero.removerCarta(seccion, contextoModificador.getCarta());
-        tablero.agregarCarta(tablero.seccionContraria(seccion), cartaAgregar);
+        // Mueve la carta a la seccion contraria
+        CartaUnidad cartaEspia = (CartaUnidad) contextoModificador.getCarta();
+        tablero.removerCarta(seccion, cartaEspia);
+        tablero.agregarCarta(tablero.seccionContraria(seccion), cartaEspia);
 
-        try{
-            contextoModificador.getJugadorClase().agregarCartasAMano(2);
-        }catch(TipoDeSeccionInvalidaError | NoSePuedeCumplirSolcitudDeCartas e){
-
+        // El jugador que recibe la carta espía roba 2 cartas
+        int rivalId = 1 - seccion.getJugadorId();
+        try {
+            contextoModificador.getJugadores().get(rivalId).agregarCartasAMano(2);
+        } catch (NoSePuedeCumplirSolicitudDeCartas e) {
+            throw new RuntimeException(e);
         }
-
-
     }
 
     @Override

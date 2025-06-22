@@ -11,7 +11,26 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import java.util.Arrays;
 import java.util.List;
 
-public class DestructoraDeClima implements Carta, Modificador {
+public class DestructoraDeClima implements Carta, Modificador, CartaEspecial {
+
+    private final String nombre;
+    private final String descripcion;
+    private final String tipo;
+    private final java.util.List<String> afectado;
+
+    public DestructoraDeClima(String nombre, String descripcion, java.util.List<String> afectado) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipo = "Destructora de clima";
+        this.afectado = afectado;
+    }
+
+    public DestructoraDeClima() {
+        this.nombre = "DestructoraDeClima";
+        this.descripcion = "Elimina el efecto de clima en todas las secciones afectadas.";
+        this.tipo = "Especial";
+        this.afectado = Arrays.asList("Rango", "Asedio", "CuerpoACuerpo");
+    }
 
     @Override
     public  boolean esEspecial(){
@@ -60,5 +79,23 @@ public class DestructoraDeClima implements Carta, Modificador {
         }
     }
 
+    @Override
+    public String getNombre() {
+        return nombre;
+    }
 
+    @Override
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    @Override
+    public String getTipo() {
+        return tipo;
+    }
+
+    @Override
+    public java.util.List<String> getAfectado() {
+        return afectado;
+    }
 }

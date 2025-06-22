@@ -15,18 +15,15 @@ public class Jugador {
     private Descarte descarte;
     private int ordenDeJuego = 0;
 
-    public Jugador() {
-        this.nombre = "";
-        this.mazo = null;
-    }
-
-    public Jugador(String nombre, Mazo mazo) {
+    public Jugador(String nombre) {
         this.nombre = nombre;
-        this.mazo = mazo;
 
         this.mano = new Mano();
         this.descarte = new Descarte();
+    }
 
+    public void agregarMazo(Mazo mazo) {
+        this.mazo = mazo;
     }
 
     public int ordenDeJuego() {
@@ -41,7 +38,7 @@ public class Jugador {
         return mano.removerCarta(carta);
     }
     //Fase inicial y preparacion
-    public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolcitudDeCartas {
+    public void agregarCartasAMano(int n) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
         List<Carta> cartas = mazo.repartirCarta(n);
         mano.agregarCartas(cartas);
     }
@@ -67,6 +64,14 @@ public class Jugador {
 
     public String nombre() {
         return nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public void agregarCartasAlDescarte(List<CartaUnidad> cartas) {

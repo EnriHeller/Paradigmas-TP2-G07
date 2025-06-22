@@ -11,7 +11,7 @@ import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayCli
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.modelo.principal.Juego;
-import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import org.json.simple.parser.ParseException;
 public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
 
     @Test
-    public void testTierraArrasadaEliminaCartasMasFuertes() throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima, NoSePuedeCumplirSolcitudDeCartas, UnoDeLosMazosNoCumpleRequitos, IOException, ParseException {
+    public void testTierraArrasadaEliminaCartasMasFuertes() throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima, NoSePuedeCumplirSolicitudDeCartas, UnoDeLosMazosNoCumpleRequitos, IOException, ParseException {
         // 1. Crear cartas de unidad y una con legendaria como modificador
 
         ArrayList<String> secciones = new ArrayList<>();
@@ -62,9 +62,14 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
         Mazo mazo_j1 = new Mazo(new ArrayList<>(cartasJugador));
         Mazo mazo_j2 = new Mazo(new ArrayList<>(cartasJugador));
 
+        Jugador jugador1 = new Jugador("JugadorTest1");
+        jugador1.agregarMazo(mazo_j1);
+        Jugador jugador2 = new Jugador("JugadorTest2");
+        jugador2.agregarMazo(mazo_j2);
+
         Juego juego;
 
-        juego = new Juego(new Jugador("JugadorTest1", mazo_j1), new Jugador("JugadorTest2", mazo_j2));
+        juego = new Juego(jugador1, jugador2);
         juego.darMano(0, 10);
 
         // 3. Jugar las cartas en la sección "Rango"

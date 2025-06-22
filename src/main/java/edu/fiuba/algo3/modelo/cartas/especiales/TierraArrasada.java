@@ -9,10 +9,25 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.List;
 
-public class TierraArrasada implements Carta, Modificador {
+public class TierraArrasada implements Carta, Modificador, CartaEspecial {
+
+    private final String nombre;
+    private final String descripcion;
+    private final String tipo;
+    private final java.util.List<String> afectado;
+
+    public TierraArrasada(String nombre, String descripcion, java.util.List<String> afectado) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipo = "Tierra arrasada";
+        this.afectado = afectado;
+    }
 
     public TierraArrasada() {
-
+        this.nombre = "TierraArrasada";
+        this.descripcion = "Destruye las cartas de mayor valor en la sección afectada.";
+        this.tipo = "Especial";
+        this.afectado = List.of("Rango", "Asedio", "CuerpoACuerpo");
     }
 
     public boolean esEspecial(){ return true;}
@@ -41,4 +56,23 @@ public class TierraArrasada implements Carta, Modificador {
         tablero.removerCartasDeValorMaximo();
     }
 
+    @Override
+    public String getNombre() {
+        return nombre;
+    }
+
+    @Override
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    @Override
+    public String getTipo() {
+        return tipo;
+    }
+
+    @Override
+    public List<String> getAfectado() {
+        return afectado;
+    }
 }

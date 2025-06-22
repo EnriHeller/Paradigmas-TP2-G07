@@ -1,0 +1,878 @@
+[
+    {
+        "nombre": "Barclay Els",
+        "puntos": 6,
+        "modificador": [
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Berserker",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Birna Bran",
+        "puntos": 2,
+        "modificador": [
+            "Medico"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Comando de Rayas Azules",
+        "puntos": 4,
+        "modificador": [
+            "Carta Unida"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Blueboy Lugos",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Botchling",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Fuerza de Defensa Bovina",
+        "puntos": 8,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Cahir Mawr Dyffryn aep Ceallach",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Harpía Celaeno",
+        "puntos": 2,
+        "modificador": [
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Cerys",
+        "puntos": 10,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Ciaran aep Easnillien",
+        "puntos": 3,
+        "modificador": [
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Cirilla Fiona Elen Riannon",
+        "puntos": 15,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Doncella Escudo del Clan Drummond",
+        "puntos": 4,
+        "modificador": [
+            "Carta Unida"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Skald del Clan Heymaey",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Herrero del Clan Tordarroch",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Guerrero del Clan an Craite",
+        "puntos": 6,
+        "modificador": [
+            "Carta Unida"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Crone: Brewess",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Crone: Weavess",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Crone: Whispess",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Jaskier",
+        "puntos": 2,
+        "modificador": [
+            "Morale Boost"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Dennis Cranmer",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Explorador de Dol Blathanna",
+        "puntos": 6,
+        "modificador": [
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Donar an Hindar",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Draug",
+        "puntos": 10,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Hostigador Enano",
+        "puntos": 3,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Emiel Regis Rohellec Terzieff",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Esterad Thyssen",
+        "puntos": 10,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Fiend",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Filavandrel aen Fidhail",
+        "puntos": 6,
+        "modificador": [
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Foglet",
+        "puntos": 2,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Forktail",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Frightener",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Geralt de Rivia",
+        "puntos": 15,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Necrófago",
+        "puntos": 1,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Grifo",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Harpía",
+        "puntos": 2,
+        "modificador": [
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Contrabandista Havekar",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Hemdall",
+        "puntos": 11,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Imlerith",
+        "puntos": 10,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Guardia de la Brigada Impera",
+        "puntos": 3,
+        "modificador": [
+            "Carta Unida"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Isengrim Faoiltiarna",
+        "puntos": 10,
+        "modificador": [
+            "Morale boost",
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "John Natalis",
+        "puntos": 10,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Kambi",
+        "puntos": 0,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Kayran",
+        "puntos": 8,
+        "modificador": [
+            "Legendaria",
+            "Morale boost",
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Letho de Guleta",
+        "puntos": 10,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Lugos el Loco",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Defensor de Mahakam",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Menno Coehoorn",
+        "puntos": 10,
+        "modificador": [
+            "Legendaria",
+            "Medico"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Morteisen",
+        "puntos": 3,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Elfo Misterioso",
+        "puntos": 0,
+        "modificador": [
+            "Espia",
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Jinete de Caballería de Nausicaa",
+        "puntos": 2,
+        "modificador": [
+            "Carta Unida"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Nekker",
+        "puntos": 2,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Olaf",
+        "puntos": 12,
+        "modificador": [
+            "Agil",
+            "Morale boost"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Olgierd von Everec",
+        "puntos": 6,
+        "modificador": [
+            "Morale boost",
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Doncella de la Plaga",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Pobre Infantería",
+        "puntos": 1,
+        "modificador": [
+            "Carta Unida"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Príncipe Stennis",
+        "puntos": 5,
+        "modificador": [
+            "Espia"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Rainfarn",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Soldado de Infantería Redaniana",
+        "puntos": 1,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Sardinilla",
+        "puntos": 3,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Shilard Fitz-Oesterlen",
+        "puntos": 7,
+        "modificador": [
+            "Espia"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Siegfried de Denesle",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Sigismund Dijkstra",
+        "puntos": 4,
+        "modificador": [
+            "Espia"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Stefan Skellen",
+        "puntos": 9,
+        "modificador": [
+            "Espia"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Svanrige",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Vildkaarl Transformado",
+        "puntos": 14,
+        "modificador": [
+            "Morale boost"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Triss Merigold",
+        "puntos": 7,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Udalryk",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Vampiro: Bruxa",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Vampiro: Ekimmara",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Vampiro: Fleder",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Vampiro: Garkain",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Vampiro: Katakan",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Vattier de Rideaux",
+        "puntos": 4,
+        "modificador": [
+            "Espia"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Vernon Roche",
+        "puntos": 10,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Ves",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Vesemir",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Villentretenmerth",
+        "puntos": 7,
+        "modificador": [
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Vreemde",
+        "puntos": 2,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Veterano de la Brigada Vrihedd",
+        "puntos": 5,
+        "modificador": [
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Hombre Lobo",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Yaevinn",
+        "puntos": 6,
+        "modificador": [
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Yarpen Zigrin",
+        "puntos": 2,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Joven Emisario",
+        "puntos": 5,
+        "modificador": [
+            "Carta Unida"
+        ],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Zoltan Chivay",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Cuerpo a Cuerpo"
+    },
+    {
+        "nombre": "Albrich",
+        "puntos": 2,
+        "modificador": [],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Assire var Anahid",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Barclay Els",
+        "puntos": 6,
+        "modificador": [
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Arquero de Infantería Negro",
+        "puntos": 10,
+        "modificador": [],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Celaeno Harpía",
+        "puntos": 2,
+        "modificador": [
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Ciaran aep Easnillien",
+        "puntos": 3,
+        "modificador": [
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Arquero del Clan Brokvar",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Pirata del Clan Dimun",
+        "puntos": 6,
+        "modificador": [
+            "Quemar"
+        ],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Cocatris",
+        "puntos": 2,
+        "modificador": [],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Vaca",
+        "puntos": 0,
+        "modificador": [],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Cazadores de Dragones de Crinfrid",
+        "puntos": 5,
+        "modificador": [
+            "Carta Unida"
+        ],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Cynthia",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Dethmold",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Arquero de Dol Blathanna",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Explorador de Dol Blathanna",
+        "puntos": 6,
+        "modificador": [
+            "Agil"
+        ],
+        "seccion": "Cuerpo a Cuerpo, Rango"
+    },
+    {
+        "nombre": "Eithné",
+        "puntos": 10,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Hostigador Élfico",
+        "puntos": 2,
+        "modificador": [],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Endriaga",
+        "puntos": 2,
+        "modificador": [],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Ermion",
+        "puntos": 8,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Rango"
+    },
+    {
+        "nombre": "Arachas Behemoth",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Ballesta",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Catapulta",
+        "puntos": 8,
+        "modificador": [
+            "Carta Unida"
+        ],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Draig Bon-Dhu",
+        "puntos": 2,
+        "modificador": [
+            "Morale Boost"
+        ],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Medico del Estandarte de Dun",
+        "puntos": 5,
+        "modificador": [
+            "Medico"
+        ],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Elemental de Tierra",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Elemental de Fuego",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Gaunter O'Dimm",
+        "puntos": 2,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Escorpión de Fuego Zerrikaniano Pesado",
+        "puntos": 10,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Holger Blackhand",
+        "puntos": 4,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Gigante de Hielo",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Experto en Asedio Kaedweni",
+        "puntos": 1,
+        "modificador": [
+            "Impulso de moral"
+        ],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Morvran Voorhis",
+        "puntos": 10,
+        "modificador": [
+            "Legendaria"
+        ],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Mangonel Podrido",
+        "puntos": 3,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Schirrú",
+        "puntos": 8,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Ingeniero de Asedio",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Técnico de Asedio",
+        "puntos": 0,
+        "modificador": [
+            "Medico"
+        ],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Torre de Asedio",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Thaler",
+        "puntos": 1,
+        "modificador": [
+            "Espia"
+        ],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Trabuquete",
+        "puntos": 6,
+        "modificador": [],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Barco de Guerra",
+        "puntos": 6,
+        "modificador": [
+            "Carta Unida"
+        ],
+        "seccion": "Asedio"
+    },
+    {
+        "nombre": "Escorpión de Fuego Zerrikaniano",
+        "puntos": 5,
+        "modificador": [],
+        "seccion": "Asedio"
+    }
+]

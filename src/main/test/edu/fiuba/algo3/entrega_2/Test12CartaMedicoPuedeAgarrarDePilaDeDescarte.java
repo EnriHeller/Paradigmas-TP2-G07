@@ -6,7 +6,7 @@ import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Medico;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
-import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Descarte;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class Test12CartaMedicoPuedeAgarrarDePilaDeDescarte {
 
     @Test
-    public void Test12CartaMedicoPuedeAgarrarDePilaDeDescarte() throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolcitudDeCartas, UnoDeLosMazosNoCumpleRequitos {
+    public void Test12CartaMedicoPuedeAgarrarDePilaDeDescarte() throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas, UnoDeLosMazosNoCumpleRequitos {
 
         Medico medico = new Medico(new Base());
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
@@ -43,7 +43,12 @@ public class Test12CartaMedicoPuedeAgarrarDePilaDeDescarte {
             cartasDelMazo.add(carta);
         }
 
-        Juego juego = new Juego(new Jugador("JugadorTest1", new Mazo(cartasDelMazo)), new Jugador("JugadorTest2", new Mazo(cartasDelMazo)));
+        Jugador jugador1 = new Jugador("JugadorTest1");
+        jugador1.agregarMazo(new Mazo(cartasDelMazo));
+        Jugador jugador2 = new Jugador("JugadorTest2");
+        jugador2.agregarMazo(new Mazo(cartasDelMazo));
+
+        Juego juego = new Juego(jugador1, jugador2);
 
         for (CartaUnidad carta : cartasAJugar) {
             juego.jugarCarta(carta, seccionSimulada);

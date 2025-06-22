@@ -25,7 +25,7 @@ public class ConstructorDeMazoMock {
         mazos.add(new Mazo(cartasMazo2));
         return new ConstructorMazo(null, null, null) {
             @Override
-            public List<Mazo> construirMazos(String tipo) {
+            public List<Mazo> construirMazos(java.io.InputStream jsonStream) {
                 return mazos;
             }
         };
@@ -43,7 +43,7 @@ public class ConstructorDeMazoMock {
         mazos.add(new Mazo(cartasMazo2));
         return new ConstructorMazo(null, null, null) {
             @Override
-            public List<Mazo> construirMazos(String tipo) {
+            public List<Mazo> construirMazos(java.io.InputStream jsonStream) {
                 return mazos;
             }
         };

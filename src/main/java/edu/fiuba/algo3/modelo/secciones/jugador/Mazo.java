@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.modelo.secciones.jugador;
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolcitudDeCartas;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 
 import java.io.Serializable;
@@ -56,10 +56,10 @@ public class Mazo implements SeccionJugador<Carta> {
         Collections.shuffle(this.cartas);
     }
 
-    public List<Carta> repartirCarta(int n) throws NoSePuedeCumplirSolcitudDeCartas {
+    public List<Carta> repartirCarta(int n) throws NoSePuedeCumplirSolicitudDeCartas {
 
         if (n > cartas.size()) {
-            throw new NoSePuedeCumplirSolcitudDeCartas();
+            throw new NoSePuedeCumplirSolicitudDeCartas();
         }
 
         List<Carta> cartasRepartidas = new ArrayList<Carta>();

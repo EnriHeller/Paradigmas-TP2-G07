@@ -4,24 +4,28 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 
+import java.util.List;
+
 public class Contexto {
     private Tablero tablero;
     private Seccion seccion;
     private CartaUnidad carta;
-    //private int jugadorID;
     private Jugador jugador;
+    private List<Jugador> jugadores; // NEW FIELD
 
-    public Contexto(Tablero tablero, Seccion seccion, CartaUnidad carta, Jugador jugador) {
+    public Contexto(Tablero tablero, Seccion seccion, CartaUnidad carta, Jugador jugador, List<Jugador> jugadores) {
         this.tablero = tablero;
         this.seccion = seccion;
         this.carta = carta;
         this.jugador = jugador;
+        this.jugadores = jugadores;
     }
 
-    public Contexto(Tablero tablero, Seccion seccion, Jugador jugador) {
+    public Contexto(Tablero tablero, Seccion seccion, Jugador jugador, List<Jugador> jugadores) {
         this.tablero = tablero;
         this.seccion = seccion;
         this.jugador = jugador;
+        this.jugadores = jugadores;
     }
 
 
@@ -43,6 +47,10 @@ public class Contexto {
 
     public Jugador getJugadorClase(){
         return jugador;
+    }
+
+    public List<Jugador> getJugadores() {
+        return jugadores;
     }
 
 }

@@ -20,8 +20,8 @@ public class Test08EsPosibleEliminarAfectoDelClimaEnTablero {
         DestructoraDeClima destructoraDeClima = new DestructoraDeClima();
         Seccion seccionMock = new Seccion("Rango", 0);
         CartaUnidadMock cartaMock = new CartaUnidadMock();
-        Jugador jugadorMock = new Jugador("Mock", null);
-        Contexto contexto = new Contexto(tablero, seccionMock, cartaMock, jugadorMock);
+        Jugador jugadorMock = new Jugador("Mock");
+        Contexto contexto = new Contexto(tablero, seccionMock, cartaMock, jugadorMock, java.util.List.of(jugadorMock));
         nevada.modificar(contexto);
         assertDoesNotThrow(() -> destructoraDeClima.modificar(contexto));
     }
