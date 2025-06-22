@@ -71,10 +71,10 @@ public class Test22MoraleBoostPruebaMetodos {
         class SeccionMock extends Seccion {
             public SeccionMock() throws TipoDeSeccionInvalidaError { super("CuerpoACuerpo", 0); }
             @Override
-            public java.util.List<CartaUnidad> getCartasActuales() { return new java.util.ArrayList<>(); }
+            public java.util.List<CartaUnidad> getCartas() { return new java.util.ArrayList<>(); }
         }
         class ContextoMock extends edu.fiuba.algo3.modelo.principal.Contexto {
-            public ContextoMock() throws TipoDeSeccionInvalidaError { super(null, new SeccionMock(), null, null, java.util.List.of()); }
+            public ContextoMock() throws TipoDeSeccionInvalidaError { super(null, new SeccionMock(), null, null); }
             @Override
             public Seccion getSeccion() {
                 try {

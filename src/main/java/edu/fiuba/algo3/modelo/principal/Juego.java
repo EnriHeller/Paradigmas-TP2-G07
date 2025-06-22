@@ -2,13 +2,11 @@ package edu.fiuba.algo3.modelo.principal;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Juego {
     private List<Jugador> jugadores;
@@ -67,10 +65,10 @@ public class Juego {
     //FASE DE JUEGO
     public void jugarCarta(Carta carta, Seccion seccion) throws TipoDeSeccionInvalidaError {
         if (carta.esEspecial()){
-            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), administradorTurno.jugadorActual(), jugadores);
+            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), administradorTurno.jugadorActual());
             carta.aplicarModificador(contexto);
         } else{
-            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), (CartaUnidad) carta, administradorTurno.jugadorActual(), jugadores);
+            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), (CartaUnidad) carta, administradorTurno.jugadorActual());
             CartaUnidad cartaUnidad = (CartaUnidad) carta;
             cartaUnidad.prepararContexto(contexto);
             tablero.agregarCarta(tablero.obtenerSeccion(seccion), cartaUnidad);

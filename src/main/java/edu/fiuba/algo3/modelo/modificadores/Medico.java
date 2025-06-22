@@ -30,7 +30,7 @@ public class Medico implements Modificador {
         } catch (NoSePuedeEliminarClimaSiNoHayClima | TipoDeSeccionInvalidaError ignored) {
         }
 
-        Jugador jugador = contextoModificador.getJugadorClase();
+        Jugador jugador = contextoModificador.getJugador();
         if (jugador.cartasRestantesEnSeccion("Descarte") == 0) throw new PilaDescarteNula();
 
         CartaUnidad cartaDescartada = (CartaUnidad) jugador.removerUltimaCartaDeDescarte();

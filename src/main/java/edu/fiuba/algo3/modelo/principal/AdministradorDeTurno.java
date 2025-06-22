@@ -37,27 +37,17 @@ public class AdministradorDeTurno {
         indiceActual = 1 - indiceActual;
     }
 
-    public boolean ambosPasaron() {
-        return true; //jugadores.get(0).haPasado() && jugadores.get(1).haPasado();
-    }
-
-    public void reiniciar() {
-        //jugadores.get(0).reiniciarPaso();
-        //jugadores.get(1).reiniciarPaso();
-        indiceActual = new Random().nextInt(2);
-    }
-
     public void finalizarRonda(Tablero tablero) {
         List<CartaUnidad> cartasDel1 = tablero.removerCartasDeJugador(0);
         List<CartaUnidad> cartasDel2 = tablero.removerCartasDeJugador(1);
 
         for (CartaUnidad carta : cartasDel1) {
-            Contexto contexto = new Contexto(tablero, new Seccion(), carta, jugadores.get(0), jugadores);
+            Contexto contexto = new Contexto(tablero, new Seccion(), carta, jugadores.get(0));
             carta.retrotraerModificacion(contexto);
         }
 
         for (CartaUnidad carta : cartasDel2) {
-            Contexto contexto = new Contexto(tablero, new Seccion(), carta, jugadores.get(1), jugadores);
+            Contexto contexto = new Contexto(tablero, new Seccion(), carta, jugadores.get(1));
             carta.retrotraerModificacion(contexto);
         }
 

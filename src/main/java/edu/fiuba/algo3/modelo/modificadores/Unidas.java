@@ -1,7 +1,6 @@
 package edu.fiuba.algo3.modelo.modificadores;
 
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.cartas.unidades.NoEsLaMismaUnidad;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
@@ -28,7 +27,6 @@ public class Unidas implements Modificador {
             modificador.modificar(contextoModificador);
         } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {
         }
-        Tablero tablero = contextoModificador.getTablero();
         List<CartaUnidad> cartasDeSeccion = contextoModificador.getSeccion().getCartas();
         String nombreCarta = contextoModificador.getCarta().getNombre();
         modificarComportamientoDeCartas(nombreCarta, cartasDeSeccion);

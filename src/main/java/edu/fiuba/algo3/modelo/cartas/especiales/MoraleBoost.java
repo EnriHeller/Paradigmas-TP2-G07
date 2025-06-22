@@ -41,7 +41,7 @@ public class MoraleBoost extends CartaEspecial implements Carta, Modificador {
     @Override
     public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError {
         Seccion seccion = contextoModificador.getSeccion();
-        List<CartaUnidad> cartasActuales = seccion.getCartasActuales();
+        List<CartaUnidad> cartasActuales = seccion.getCartas();
         for (CartaUnidad carta : cartasActuales) {
             carta.multiplicarValor(2);
         }

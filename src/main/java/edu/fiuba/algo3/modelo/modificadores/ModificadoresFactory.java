@@ -1,5 +1,4 @@
 package edu.fiuba.algo3.modelo.modificadores;
-import edu.fiuba.algo3.modelo.cartas.especiales.*;
 
 public class ModificadoresFactory {
     public Modificador crearModificador(String tipoModificador, Modificador siguienteModificador) {

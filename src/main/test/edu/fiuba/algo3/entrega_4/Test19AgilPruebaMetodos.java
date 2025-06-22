@@ -59,7 +59,7 @@ public class Test19AgilPruebaMetodos {
         assertTrue(agil.mostrarModificadores().contains("Agil"));
         // modificar (con contexto mock)
         class ContextoMock extends edu.fiuba.algo3.modelo.principal.Contexto {
-            public ContextoMock() { super(null, null, null, null, java.util.List.of()); }
+            public ContextoMock() { super(null, null, null, null); }
         }
         assertDoesNotThrow(() -> agil.modificar(new ContextoMock()));
     }

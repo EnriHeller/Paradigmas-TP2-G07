@@ -23,24 +23,26 @@ public class Espias implements Modificador {
     }
 
     @Override
-    public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
-        modificador.modificar(contextoModificador);
+    public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError {
+
+        try {
+            modificador.modificar(contextoModificador);
+        } catch (NoSePuedeEliminarClimaSiNoHayClima | TipoDeSeccionInvalidaError ignored) {
+        }
 
         Tablero tablero = contextoModificador.getTablero();
         Seccion seccion = contextoModificador.getSeccion();
 
-        // Mueve la carta a la seccion contraria
-        CartaUnidad cartaEspia = (CartaUnidad) contextoModificador.getCarta();
-        tablero.removerCarta(seccion, cartaEspia);
-        tablero.agregarCarta(tablero.seccionContraria(seccion), cartaEspia);
+        CartaUnidad cartaAgregar = tablero.removerCarta(seccion, contextoModificador.getCarta());
+        tablero.agregarCarta(tablero.seccionContraria(seccion), cartaAgregar);
 
-        // El jugador que recibe la carta espía roba 2 cartas
-        int rivalId = 1 - seccion.getJugadorId();
-        try {
-            contextoModificador.getJugadores().get(rivalId).agregarCartasAMano(2);
-        } catch (NoSePuedeCumplirSolicitudDeCartas e) {
-            throw new RuntimeException(e);
+        try{
+            contextoModificador.getJugador().agregarCartasAMano(2);
+        }catch(TipoDeSeccionInvalidaError | NoSePuedeCumplirSolicitudDeCartas e){
+
         }
+
+
     }
 
     @Override

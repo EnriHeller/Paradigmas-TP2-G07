@@ -21,7 +21,7 @@ public class Test08EsPosibleEliminarAfectoDelClimaEnTablero {
         Seccion seccionMock = new Seccion("Rango", 0);
         CartaUnidadMock cartaMock = new CartaUnidadMock();
         Jugador jugadorMock = new Jugador("Mock");
-        Contexto contexto = new Contexto(tablero, seccionMock, cartaMock, jugadorMock, java.util.List.of(jugadorMock));
+        Contexto contexto = new Contexto(tablero, seccionMock, cartaMock, jugadorMock);
         nevada.modificar(contexto);
         assertDoesNotThrow(() -> destructoraDeClima.modificar(contexto));
     }
@@ -40,7 +40,7 @@ public class Test08EsPosibleEliminarAfectoDelClimaEnTablero {
         Seccion seccion = new Seccion("Rango", 0);
         CartaUnidadMock cartaMock = new CartaUnidadMock();
         Jugador jugadorMock = new Jugador("Mock");
-        Contexto contexto = new Contexto(tablero, seccion, cartaMock, jugadorMock, java.util.List.of(jugadorMock));
+        Contexto contexto = new Contexto(tablero, seccion, cartaMock, jugadorMock);
         // Primero agregamos clima para que no lance excepción
         new CartaNevada().modificar(contexto);
         org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> destructora.aplicarModificador(contexto));

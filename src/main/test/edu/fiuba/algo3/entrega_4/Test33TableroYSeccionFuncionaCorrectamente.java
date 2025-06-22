@@ -18,7 +18,6 @@ public class Test33TableroYSeccionFuncionaCorrectamente {
         seccion.agregarCarta(carta);
         assertTrue(seccion.contiene(carta));
         assertEquals(1, seccion.getCartas().size());
-        assertEquals(1, seccion.getCartasActuales().size());
         assertEquals("Rango", seccion.getClave());
         assertEquals(0, seccion.getJugadorId());
         assertEquals(5, seccion.getPuntajeTotal());

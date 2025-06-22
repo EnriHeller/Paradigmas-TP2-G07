@@ -2,10 +2,6 @@ package edu.fiuba.algo3.modelo.secciones.jugador;
 
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Descarte extends SeccionJugador<Carta> {
 
@@ -15,10 +11,10 @@ public class Descarte extends SeccionJugador<Carta> {
 
     @Override
     public void agregarCarta(Carta carta) {
-        if (!(carta instanceof CartaUnidad)) {
+        if (carta.esEspecial()) {
             throw new IllegalArgumentException("Solo se pueden agregar instancias de CartaUnidad al descarte");
         }
-        cartas.add((CartaUnidad) carta);
+        cartas.add(carta);
     }
 
     public Carta removerUnidad() {

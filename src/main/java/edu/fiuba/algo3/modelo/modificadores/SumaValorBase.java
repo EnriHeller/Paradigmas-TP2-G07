@@ -33,7 +33,7 @@ public class SumaValorBase implements Modificador{
         Seccion seccion = contextoModificador.getSeccion();
         this.dondeSeJugo = seccion;
 
-        List<CartaUnidad> cartas = seccion.getCartasActuales();
+        List<CartaUnidad> cartas = seccion.getCartas();
 
         for(CartaUnidad carta : cartas){
             carta.sumaValor(1);
@@ -43,7 +43,7 @@ public class SumaValorBase implements Modificador{
     @Override
     public void retrotraerContexto(Contexto contexto) {
 
-        List<CartaUnidad> cartas = dondeSeJugo.getCartasActuales();
+        List<CartaUnidad> cartas = dondeSeJugo.getCartas();
 
         for (CartaUnidad carta : cartas) {
             carta.sumaValor(-1);
