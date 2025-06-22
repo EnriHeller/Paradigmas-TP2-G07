@@ -37,7 +37,7 @@ public class Tablero {
 
     public void existeSeccion(Seccion seccion) throws TipoDeSeccionInvalidaError {
         if (!contieneSeccion(seccion)) {
-            throw new IllegalArgumentException("Clave inválida: " + seccion);
+            throw new IllegalArgumentException("Clave inválida: " + seccion.getClave());
         }
     }
 
