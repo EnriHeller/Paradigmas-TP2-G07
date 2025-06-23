@@ -37,7 +37,7 @@ public class Tablero {
 
     public void existeSeccion(Seccion seccion) throws TipoDeSeccionInvalidaError {
         if (!contieneSeccion(seccion)) {
-            throw new IllegalArgumentException("Clave inválida: " + seccion.getClave());
+            throw new IllegalArgumentException("Clave inválida: " + seccion);
         }
     }
 
@@ -160,6 +160,7 @@ public class Tablero {
         existeSeccion(seccion);
         obtenerSeccion(seccion).agregarCartas(cartas);
     }
+
 
     public Seccion obtenerSeccionPorClave(String clave) {
         return secciones.get(clave);

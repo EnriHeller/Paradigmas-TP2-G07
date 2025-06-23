@@ -1,19 +1,18 @@
-package edu.fiuba.algo3.controller;
+package edu.fiuba.algo3.vistas;
 
-import edu.fiuba.algo3.App;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.util.Objects;
 
-public class BienvenidaView {
+public class Bienvenida {
 
-    public StackPane construir() {
+    public StackPane construir(Stage stage) {
         // Fondo
         Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/bienvenida.png")).toExternalForm());
         BackgroundImage bgImage = new BackgroundImage(
@@ -36,9 +35,7 @@ public class BienvenidaView {
         StackPane.setMargin(texto, new javafx.geometry.Insets(60, 0, 0, 0));
 
         // Botón comenzar
-        Button boton = new Button("Comenzar");
-        boton.setStyle("-fx-background-color: rgba(255,255,255,0.7); -fx-background-radius: 10;");
-        boton.setOnAction(e -> App.mostrarMenu());
+        Button boton = Botones.Boton_1("Comenzar", () -> edu.fiuba.algo3.controller.Bienvenida.mostrarMenu(stage));
 
 
         StackPane.setAlignment(boton, Pos.BOTTOM_CENTER);
@@ -48,3 +45,5 @@ public class BienvenidaView {
         return root;
     }
 }
+
+

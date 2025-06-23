@@ -1,4 +1,4 @@
-package edu.fiuba.algo3.vistas.CartasView;
+package edu.fiuba.algo3.vistas.Juego.Cartas;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.especiales.CartaEspecial;

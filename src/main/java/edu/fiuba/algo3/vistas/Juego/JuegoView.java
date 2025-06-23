@@ -1,7 +1,6 @@
-package edu.fiuba.algo3.controller;
+package edu.fiuba.algo3.vistas.Juego;
 
 import edu.fiuba.algo3.modelo.principal.Juego;
-import edu.fiuba.algo3.vistas.TableroView;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
