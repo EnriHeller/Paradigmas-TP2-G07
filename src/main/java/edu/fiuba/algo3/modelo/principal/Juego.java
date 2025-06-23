@@ -2,16 +2,18 @@ package edu.fiuba.algo3.modelo.principal;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Juego {
-    private List<Jugador> jugadores;
-    private AdministradorDeTurno administradorTurno;
-    private Tablero tablero;
+    private final List<Jugador> jugadores;
+    private final AdministradorDeTurno administradorTurno;
+    private final Tablero tablero;
 
 
     //FASE INICIAL
@@ -65,10 +67,10 @@ public class Juego {
     //FASE DE JUEGO
     public void jugarCarta(Carta carta, Seccion seccion) throws TipoDeSeccionInvalidaError {
         if (carta.esEspecial()){
-            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), administradorTurno.jugadorActual());
+            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), administradorTurno.jugadorActual(), jugadores);
             carta.aplicarModificador(contexto);
         } else{
-            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), (CartaUnidad) carta, administradorTurno.jugadorActual());
+            Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), (CartaUnidad) carta, administradorTurno.jugadorActual(), jugadores);
             CartaUnidad cartaUnidad = (CartaUnidad) carta;
             cartaUnidad.prepararContexto(contexto);
             tablero.agregarCarta(tablero.obtenerSeccion(seccion), cartaUnidad);
@@ -112,4 +114,8 @@ public class Juego {
     public void finalizarRonda() {
         administradorTurno.finalizarRonda(tablero);
     }
+
+    public Tablero getTablero() { return this.tablero; }
+    public Jugador getJugador1() { return jugadores.get(0); }
+    public Jugador getJugador2() { return jugadores.get(1); }
 }

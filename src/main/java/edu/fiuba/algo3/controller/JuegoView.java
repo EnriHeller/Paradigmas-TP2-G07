@@ -1,33 +1,46 @@
 package edu.fiuba.algo3.controller;
 
-import edu.fiuba.algo3.App;
-import edu.fiuba.algo3.modelo.principal.Jugador;
+import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.vistas.TableroView;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+
+import java.util.Objects;
 
 public class JuegoView {
+    private final Juego juego;
 
-    private Jugador jugador1;
-    private Jugador jugador2;
-
-    public JuegoView(Jugador jugador1, Jugador jugador2) {
-        this.jugador1 = jugador1;
-        this.jugador2 = jugador2;
+    public JuegoView(Juego juego) {
+        this.juego = juego;
     }
 
+    public BorderPane construir() {
+        BorderPane layout = new BorderPane();
+        layout.setPrefSize(1000, 700);
 
-    public VBox construir() {
-        VBox layout = new VBox(15);
-        layout.setAlignment(Pos.CENTER);
+        // Fondo del juego (tablero)
+        Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/tablero.jpg")).toExternalForm());
+        BackgroundImage bgImage = new BackgroundImage(
+                fondo,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, true, false)
+        );
+        layout.setBackground(new Background(bgImage));
 
-        Text texto = new Text("Partida entre " + jugador1.getNombre() + " y " + jugador2.getNombre());
-        Button volver = new Button("Volver al menú");
-        volver.setOnAction(e -> App.cambiarEscena(new Scene(new BienvenidaView().construir(), 600, 400)));
+        // Parte superior: nombre del jugador 2
+        Label nombreJ2 = new Label(juego.getJugador2().getNombre());
+        nombreJ2.setStyle("-fx-font-size: 18px; -fx-text-fill: white;");
+        layout.setTop(nombreJ2);
+        BorderPane.setAlignment(nombreJ2, Pos.TOP_CENTER);
 
-        layout.getChildren().addAll(texto, volver);
+        // Centro: vista del tablero
+        TableroView tablero = new TableroView(juego.getTablero());
+        layout.setCenter(tablero.construir());
+
         return layout;
     }
 }
