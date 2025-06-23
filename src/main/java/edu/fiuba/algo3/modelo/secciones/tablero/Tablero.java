@@ -160,4 +160,8 @@ public class Tablero {
         existeSeccion(seccion);
         obtenerSeccion(seccion).agregarCartas(cartas);
     }
+
+    public Seccion obtenerSeccionPorClave(String clave) {
+        return secciones.get(clave);
+    }
 }

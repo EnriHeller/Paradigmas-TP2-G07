@@ -112,4 +112,12 @@ public class Juego {
     public void finalizarRonda() {
         administradorTurno.finalizarRonda(tablero);
     }
+
+    public Jugador getJugador2() {
+        return jugadores.get(1);
+    }
+
+    public Tablero getTablero() {
+        return tablero;
+    }
 }

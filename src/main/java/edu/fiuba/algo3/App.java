@@ -1,9 +1,12 @@
 package edu.fiuba.algo3;
 
+import java.util.Objects;
+
 import edu.fiuba.algo3.controller.BienvenidaView;
 import edu.fiuba.algo3.controller.MenuView;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -26,7 +29,7 @@ public class App extends Application {
 
     public static void mostrarMenu() {
         MenuView menu = new MenuView();
-        Scene escenaMenu = new Scene(menu.construir(), 1366, 768);
+        Scene escenaMenu = new Scene(menu.construir(), 800, 600);
         stage.setScene(escenaMenu);
     }
 

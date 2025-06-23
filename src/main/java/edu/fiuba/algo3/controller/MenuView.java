@@ -1,6 +1,9 @@
 package edu.fiuba.algo3.controller;
 
 import edu.fiuba.algo3.App;
+import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.modificadores.ModificadoresFactory;
 import edu.fiuba.algo3.modelo.cartas.CartasFactory;
@@ -90,7 +93,13 @@ public class MenuView {
         // Botón comenzar
         botonIniciar.setStyle("-fx-font-size: 20px; -fx-background-radius: 50%; -fx-padding: 10;");
         botonIniciar.setDisable(true);
-        botonIniciar.setOnAction(e -> iniciarPartida());
+        botonIniciar.setOnAction(e -> {
+            try {
+                iniciarPartida();
+            } catch (TipoDeSeccionInvalidaError | UnoDeLosMazosNoCumpleRequitos ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         HBox contenedorBoton = new HBox(botonIniciar);
         contenedorBoton.setAlignment(Pos.TOP_CENTER);
@@ -139,43 +148,34 @@ public class MenuView {
     }
 
     private void seleccionarMazo(boolean esJugador1, Mazo mazoSeleccionado) {
+        asignarMazos(esJugador1, mazoSeleccionado);
+        actualizarEstilos();
+        deshabilitarBotones();
+        validarInicio();
+    }
+
+    private void asignarMazos(boolean esJugador1, Mazo mazoSeleccionado) {
         if (esJugador1) {
             mazoJugador1 = mazoSeleccionado;
             mazoJugador2 = (mazoSeleccionado == mazoA) ? mazoB : mazoA;
-
-            // Estilo visual jugador 1
-            botonMazo1J1.setStyle(mazoJugador1 == mazoA ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
-            botonMazo2J1.setStyle(mazoJugador1 == mazoB ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
-
-            // Estilo visual jugador 2 automático
-            botonMazo1J2.setStyle(mazoJugador2 == mazoA ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
-            botonMazo2J2.setStyle(mazoJugador2 == mazoB ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
-
-            // Deshabilitar ambos paneles
-            botonMazo1J1.setDisable(true);
-            botonMazo2J1.setDisable(true);
-            botonMazo1J2.setDisable(true);
-            botonMazo2J2.setDisable(true);
-
         } else {
             mazoJugador2 = mazoSeleccionado;
             mazoJugador1 = (mazoSeleccionado == mazoA) ? mazoB : mazoA;
-
-            // Estilo visual jugador 2
-            botonMazo1J2.setStyle(mazoJugador2 == mazoA ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
-            botonMazo2J2.setStyle(mazoJugador2 == mazoB ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
-
-            // Estilo visual jugador 1 automático
-            botonMazo1J1.setStyle(mazoJugador1 == mazoA ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
-            botonMazo2J1.setStyle(mazoJugador1 == mazoB ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
-
-            botonMazo1J1.setDisable(true);
-            botonMazo2J1.setDisable(true);
-            botonMazo1J2.setDisable(true);
-            botonMazo2J2.setDisable(true);
         }
+    }
 
-        validarInicio();
+    private void actualizarEstilos() {
+        botonMazo1J1.setStyle(mazoJugador1 == mazoA ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
+        botonMazo2J1.setStyle(mazoJugador1 == mazoB ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
+        botonMazo1J2.setStyle(mazoJugador2 == mazoA ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
+        botonMazo2J2.setStyle(mazoJugador2 == mazoB ? ESTILO_MAZO_SELECCIONADO : ESTILO_MAZO);
+    }
+
+    private void deshabilitarBotones() {
+        botonMazo1J1.setDisable(true);
+        botonMazo2J1.setDisable(true);
+        botonMazo1J2.setDisable(true);
+        botonMazo2J2.setDisable(true);
     }
 
 
@@ -189,14 +189,22 @@ public class MenuView {
         botonIniciar.setDisable(!(nombresValidos && mazosElegidos));
     }
 
-    private void iniciarPartida() {
-        Jugador j1 = new Jugador(inputJ1.getText().trim());
-        Jugador j2 = new Jugador(inputJ2.getText().trim());
+    private void iniciarPartida() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos {
+        try {
+            Jugador j1 = new Jugador(inputJ1.getText().trim());
+            Jugador j2 = new Jugador(inputJ2.getText().trim());
 
-        j1.agregarMazo(mazoJugador1);
-        j2.agregarMazo(mazoJugador2);
+            j1.agregarMazo(mazoJugador1);
+            j2.agregarMazo(mazoJugador2);
 
-        App.cambiarEscena(new Scene(new JuegoView(j1, j2).construir(), 1000, 700));
+            Juego juego = new Juego(j1, j2);
+            JuegoView vista = new JuegoView(juego);
+            App.cambiarEscena(new Scene(vista.construir(), 1000, 700));
+
+        } catch (Exception e) {
+            mostrarAlerta("Error al iniciar el juego", e.getMessage());
+        }
+
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
