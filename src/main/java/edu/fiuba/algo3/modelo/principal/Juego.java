@@ -2,11 +2,13 @@ package edu.fiuba.algo3.modelo.principal;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Juego {
     private List<Jugador> jugadores;
@@ -103,8 +105,8 @@ public class Juego {
     }
 
     public boolean seLogroRepartirCartasDelMazoALosJugadores(){
-        Jugador jugador1 = jugadores.get(1);
-        Jugador jugador2 = jugadores.get(2);
+        Jugador jugador1 = jugadores.get(0);
+        Jugador jugador2 = jugadores.get(1);
 
         return (jugador1.cartasRestantesEnSeccion("Mano") == 10 && jugador2.cartasRestantesEnSeccion("Mano") == 10);
     }
