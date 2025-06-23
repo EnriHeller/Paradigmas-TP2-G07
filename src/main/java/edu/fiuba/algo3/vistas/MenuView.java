@@ -11,6 +11,7 @@ import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.vistas.Juego.JuegoView;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import org.json.simple.parser.JSONParser;
@@ -59,7 +60,7 @@ public class MenuView {
     }
 
     @FXML
-    public void construir() {
+    public Parent construir() {
         botonIniciar.setDisable(true);
 
         inputJ1.textProperty().addListener((obs, o, n) -> validarInicio());
@@ -69,6 +70,7 @@ public class MenuView {
         botonMazo2J1.setOnAction(e -> seleccionarMazo(true, mazoB));
         botonMazo1J2.setOnAction(e -> seleccionarMazo(false, mazoA));
         botonMazo2J2.setOnAction(e -> seleccionarMazo(false, mazoB));
+        return botonIniciar;
     }
 
     private void seleccionarMazo(boolean esJugador1, Mazo mazoSeleccionado) {

@@ -1,9 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>edu.fiuba.algo3</groupId>
   <artifactId>tp2</artifactId>
   <version>0.0.1</version>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>11</maven.compiler.source>
@@ -12,22 +15,20 @@
     <mockito-mockito-core-version>3.3.0</mockito-mockito-core-version>
     <maven-surefire-version>3.0.0-M3</maven-surefire-version>
     <archunit-version>0.21.0</archunit-version>
-    <!--
-    Therefore, we are very proud to announce the availability of JavaFX 17-ea+8 for MacOS AArch64, also known as the Apple M1. You can now download the JavaFX SDK for this platform from our JavaFX Download Page. Ref.: https://gluonhq.com/javafx-for-apple-m1/
-
-    Replace the line below by: <javafx-version>18.0.2</javafx-version>
-    -->
     <javafx-version>20.0.2</javafx-version>
     <pitest-plugin-version>1.17.3</pitest-plugin-version>
     <pitest-junit5-plugin-version>1.0.0</pitest-junit5-plugin-version>
     <main-class>edu.fiuba.algo3.Main</main-class>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>com.googlecode.json-simple</groupId>
       <artifactId>json-simple</artifactId>
       <version>1.1.1</version>
     </dependency>
+
+    <!-- JavaFX -->
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
@@ -38,6 +39,8 @@
       <artifactId>javafx-fxml</artifactId>
       <version>${javafx-version}</version>
     </dependency>
+
+    <!-- Test dependencies -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
@@ -56,52 +59,30 @@
       <version>${archunit-version}</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- Logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>1.7.30</version>
     </dependency>
   </dependencies>
-  <profiles>
-    <profile>
-      <id>package</id>
-      <dependencies>
-        <dependency>
-          <groupId>org.openjfx</groupId>
-          <artifactId>javafx-graphics</artifactId>
-          <version>${javafx-version}</version>
-          <classifier>linux</classifier>
-        </dependency>
-        <dependency>
-          <groupId>org.openjfx</groupId>
-          <artifactId>javafx-graphics</artifactId>
-          <version>${javafx-version}</version>
-          <classifier>mac</classifier>
-        </dependency>
-        <dependency>
-          <groupId>org.openjfx</groupId>
-          <artifactId>javafx-graphics</artifactId>
-          <version>${javafx-version}</version>
-          <classifier>win</classifier>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
+
   <build>
     <testSourceDirectory>src/main/test</testSourceDirectory>
     <plugins>
+
+      <!-- Plugin para JavaFX -->
       <plugin>
-        <groupId>org.pitest</groupId>
-        <artifactId>pitest-maven</artifactId>
-	<version>${pitest-plugin-version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.pitest</groupId>
-            <artifactId>pitest-junit5-plugin</artifactId>
-	    <version>${pitest-junit5-plugin-version}</version>
-          </dependency>
-        </dependencies>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.6</version>
+        <configuration>
+          <mainClass>${main-class}</mainClass>
+        </configuration>
       </plugin>
+
+      <!-- Compilador -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -110,14 +91,8 @@
           <release>11</release>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-maven-plugin</artifactId>
-        <version>0.0.6</version>
-        <configuration>
-          <mainClass>edu.fiuba.algo3/${main-class}</mainClass>
-        </configuration>
-      </plugin>
+
+      <!-- Empaquetado con dependencias -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -125,9 +100,7 @@
         <executions>
           <execution>
             <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
+            <goals><goal>shade</goal></goals>
             <configuration>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
@@ -138,54 +111,54 @@
           </execution>
         </executions>
       </plugin>
+
+      <!-- Pruebas -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
+        <version>${maven-surefire-version}</version>
         <configuration>
           <testSourceDirectory>src/main/test</testSourceDirectory>
-          <includes>
-            <include>**/*.java</include>
-          </includes>
+          <includes><include>**/*.java</include></includes>
         </configuration>
       </plugin>
+
+      <!-- PIT Mutation Testing -->
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>${pitest-plugin-version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>${pitest-junit5-plugin-version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <!-- Cobertura de tests -->
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.11</version>
         <executions>
           <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
+            <goals><goal>prepare-agent</goal></goals>
           </execution>
           <execution>
             <id>report</id>
             <phase>test</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
+            <goals><goal>report</goal></goals>
           </execution>
         </executions>
       </plugin>
     </plugins>
+
     <resources>
       <resource>
         <directory>src/main/resources</directory>
       </resource>
     </resources>
-
   </build>
-  <dependencyManagement>
-    <dependencies>
-        <!-- Aquí puedes agregar otros BOMs -->
-        <!-- JavaFX BOM -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx</artifactId>
-            <version>17</version>
-            <type>pom</type>
-        </dependency>
-    </dependencies>
-</dependencyManagement>
 </project>
