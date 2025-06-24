@@ -77,7 +77,7 @@ public class MenuView {
                 var jugadores = menu.getJugadoresInicializados(inputJ1.getText(), inputJ2.getText());
                 Juego juego = new Juego(jugadores.get(0), jugadores.get(1));
                 JuegoView juegoView = new JuegoView(juego);
-                Utils.cambiarEscena(new Scene(juegoView.construir(), 1000, 700));
+                Utils.cambiarEscena(new Scene(juegoView.construir(), App.WIDTH, App.HEIGHT));
             } catch (TipoDeSeccionInvalidaError | UnoDeLosMazosNoCumpleRequitos ex) {
                 mostrarAlerta("Error al iniciar el juego", ex.getMessage());
             } catch (Exception ex) {
