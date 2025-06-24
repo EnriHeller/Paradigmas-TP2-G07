@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.vistas;
 
+import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.controller.Menu;
 import edu.fiuba.algo3.controller.Utils;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
@@ -43,7 +44,7 @@ public class MenuView {
     @FXML
     public Parent construir() {
         BorderPane layout = new BorderPane();
-        layout.setPrefSize(800, 600);
+        layout.setPrefSize(App.WIDTH, App.HEIGHT);
 
         // Fondo
         Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/menu2.png")).toExternalForm());
@@ -52,7 +53,7 @@ public class MenuView {
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER,
-                new BackgroundSize(100, 100, true, true, true, false)
+                new BackgroundSize(100, 100, true, true, true, true) // cover width/height, no aspect ratio
         );
         layout.setBackground(new Background(bgImage));
 
@@ -67,7 +68,7 @@ public class MenuView {
         seccionesJugadores.getChildren().addAll(seccionJ1, seccionJ2);
         layout.setCenter(seccionesJugadores);
 
-        // Botón comenzar
+        // Botón iniciar juego
         botonIniciar.setStyle("-fx-font-size: 20px; -fx-background-radius: 50%; -fx-padding: 10;");
         botonIniciar.setDisable(true);
         botonIniciar.setOnAction(e -> {
