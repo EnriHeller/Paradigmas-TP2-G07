@@ -9,24 +9,28 @@ import edu.fiuba.algo3.modelo.modificadores.Modificador;
 
 public class CartasFactory {
     public Carta crearCarta(String tipo ,String nombre, List<String> seccionesOAfectados ,long cantidad, Modificador modificador, String descripcion, String tipoEspecial) {
-        Carta carta = null;
         if (tipo.equals("u")) {
-            carta = new CartaUnidad(nombre, seccionesOAfectados, (int) cantidad, modificador);
+            return new CartaUnidad(nombre, seccionesOAfectados, (int) cantidad, modificador);
         } else if (tipo.equals("e")) {
-            switch (tipoEspecial) {
-                case "Tierra arrasada":
-                    carta = new TierraArrasada();
-                    break;
-                case "Morale boost":
-                    //carta = new MoraleBoost(new Base(), nombre);
-                    break;
-                case "Clima":
-                    carta = new CartaNevada();
-                    break;
-                default:
+            if (tipoEspecial != null) {
+                switch (tipoEspecial.toLowerCase()) {
+                    case "tierra arrasada":
+                        return new TierraArrasada();
+                    case "morale boost":
+                        // return new MoraleBoost(new Base(), nombre); // Si tienes la clase
+                        break;
+                    case "clima":
+                        // Para todos los climas, usa una sola clase robusta
+                        return new CartaNevada();
+                    default:
+                        break;
+                }
             }
+            // Si no se reconoce el tipo, devuelve una carta dummy robusta
+            return new CartaNevada();
         }
-        return carta;
+        // Si no es ni unidad ni especial, devuelve una carta dummy robusta
+        return new CartaNevada();
     }
 }
 

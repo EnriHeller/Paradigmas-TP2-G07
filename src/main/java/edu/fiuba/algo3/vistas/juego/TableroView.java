@@ -3,7 +3,6 @@ package edu.fiuba.algo3.vistas.juego;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
@@ -40,7 +39,7 @@ public class TableroView {
 
         List<String> claves = List.of("Asedio1", "Rango1", "CuerpoACuerpo1", "Asedio0", "Rango0", "CuerpoACuerpo0");
 
-        for (String clave:claves){
+        for (String clave : claves) {
             agregarSeccion(overlay, clave, x_seccion, ultimo_y);
             ultimo_y = ultimo_y + espacio + seccionHeight;
         }

@@ -1,14 +1,15 @@
 package edu.fiuba.algo3.vistas.juego;
 
+import java.util.Objects;
+
 import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-
-import java.util.Objects;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 
 public class JuegoView {
     private final Juego juego;
