@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.vistas.juego;
 
-import java.util.Objects;
+import java.util.List;
 
 import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.modelo.cartas.Carta;
@@ -8,21 +8,15 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import java.util.List;
 
 public class TableroView {
 
     private final Tablero tablero;
-    private int seccionWidth = 630;
-    private int seccionHeight = 75;
+    private final int seccionWidth = 630;
+    private final int seccionHeight = 75;
     private Carta cartaElegida;
 
     public TableroView(Tablero tablero) {
@@ -34,22 +28,15 @@ public class TableroView {
         Pane root = new Pane();
         root.setPrefSize(App.WIDTH, App.HEIGHT);
 
-//        Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/emptyBoard.png")).toExternalForm());
-//        ImageView fondoView = new ImageView(fondo);
-//        fondoView.setPreserveRatio(false);
-//        fondoView.setFitWidth(App.WIDTH);
-//        fondoView.setFitHeight(App.HEIGHT);
-//        fondoView.setSmooth(true);
-//        fondoView.setCache(true);
-//        fondoView.setLayoutX(0);
-//        fondoView.setLayoutY(0);
-
         Pane overlay = new Pane();
         overlay.setPrefSize(App.WIDTH, App.HEIGHT);
+
         int x_seccion = 500;
         int ultimo_y = 10;
         int espacio = 25;
+
         List<String> claves = List.of("Asedio1", "Rango1", "CuerpoACuerpo1", "Asedio0", "Rango0", "CuerpoACuerpo0");
+
         for (String clave:claves){
             agregarSeccion(overlay, clave, x_seccion, ultimo_y);
             ultimo_y = ultimo_y + espacio + seccionHeight;
@@ -85,15 +72,9 @@ public class TableroView {
     }
 
     private void actualizarSeccion(HBox visual, CartaUnidad cartaElegida){
-
         // Se agrega la carta al HBox
         visual.getChildren().add(new CartaUnidadVisual(cartaElegida));
     }
 
-//    // Metodo para los cambios de ronda
-//    private void limpiarSeccion(HBox visual){
-//
-//        for ( Seccion seccion : tablero.se)
-//        visual.getChildren().clear();}
 
 }

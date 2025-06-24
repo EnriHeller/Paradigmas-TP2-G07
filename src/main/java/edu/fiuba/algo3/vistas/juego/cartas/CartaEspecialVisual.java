@@ -1,5 +1,8 @@
 package edu.fiuba.algo3.vistas.juego.cartas;
 
+import java.util.List;
+import java.util.Objects;
+
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.especiales.CartaEspecial;
 import javafx.geometry.Insets;
@@ -7,11 +10,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
-import java.util.List;
-import java.util.Objects;
 
 public class CartaEspecialVisual extends CartaVisual {
 
@@ -43,7 +47,8 @@ public class CartaEspecialVisual extends CartaVisual {
         encabezado.setAlignment(Pos.CENTER);
 
         // ~~~~~~~ Imagen ~~~~~~~
-        String ruta = "/imagenes/cartas/" + cartaEspecial.getNombre().replaceAll(" ", "") + ".png";
+        //String ruta = "/imagenes/cartas/" + cartaEspecial.getNombre().replaceAll(" ", "") + ".png";
+        String ruta = "/imagenes/Especial.png";
         Image imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));
         ImageView vistaImagen = new ImageView(imagen);
         vistaImagen.setFitWidth(100);
