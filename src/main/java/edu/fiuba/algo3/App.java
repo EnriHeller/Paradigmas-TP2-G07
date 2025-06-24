@@ -6,6 +6,7 @@ import edu.fiuba.algo3.controller.BienvenidaView;
 import edu.fiuba.algo3.controller.MenuView;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -23,13 +24,13 @@ public class App extends Application {
 
     public static void mostrarBienvenida() {
         BienvenidaView bienvenida = new BienvenidaView();
-        Scene escenaBienvenida = new Scene(bienvenida.construir(), 1366, 768);
+        Scene escenaBienvenida = new Scene((Parent)bienvenida.construir(), 1366, 768);
         stage.setScene(escenaBienvenida);
     }
 
     public static void mostrarMenu() {
         MenuView menu = new MenuView();
-        Scene escenaMenu = new Scene(menu.construir(), 800, 600);
+        Scene escenaMenu = new Scene((Parent)menu.construir(), 800, 600);
         stage.setScene(escenaMenu);
     }
 
