@@ -24,7 +24,6 @@ public class CartasFactory {
                     carta = new CartaNevada();
                     break;
                 default:
-                    carta = null;
             }
         }
         return carta;

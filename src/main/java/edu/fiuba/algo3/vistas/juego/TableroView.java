@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.vistas.juego;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.modelo.cartas.Carta;
@@ -8,15 +9,10 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import java.util.List;
+
 
 public class TableroView {
 
@@ -24,6 +20,7 @@ public class TableroView {
     private int seccionWidth = 630;
     private int seccionHeight = 75;
     private Carta cartaElegida;
+    private List<HBox> seccionesVisuales = new ArrayList<>(); // Para mantener referencias
 
     public TableroView(Tablero tablero) {
         this.tablero = tablero;
@@ -82,6 +79,7 @@ public class TableroView {
             visual.getChildren().add(new CartaUnidadVisual(carta));
         }
         contenedor.getChildren().add(visual);
+        seccionesVisuales.add(visual); // Guardamos la referencia para poder limpiar después
     }
 
     private void actualizarSeccion(HBox visual, CartaUnidad cartaElegida){
@@ -90,10 +88,12 @@ public class TableroView {
         visual.getChildren().add(new CartaUnidadVisual(cartaElegida));
     }
 
-//    // Metodo para los cambios de ronda
-//    private void limpiarSeccion(HBox visual){
-//
-//        for ( Seccion seccion : tablero.se)
-//        visual.getChildren().clear();}
+
+   // Método para limpiar todo el tablero al cambio de ronda
+   public void limpiarTablero() {
+       for (HBox seccionVisual : seccionesVisuales) {
+           seccionVisual.getChildren().clear();
+       }
+   }
 
 }
