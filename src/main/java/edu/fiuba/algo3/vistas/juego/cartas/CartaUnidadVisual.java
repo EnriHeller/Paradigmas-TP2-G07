@@ -23,11 +23,7 @@ public class CartaUnidadVisual extends CartaVisual {
         // Imagen de la carta
         String ruta = "/imagenes/BirnaBrant.png";
         Image imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));
-        ImageView vistaImagen = new ImageView(imagen);
-        vistaImagen.setFitWidth(70);
-        vistaImagen.setFitHeight(90);
-        vistaImagen.setPreserveRatio(false);
-        vistaImagen.setPickOnBounds(false);
+        ImageView vistaImagen = crearImagenEstandar(imagen);
 
         // Circulito de valor (más chico y a la izquierda)
         Label valor = new Label(String.valueOf(unidad.ValorActual()));
@@ -43,16 +39,13 @@ public class CartaUnidadVisual extends CartaVisual {
         // StackPane para superponer el circulito arriba a la izquierda
         StackPane stack = new StackPane(vistaImagen, circuloValor);
         StackPane.setAlignment(circuloValor, Pos.TOP_LEFT);
-        stack.setPrefSize(70, 90);
-        stack.setMinSize(70, 90);
-        stack.setMaxSize(70, 90);
+        stack.setPrefSize(ANCHO, ALTO);
+        stack.setMinSize(ANCHO, ALTO);
+        stack.setMaxSize(ANCHO, ALTO);
         stack.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
 
         this.getChildren().clear();
-        this.setPrefSize(70, 90);
-        this.setMinSize(70, 90);
-        this.setMaxSize(70, 90);
-        this.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
+        setTamanioEstandar();
         this.getChildren().add(stack);
     }
 }

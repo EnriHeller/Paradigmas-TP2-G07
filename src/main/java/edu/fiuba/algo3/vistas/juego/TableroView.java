@@ -53,7 +53,8 @@ public class TableroView {
 
         HBox visual = new HBox(5);
 
-        visual.setStyle("-fx-background-color: rgba(255,255,255,0.15); -fx-border-color: black;");
+        //visual.setStyle("-fx-background-color: rgba(255,255,255,0.15); -fx-border-color: black;");
+        visual.setStyle("-fx-background-color: transparent; -fx-border-color: black;");
         visual.setPrefSize(seccionWidth, seccionHeight); // ancho ajustado a la imagen
         visual.setLayoutX(x);
         visual.setLayoutY(y);
