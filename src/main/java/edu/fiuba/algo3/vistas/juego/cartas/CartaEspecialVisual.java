@@ -32,7 +32,6 @@ public class CartaEspecialVisual extends CartaVisual {
         try {
             imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));
         } catch (Exception e) {
-            // Fallback to a default image if not found
             System.err.println("[CartaEspecialVisual] Imagen no encontrada para: " + ruta + ". Usando imagen por defecto. Excepcion: " + e);
             imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/imagenes/Lluviatorrencial.png")));
         }

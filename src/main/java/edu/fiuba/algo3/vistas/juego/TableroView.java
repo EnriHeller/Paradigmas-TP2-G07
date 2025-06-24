@@ -26,12 +26,13 @@ public class TableroView {
     }
 
     public StackPane construir() {
-        // Usar Pane para layout absoluto
-        Pane root = new Pane();
-        root.setPrefSize(App.WIDTH, App.HEIGHT);
-
+        // Usar StackPane para que el overlay se alinee con el fondo
+        StackPane root = new StackPane();
         Pane overlay = new Pane();
-        overlay.setPrefSize(App.WIDTH, App.HEIGHT);
+
+        // El overlay se ajusta al tamaño del StackPane (que es el tamaño de la imagen de fondo)
+        overlay.prefWidthProperty().bind(root.widthProperty());
+        overlay.prefHeightProperty().bind(root.heightProperty());
 
         int x_seccion = 500;
         int ultimo_y = 10;
@@ -44,8 +45,8 @@ public class TableroView {
             ultimo_y = ultimo_y + espacio + seccionHeight;
         }
 
-        root.getChildren().addAll(overlay);
-        return new StackPane(root);
+        root.getChildren().add(overlay);
+        return root;
     }
 
     private void agregarSeccion(Pane contenedor, String clave, double x, double y) {

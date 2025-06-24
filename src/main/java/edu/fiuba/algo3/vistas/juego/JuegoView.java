@@ -18,10 +18,13 @@ public class JuegoView {
     }
 
     public BorderPane construir() {
-        BorderPane layout = new BorderPane();
-        layout.setPrefSize(App.WIDTH, App.HEIGHT);
+        // StackPane de tamaño fijo para fondo, tablero y mano
+        StackPane stack = new StackPane();
+        stack.setPrefSize(App.WIDTH, App.HEIGHT);
+        stack.setMinSize(App.WIDTH, App.HEIGHT);
+        stack.setMaxSize(App.WIDTH, App.HEIGHT);
 
-        //Fondo
+        // Fondo
         Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/emptyBoard.png")).toExternalForm());
         ImageView fondoView = new ImageView(fondo);
         fondoView.setPreserveRatio(false);
@@ -29,19 +32,22 @@ public class JuegoView {
         fondoView.setFitHeight(App.HEIGHT);
         fondoView.setSmooth(true);
         fondoView.setCache(true);
-        fondoView.setLayoutX(0);
-        fondoView.setLayoutY(0);
-        layout.getChildren().add(fondoView);
 
         // Centro: vista del tablero
         TableroView tablero = new TableroView(juego.getTablero());
-        layout.setCenter(tablero.construir());
+        Region tableroRegion = tablero.construir();
+        StackPane.setAlignment(tableroRegion, Pos.CENTER);
 
-        //Abajo: vista de la mano
+        // Abajo: vista de la mano
         ManoView mano = new ManoView(juego.mostrarManoActual());
-        layout.setBottom(mano.construir());
+        Region manoRegion = mano.construir();
+        StackPane.setAlignment(manoRegion, Pos.BOTTOM_CENTER);
 
-        return layout;
+        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion);
 
+        // El StackPane se centra en la ventana y nunca se estira
+        BorderPane root = new BorderPane();
+        root.setCenter(stack);
+        return root;
     }
 }
