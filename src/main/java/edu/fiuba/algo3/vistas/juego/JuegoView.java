@@ -43,6 +43,7 @@ public class JuegoView {
         ManoView mano = new ManoView(juego.mostrarManoActual());
         Region manoRegion = mano.construir();
         StackPane.setAlignment(manoRegion, Pos.BOTTOM_CENTER);
+        StackPane.setMargin(manoRegion, new javafx.geometry.Insets(620, 0, 0, 250)); // mueve la mano 30px más abajo
 
         stack.getChildren().addAll(fondoView, tableroRegion, manoRegion);
 
