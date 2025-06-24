@@ -31,11 +31,17 @@ public class JuegoView {
         fondoView.setCache(true);
         fondoView.setLayoutX(0);
         fondoView.setLayoutY(0);
+        layout.getChildren().add(fondoView);
 
         // Centro: vista del tablero
         TableroView tablero = new TableroView(juego.getTablero());
         layout.setCenter(tablero.construir());
 
+        //Abajo: vista de la mano
+        ManoView mano = new ManoView(juego.mostrarManoActual());
+        layout.setBottom(mano.construir());
+
         return layout;
+
     }
 }

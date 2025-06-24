@@ -75,8 +75,7 @@ public class AdministradorDeTurno {
         String nombreJugador1 = jugadores.get(0).nombre();
         String nombreJugador2 = jugadores.get(1).nombre();
 
-        for (int i = 0; i < rondas.size(); i++) {
-            Ronda ronda = rondas.get(i);
+        for (Ronda ronda : rondas) {
             if (ronda == null) continue;
             String ganadorRonda = ronda.getGanadorRonda();
 
@@ -99,9 +98,6 @@ public class AdministradorDeTurno {
     public boolean juegoTerminado() {
         if (ciclos < 2) {
             return false;
-        } else if (!mostrarGanador().equals("empate")) {
-            return true;
-        }
-        return false;
+        } else return !mostrarGanador().equals("empate");
     }
 }

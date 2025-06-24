@@ -11,9 +11,9 @@ import java.util.List;
 
 
 public class Juego {
-    private List<Jugador> jugadores;
-    private AdministradorDeTurno administradorTurno;
-    private Tablero tablero;
+    private final List<Jugador> jugadores;
+    private final AdministradorDeTurno administradorTurno;
+    private final Tablero tablero;
 
 
     //FASE INICIAL

@@ -72,7 +72,9 @@ public class TableroView {
         visual.setOnMouseClicked(event -> {
             if(cartaElegida != null){
                 seccion.agregarCarta((CartaUnidad) cartaElegida);
-                //re-renderizar tablero
+                //Re-renderizar la seccion actualizada
+                actualizarSeccion(visual, (CartaUnidad) cartaElegida);
+                cartaElegida = null;
             }
         });
 
@@ -82,5 +84,16 @@ public class TableroView {
         contenedor.getChildren().add(visual);
     }
 
+    private void actualizarSeccion(HBox visual, CartaUnidad cartaElegida){
+
+        // Se agrega la carta al HBox
+        visual.getChildren().add(new CartaUnidadVisual(cartaElegida));
+    }
+
+//    // Metodo para los cambios de ronda
+//    private void limpiarSeccion(HBox visual){
+//
+//        for ( Seccion seccion : tablero.se)
+//        visual.getChildren().clear();}
 
 }

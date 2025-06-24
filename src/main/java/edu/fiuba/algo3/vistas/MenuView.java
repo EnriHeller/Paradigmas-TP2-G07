@@ -3,6 +3,7 @@ package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.controller.Menu;
 import edu.fiuba.algo3.controller.Utils;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
@@ -76,9 +77,13 @@ public class MenuView {
                 // Crear los jugadores con sus mazos y luego la partida
                 var jugadores = menu.getJugadoresInicializados(inputJ1.getText(), inputJ2.getText());
                 Juego juego = new Juego(jugadores.get(0), jugadores.get(1));
+                juego.darMano(0, 10);
+                juego.darMano(1, 10);
+
                 JuegoView juegoView = new JuegoView(juego);
+
                 Utils.cambiarEscena(new Scene(juegoView.construir(), App.WIDTH, App.HEIGHT));
-            } catch (TipoDeSeccionInvalidaError | UnoDeLosMazosNoCumpleRequitos ex) {
+            } catch (TipoDeSeccionInvalidaError | NoSePuedeCumplirSolicitudDeCartas | UnoDeLosMazosNoCumpleRequitos ex) {
                 mostrarAlerta("Error al iniciar el juego", ex.getMessage());
             } catch (Exception ex) {
                 mostrarAlerta("Error inesperado", ex.getMessage(), ex);
