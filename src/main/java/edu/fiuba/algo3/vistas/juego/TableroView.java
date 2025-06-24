@@ -1,12 +1,11 @@
-package edu.fiuba.algo3.vistas;
+package edu.fiuba.algo3.vistas.juego;
 
-import java.util.List;
 import java.util.Objects;
 
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
-import edu.fiuba.algo3.vistas.CartasView.CartaUnidadVisual;
+import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -28,7 +27,7 @@ public class TableroView {
         StackPane root = new StackPane();
         root.setPrefSize(1099, 768);
 
-        Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/tablero.jpg")).toExternalForm());
+        Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/emptyBoard.png")).toExternalForm());
         ImageView fondoView = new ImageView(fondo);
         fondoView.setFitWidth(1099);
         fondoView.setFitHeight(768);

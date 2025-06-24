@@ -1,4 +1,4 @@
-package edu.fiuba.algo3.vistas.CartasView;
+package edu.fiuba.algo3.vistas.juego.cartas;
 
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import javafx.geometry.Insets;
@@ -8,7 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 import java.util.Objects;
 

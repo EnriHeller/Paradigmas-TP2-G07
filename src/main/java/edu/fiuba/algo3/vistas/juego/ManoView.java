@@ -1,11 +1,11 @@
-package edu.fiuba.algo3.vistas;
+package edu.fiuba.algo3.vistas.juego;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.cartas.especiales.CartaEspecial;
-import edu.fiuba.algo3.vistas.CartasView.CartaUnidadVisual;
-import edu.fiuba.algo3.vistas.CartasView.CartaEspecialVisual;
-import edu.fiuba.algo3.vistas.CartasView.CartaVisual;
+import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
+import edu.fiuba.algo3.vistas.juego.cartas.CartaEspecialVisual;
+import edu.fiuba.algo3.vistas.juego.cartas.CartaVisual;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
