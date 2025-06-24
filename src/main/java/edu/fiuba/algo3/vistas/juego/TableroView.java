@@ -23,6 +23,7 @@ public class TableroView {
     private int seccionWidth = 630;
     private int seccionHeight = 70;
 
+
     public TableroView(Tablero tablero) {
         this.tablero = tablero;
     }
@@ -60,6 +61,7 @@ public class TableroView {
         Seccion seccion = tablero.obtenerSeccionPorClave(clave);
 
         HBox visual = new HBox(5);
+
         visual.setStyle("-fx-background-color: rgba(255,255,255,0.15); -fx-border-color: black;");
         visual.setPrefSize(seccionWidth, seccionHeight); // ancho ajustado a la imagen
         visual.setLayoutX(x);
@@ -68,6 +70,8 @@ public class TableroView {
         for (CartaUnidad carta : seccion.getCartas()) {
             visual.getChildren().add(new CartaUnidadVisual(carta));
         }
+        
+        
 
         contenedor.getChildren().add(visual);
     }
