@@ -39,7 +39,6 @@ public class Juego {
         // Centro: vista del tablero
         TableroView tablero = new TableroView(juego.getTablero());
         layout.setCenter(tablero.construir());
-
         return layout;
     }
 }
