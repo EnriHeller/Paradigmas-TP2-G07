@@ -61,6 +61,19 @@
       <artifactId>slf4j-simple</artifactId>
       <version>1.7.30</version>
     </dependency>
+    <!-- TestFX for JavaFX testing -->
+    <dependency>
+      <groupId>org.testfx</groupId>
+      <artifactId>testfx-core</artifactId>
+      <version>4.0.16-alpha</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testfx</groupId>
+      <artifactId>testfx-junit5</artifactId>
+      <version>4.0.16-alpha</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <profiles>
     <profile>
@@ -88,7 +101,7 @@
     </profile>
   </profiles>
   <build>
-    <testSourceDirectory>src/main/test</testSourceDirectory>
+    <!-- Remove incorrect testSourceDirectory configuration -->
     <plugins>
       <plugin>
         <groupId>org.pitest</groupId>
@@ -143,10 +156,19 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.2.5</version>
         <configuration>
-          <testSourceDirectory>src/main/test</testSourceDirectory>
+          <!-- Use standard Maven test directory -->
           <includes>
-            <include>**/*.java</include>
+            <include>**/*Test.java</include>
+            <include>**/Test*.java</include>
           </includes>
+          <!-- Add JavaFX headless testing configuration -->
+          <systemPropertyVariables>
+            <java.awt.headless>true</java.awt.headless>
+            <testfx.robot>glass</testfx.robot>
+            <testfx.headless>true</testfx.headless>
+            <prism.order>sw</prism.order>
+            <prism.text>t2k</prism.text>
+          </systemPropertyVariables>
         </configuration>
       </plugin>
       <plugin>

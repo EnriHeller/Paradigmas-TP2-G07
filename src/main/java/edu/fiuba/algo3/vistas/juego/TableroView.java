@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.vistas.juego;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.fiuba.algo3.App;
@@ -12,12 +13,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-public class TableroView {
 
+public class TableroView {
     private final Tablero tablero;
     private final int seccionWidth = 630;
     private final int seccionHeight = 75;
     private Carta cartaElegida;
+    private List<HBox> seccionesVisuales = new ArrayList<>(); // Para mantener referencias
 
     public TableroView(Tablero tablero) {
         this.tablero = tablero;
@@ -69,6 +71,7 @@ public class TableroView {
             visual.getChildren().add(new CartaUnidadVisual(carta));
         }
         contenedor.getChildren().add(visual);
+        seccionesVisuales.add(visual); // Guardamos la referencia para poder limpiar después
     }
 
     private void actualizarSeccion(HBox visual, CartaUnidad cartaElegida){
@@ -76,5 +79,12 @@ public class TableroView {
         visual.getChildren().add(new CartaUnidadVisual(cartaElegida));
     }
 
+
+   // Método para limpiar todo el tablero al cambio de ronda
+    public void limpiarTablero() {
+        for (HBox seccionVisual : seccionesVisuales) {
+            seccionVisual.getChildren().clear();
+        }
+    }
 
 }

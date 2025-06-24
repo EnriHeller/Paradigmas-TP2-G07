@@ -5,7 +5,7 @@ import java.util.List;
 import edu.fiuba.algo3.modelo.cartas.especiales.CartaNevada;
 import edu.fiuba.algo3.modelo.cartas.especiales.TierraArrasada;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.modificadores.*;
+import edu.fiuba.algo3.modelo.modificadores.Modificador;
 
 public class CartasFactory {
     public Carta crearCarta(String tipo ,String nombre, List<String> seccionesOAfectados ,long cantidad, Modificador modificador, String descripcion, String tipoEspecial) {
@@ -24,9 +24,9 @@ public class CartasFactory {
                     carta = new CartaNevada();
                     break;
                 default:
-                    carta = null;
             }
         }
         return carta;
     }
 }
+

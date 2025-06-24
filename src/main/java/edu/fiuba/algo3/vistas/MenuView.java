@@ -83,8 +83,12 @@ public class MenuView {
                 JuegoView juegoView = new JuegoView(juego);
 
                 Utils.cambiarEscena(new Scene(juegoView.construir(), App.WIDTH, App.HEIGHT));
-            } catch (TipoDeSeccionInvalidaError | NoSePuedeCumplirSolicitudDeCartas | UnoDeLosMazosNoCumpleRequitos ex) {
-                mostrarAlerta("Error al iniciar el juego", ex.getMessage());
+            } catch (TipoDeSeccionInvalidaError ex) {
+                mostrarAlerta("Error: TipoDeSeccionInvalidaError", ex.getMessage(), ex);
+            } catch (NoSePuedeCumplirSolicitudDeCartas ex) {
+                mostrarAlerta("Error: NoSePuedeCumplirSolicitudDeCartas", ex.getMessage(), ex);
+            } catch (UnoDeLosMazosNoCumpleRequitos ex) {
+                mostrarAlerta("Error: UnoDeLosMazosNoCumpleRequitos", ex.getMessage(), ex);
             } catch (Exception ex) {
                 mostrarAlerta("Error inesperado", ex.getMessage(), ex);
             }
