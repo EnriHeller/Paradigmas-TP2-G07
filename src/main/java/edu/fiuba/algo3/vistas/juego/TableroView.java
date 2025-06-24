@@ -3,6 +3,7 @@ package edu.fiuba.algo3.vistas.juego;
 import java.util.Objects;
 
 import edu.fiuba.algo3.App;
+import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
@@ -21,40 +22,41 @@ public class TableroView {
 
     private final Tablero tablero;
     private int seccionWidth = 630;
-    private int seccionHeight = 70;
-
+    private int seccionHeight = 75;
+    private Carta cartaElegida;
 
     public TableroView(Tablero tablero) {
         this.tablero = tablero;
     }
 
     public StackPane construir() {
-        StackPane root = new StackPane();
+        // Usar Pane para layout absoluto
+        Pane root = new Pane();
         root.setPrefSize(App.WIDTH, App.HEIGHT);
 
-        Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/emptyBoard.png")).toExternalForm());
-        ImageView fondoView = new ImageView(fondo);
-        fondoView.setPreserveRatio(false); // Se estira horizontalmente
-        fondoView.setFitWidth(App.WIDTH);  // Cubre todo el ancho
-        // No setFitHeight: la altura se ajusta automáticamente
-        fondoView.setSmooth(true);
-        fondoView.setCache(true);
+//        Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/emptyBoard.png")).toExternalForm());
+//        ImageView fondoView = new ImageView(fondo);
+//        fondoView.setPreserveRatio(false);
+//        fondoView.setFitWidth(App.WIDTH);
+//        fondoView.setFitHeight(App.HEIGHT);
+//        fondoView.setSmooth(true);
+//        fondoView.setCache(true);
+//        fondoView.setLayoutX(0);
+//        fondoView.setLayoutY(0);
 
         Pane overlay = new Pane();
+        overlay.setPrefSize(App.WIDTH, App.HEIGHT);
         int x_seccion = 500;
         int ultimo_y = 10;
-        int espacio = 20;
-
+        int espacio = 25;
         List<String> claves = List.of("Asedio1", "Rango1", "CuerpoACuerpo1", "Asedio0", "Rango0", "CuerpoACuerpo0");
-
         for (String clave:claves){
             agregarSeccion(overlay, clave, x_seccion, ultimo_y);
             ultimo_y = ultimo_y + espacio + seccionHeight;
         }
 
-
-        root.getChildren().addAll(fondoView, overlay);
-        return root;
+        root.getChildren().addAll(overlay);
+        return new StackPane(root);
     }
 
     private void agregarSeccion(Pane contenedor, String clave, double x, double y) {
@@ -67,33 +69,18 @@ public class TableroView {
         visual.setLayoutX(x);
         visual.setLayoutY(y);
 
+        visual.setOnMouseClicked(event -> {
+            if(cartaElegida != null){
+                seccion.agregarCarta((CartaUnidad) cartaElegida);
+                //re-renderizar tablero
+            }
+        });
+
         for (CartaUnidad carta : seccion.getCartas()) {
             visual.getChildren().add(new CartaUnidadVisual(carta));
         }
-        
-        
-
         contenedor.getChildren().add(visual);
     }
 
 
-
-    private VBox construirVistaDeSeccion(Seccion seccion) {
-        VBox contenedor = new VBox(5);
-        contenedor.setAlignment(Pos.CENTER_LEFT);
-        contenedor.setPrefSize(800, 80);
-
-        Label nombre = new Label(seccion.getClave());
-        nombre.setStyle("-fx-text-fill: white; -fx-font-size: 14;");
-
-        HBox cartas = new HBox(5);
-        cartas.setAlignment(Pos.CENTER_LEFT);
-
-        for (CartaUnidad carta : seccion.getCartas()) {
-            cartas.getChildren().add(new CartaUnidadVisual(carta));
-        }
-
-        contenedor.getChildren().addAll(nombre, cartas);
-        return contenedor;
-    }
 }
