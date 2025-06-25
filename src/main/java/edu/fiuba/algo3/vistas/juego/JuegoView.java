@@ -10,7 +10,6 @@ import edu.fiuba.algo3.vistas.juego.cartas.MazoView;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -60,16 +59,17 @@ public class JuegoView {
         mazoView.setTranslateX(1195);
         mazoView.setTranslateY(465);
 
-        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoView);
-        Platform.runLater(() -> animarReparto(stack, mazoView, manoRegion));
-        // Dentro de construir()
+        // Crear la vista de la pila de descarte
         PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
         Region pilaRegion = pilaDescarteJugador.construir();
         StackPane.setAlignment(pilaRegion, Pos.TOP_RIGHT);
 
         pilaRegion.setTranslateX(1190);
         pilaRegion.setTranslateY(150);
+
+        // Agregar todos los elementos al StackPane de una sola vez
         stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoView, pilaRegion);
+        Platform.runLater(() -> animarReparto(stack, mazoView, manoRegion));
 
         // El StackPane se centra en la ventana y nunca se estira
         BorderPane root = new BorderPane();
