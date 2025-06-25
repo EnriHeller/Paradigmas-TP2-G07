@@ -23,6 +23,9 @@ import javafx.util.Duration;
 public class JuegoView {
     private final Juego juego;
     private final FinalizadorDeJuego finalizadorDeJuego;
+    private final int xMazo = 1140;
+    private final int yMazo = 425; 
+
 
     public JuegoView(Juego juego) {
         this.juego = juego;
@@ -72,8 +75,8 @@ public class JuegoView {
         // Centro de turnos (izquierda)
         CentroDeAdministracionTurnos turnos = new CentroDeAdministracionTurnos(juego);
         VBox panelTurno = turnos.construir();
-        panelTurno.setLayoutX(30);
-        panelTurno.setLayoutY(300);
+        panelTurno.setLayoutX(-10);
+        panelTurno.setLayoutY(210);
         bloqueJuego.getChildren().add(panelTurno);
         // Listener para fin de juego
         turnos.setOnTurnoFinalizado(() -> Platform.runLater(() -> finalizadorDeJuego.verificarFinDeJuego()));
@@ -81,12 +84,16 @@ public class JuegoView {
         // Pila de descarte (arriba derecha)
         PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
         Region pilaRegion = pilaDescarteJugador.construir();
-        pilaRegion.setLayoutX(1190);
-        pilaRegion.setLayoutY(150);
+        pilaRegion.setLayoutX(xMazo);
+        pilaRegion.setLayoutY(yMazo - 110);
         bloqueJuego.getChildren().add(pilaRegion);
-
-        // Si hay mazo, agregarlo aquí con setLayoutX/Y
-        // ...
+        
+        // Mazo (abajo derecha, relativo al bloque)
+        int cartasRestantes = juego.cartasEnMazoActual();
+        edu.fiuba.algo3.vistas.juego.cartas.MazoView mazoView = new edu.fiuba.algo3.vistas.juego.cartas.MazoView(cartasRestantes);
+        mazoView.setLayoutX(xMazo); // Ajusta según el diseño del bloque
+        mazoView.setLayoutY(yMazo); 
+        bloqueJuego.getChildren().add(mazoView);
 
         // Centrar el bloque de juego en el StackPane
         stack.getChildren().add(bloqueJuego);
@@ -105,13 +112,13 @@ public class JuegoView {
         Image dorso = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/dorso.png")).toExternalForm());
         List<ImageView> animadas = new ArrayList<>();
 
-        double startX = 580;
-        double startY = 150;
+        double startX = xMazo - 618;
+        double startY = yMazo - 315;
 
         for (int i = 0; i < 10; i++) {
             ImageView carta = new ImageView(dorso);
-            carta.setFitWidth(70);
-            carta.setFitHeight(90);
+            carta.setFitWidth(80);
+            carta.setFitHeight(100);
             carta.setPreserveRatio(false);
 
             carta.setTranslateX(startX);
@@ -120,17 +127,37 @@ public class JuegoView {
             animadas.add(carta);
 
             TranslateTransition anim = new TranslateTransition(Duration.millis(400), carta);
-            anim.setToX(-300 + (i * 80)); // Mayor espaciado entre cartas (85 en lugar de 75)
-            anim.setToY(300);             // ajustá también según tu layout
+            anim.setToX(-300 + (i * 85)); // Mayor espaciado entre cartas (85 en lugar de 75)
+            anim.setToY(250);             // ajustá también según tu layout
 
-            anim.setDelay(Duration.millis(i * 80));
+            anim.setDelay(Duration.millis(i * 75));
             anim.play();
         }
 
-        PauseTransition esperar = new PauseTransition(Duration.millis(10 * 80 + 500));
+        PauseTransition esperar = new PauseTransition(Duration.millis(10 * 75 + 300));
         esperar.setOnFinished(e -> {
-            animadas.forEach(stack.getChildren()::remove);
-            manoRegion.setVisible(true);
+            // Animar fade out de las cartas del dorso
+            int total = animadas.size();
+            for (int i = 0; i < total; i++) {
+                ImageView carta = animadas.get(i);
+                javafx.animation.FadeTransition fade = new javafx.animation.FadeTransition(Duration.millis(250), carta);
+                fade.setFromValue(1.0);
+                fade.setToValue(0.0);
+                fade.setDelay(Duration.millis(i * 30)); // efecto en cascada
+                if (i == total - 1) {
+                    fade.setOnFinished(ev -> {
+                        animadas.forEach(stack.getChildren()::remove);
+                        // Fade in para la mano
+                        manoRegion.setOpacity(0);
+                        manoRegion.setVisible(true);
+                        javafx.animation.FadeTransition fadeIn = new javafx.animation.FadeTransition(Duration.millis(350), manoRegion);
+                        fadeIn.setFromValue(0.0);
+                        fadeIn.setToValue(1.0);
+                        fadeIn.play();
+                    });
+                }
+                fade.play();
+            }
         });
         esperar.play();
     }
