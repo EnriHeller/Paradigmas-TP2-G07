@@ -122,4 +122,11 @@ public class Juego {
     public Tablero getTablero() {
         return tablero;
     }
+
+    public Carta getUltimaCartaDeLaPilaDeDescarte(){
+        Jugador jugadorActualizado = administradorTurno.jugadorActual();
+        return jugadorActualizado.getCartaEnDescarte();
+    }
+
+
 }
