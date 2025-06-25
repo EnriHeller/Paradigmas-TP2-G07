@@ -5,6 +5,7 @@ import edu.fiuba.algo3.vistas.Botones;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -16,22 +17,26 @@ import javafx.util.Duration;
 import java.util.Objects;
 
 public class CentroDeAdministracionTurnos {
-
     private final Juego juego;
     private int clicksSiguiente = 0;
     private ImageView monedaView;
     private Label textoJugador;
+    private Runnable onTurnoFinalizado;
 
     public CentroDeAdministracionTurnos(Juego juego) {
         this.juego = juego;
     }
 
+    public void setOnTurnoFinalizado(Runnable handler) {
+        this.onTurnoFinalizado = handler;
+    }
+
     public VBox construir() {
         VBox contenedor = new VBox(5);
         contenedor.setAlignment(Pos.CENTER_LEFT);
-        contenedor.setPadding(new Insets(20, 0, 0, 30)); // Espaciado desde el borde
+        contenedor.setPadding(new Insets(20, 0, 0, 30));
 
-        // Texto arriba del botón
+        // Texto de jugador actual
         textoJugador = new Label();
         textoJugador.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;");
 
@@ -40,16 +45,25 @@ public class CentroDeAdministracionTurnos {
         monedaView.setFitWidth(50);
         monedaView.setFitHeight(50);
 
-        // Botón
+        // Botón de siguiente jugador
         Button botonSiguiente = Botones.Boton_1("Siguiente jugador", () -> {
             if (clicksSiguiente >= 1) {
                 textoJugador.setText("Finalización de ronda");
                 PauseTransition espera = new PauseTransition(Duration.seconds(2));
                 espera.setOnFinished(e -> {
                     juego.finalizarRonda();
-                    juego.tirarMoneda();
-                    mostrarMoneda(juego.actual());
-                    actualizarTextoJugador(juego.actual());
+
+                    // Notificar que la ronda terminó y verificar fin de juego
+                    if (onTurnoFinalizado != null) {
+                        Platform.runLater(() -> onTurnoFinalizado.run());
+                    }
+
+                    // Solo continuar si el juego no ha terminado
+                    if (!juego.juegoTerminado()) {
+                        juego.tirarMoneda();
+                        mostrarMoneda(juego.actual());
+                        actualizarTextoJugador(juego.actual());
+                    }
                 });
                 espera.play();
                 clicksSiguiente = 0;
@@ -61,12 +75,12 @@ public class CentroDeAdministracionTurnos {
             }
         });
 
-        // Tirada inicial
+        // Tirada inicial de moneda
         juego.tirarMoneda();
         mostrarMoneda(juego.actual());
         actualizarTextoJugador(juego.actual());
 
-        // Layout horizontal con botón + moneda
+        // Layout horizontal para botón y moneda
         HBox grupoBotonMoneda = new HBox(10, botonSiguiente, monedaView);
         grupoBotonMoneda.setAlignment(Pos.CENTER_LEFT);
 
@@ -85,5 +99,3 @@ public class CentroDeAdministracionTurnos {
         textoJugador.setText("Juega: jugador " + (jugador + 1));
     }
 }
-
-
