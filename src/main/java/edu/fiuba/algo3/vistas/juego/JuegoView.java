@@ -44,7 +44,7 @@ public class JuegoView {
         ManoView mano = new ManoView(juego.mostrarManoActual());
         Region manoRegion = mano.construir();
         StackPane.setAlignment(manoRegion, Pos.BOTTOM_CENTER);
-        StackPane.setMargin(manoRegion, new javafx.geometry.Insets(620, 0, 0, 250)); // mueve la mano 30px más abajo
+        StackPane.setMargin(manoRegion, new javafx.geometry.Insets(620, 0, 0, 250)); // mueve la mano
 
         // Vista del mazo del jugador actual
         int cartasRestantes = juego.cartasEnMazoActual();
@@ -52,8 +52,8 @@ public class JuegoView {
         Region mazoRegion = mazo.construir();
         StackPane.setAlignment(mazoRegion, Pos.BOTTOM_RIGHT);
         
-        mazoRegion.setTranslateX(1190);
-        mazoRegion.setTranslateY(470);
+        mazoRegion.setTranslateX(1195);
+        mazoRegion.setTranslateY(465);
 
         stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoRegion);
 
