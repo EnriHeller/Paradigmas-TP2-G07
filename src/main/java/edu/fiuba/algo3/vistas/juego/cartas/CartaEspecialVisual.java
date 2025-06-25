@@ -37,17 +37,41 @@ public class CartaEspecialVisual extends CartaVisual {
         }
         String nombreImagen = normalizarNombreParaImagen(nombreBase);
         String ruta = "/imagenes/" + nombreImagen + ".png";
-        System.err.println("[CartaEspecialVisual] Buscando imagen: " + ruta);
         Image imagen;
         try {
             imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));
         } catch (Exception e) {
-            System.err.println("[CartaEspecialVisual] Imagen no encontrada para: " + ruta + ". Usando imagen por defecto. Excepcion: " + e);
             imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/imagenes/Lluviatorrencial.png")));
         }
         ImageView vistaImagen = crearImagenEstandar(imagen);
+
+        // Crear el círculo de "E" para cartas especiales
+        javafx.scene.shape.Circle circulo = new javafx.scene.shape.Circle(13); // radio 13px (igual que unidades)
+        circulo.getStyleClass().add("carta-unidad-circulo");
+        circulo.setFill(javafx.scene.paint.Color.rgb(30,30,30,0.85));
+        circulo.setStroke(javafx.scene.paint.Color.GOLD);
+        circulo.setStrokeWidth(2);
+        javafx.scene.text.Text textoE = new javafx.scene.text.Text("E");
+        textoE.getStyleClass().add("carta-unidad-valor");
+        textoE.setFill(javafx.scene.paint.Color.WHITE);
+        textoE.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
+        javafx.scene.layout.StackPane overlay = new javafx.scene.layout.StackPane(circulo, textoE);
+        overlay.setPickOnBounds(false);
+        overlay.setMouseTransparent(true);
+        overlay.setTranslateX(0); // igual que unidades
+        overlay.setTranslateY(0);
+        overlay.setMaxSize(26,26);
+        overlay.setMinSize(26,26);
+        overlay.setPrefSize(26,26);
+        javafx.scene.layout.Pane overlayPane = new javafx.scene.layout.Pane(overlay);
+        overlayPane.setPrefSize(0,0);
+        overlayPane.setMouseTransparent(true);
+
         setTamanioEstandar();
         mainStack.getChildren().clear();
-        mainStack.getChildren().addAll(vistaImagen, hoverBorder); // hoverBorder always on top
+        mainStack.getChildren().addAll(vistaImagen, overlayPane, hoverBorder); // overlay entre imagen y hoverBorder
+
+        this.setOnMouseEntered(e -> this.setCursor(javafx.scene.Cursor.HAND));
+        this.setOnMouseExited(e -> this.setCursor(javafx.scene.Cursor.DEFAULT));
     }
 }

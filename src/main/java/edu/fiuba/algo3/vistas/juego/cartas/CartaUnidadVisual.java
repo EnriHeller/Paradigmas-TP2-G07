@@ -5,6 +5,11 @@ import java.util.Objects;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 public class CartaUnidadVisual extends CartaVisual {
 
@@ -34,23 +39,51 @@ public class CartaUnidadVisual extends CartaVisual {
         }
         String nombreImagen = normalizarNombreParaImagen(nombreBase);
         String ruta = "/imagenes/" + nombreImagen + ".png";
-        System.err.println("[CartaUnidadVisual] Buscando imagen: " + ruta);
         Image imagen;
         try {
             imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));
         } catch (Exception e) {
-            System.err.println("[CartaUnidadVisual] Imagen no encontrada para: " + ruta + ". Usando imagen por defecto. Excepcion: " + e);
             imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/imagenes/BirnaBrant.png")));
         }
         ImageView vistaImagen = crearImagenEstandar(imagen);
 
-        // Solo imagen y hoverBorder, igual que CartaEspecialVisual
+        // Crear el círculo de puntos (valor de la carta)
+        Circle circulo = new Circle(13); // radio 13px (más chico)
+        circulo.getStyleClass().add("carta-unidad-circulo");
+        circulo.setFill(Color.rgb(30,30,30,0.85));
+        circulo.setStroke(Color.GOLD);
+        circulo.setStrokeWidth(2);
+
+        int valorActual = unidad.ValorActual();
+        Text textoValor = new Text(String.valueOf(valorActual));
+        textoValor.getStyleClass().add("carta-unidad-valor");
+        textoValor.setFill(Color.WHITE);
+        textoValor.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
+
+        StackPane overlay = new StackPane(circulo, textoValor);
+        overlay.setPickOnBounds(false);
+        overlay.setMouseTransparent(true);
+        // Ubicar arriba a la derecha
+        overlay.setTranslateX(52); // mover a la derecha (ajustar según tamaño carta)
+        overlay.setTranslateY(0); // mover arriba (ajustar según tamaño carta)
+
+        overlay.setMaxSize(26,26);
+        overlay.setMinSize(26,26);
+        overlay.setPrefSize(26,26);
+        Pane overlayPane = new Pane(overlay);
+        overlayPane.setPrefSize(0,0);
+        overlayPane.setMouseTransparent(true);
+
+        // Solo imagen, overlay y hoverBorder
         this.getChildren().clear();
         setTamanioEstandar();
         mainStack.getChildren().clear();
-        mainStack.getChildren().addAll(vistaImagen, hoverBorder); // hoverBorder siempre arriba
+        mainStack.getChildren().addAll(vistaImagen, overlayPane, hoverBorder); // overlay entre imagen y hoverBorder
         if (!this.getChildren().contains(mainStack)) {
             this.getChildren().add(mainStack);
         }
+
+        this.setOnMouseEntered(e -> this.setCursor(javafx.scene.Cursor.HAND));
+        this.setOnMouseExited(e -> this.setCursor(javafx.scene.Cursor.DEFAULT));
     }
 }
