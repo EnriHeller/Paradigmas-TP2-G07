@@ -18,7 +18,7 @@ public class CartaReversoVisual extends CartaVisual {
 
     @Override
     public void construirVista() {
-        String ruta = "/imagenes/Berserker.png";
+        String ruta = "/imagenes/dorso.png";
         Image imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));
         ImageView vistaImagen = new ImageView(imagen);
         vistaImagen.setFitWidth(70);

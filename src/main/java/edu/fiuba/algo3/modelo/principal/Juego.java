@@ -128,17 +128,8 @@ public class Juego {
         return jugadorActualizado.getCartaEnDescarte();
     }
 
-
-
     public int cartasEnMazoActual() {
         return administradorTurno.jugadorActual().cartasRestantesEnSeccion("Mazo");
-    }
-
-
-
-    public Carta getUltimaCartaDeLaPilaDeDescarte(){
-        Jugador jugadorActualizado = administradorTurno.jugadorActual();
-        return jugadorActualizado.getCartaEnDescarte();
     }
 
 

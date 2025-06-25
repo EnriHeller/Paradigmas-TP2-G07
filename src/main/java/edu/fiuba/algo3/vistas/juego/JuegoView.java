@@ -62,8 +62,8 @@ public class JuegoView {
         Region pilaRegion = pilaDescarteJugador.construir();
         StackPane.setAlignment(pilaRegion, Pos.TOP_RIGHT);
 
-        pilaRegion.setTranslateX(555);
-        pilaRegion.setTranslateY(-309);
+        pilaRegion.setTranslateX(1190);
+        pilaRegion.setTranslateY(150);
         stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoRegion, pilaRegion);
 
         // El StackPane se centra en la ventana y nunca se estira
