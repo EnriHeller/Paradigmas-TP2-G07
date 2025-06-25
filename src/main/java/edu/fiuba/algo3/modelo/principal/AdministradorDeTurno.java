@@ -102,6 +102,6 @@ public class AdministradorDeTurno {
     public boolean juegoTerminado() {
         if (ciclos < 2) {
             return false;
-        } else return !mostrarGanador().equals("empate");
+        } else return !mostrarGanador().equals("empate") || ciclos == 3;
     }
 }

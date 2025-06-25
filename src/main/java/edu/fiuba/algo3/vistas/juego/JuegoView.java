@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.fiuba.algo3.App;
+import edu.fiuba.algo3.controller.FinalizadorDeJuego;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.vistas.juego.cartas.MazoView;
 import javafx.animation.PauseTransition;
@@ -21,9 +22,11 @@ import javafx.util.Duration;
 
 public class JuegoView {
     private final Juego juego;
+    private final FinalizadorDeJuego finalizadorDeJuego;
 
     public JuegoView(Juego juego) {
         this.juego = juego;
+        this.finalizadorDeJuego = new FinalizadorDeJuego(juego);
     }
 
     public BorderPane construir() {
@@ -55,6 +58,12 @@ public class JuegoView {
         //Centro de turnos
         CentroDeAdministracionTurnos turnos = new CentroDeAdministracionTurnos(juego);
         VBox panelTurno = turnos.construir();
+        
+        // Agregar listener para verificar fin de juego después de cada turno
+        turnos.setOnTurnoFinalizado(() -> {
+            Platform.runLater(() -> finalizadorDeJuego.verificarFinDeJuego());
+        });
+
         StackPane.setAlignment(panelTurno, Pos.CENTER_LEFT);
         StackPane.setMargin(panelTurno, new javafx.geometry.Insets(0, 0, 30, 30));
 

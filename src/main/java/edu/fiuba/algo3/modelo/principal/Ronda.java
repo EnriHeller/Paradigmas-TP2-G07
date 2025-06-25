@@ -18,8 +18,13 @@ public class Ronda {
     }
 
     private void calcularGanadorRonda() {
-        if (puntajeJugadores.size() < 2) {
+        if (puntajeJugadores.isEmpty()) {
             ganadorRonda = "Empate";
+            return;
+        }
+
+        if (puntajeJugadores.size() == 1) {
+            ganadorRonda = puntajeJugadores.keySet().iterator().next();
             return;
         }
 
