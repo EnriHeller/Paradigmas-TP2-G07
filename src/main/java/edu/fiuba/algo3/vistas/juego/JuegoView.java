@@ -69,7 +69,7 @@ public class JuegoView {
 
         pilaRegion.setTranslateX(1190);
         pilaRegion.setTranslateY(150);
-        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoRegion, pilaRegion);
+        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoView, pilaRegion);
 
         // El StackPane se centra en la ventana y nunca se estira
         BorderPane root = new BorderPane();
