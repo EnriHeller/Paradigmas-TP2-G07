@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.vistas.juego.cartas.MazoView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -46,14 +47,7 @@ public class JuegoView {
         StackPane.setAlignment(manoRegion, Pos.BOTTOM_CENTER);
         StackPane.setMargin(manoRegion, new javafx.geometry.Insets(620, 0, 0, 250)); // mueve la mano 30px más abajo
 
-        // Dentro de construir()
-        PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
-        Region pilaRegion = pilaDescarteJugador.construir();
-        StackPane.setAlignment(pilaRegion, Pos.TOP_RIGHT);
 
-        pilaRegion.setTranslateX(555);
-        pilaRegion.setTranslateY(-309);
-        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, pilaRegion);
         // Vista del mazo del jugador actual
         int cartasRestantes = juego.cartasEnMazoActual();
         MazoView mazo = new MazoView(cartasRestantes);
@@ -63,7 +57,6 @@ public class JuegoView {
         mazoRegion.setTranslateX(1190);
         mazoRegion.setTranslateY(470);
 
-        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoRegion);
         // Dentro de construir()
         PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
         Region pilaRegion = pilaDescarteJugador.construir();
@@ -71,7 +64,7 @@ public class JuegoView {
 
         pilaRegion.setTranslateX(555);
         pilaRegion.setTranslateY(-309);
-        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, pilaRegion);
+        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoRegion, pilaRegion);
 
         // El StackPane se centra en la ventana y nunca se estira
         BorderPane root = new BorderPane();
