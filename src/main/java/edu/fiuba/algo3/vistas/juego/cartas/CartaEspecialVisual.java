@@ -15,10 +15,19 @@ public class CartaEspecialVisual extends CartaVisual {
 
     @Override
     public void construirVista() {
-        //this.setSpacing(5);
-
-        String nombre = carta.mostrarCarta();
-        String ruta = "/imagenes/" + nombre.replaceAll(" ", "") + ".png";
+        String nombreBase;
+        // Si la carta tiene getNombre(), úsalo. Si no, parsea el nombre base.
+        try {
+            // Intenta usar getNombre() si existe
+            nombreBase = (String) carta.getClass().getMethod("getNombre").invoke(carta);
+        } catch (Exception e) {
+            // Fallback: usa mostrarCarta() y toma solo la primera palabra (antes de un espacio o modificador)
+            String mostrar = carta.mostrarCarta();
+            int idx = mostrar.indexOf(' ');
+            if (idx > 0) nombreBase = mostrar.substring(0, idx);
+            else nombreBase = mostrar;
+        }
+        String ruta = "/imagenes/" + nombreBase.replaceAll(" ", "") + ".png";
         Image imagen;
         try {
             imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));
@@ -28,7 +37,7 @@ public class CartaEspecialVisual extends CartaVisual {
         }
         ImageView vistaImagen = crearImagenEstandar(imagen);
         setTamanioEstandar();
-        this.getChildren().clear();
-        this.getChildren().add(vistaImagen);
+        mainStack.getChildren().clear();
+        mainStack.getChildren().addAll(vistaImagen, hoverBorder); // hoverBorder always on top
     }
 }

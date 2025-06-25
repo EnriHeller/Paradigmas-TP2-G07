@@ -13,7 +13,7 @@ public class CartaUnidadVisual extends CartaVisual {
 
     public CartaUnidadVisual(CartaUnidad carta) {
         super(carta);
-        construirVista();
+        // construirVista() se debe llamar externamente después de la construcción
     }
 
     @Override
@@ -21,8 +21,23 @@ public class CartaUnidadVisual extends CartaVisual {
         CartaUnidad unidad = (CartaUnidad) carta;
 
         // Imagen de la carta
-        String ruta = "/imagenes/BirnaBrant.png";
-        Image imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));
+        String nombreBase;
+        try {
+            nombreBase = unidad.getNombre();
+        } catch (Exception e) {
+            String mostrar = unidad.mostrarCarta();
+            int idx = mostrar.indexOf(' ');
+            if (idx > 0) nombreBase = mostrar.substring(0, idx);
+            else nombreBase = mostrar;
+        }
+        String ruta = "/imagenes/" + nombreBase.replaceAll(" ", "") + ".png";
+        Image imagen;
+        try {
+            imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));
+        } catch (Exception e) {
+            System.err.println("[CartaUnidadVisual] Imagen no encontrada para: " + ruta + ". Usando imagen por defecto. Excepcion: " + e);
+            imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/imagenes/BirnaBrant.png")));
+        }
         ImageView vistaImagen = crearImagenEstandar(imagen);
 
         // Circulito de valor (más chico y a la izquierda)
@@ -46,6 +61,11 @@ public class CartaUnidadVisual extends CartaVisual {
 
         this.getChildren().clear();
         setTamanioEstandar();
-        this.getChildren().add(stack);
+        mainStack.getChildren().clear();
+        mainStack.getChildren().addAll(stack, hoverBorder); // hoverBorder siempre arriba
+        // Permite que el VBox reciba los eventos de mouse aunque el StackPane esté encima
+        stack.setMouseTransparent(true);
+        vistaImagen.setMouseTransparent(true);
+        circuloValor.setMouseTransparent(true);
     }
 }

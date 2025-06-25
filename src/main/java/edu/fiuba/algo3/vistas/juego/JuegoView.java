@@ -57,6 +57,9 @@ public class JuegoView {
 
         stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoRegion);
 
+        // Cargar el CSS global para cartas visuales
+        stack.getStylesheets().add(getClass().getResource("/carta-visual.css").toExternalForm());
+
         // El StackPane se centra en la ventana y nunca se estira
         BorderPane root = new BorderPane();
         root.setCenter(stack);
