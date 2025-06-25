@@ -29,6 +29,10 @@ public class AdministradorDeTurno {
         this.indiceActual = new Random().nextInt(2);
     }
 
+    public int actual() {
+        return indiceActual;
+    }
+
     public Jugador jugadorActual() {
         return jugadores.get(indiceActual);
     }

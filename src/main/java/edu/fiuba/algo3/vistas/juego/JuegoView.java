@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class JuegoView {
@@ -26,7 +27,6 @@ public class JuegoView {
     }
 
     public BorderPane construir() {
-        // StackPane de tamaño fijo para fondo, tablero y mano
         StackPane stack = new StackPane();
         stack.setPrefSize(App.WIDTH, App.HEIGHT);
         stack.setMinSize(App.WIDTH, App.HEIGHT);
@@ -47,35 +47,38 @@ public class JuegoView {
         StackPane.setAlignment(tableroRegion, Pos.CENTER);
 
         // Abajo: vista de la mano
-        
         ManoView mano = new ManoView(juego.mostrarManoActual());
         Region manoRegion = mano.construir();
         StackPane.setAlignment(manoRegion, Pos.BOTTOM_CENTER);
         StackPane.setMargin(manoRegion, new javafx.geometry.Insets(620, 0, 0, 250)); // mueve la mano
 
-        // Vista del mazo del jugador actual
+        //Centro de turnos
+        CentroDeAdministracionTurnos turnos = new CentroDeAdministracionTurnos(juego);
+        VBox panelTurno = turnos.construir();
+        StackPane.setAlignment(panelTurno, Pos.CENTER_LEFT);
+        StackPane.setMargin(panelTurno, new javafx.geometry.Insets(0, 0, 30, 30));
+
+        // Mazo
         int cartasRestantes = juego.cartasEnMazoActual();
         MazoView mazoView = new MazoView(cartasRestantes);
         StackPane.setAlignment(mazoView, Pos.BOTTOM_RIGHT);
         mazoView.setTranslateX(1195);
         mazoView.setTranslateY(465);
 
-        // Crear la vista de la pila de descarte
+        // Pila de descarte
         PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
         Region pilaRegion = pilaDescarteJugador.construir();
         StackPane.setAlignment(pilaRegion, Pos.TOP_RIGHT);
-
         pilaRegion.setTranslateX(1190);
         pilaRegion.setTranslateY(150);
 
-        // Agregar todos los elementos al StackPane de una sola vez
-        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoView, pilaRegion);
+        // Agregar componentes al stack
+        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoView, pilaRegion, panelTurno);
+
         Platform.runLater(() -> animarReparto(stack, mazoView, manoRegion));
 
-        // Cargar el CSS global para cartas visuales
         stack.getStylesheets().add(getClass().getResource("/carta-visual.css").toExternalForm());
 
-        // El StackPane se centra en la ventana y nunca se estira
         BorderPane root = new BorderPane();
         root.setCenter(stack);
         return root;
@@ -116,5 +119,4 @@ public class JuegoView {
         });
         esperar.play();
     }
-
 }

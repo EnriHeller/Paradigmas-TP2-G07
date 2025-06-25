@@ -44,16 +44,23 @@ public class Juego {
 
     //FASE DE PREPARACIÓN
 
-
-    public void repartirCartasAlJugador(int jugador) throws TipoDeSeccionInvalidaError {
-        int minCartasAMano = 10;
-        Jugador jugadorElegido = jugadores.get(jugador);
-        try {
-            jugadorElegido.agregarCartasAMano(minCartasAMano);
-        } catch (NoSePuedeCumplirSolicitudDeCartas e) {
-            throw new RuntimeException(e);
-        }
+    public void tirarMoneda(){
+        administradorTurno.tirarMoneda();
     }
+
+    public int actual(){
+        return administradorTurno.actual();
+    }
+
+//    public void repartirCartasAlJugador(int jugador) throws TipoDeSeccionInvalidaError {
+//        int minCartasAMano = 10;
+//        Jugador jugadorElegido = jugadores.get(jugador);
+//        try {
+//            jugadorElegido.agregarCartasAMano(minCartasAMano);
+//        } catch (NoSePuedeCumplirSolicitudDeCartas e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public void darMano(int jugadorID, int cantidadDeCartas) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
         jugadores.get(jugadorID).agregarCartasAMano(cantidadDeCartas);
