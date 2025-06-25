@@ -135,4 +135,11 @@ public class Juego {
     }
 
 
+
+    public Carta getUltimaCartaDeLaPilaDeDescarte(){
+        Jugador jugadorActualizado = administradorTurno.jugadorActual();
+        return jugadorActualizado.getCartaEnDescarte();
+    }
+
+
 }

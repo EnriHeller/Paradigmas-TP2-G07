@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.modelo.principal.Juego;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -63,6 +64,14 @@ public class JuegoView {
         mazoRegion.setTranslateY(470);
 
         stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoRegion);
+        // Dentro de construir()
+        PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
+        Region pilaRegion = pilaDescarteJugador.construir();
+        StackPane.setAlignment(pilaRegion, Pos.TOP_RIGHT);
+
+        pilaRegion.setTranslateX(555);
+        pilaRegion.setTranslateY(-309);
+        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, pilaRegion);
 
         // El StackPane se centra en la ventana y nunca se estira
         BorderPane root = new BorderPane();
