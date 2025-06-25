@@ -1,6 +1,6 @@
 package edu.fiuba.algo3.entrega_2;
 
-import edu.fiuba.algo3.modelo.cartas.especiales.CartaNevada;
+import edu.fiuba.algo3.modelo.cartas.especiales.EscarchaMordaz;
 import edu.fiuba.algo3.modelo.cartas.especiales.DestructoraDeClima;
 import edu.fiuba.algo3.mocks.CartaUnidadMock;
 import edu.fiuba.algo3.modelo.principal.Contexto;
@@ -16,7 +16,7 @@ public class Test08EsPosibleEliminarAfectoDelClimaEnTablero {
     @Test
     public void EsPosibleEliminarAfectoDelClimaEnTablero () throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
         Tablero tablero = new Tablero();
-        CartaNevada nevada = new CartaNevada();
+        EscarchaMordaz nevada = new EscarchaMordaz();
         DestructoraDeClima destructoraDeClima = new DestructoraDeClima();
         Seccion seccionMock = new Seccion("Rango", 0);
         CartaUnidadMock cartaMock = new CartaUnidadMock();
@@ -42,7 +42,7 @@ public class Test08EsPosibleEliminarAfectoDelClimaEnTablero {
         Jugador jugadorMock = new Jugador("Mock");
         Contexto contexto = new Contexto(tablero, seccion, cartaMock, jugadorMock);
         // Primero agregamos clima para que no lance excepción
-        new CartaNevada().modificar(contexto);
+        new EscarchaMordaz().modificar(contexto);
         org.junit.jupiter.api.Assertions.assertDoesNotThrow(() -> destructora.aplicarModificador(contexto));
     }
 }

@@ -1,7 +1,7 @@
 package edu.fiuba.algo3.entrega_3;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.cartas.especiales.CartaNevada;
+import edu.fiuba.algo3.modelo.cartas.especiales.EscarchaMordaz;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
@@ -51,7 +51,7 @@ public class Test15ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRondaIncl
         int actual = juego.puntajeEnSeccion(seccionSimulada);
         assertTrue(actual == 38);
 
-        juego.jugarCarta(new CartaNevada(), seccionSimulada);
+        juego.jugarCarta(new EscarchaMordaz(), seccionSimulada);
 
         actual = juego.puntajeEnSeccion(seccionSimulada);
         assertTrue(actual == 2);
