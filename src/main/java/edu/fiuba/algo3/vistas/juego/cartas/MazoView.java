@@ -17,7 +17,7 @@ public class MazoView {
 
     public Region construir() {
         Pane contenedor = new Pane();
-        
+
         String rutaDorso = "/imagenes/dorso.png";
         Image dorso = new Image(Objects.requireNonNull(getClass().getResourceAsStream(rutaDorso)));
 
