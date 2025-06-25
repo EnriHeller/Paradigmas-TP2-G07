@@ -8,6 +8,7 @@ public class Mazo extends SeccionJugador<Carta> {
     public Mazo(List<Carta> cartas) {
         super();
         this.cartas.addAll(cartas);
+        mezclar();
     }
 
     @Override
