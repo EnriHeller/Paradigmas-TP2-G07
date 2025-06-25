@@ -24,11 +24,11 @@ public abstract class CartaVisual extends VBox {
         this.setAlignment(Pos.CENTER);
         this.setMouseTransparent(false);
         this.setPickOnBounds(true);
-        
+
         hoverBorder = new Rectangle(ANCHO, ALTO);
-        hoverBorder.setFill(Color.TRANSPARENT);
+        hoverBorder.setFill(Color.rgb(255, 255, 0, 0.3)); // Amarillo semitransparente
         hoverBorder.setStroke(Color.YELLOW);
-        hoverBorder.setStrokeWidth(3);
+        hoverBorder.setStrokeWidth(2);
         hoverBorder.setVisible(false);
         hoverBorder.setMouseTransparent(true);
         mainStack = new StackPane();

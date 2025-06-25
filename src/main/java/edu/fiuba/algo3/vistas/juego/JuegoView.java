@@ -73,7 +73,7 @@ public class JuegoView {
         pilaRegion.setTranslateY(150);
 
         // Agregar componentes al stack
-        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoView, pilaRegion, panelTurno);
+        stack.getChildren().addAll(fondoView, tableroRegion, panelTurno, manoRegion, mazoView, pilaRegion);
 
         Platform.runLater(() -> animarReparto(stack, mazoView, manoRegion));
 
