@@ -122,4 +122,10 @@ public class Juego {
     public Tablero getTablero() {
         return tablero;
     }
+
+    public int cartasEnMazoActual() {
+        return administradorTurno.jugadorActual().cartasRestantesEnSeccion("Mazo");
+    }
+
+
 }

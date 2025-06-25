@@ -18,7 +18,7 @@ public class TableroView {
     private final int seccionWidth = 630;
     private final int seccionHeight = 75;
     private Carta cartaElegida;
-    private List<HBox> seccionesVisuales = new ArrayList<>(); // Para mantener referencias
+    private final List<HBox> seccionesVisuales = new ArrayList<>(); // Para mantener referencias
 
     public TableroView(Tablero tablero) {
         this.tablero = tablero;

@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "edu.fiuba.algo3/edu.fiuba.algo3.App",
+            "projectName": "tp2"
+        },
+        {
             "type": "jdk",
             "request": "launch",
             "name": "Launch Java App"
