@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.controller.FinalizadorDeJuego;
 import edu.fiuba.algo3.modelo.principal.Juego;
-import edu.fiuba.algo3.vistas.juego.cartas.MazoView;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -30,70 +30,76 @@ public class JuegoView {
     }
 
     public BorderPane construir() {
+        BorderPane root = new BorderPane();
+
+        // Fondo de madera ocupa toda la pantalla (en root, no en stack)
+        try {
+            Image woodBg = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/woodBackground.png")).toExternalForm());
+            BackgroundImage bgImage = new BackgroundImage(
+                woodBg,
+                javafx.scene.layout.BackgroundRepeat.NO_REPEAT,
+                javafx.scene.layout.BackgroundRepeat.NO_REPEAT,
+                javafx.scene.layout.BackgroundPosition.CENTER,
+                new javafx.scene.layout.BackgroundSize(100, 100, true, true, true, true)
+            );
+            root.setBackground(new javafx.scene.layout.Background(bgImage));
+        } catch (Exception e) {
+            System.err.println("[ERROR] No se pudo cargar woodBackground.png: " + e);
+        }
+
         StackPane stack = new StackPane();
-        stack.setPrefSize(App.WIDTH, App.HEIGHT);
-        stack.setMinSize(App.WIDTH, App.HEIGHT);
-        stack.setMaxSize(App.WIDTH, App.HEIGHT);
 
-        // Fondo
-        Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/emptyBoard.png")).toExternalForm());
-        ImageView fondoView = new ImageView(fondo);
-        fondoView.setPreserveRatio(false);
-        fondoView.setFitWidth(App.WIDTH);
-        fondoView.setFitHeight(App.HEIGHT);
-        fondoView.setSmooth(true);
-        fondoView.setCache(true);
+        // --- Bloque de juego fijo ---
+        Pane bloqueJuego = new Pane();
+        bloqueJuego.setPrefSize(1300, 700); // Tamaño fijo del bloque de juego
+        bloqueJuego.setMinSize(1300, 700);
+        bloqueJuego.setMaxSize(1300, 700);
 
-        // Centro: vista del tablero
+        // Tablero (centrado dentro del bloque)
         TableroView tablero = new TableroView(juego.getTablero());
         Region tableroRegion = tablero.construir();
-        StackPane.setAlignment(tableroRegion, Pos.CENTER);
+        tableroRegion.setLayoutX(0); // El tablero ya está centrado en su propio StackPane
+        tableroRegion.setLayoutY(0);
+        bloqueJuego.getChildren().add(tableroRegion);
 
-        // Abajo: vista de la mano
+        // Mano (abajo, centrada respecto al bloque)
         ManoView mano = new ManoView(juego.mostrarManoActual());
         Region manoRegion = mano.construir();
-        StackPane.setAlignment(manoRegion, Pos.BOTTOM_CENTER);
-        StackPane.setMargin(manoRegion, new javafx.geometry.Insets(620, 0, 0, 250)); // mueve la mano
+        manoRegion.setLayoutX(310); // Ajusta según el diseño
+        manoRegion.setLayoutY(560); // Ajusta según el diseño
+        bloqueJuego.getChildren().add(manoRegion);
 
-        //Centro de turnos
+        // Centro de turnos (izquierda)
         CentroDeAdministracionTurnos turnos = new CentroDeAdministracionTurnos(juego);
         VBox panelTurno = turnos.construir();
-        
-        // Agregar listener para verificar fin de juego después de cada turno
-        turnos.setOnTurnoFinalizado(() -> {
-            Platform.runLater(() -> finalizadorDeJuego.verificarFinDeJuego());
-        });
+        panelTurno.setLayoutX(30);
+        panelTurno.setLayoutY(300);
+        bloqueJuego.getChildren().add(panelTurno);
+        // Listener para fin de juego
+        turnos.setOnTurnoFinalizado(() -> Platform.runLater(() -> finalizadorDeJuego.verificarFinDeJuego()));
 
-        StackPane.setAlignment(panelTurno, Pos.CENTER_LEFT);
-        StackPane.setMargin(panelTurno, new javafx.geometry.Insets(0, 0, 30, 30));
-
-        // Mazo
-        int cartasRestantes = juego.cartasEnMazoActual();
-        MazoView mazoView = new MazoView(cartasRestantes);
-        StackPane.setAlignment(mazoView, Pos.BOTTOM_RIGHT);
-        mazoView.setTranslateX(1195);
-        mazoView.setTranslateY(465);
-
-        // Pila de descarte
+        // Pila de descarte (arriba derecha)
         PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
         Region pilaRegion = pilaDescarteJugador.construir();
-        StackPane.setAlignment(pilaRegion, Pos.TOP_RIGHT);
-        pilaRegion.setTranslateX(1190);
-        pilaRegion.setTranslateY(150);
+        pilaRegion.setLayoutX(1190);
+        pilaRegion.setLayoutY(150);
+        bloqueJuego.getChildren().add(pilaRegion);
 
-        // Agregar componentes al stack
-        stack.getChildren().addAll(fondoView, tableroRegion, panelTurno, manoRegion, mazoView, pilaRegion);
+        // Si hay mazo, agregarlo aquí con setLayoutX/Y
+        // ...
 
-        Platform.runLater(() -> animarReparto(stack, mazoView, manoRegion));
+        // Centrar el bloque de juego en el StackPane
+        stack.getChildren().add(bloqueJuego);
+        StackPane.setAlignment(bloqueJuego, Pos.CENTER);
 
+        Platform.runLater(() -> animarReparto(stack, manoRegion));
         stack.getStylesheets().add(getClass().getResource("/carta-visual.css").toExternalForm());
 
-        BorderPane root = new BorderPane();
         root.setCenter(stack);
         return root;
     }
 
-    private void animarReparto(StackPane stack, MazoView mazoView, Region manoRegion) {
+    private void animarReparto(StackPane stack, Region manoRegion) {
         manoRegion.setVisible(false);
 
         Image dorso = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/dorso.png")).toExternalForm());

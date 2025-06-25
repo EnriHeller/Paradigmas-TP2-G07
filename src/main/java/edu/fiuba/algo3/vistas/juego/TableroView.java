@@ -2,14 +2,17 @@ package edu.fiuba.algo3.vistas.juego;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
 
@@ -17,6 +20,9 @@ public class TableroView {
     private final Tablero tablero;
     private final int seccionWidth = 630;
     private final int seccionHeight = 75;
+    private final int tableroWidth = 1300;
+    private final int tableroHeight = 700;
+
     private Carta cartaElegida;
     private final List<HBox> seccionesVisuales = new ArrayList<>(); // Para mantener referencias
 
@@ -24,18 +30,39 @@ public class TableroView {
         this.tablero = tablero;
     }
 
-    public StackPane construir() {
-        // Usar StackPane para que el overlay se alinee con el fondo
+
+
+    public Region construir() {
         StackPane root = new StackPane();
+        root.setPrefSize(tableroWidth, tableroHeight);
+        root.setMinSize(tableroWidth, tableroHeight);
+        root.setMaxSize(tableroWidth, tableroHeight);
+
+        // Fondo del tablero (emptyBoard.png)
+        try {
+            Image boardBg = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/emptyBoard.png")).toExternalForm());
+            javafx.scene.layout.BackgroundSize bgSize = new javafx.scene.layout.BackgroundSize(tableroWidth, tableroHeight, false, false, false, false);
+            javafx.scene.layout.BackgroundImage bgImg = new javafx.scene.layout.BackgroundImage(
+                boardBg,
+                javafx.scene.layout.BackgroundRepeat.NO_REPEAT,
+                javafx.scene.layout.BackgroundRepeat.NO_REPEAT,
+                javafx.scene.layout.BackgroundPosition.DEFAULT,
+                bgSize
+            );
+            root.setBackground(new javafx.scene.layout.Background(bgImg));
+        } catch (Exception e) {
+            System.err.println("[ERROR] No se pudo cargar emptyBoard.png: " + e);
+        }
+
         Pane overlay = new Pane();
 
         // El overlay se ajusta al tamaño del StackPane (que es el tamaño de la imagen de fondo)
         overlay.prefWidthProperty().bind(root.widthProperty());
         overlay.prefHeightProperty().bind(root.heightProperty());
 
-        int x_seccion = 500;
+        int x_seccion = 460;
         int ultimo_y = 10;
-        int espacio = 25;
+        int espacio = 14;
 
         List<String> claves = List.of("Asedio1", "Rango1", "CuerpoACuerpo1", "Asedio0", "Rango0", "CuerpoACuerpo0");
 
