@@ -47,10 +47,11 @@ public class JuegoView {
         StackPane.setAlignment(tableroRegion, Pos.CENTER);
 
         // Abajo: vista de la mano
+        
         ManoView mano = new ManoView(juego.mostrarManoActual());
         Region manoRegion = mano.construir();
         StackPane.setAlignment(manoRegion, Pos.BOTTOM_CENTER);
-        StackPane.setMargin(manoRegion, new javafx.geometry.Insets(620, 0, 0, 250)); // mueve la mano 30px más abajo
+        StackPane.setMargin(manoRegion, new javafx.geometry.Insets(620, 0, 0, 250)); // mueve la mano
 
         // Vista del mazo del jugador actual
         int cartasRestantes = juego.cartasEnMazoActual();
@@ -70,6 +71,9 @@ public class JuegoView {
         // Agregar todos los elementos al StackPane de una sola vez
         stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoView, pilaRegion);
         Platform.runLater(() -> animarReparto(stack, mazoView, manoRegion));
+
+        // Cargar el CSS global para cartas visuales
+        stack.getStylesheets().add(getClass().getResource("/carta-visual.css").toExternalForm());
 
         // El StackPane se centra en la ventana y nunca se estira
         BorderPane root = new BorderPane();
