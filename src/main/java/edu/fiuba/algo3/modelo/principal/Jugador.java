@@ -88,4 +88,8 @@ public class Jugador {
     public Carta removerUltimaCartaDeDescarte(){
         return descarte.removerUnidad();
     }
+
+    public Carta getCartaEnDescarte() {
+        return descarte.getCartaPila();
+    }
 }

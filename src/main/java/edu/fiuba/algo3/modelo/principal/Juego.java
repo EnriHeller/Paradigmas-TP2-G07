@@ -123,6 +123,13 @@ public class Juego {
         return tablero;
     }
 
+    public Carta getUltimaCartaDeLaPilaDeDescarte(){
+        Jugador jugadorActualizado = administradorTurno.jugadorActual();
+        return jugadorActualizado.getCartaEnDescarte();
+    }
+
+
+
     public int cartasEnMazoActual() {
         return administradorTurno.jugadorActual().cartasRestantesEnSeccion("Mazo");
     }
