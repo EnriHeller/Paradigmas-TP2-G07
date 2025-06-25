@@ -178,15 +178,6 @@ public class MenuView {
         botonIniciar.setDisable(!(nombresValidos && mazosElegidos));
     }
 
-    private void mostrarAlerta(String titulo, String mensaje) {
-        System.err.println("[" + titulo + "] " + (mensaje != null ? mensaje : "Sin mensaje"));
-        new Exception().printStackTrace(); // Para mostrar el stacktrace de donde se llama
-        Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
-    }
 
     // Sobrecarga para mostrar el stacktrace real de una excepción
     private void mostrarAlerta(String titulo, String mensaje, Throwable ex) {

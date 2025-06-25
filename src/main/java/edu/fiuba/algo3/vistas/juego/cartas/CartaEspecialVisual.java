@@ -13,6 +13,14 @@ public class CartaEspecialVisual extends CartaVisual {
         // Do not call construirVista() here; it will be called externally as with CartaUnidadVisual
     }
 
+    private String normalizarNombreParaImagen(String nombre) {
+        // Quita tildes, espacios, mayúsculas, y caracteres especiales
+        String normalizado = java.text.Normalizer.normalize(nombre, java.text.Normalizer.Form.NFD)
+            .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")
+            .replaceAll("[^A-Za-z0-9]", "");
+        return normalizado;
+    }
+
     @Override
     public void construirVista() {
         String nombreBase;
@@ -27,7 +35,9 @@ public class CartaEspecialVisual extends CartaVisual {
             if (idx > 0) nombreBase = mostrar.substring(0, idx);
             else nombreBase = mostrar;
         }
-        String ruta = "/imagenes/" + nombreBase.replaceAll(" ", "") + ".png";
+        String nombreImagen = normalizarNombreParaImagen(nombreBase);
+        String ruta = "/imagenes/" + nombreImagen + ".png";
+        System.err.println("[CartaEspecialVisual] Buscando imagen: " + ruta);
         Image imagen;
         try {
             imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));

@@ -21,22 +21,32 @@ public class ManoView {
 
     public Region construir() {
         HBox contenedor = new HBox(10); // Espaciado entre cartas
-        //contenedor.setPadding(new Insets(10));
         contenedor.setAlignment(Pos.CENTER);
 
         for (Carta carta : cartas) {
-            CartaVisual visual;
-
-            if (!carta.esEspecial()) {
-                visual = new CartaUnidadVisual((CartaUnidad) carta);
-                visual.construirVista();
-            } else{
-                visual = new CartaEspecialVisual(carta);
-                visual.construirVista();
-            } 
-            contenedor.getChildren().add(visual);
+            try {
+                CartaVisual visual;
+                if (!carta.esEspecial()) {
+                    System.err.println("[ManoView] Renderizando CartaUnidad: " + carta + " (" + carta.getClass().getName() + ") nombre: " + carta.mostrarCarta());
+                    visual = new CartaUnidadVisual((CartaUnidad) carta);
+                    visual.setStyle("-fx-border-color: blue; -fx-background-color: #e0e0e0; -fx-border-width: 2px;"); // Borde y fondo visible para debug
+                    visual.construirVista();
+                } else {
+                    System.err.println("[ManoView] Renderizando CartaEspecial: " + carta + " (" + carta.getClass().getName() + ") nombre: " + carta.mostrarCarta());
+                    visual = new CartaEspecialVisual(carta);
+                    visual.setStyle("-fx-border-color: green; -fx-background-color: #f0fff0; -fx-border-width: 2px;"); // Borde y fondo visible para debug
+                    visual.construirVista();
+                }
+                contenedor.getChildren().add(visual);
+            } catch (Exception e) {
+                System.err.println("[ManoView] Error al renderizar carta: " + carta + " (" + carta.getClass().getName() + ")");
+                System.err.println("[ManoView] Exception: " + e);
+                javafx.scene.control.Label errorLabel = new javafx.scene.control.Label("Error\n" + carta.mostrarCarta());
+                errorLabel.setPrefSize(80, 100);
+                errorLabel.setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-alignment: center;");
+                contenedor.getChildren().add(errorLabel);
+            }
         }
-
         return contenedor;
     }
 }

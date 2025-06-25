@@ -41,6 +41,7 @@ public class JuegoView {
         StackPane.setAlignment(tableroRegion, Pos.CENTER);
 
         // Abajo: vista de la mano
+        
         ManoView mano = new ManoView(juego.mostrarManoActual());
         Region manoRegion = mano.construir();
         StackPane.setAlignment(manoRegion, Pos.BOTTOM_CENTER);

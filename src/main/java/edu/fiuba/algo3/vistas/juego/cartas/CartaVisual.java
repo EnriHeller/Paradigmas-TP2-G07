@@ -24,6 +24,7 @@ public abstract class CartaVisual extends VBox {
         this.setAlignment(Pos.CENTER);
         this.setMouseTransparent(false);
         this.setPickOnBounds(true);
+        
         hoverBorder = new Rectangle(ANCHO, ALTO);
         hoverBorder.setFill(Color.TRANSPARENT);
         hoverBorder.setStroke(Color.YELLOW);
@@ -35,6 +36,7 @@ public abstract class CartaVisual extends VBox {
         mainStack.setMinSize(ANCHO, ALTO);
         mainStack.setMaxSize(ANCHO, ALTO);
         this.getChildren().add(mainStack);
+
         this.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_ENTERED_TARGET, evt -> {
             hoverBorder.setVisible(true);
         });
