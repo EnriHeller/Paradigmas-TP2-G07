@@ -27,6 +27,8 @@ public class ModificadoresFactory {
                 return new Espias(siguienteModificador);
             case "suma valor base":
                 return new SumaValorBase(siguienteModificador);
+            case "morale boost":
+                return new MoraleBoost(siguienteModificador);
             default:
                 throw new IllegalArgumentException("Tipo de modificador no reconocido: " + tipoModificador);
         }

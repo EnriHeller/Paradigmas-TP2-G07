@@ -64,9 +64,7 @@
             {
                 "nombre": "Pirata del Clan Dimun",
                 "puntos": 6,
-                "modificador": [
-                    "Quemar"
-                ],
+                "modificador": [],
                 "seccion": "Rango"
             },
             {

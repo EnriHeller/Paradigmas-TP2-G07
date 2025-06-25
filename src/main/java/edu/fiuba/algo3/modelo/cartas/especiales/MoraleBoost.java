@@ -2,6 +2,7 @@ package edu.fiuba.algo3.modelo.cartas.especiales;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
@@ -11,12 +12,21 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import java.util.List;
 
 public class MoraleBoost extends CartaEspecial implements Carta, Modificador {
+    private Modificador modificador;
 
     public MoraleBoost() {
         this.nombre = "MoraleBoost";
         this.descripcion = "Duplica el valor de las cartas aliadas en la seccion.";
         this.tipo = "Especial";
         this.afectado = List.of("CuerpoACuerpo", "Rango", "Asedio");
+    }
+
+    public MoraleBoost(Modificador siguienteModificador) {
+        this.nombre = "MoraleBoost";
+        this.descripcion = "Duplica el valor de las cartas aliadas en la seccion.";
+        this.tipo = "Especial";
+        this.afectado = List.of("CuerpoACuerpo", "Rango", "Asedio");
+        this.modificador = siguienteModificador;
     }
 
     @Override
