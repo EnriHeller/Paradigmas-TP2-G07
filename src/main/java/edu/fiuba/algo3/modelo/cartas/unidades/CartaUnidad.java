@@ -55,11 +55,11 @@ public class CartaUnidad implements Carta, Puntuable {
         this.valorActual = nuevoValor;
     }
 
-    public void multiplicarValor(int n) {
+    public void multiplicarValor(double n) {
         if(n == 1){
             this.valorActual = this.valorBase;
         }
-        this.valorActual = n * this.valorActual;
+        this.valorActual = (int) (n * this.valorActual);
 
     }
 
