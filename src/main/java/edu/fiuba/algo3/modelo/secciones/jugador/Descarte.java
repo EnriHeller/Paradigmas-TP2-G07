@@ -18,6 +18,9 @@ public class Descarte extends SeccionJugador<Carta> {
     }
 
     public Carta removerUnidad() {
+        if (cartas.isEmpty()) {
+            throw new edu.fiuba.algo3.modelo.modificadores.PilaDescarteNula();
+        }
         return cartas.remove(cartas.size() - 1);
     }
 }

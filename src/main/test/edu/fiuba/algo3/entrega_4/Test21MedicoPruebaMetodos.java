@@ -40,11 +40,21 @@ public class Test21MedicoPruebaMetodos {
         jugador2.agregarMazo(mazoMock2);
         Juego juego = new Juego(jugador1, jugador2);
         jugador1.agregarCartasAMano(10);
-        // Jugar primero una carta base para llenar el descarte
-        CartaUnidad cartaBase = (CartaUnidad) jugador1.cartasEnMano().get(0);
+        // Buscar y jugar una carta base para llenar el descarte
+        CartaUnidad cartaBase = null;
+        for (var carta : jugador1.cartasEnMano()) {
+            if (carta instanceof CartaUnidad && ((CartaUnidad) carta).getModificadores().isEmpty()) {
+                cartaBase = (CartaUnidad) carta;
+                break;
+            }
+        }
+        if (cartaBase == null) {
+            throw new RuntimeException("No se encontró una carta base en la mano para el test");
+        }
+        CartaUnidad finalCartaBase = cartaBase;
         assertDoesNotThrow(() -> {
             try {
-                juego.jugarCarta(cartaBase, new Seccion("CuerpoACuerpo", 0));
+                juego.jugarCarta(finalCartaBase, new Seccion("CuerpoACuerpo", 0));
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage(), e);
             }
@@ -55,13 +65,16 @@ public class Test21MedicoPruebaMetodos {
         juego.definirQuienEmpieza(0);
         // Repartir cartas a la mano para la siguiente jugada
         jugador1.agregarCartasAMano(1);
-        // Ahora jugar una carta Medico
+        // Buscar y jugar una carta Medico
         CartaUnidad cartaMedico = null;
         for (var carta : jugador1.cartasEnMano()) {
             if (carta instanceof CartaUnidad && ((CartaUnidad) carta).getModificadores().contains("Medico")) {
                 cartaMedico = (CartaUnidad) carta;
                 break;
             }
+        }
+        if (cartaMedico == null) {
+            throw new RuntimeException("No se encontró una carta Médico en la mano para el test");
         }
         CartaUnidad finalCartaMedico = cartaMedico;
         assertDoesNotThrow(() -> {
