@@ -10,6 +10,7 @@ import edu.fiuba.algo3.vistas.juego.cartas.MazoView;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -56,11 +57,19 @@ public class JuegoView {
         int cartasRestantes = juego.cartasEnMazoActual();
         MazoView mazoView = new MazoView(cartasRestantes);
         StackPane.setAlignment(mazoView, Pos.BOTTOM_RIGHT);
-        mazoView.setTranslateX(1190);
-        mazoView.setTranslateY(470);
+        mazoView.setTranslateX(1195);
+        mazoView.setTranslateY(465);
 
         stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoView);
         Platform.runLater(() -> animarReparto(stack, mazoView, manoRegion));
+        // Dentro de construir()
+        PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
+        Region pilaRegion = pilaDescarteJugador.construir();
+        StackPane.setAlignment(pilaRegion, Pos.TOP_RIGHT);
+
+        pilaRegion.setTranslateX(1190);
+        pilaRegion.setTranslateY(150);
+        stack.getChildren().addAll(fondoView, tableroRegion, manoRegion, mazoRegion, pilaRegion);
 
         // El StackPane se centra en la ventana y nunca se estira
         BorderPane root = new BorderPane();
@@ -74,7 +83,7 @@ public class JuegoView {
         Image dorso = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/dorso.png")).toExternalForm());
         List<ImageView> animadas = new ArrayList<>();
 
-        double startX = 580; 
+        double startX = 580;
         double startY = 150;
 
         for (int i = 0; i < 10; i++) {
@@ -91,7 +100,7 @@ public class JuegoView {
             TranslateTransition anim = new TranslateTransition(Duration.millis(400), carta);
             anim.setToX(-300 + (i * 80)); // Mayor espaciado entre cartas (85 en lugar de 75)
             anim.setToY(300);             // ajustá también según tu layout
-        
+
             anim.setDelay(Duration.millis(i * 80));
             anim.play();
         }

@@ -23,4 +23,10 @@ public class Descarte extends SeccionJugador<Carta> {
         }
         return cartas.remove(cartas.size() - 1);
     }
+
+    public Carta getCartaPila(){
+        if(cartas.isEmpty())
+            return null;
+        return cartas.get(cartas.size() - 1);
+    }
 }
