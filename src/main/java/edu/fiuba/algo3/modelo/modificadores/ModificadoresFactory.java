@@ -1,5 +1,7 @@
 package edu.fiuba.algo3.modelo.modificadores;
 
+import edu.fiuba.algo3.modelo.cartas.especiales.MoraleBoost;
+
 public class ModificadoresFactory {
     public Modificador crearModificador(String tipoModificador, Modificador siguienteModificador) {
         String normalizado = tipoModificador.trim().toLowerCase().replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
@@ -7,7 +9,6 @@ public class ModificadoresFactory {
         if (
             normalizado.equals("quemar") ||
             normalizado.equals("tierra arrasada") ||
-            normalizado.equals("morale boost") ||
             normalizado.equals("cuerno del comandante") ||
             normalizado.equals("clima")
         ) {

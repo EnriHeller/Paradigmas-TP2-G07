@@ -13,6 +13,12 @@ import javafx.scene.text.Text;
 
 public class CartaUnidadVisual extends CartaVisual {
 
+    private Runnable onClick;
+
+    public void setOnClick(Runnable onClick) {
+        this.onClick = onClick;
+    }
+
     public CartaUnidadVisual(CartaUnidad carta) {
         super(carta);
         // construirVista() se debe llamar externamente después de la construcción
@@ -82,6 +88,10 @@ public class CartaUnidadVisual extends CartaVisual {
         if (!this.getChildren().contains(mainStack)) {
             this.getChildren().add(mainStack);
         }
+
+        this.setOnMouseClicked(e -> {
+            if (onClick != null) onClick.run();
+        });
 
         this.setOnMouseEntered(e -> this.setCursor(javafx.scene.Cursor.HAND));
         this.setOnMouseExited(e -> this.setCursor(javafx.scene.Cursor.DEFAULT));

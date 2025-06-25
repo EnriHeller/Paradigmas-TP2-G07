@@ -26,11 +26,14 @@ public class TableroView {
     private Carta cartaElegida;
     private final List<HBox> seccionesVisuales = new ArrayList<>(); // Para mantener referencias
 
+    public void setCartaElegida(Carta carta) {
+        System.out.println("Carta elegida: " + carta.mostrarCarta());
+        this.cartaElegida = carta;
+    }
+
     public TableroView(Tablero tablero) {
         this.tablero = tablero;
     }
-
-
 
     public Region construir() {
         StackPane root = new StackPane();

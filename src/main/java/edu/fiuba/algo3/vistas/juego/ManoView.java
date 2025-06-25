@@ -2,6 +2,7 @@ package edu.fiuba.algo3.vistas.juego;
 
 import java.util.List;
 
+import edu.fiuba.algo3.controller.CartaClickHandler;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaEspecialVisual;
@@ -14,9 +15,11 @@ import javafx.scene.layout.Region;
 public class ManoView {
 
     private final List<Carta> cartas;
+    private final CartaClickHandler handler;
 
-    public ManoView(List<Carta> cartas) {
+    public ManoView(List<Carta> cartas, CartaClickHandler handler) {
         this.cartas = cartas;
+        this.handler = handler;
     }
 
     public Region construir() {
@@ -35,6 +38,8 @@ public class ManoView {
                     visual.setStyle("-fx-border-color: green; -fx-background-color: #f0fff0; -fx-border-width: 2px;"); // Borde y fondo visible para debug
                     visual.construirVista();
                 }
+
+                visual.setOnMouseClicked(e -> handler.alClic(carta)); // <- aquí se comunica
                 contenedor.getChildren().add(visual);
             } catch (Exception e) {
                 javafx.scene.control.Label errorLabel = new javafx.scene.control.Label("Error\n" + carta.mostrarCarta());

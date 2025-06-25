@@ -66,7 +66,9 @@ public class JuegoView {
         bloqueJuego.getChildren().add(tableroRegion);
 
         // Mano (abajo, centrada respecto al bloque)
-        ManoView mano = new ManoView(juego.mostrarManoActual());
+        ManoView mano = new ManoView(juego.mostrarManoActual(), carta -> {
+            tablero.setCartaElegida(carta); // <- conecta la carta clickeada
+        });
         Region manoRegion = mano.construir();
         manoRegion.setLayoutX(310); // Ajusta según el diseño
         manoRegion.setLayoutY(560); // Ajusta según el diseño

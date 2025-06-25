@@ -5,6 +5,7 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 
 import java.util.List;
@@ -45,10 +46,19 @@ public class MoraleBoost extends CartaEspecial implements Carta, Modificador {
         for (CartaUnidad carta : cartasActuales) {
             carta.multiplicarValor(0.5);
         }
+
+        modificador.retrotraerContexto(contexto);
+
     }
 
     @Override
     public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError {
+
+        try {
+            modificador.modificar(contextoModificador);
+        } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {
+        }
+
         Seccion seccion = contextoModificador.getSeccion();
         List<CartaUnidad> cartasActuales = seccion.getCartas();
         for (CartaUnidad carta : cartasActuales) {
