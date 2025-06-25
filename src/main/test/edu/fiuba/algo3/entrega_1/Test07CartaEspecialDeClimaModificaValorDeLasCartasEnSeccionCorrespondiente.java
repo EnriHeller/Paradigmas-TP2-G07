@@ -1,13 +1,12 @@
 package edu.fiuba.algo3.entrega_1;
 
 import edu.fiuba.algo3.mocks.CartaUnidadMock;
-import edu.fiuba.algo3.mocks.CartaEspecialMock;
 import edu.fiuba.algo3.mocks.ConstructorDeMazoMock;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.cartas.especiales.CartaNevada;
+import edu.fiuba.algo3.modelo.cartas.especiales.EscarchaMordaz;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,7 +35,7 @@ public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespo
             juego.jugarCarta(carta2, seccionSimulada);
             int actual = juego.puntajeEnSeccion(seccionSimulada);
             assertEquals(16, actual);
-            CartaNevada cartaClima = new CartaNevada();
+            EscarchaMordaz cartaClima = new EscarchaMordaz();
             juego.jugarCarta(cartaClima, seccionSimulada);
             actual = juego.puntajeEnSeccion(seccionSimulada);
             assertEquals(2, actual);

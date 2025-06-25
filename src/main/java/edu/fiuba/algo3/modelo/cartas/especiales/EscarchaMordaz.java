@@ -8,9 +8,9 @@ import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayCli
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
-public class CartaNevada implements CartaClimatica, Carta, Modificador {
+public class EscarchaMordaz implements CartaClimatica, Carta, Modificador {
 
-    public CartaNevada(){
+    public EscarchaMordaz(){
 
     }
 
@@ -35,7 +35,7 @@ public class CartaNevada implements CartaClimatica, Carta, Modificador {
 
     @Override
     public Clima crearClima() {
-        return (new ClimaNevado());
+        return (new ClimaUnidades1Puntaje());
     }
 
     @Override

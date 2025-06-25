@@ -2,7 +2,7 @@ package edu.fiuba.algo3.modelo.cartas;
 
 import java.util.List;
 
-import edu.fiuba.algo3.modelo.cartas.especiales.CartaNevada;
+import edu.fiuba.algo3.modelo.cartas.especiales.EscarchaMordaz;
 import edu.fiuba.algo3.modelo.cartas.especiales.MoraleBoost;
 import edu.fiuba.algo3.modelo.cartas.especiales.TierraArrasada;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
@@ -21,16 +21,16 @@ public class CartasFactory {
                         return new MoraleBoost(); // Si tienes la clase
                     case "clima":
                         // Para todos los climas, usa una sola clase robusta
-                        return new CartaNevada();
+                        return new EscarchaMordaz();
                     default:
-                        break;
+                        return null;
                 }
             }
             // Si no se reconoce el tipo, devuelve una carta dummy robusta
-            return new CartaNevada();
+            return new EscarchaMordaz();
         }
         // Si no es ni unidad ni especial, devuelve una carta dummy robusta
-        return new CartaNevada();
+        return new EscarchaMordaz();
     }
 }
 
