@@ -3,6 +3,7 @@ package edu.fiuba.algo3.vistas;
 import java.util.Objects;
 
 import edu.fiuba.algo3.App;
+import edu.fiuba.algo3.controller.Audio;
 import edu.fiuba.algo3.controller.Menu;
 import edu.fiuba.algo3.controller.Utils;
 import edu.fiuba.algo3.modelo.principal.Juego;
@@ -12,6 +13,8 @@ import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.vistas.juego.JuegoView;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -19,14 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 public class MenuView {
 
@@ -42,10 +38,12 @@ public class MenuView {
     @FXML private Button botonMazo1J2 = new Button("Mazo A");
     @FXML private Button botonMazo2J2 = new Button("Mazo B");
 
+
     @FXML
     public Parent construir() {
         BorderPane layout = new BorderPane();
         layout.setPrefSize(App.WIDTH, App.HEIGHT);
+
 
         // Fondo
         Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/menu2.png")).toExternalForm());
@@ -66,6 +64,16 @@ public class MenuView {
         VBox seccionJ1 = construirSeccionJugador("Jugador 1", inputJ1, true);
         VBox seccionJ2 = construirSeccionJugador("Jugador 2", inputJ2, false);
 
+        BotonMusica botonMusica = new BotonMusica();
+        Button botonMusicaReal = botonMusica.crear();
+        botonMusicaReal.setLayoutX(1000);
+        botonMusicaReal.setLayoutX(0);
+
+        HBox contenedorMusica = new HBox(botonMusicaReal);
+        contenedorMusica.setAlignment(Pos.TOP_RIGHT);
+        contenedorMusica.setPadding(new Insets(10));
+        layout.setTop(contenedorMusica);
+
         seccionesJugadores.getChildren().addAll(seccionJ1, seccionJ2);
         layout.setCenter(seccionesJugadores);
 
@@ -83,6 +91,10 @@ public class MenuView {
                 JuegoView juegoView = new JuegoView(juego);
 
                 Utils.cambiarEscena(new Scene(juegoView.construir(), App.WIDTH, App.HEIGHT));
+                Audio audio = Audio.getInstance();
+                audio.stop();
+                audio.play("/audio/escapism.wav");
+
             } catch (TipoDeSeccionInvalidaError ex) {
                 mostrarAlerta("Error: TipoDeSeccionInvalidaError", ex.getMessage(), ex);
             } catch (NoSePuedeCumplirSolicitudDeCartas ex) {

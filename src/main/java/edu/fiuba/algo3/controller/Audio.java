@@ -15,6 +15,9 @@ import javax.sound.sampled.*;
 public final class Audio {
     private static Audio instancia;
     Clip clip;
+    private String musicaActual;
+    private boolean activo;
+
     private Audio (){
     }
     public void play(String ubicacionAudio) {
@@ -25,7 +28,8 @@ public final class Audio {
                 System.out.println("No se encontró el archivo cs16.wav en el classpath.");
                 return;
             }
-
+            this.musicaActual = ubicacionAudio;
+            this.activo = true;
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundURL);
             clip = AudioSystem.getClip();
             clip.open(audioStream);
@@ -41,6 +45,21 @@ public final class Audio {
         return instancia;
     }
     public void stop() {
+        activo = false;
         clip.stop();
+    }
+
+    public void activar() {
+        activo = true;
+        play(musicaActual);
+    }
+
+
+    public boolean estaActivo() {
+        return activo; //musica esta activa?
+    }
+
+    public String getMusicaActual() {
+        return musicaActual;
     }
 }
