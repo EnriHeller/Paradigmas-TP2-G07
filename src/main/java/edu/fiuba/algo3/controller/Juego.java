@@ -1,12 +1,17 @@
 package edu.fiuba.algo3.controller;
 
+import java.util.Objects;
+
 import edu.fiuba.algo3.vistas.juego.TableroView;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
-
-import java.util.Objects;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
 
 public class Juego {
     private final edu.fiuba.algo3.modelo.principal.Juego juego;
@@ -36,9 +41,10 @@ public class Juego {
         layout.setTop(nombreJ2);
         BorderPane.setAlignment(nombreJ2, Pos.TOP_CENTER);
 
-        // Centro: vista del tablero
-        TableroView tablero = new TableroView(juego.getTablero(), juego);
-        layout.setCenter(tablero.construir());
+        // Centro: vista del tablero usando TableroController
+        TableroController tableroController = new TableroController(juego);
+        TableroView tableroView = new TableroView(tableroController);
+        layout.setCenter(tableroView.construir());
         return layout;
     }
 }

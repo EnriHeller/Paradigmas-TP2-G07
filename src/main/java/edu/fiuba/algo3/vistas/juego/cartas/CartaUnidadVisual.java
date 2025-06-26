@@ -3,6 +3,7 @@ package edu.fiuba.algo3.vistas.juego.cartas;
 import java.util.Objects;
 
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -88,7 +89,14 @@ public class CartaUnidadVisual extends CartaVisual {
         this.getChildren().clear();
         setTamanioEstandar();
         mainStack.getChildren().clear();
-        mainStack.getChildren().addAll(vistaImagen, overlayPane, hoverBorder); // overlay entre imagen y hoverBorder
+        mainStack.getChildren().addAll(vistaImagen, overlayPane, hoverBorder);
+        if (!mainStack.getChildren().contains(infoOverlay)) {
+            mainStack.getChildren().add(infoOverlay);
+        }
+        // Hacer el overlay de info adaptable y con padding
+        //infoOverlay.setPrefWidth(USE_COMPUTED_SIZE);
+        infoOverlay.setMinWidth(300); // Mínimo razonable
+
         if (!this.getChildren().contains(mainStack)) {
             this.getChildren().add(mainStack);
         }
@@ -99,5 +107,35 @@ public class CartaUnidadVisual extends CartaVisual {
 
         this.setOnMouseEntered(e -> this.setCursor(javafx.scene.Cursor.HAND));
         this.setOnMouseExited(e -> this.setCursor(javafx.scene.Cursor.DEFAULT));
+    }
+
+    @Override
+    public void construirCamposInfo() {
+        infoOverlay.getChildren().clear();
+        try {
+            CartaUnidad unidad = (CartaUnidad) carta;
+            Label nombre = new Label("Nombre: " + unidad.getNombre());
+            nombre.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+            infoOverlay.getChildren().add(nombre);
+
+            String secciones = String.join(", ", unidad.getSecciones());
+            Label seccion = new Label("Sección: " + secciones);
+            seccion.setStyle("-fx-text-fill: #e0e0e0;");
+            infoOverlay.getChildren().add(seccion);
+
+            Label valor = new Label("Valor: " + unidad.ValorActual());
+            valor.setStyle("-fx-text-fill: #ffd700;");
+            infoOverlay.getChildren().add(valor);
+
+            String mods = unidad.getModificadores();
+            if (mods != null && !mods.isEmpty() && !mods.equals("Base")) {
+                Label modificadores = new Label("Modificadores: " + mods);
+                modificadores.setStyle("-fx-text-fill: #b0e57c;");
+                infoOverlay.getChildren().add(modificadores);
+            }
+        } catch (Exception e) {
+            infoOverlay.getChildren().add(new Label("Error mostrando info de carta unidad."));
+            System.err.println("[CartaUnidadVisual] Error en construirCamposInfo: " + e);
+        }
     }
 }

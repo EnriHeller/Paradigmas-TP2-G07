@@ -1,14 +1,11 @@
 package edu.fiuba.algo3.vistas.juego.cartas;
 
+import java.util.Objects;
+
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-
-import java.util.Objects;
 
 public class CartaReversoVisual extends CartaVisual {
     public CartaReversoVisual(Carta carta) {
@@ -38,5 +35,11 @@ public class CartaReversoVisual extends CartaVisual {
         this.setMaxSize(70, 90);
         this.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
         this.getChildren().add(stack);
+    }
+
+    @Override
+    public void construirCamposInfo() {
+        // No muestra overlay de información para el reverso
+        infoOverlay.getChildren().clear();
     }
 }

@@ -4,32 +4,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import edu.fiuba.algo3.controller.TableroController;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
-import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 
 public class TableroView {
-    private final Tablero tablero;
     private final int seccionWidth = 650;
     private final int seccionHeight = 75;
     private final int tableroWidth = 1300;
     private final int tableroHeight = 700;
 
     private Carta cartaElegida;
+    private final TableroController tableroController;
     private HBox contenedorMano;
     private final List<HBox> seccionesVisuales = new ArrayList<>();
-    private Juego juego;
+    private Pane overlayActual;
+    private StackPane rootStackPane;
 
     public void setCartaElegida(Carta carta) {
         System.out.println("Carta elegida: " + carta.mostrarCarta());
@@ -40,16 +47,15 @@ public class TableroView {
         this.contenedorMano = contenedorMano;
     }
 
-    public TableroView(Tablero tablero, Juego juego) {
-        this.tablero = tablero;
-        this.juego = juego;
+    public TableroView(TableroController tableroController) {
+        this.tableroController = tableroController;
     }
 
     public Region construir() {
-        StackPane root = new StackPane();
-        root.setPrefSize(tableroWidth, tableroHeight);
-        root.setMinSize(tableroWidth, tableroHeight);
-        root.setMaxSize(tableroWidth, tableroHeight);
+        rootStackPane = new StackPane();
+        rootStackPane.setPrefSize(tableroWidth, tableroHeight);
+        rootStackPane.setMinSize(tableroWidth, tableroHeight);
+        rootStackPane.setMaxSize(tableroWidth, tableroHeight);
 
         // Fondo del tablero
         try {
@@ -62,33 +68,33 @@ public class TableroView {
                     BackgroundPosition.DEFAULT,
                     bgSize
             );
-            root.setBackground(new Background(bgImg));
+            rootStackPane.setBackground(new Background(bgImg));
         } catch (Exception e) {
             System.err.println("[ERROR] No se pudo cargar emptyBoard.png: " + e);
         }
 
         Pane overlay = new Pane();
-        overlay.prefWidthProperty().bind(root.widthProperty());
-        overlay.prefHeightProperty().bind(root.heightProperty());
+        overlay.prefWidthProperty().bind(rootStackPane.widthProperty());
+        overlay.prefHeightProperty().bind(rootStackPane.heightProperty());
+        overlayActual = overlay;
 
         int x_seccion = 396;
         int ultimo_y = 10;
         int espacio = 14;
 
-        List<String> claves = List.of("Asedio1", "Rango1", "CuerpoACuerpo1", "Asedio0", "Rango0", "CuerpoACuerpo0");
+        List<String> claves = tableroController.getClavesSecciones();
 
         for (String clave : claves) {
             agregarSeccion(overlay, clave, x_seccion, ultimo_y);
             ultimo_y += espacio + seccionHeight;
         }
 
-        root.getChildren().add(overlay);
-        return root;
+        rootStackPane.getChildren().add(overlayActual);
+        return rootStackPane;
     }
 
     private void agregarSeccion(Pane contenedor, String clave, double x, double y) {
-        Seccion seccion = tablero.obtenerSeccionPorClave(clave);
-
+        // Seccion y datos del modelo a través del controller
         // Contenedor de fila: [puntaje] [cartas]
         HBox fila = new HBox(10);
         fila.setLayoutX(x);
@@ -96,7 +102,7 @@ public class TableroView {
         fila.setPrefHeight(seccionHeight);
 
         // Label de puntaje
-        Label puntajeLabel = new Label(String.valueOf(seccion.getPuntajeTotal()));
+        Label puntajeLabel = new Label(String.valueOf(tableroController.getPuntajeSeccion(clave)));
         HBox.setMargin(puntajeLabel, new Insets(0, 14, 0, 0));
         puntajeLabel.setFont(Font.font("Arial", 18));
         puntajeLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
@@ -119,19 +125,19 @@ public class TableroView {
         // Acción al hacer click en una sección
         visual.setOnMouseClicked(event -> {
             if (cartaElegida != null && (!cartaElegida.esEspecial())) {
-                if (seccion.puedeAgregar((CartaUnidad) cartaElegida)) {
+                if (tableroController.puedeAgregar(clave, (CartaUnidad) cartaElegida)) {
                     try {
-                        juego.jugarCarta(cartaElegida, seccion);
+                        tableroController.jugarCarta(cartaElegida, clave);
                     } catch (TipoDeSeccionInvalidaError ignored) {
                     }
-                    actualizarSeccion(visual, puntajeLabel, (CartaUnidad) cartaElegida, seccion);
+                    actualizarSeccion(visual, puntajeLabel, (CartaUnidad) cartaElegida, clave);
                     removerCartaDeLaMano((CartaUnidad) cartaElegida);
                     cartaElegida = null;
                 }
             }
         });
 
-        for (CartaUnidad carta : seccion.getCartas()) {
+        for (CartaUnidad carta : tableroController.getCartasEnSeccion(clave)) {
             CartaUnidadVisual cartaVisual = new CartaUnidadVisual(carta);
             cartaVisual.construirVista();
             visual.getChildren().add(cartaVisual);
@@ -142,14 +148,14 @@ public class TableroView {
         seccionesVisuales.add(visual);
     }
 
-    private void actualizarSeccion(HBox visual, Label puntajeLabel, CartaUnidad cartaUnidad, Seccion seccion) {
+    private void actualizarSeccion(HBox visual, Label puntajeLabel, CartaUnidad cartaUnidad, String claveSeccion) {
         CartaUnidadVisual cartaVisual = new CartaUnidadVisual(cartaUnidad);
         cartaVisual.setStyle("-fx-border-color: blue; -fx-background-color: #e0e0e0; -fx-border-width: 2px;");
         cartaVisual.construirVista();
         visual.getChildren().add(cartaVisual);
 
         // Actualizar puntaje
-        puntajeLabel.setText(String.valueOf(seccion.getPuntajeTotal()));
+        puntajeLabel.setText(String.valueOf(tableroController.getPuntajeSeccion(claveSeccion)));
     }
 
     private void removerCartaDeLaMano(CartaUnidad carta) {
@@ -170,7 +176,7 @@ public class TableroView {
 
     public void refrescar() {
         limpiarTablero();
-        seccionesVisuales.clear(); // Esto limpia referencias anteriores
+        seccionesVisuales.clear();
 
         Pane nuevoOverlay = new Pane();
         nuevoOverlay.prefWidthProperty().setValue(tableroWidth);
@@ -187,10 +193,11 @@ public class TableroView {
             ultimo_y += espacio + seccionHeight;
         }
 
-        // Quitar el overlay viejo y poner el nuevo
-        StackPane parent = (StackPane) seccionesVisuales.get(0).getParent().getParent();
-        parent.getChildren().remove(1); // Remueve el viejo Pane (overlay)
-        parent.getChildren().add(nuevoOverlay); // Agrega el nuevo
+        if (rootStackPane != null && overlayActual != null) {
+            rootStackPane.getChildren().remove(overlayActual);
+            rootStackPane.getChildren().add(nuevoOverlay);
+            overlayActual = nuevoOverlay;
+        }
     }
 
 

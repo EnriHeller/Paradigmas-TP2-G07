@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.fiuba.algo3.controller.FinalizadorDeJuego;
+import edu.fiuba.algo3.controller.TableroController;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
@@ -59,7 +60,8 @@ public class JuegoView {
         bloqueJuego.setMaxSize(1300, 700);
 
         // Tablero (centrado dentro del bloque)
-        TableroView tablero = new TableroView(juego.getTablero(), juego);
+        TableroController tableroController = new TableroController(juego);
+        TableroView tablero = new TableroView(tableroController);
         Region tableroRegion = tablero.construir();
         tableroRegion.setLayoutX(0); // El tablero ya está centrado en su propio StackPane
         tableroRegion.setLayoutY(0);

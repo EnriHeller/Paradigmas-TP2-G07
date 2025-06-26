@@ -3,6 +3,7 @@ package edu.fiuba.algo3.vistas.juego.cartas;
 import java.util.Objects;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -56,22 +57,88 @@ public class CartaEspecialVisual extends CartaVisual {
         textoE.setFill(javafx.scene.paint.Color.WHITE);
         textoE.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
         javafx.scene.layout.StackPane overlay = new javafx.scene.layout.StackPane(circulo, textoE);
+        
         overlay.setPickOnBounds(false);
         overlay.setMouseTransparent(true);
         overlay.setTranslateX(0); // igual que unidades
         overlay.setTranslateY(0);
-        overlay.setMaxSize(26,26);
-        overlay.setMinSize(26,26);
-        overlay.setPrefSize(26,26);
         javafx.scene.layout.Pane overlayPane = new javafx.scene.layout.Pane(overlay);
         overlayPane.setPrefSize(0,0);
         overlayPane.setMouseTransparent(true);
 
         setTamanioEstandar();
         mainStack.getChildren().clear();
-        mainStack.getChildren().addAll(vistaImagen, overlayPane, hoverBorder); // overlay entre imagen y hoverBorder
+        mainStack.getChildren().addAll(vistaImagen, overlayPane, hoverBorder);
+        if (!mainStack.getChildren().contains(infoOverlay)) {
+            mainStack.getChildren().add(infoOverlay);
+        }
+        // Configuración de tamaño: ancho adaptable, sin altura fija
+        infoOverlay.setMaxWidth(600);
+        infoOverlay.setPrefWidth(USE_COMPUTED_SIZE);
+        infoOverlay.setMinWidth(300);
+
+        infoOverlay.setPrefHeight(USE_COMPUTED_SIZE);
+        infoOverlay.setMinHeight(120);
+        infoOverlay.setMaxHeight(Double.MAX_VALUE);
 
         this.setOnMouseEntered(e -> this.setCursor(javafx.scene.Cursor.HAND));
         this.setOnMouseExited(e -> this.setCursor(javafx.scene.Cursor.DEFAULT));
+    }
+
+    @Override
+    public void construirCamposInfo() {
+        infoOverlay.getChildren().clear();
+        try {
+            // Usar reflexión para obtener los campos si existen
+            String nombre = null, tipo = null, descripcion = null;
+            java.util.List<String> afectados = null;
+            try {
+                nombre = (String) carta.getClass().getMethod("getNombre").invoke(carta);
+            } catch (ReflectiveOperationException | SecurityException ignored) {}
+            try {
+                tipo = (String) carta.getClass().getMethod("getTipo").invoke(carta);
+            } catch (ReflectiveOperationException | SecurityException ignored) {}
+            try {
+                descripcion = (String) carta.getClass().getMethod("getDescripcion").invoke(carta);
+            } catch (ReflectiveOperationException | SecurityException ignored) {}
+            try {
+                Object afectadosObj = carta.getClass().getMethod("getAfectado").invoke(carta);
+                if (afectadosObj instanceof java.util.List<?>) {
+                    afectados = new java.util.ArrayList<>();
+                    for (Object o : (java.util.List<?>) afectadosObj) {
+                        if (o != null) afectados.add(o.toString());
+                    }
+                }
+            } catch (ReflectiveOperationException | SecurityException ignored) {}
+
+            if (nombre != null) {
+                Label l = new Label("Nombre: " + nombre);
+                l.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+                infoOverlay.getChildren().add(l);
+            } else {
+                Label l = new Label("Nombre: " + carta.mostrarCarta());
+                l.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+                infoOverlay.getChildren().add(l);
+            }
+            if (tipo != null) {
+                Label l = new Label("Tipo: " + tipo);
+                l.setStyle("-fx-text-fill: #e0e0e0;");
+                infoOverlay.getChildren().add(l);
+            }
+            if (afectados != null && !afectados.isEmpty()) {
+                Label l = new Label("Afecta: " + String.join(", ", afectados));
+                l.setStyle("-fx-text-fill: #b0e57c;");
+                infoOverlay.getChildren().add(l);
+            }
+            if (descripcion != null && !descripcion.isEmpty()) {
+                Label l = new Label(descripcion);
+                l.setWrapText(true);
+                l.setStyle("-fx-text-fill: #cccccc; -fx-font-size: 11;");
+                infoOverlay.getChildren().add(l);
+            }
+        } catch (Exception e) {
+            infoOverlay.getChildren().add(new Label("Error mostrando info de carta especial."));
+            System.err.println("[CartaEspecialVisual] Error en construirCamposInfo: " + e);
+        }
     }
 }

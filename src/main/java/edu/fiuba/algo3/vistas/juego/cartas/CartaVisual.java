@@ -17,6 +17,7 @@ public abstract class CartaVisual extends VBox {
     public static final int ALTO = 100;
     protected Rectangle hoverBorder;
     protected StackPane mainStack;
+    protected VBox infoOverlay;
 
     public CartaVisual(Carta carta) {
         this.carta = carta;
@@ -37,13 +38,38 @@ public abstract class CartaVisual extends VBox {
         mainStack.setMaxSize(ANCHO, ALTO);
         this.getChildren().add(mainStack);
 
+        // Overlay de información
+        infoOverlay = new VBox();
+        infoOverlay.setVisible(false);
+        infoOverlay.setMouseTransparent(true);
+        infoOverlay.setStyle("-fx-background-color: rgba(30,30,30,0.95); -fx-border-color: gold; -fx-border-width: 2; -fx-background-radius: 8; -fx-border-radius: 8;");
+        infoOverlay.setPadding(new Insets(8));
+        infoOverlay.setSpacing(4);
+        infoOverlay.setMaxWidth(180);
+        infoOverlay.setTranslateY(-ALTO - 10); // Aparece arriba de la carta
+        infoOverlay.setAlignment(Pos.TOP_LEFT);
+        mainStack.getChildren().add(infoOverlay);
+
         this.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_ENTERED_TARGET, evt -> {
             hoverBorder.setVisible(true);
+            construirCamposInfo();
+            infoOverlay.setVisible(true);
+            infoOverlay.toFront();
         });
         this.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_EXITED_TARGET, evt -> {
             hoverBorder.setVisible(false);
+            infoOverlay.setVisible(false);
         });
     }
+
+    protected void mostrarInfoOverlay() {
+        infoOverlay.getChildren().clear();
+        construirCamposInfo();
+        infoOverlay.setVisible(true);
+    }
+
+    // Cada subclase debe implementar esto para mostrar los campos correctos
+    public abstract void construirCamposInfo();
 
     protected void setTamanioEstandar() {
         this.setPrefSize(ANCHO, ALTO);
