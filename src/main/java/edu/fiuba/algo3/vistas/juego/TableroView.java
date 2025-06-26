@@ -15,7 +15,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
-
 public class TableroView {
     private final Tablero tablero;
     private final int seccionWidth = 630;
@@ -24,7 +23,7 @@ public class TableroView {
     private final int tableroHeight = 700;
 
     private Carta cartaElegida;
-    private final List<HBox> seccionesVisuales = new ArrayList<>(); // Para mantener referencias
+    private final List<HBox> seccionesVisuales = new ArrayList<>();
 
     public void setCartaElegida(Carta carta) {
         System.out.println("Carta elegida: " + carta.mostrarCarta());
@@ -41,16 +40,16 @@ public class TableroView {
         root.setMinSize(tableroWidth, tableroHeight);
         root.setMaxSize(tableroWidth, tableroHeight);
 
-        // Fondo del tablero (emptyBoard.png)
+        // Fondo del tablero
         try {
             Image boardBg = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/emptyBoard.png")).toExternalForm());
             javafx.scene.layout.BackgroundSize bgSize = new javafx.scene.layout.BackgroundSize(tableroWidth, tableroHeight, false, false, false, false);
             javafx.scene.layout.BackgroundImage bgImg = new javafx.scene.layout.BackgroundImage(
-                boardBg,
-                javafx.scene.layout.BackgroundRepeat.NO_REPEAT,
-                javafx.scene.layout.BackgroundRepeat.NO_REPEAT,
-                javafx.scene.layout.BackgroundPosition.DEFAULT,
-                bgSize
+                    boardBg,
+                    javafx.scene.layout.BackgroundRepeat.NO_REPEAT,
+                    javafx.scene.layout.BackgroundRepeat.NO_REPEAT,
+                    javafx.scene.layout.BackgroundPosition.DEFAULT,
+                    bgSize
             );
             root.setBackground(new javafx.scene.layout.Background(bgImg));
         } catch (Exception e) {
@@ -58,8 +57,6 @@ public class TableroView {
         }
 
         Pane overlay = new Pane();
-
-        // El overlay se ajusta al tamaño del StackPane (que es el tamaño de la imagen de fondo)
         overlay.prefWidthProperty().bind(root.widthProperty());
         overlay.prefHeightProperty().bind(root.heightProperty());
 
@@ -71,7 +68,7 @@ public class TableroView {
 
         for (String clave : claves) {
             agregarSeccion(overlay, clave, x_seccion, ultimo_y);
-            ultimo_y = ultimo_y + espacio + seccionHeight;
+            ultimo_y += espacio + seccionHeight;
         }
 
         root.getChildren().add(overlay);
@@ -80,42 +77,41 @@ public class TableroView {
 
     private void agregarSeccion(Pane contenedor, String clave, double x, double y) {
         Seccion seccion = tablero.obtenerSeccionPorClave(clave);
-
         HBox visual = new HBox(5);
-
-        //visual.setStyle("-fx-background-color: rgba(255,255,255,0.15); -fx-border-color: black;");
         visual.setStyle("-fx-background-color: transparent; -fx-border-color: black;");
-        visual.setPrefSize(seccionWidth, seccionHeight); // ancho ajustado a la imagen
+        visual.setPrefSize(seccionWidth, seccionHeight);
         visual.setLayoutX(x);
         visual.setLayoutY(y);
 
         visual.setOnMouseClicked(event -> {
-            if(cartaElegida != null){
-                seccion.agregarCarta((CartaUnidad) cartaElegida);
-                //Re-renderizar la seccion actualizada
-                actualizarSeccion(visual, (CartaUnidad) cartaElegida);
+            if (cartaElegida != null) {
+                CartaUnidad cartaUnidad = (CartaUnidad) cartaElegida;
+                seccion.agregarCarta(cartaUnidad);
+                actualizarSeccion(visual, cartaUnidad);
                 cartaElegida = null;
             }
         });
 
         for (CartaUnidad carta : seccion.getCartas()) {
-            visual.getChildren().add(new CartaUnidadVisual(carta));
+            CartaUnidadVisual cartaVisual = new CartaUnidadVisual(carta);
+            cartaVisual.construirVista();
+            visual.getChildren().add(cartaVisual);
         }
+
         contenedor.getChildren().add(visual);
-        seccionesVisuales.add(visual); // Guardamos la referencia para poder limpiar después
+        seccionesVisuales.add(visual);
     }
 
-    private void actualizarSeccion(HBox visual, CartaUnidad cartaElegida){
-        // Se agrega la carta al HBox
-        visual.getChildren().add(new CartaUnidadVisual(cartaElegida));
+    private void actualizarSeccion(HBox visual, CartaUnidad cartaUnidad) {
+        CartaUnidadVisual cartaVisual = new CartaUnidadVisual(cartaUnidad);
+        cartaVisual.setStyle("-fx-border-color: blue; -fx-background-color: #e0e0e0; -fx-border-width: 2px;");
+        cartaVisual.construirVista();
+        visual.getChildren().add(cartaVisual);
     }
 
-
-   // Método para limpiar todo el tablero al cambio de ronda
     public void limpiarTablero() {
         for (HBox seccionVisual : seccionesVisuales) {
             seccionVisual.getChildren().clear();
         }
     }
-
 }

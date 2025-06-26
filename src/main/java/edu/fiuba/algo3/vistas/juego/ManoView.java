@@ -16,6 +16,7 @@ public class ManoView {
 
     private final List<Carta> cartas;
     private final CartaClickHandler handler;
+    private HBox contenedor;
 
     public ManoView(List<Carta> cartas, CartaClickHandler handler) {
         this.cartas = cartas;
@@ -23,7 +24,7 @@ public class ManoView {
     }
 
     public Region construir() {
-        HBox contenedor = new HBox(10); // Espaciado entre cartas
+        contenedor = new HBox(10);
         contenedor.setAlignment(Pos.CENTER);
 
         for (Carta carta : cartas) {
@@ -31,16 +32,23 @@ public class ManoView {
                 CartaVisual visual;
                 if (!carta.esEspecial()) {
                     visual = new CartaUnidadVisual((CartaUnidad) carta);
-                    visual.setStyle("-fx-border-color: blue; -fx-background-color: #e0e0e0; -fx-border-width: 2px;"); // Borde y fondo visible para debug
+                    visual.setStyle("-fx-border-color: blue; -fx-background-color: #e0e0e0; -fx-border-width: 2px;");
                     visual.construirVista();
                 } else {
                     visual = new CartaEspecialVisual(carta);
-                    visual.setStyle("-fx-border-color: green; -fx-background-color: #f0fff0; -fx-border-width: 2px;"); // Borde y fondo visible para debug
+                    visual.setStyle("-fx-border-color: green; -fx-background-color: #f0fff0; -fx-border-width: 2px;");
                     visual.construirVista();
                 }
 
-                visual.setOnMouseClicked(e -> handler.alClic(carta)); // <- aquí se comunica
+                Carta cartaActual = carta; // Necesario para lambda final
+                visual.setOnMouseClicked(e -> {
+                    handler.alClic(cartaActual);
+                    cartas.remove(cartaActual);           // Lógica
+                    contenedor.getChildren().remove(visual); // Visual
+                });
+
                 contenedor.getChildren().add(visual);
+
             } catch (Exception e) {
                 javafx.scene.control.Label errorLabel = new javafx.scene.control.Label("Error\n" + carta.mostrarCarta());
                 errorLabel.setPrefSize(80, 100);
@@ -48,6 +56,7 @@ public class ManoView {
                 contenedor.getChildren().add(errorLabel);
             }
         }
+
         return contenedor;
     }
 }
