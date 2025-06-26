@@ -29,6 +29,7 @@ public class ManoView {
 
         for (Carta carta : cartas) {
             try {
+                Carta cartaActual = carta; // Necesario para lambda final
                 CartaVisual visual;
                 if (!carta.esEspecial()) {
                     visual = new CartaUnidadVisual((CartaUnidad) carta);
@@ -37,10 +38,10 @@ public class ManoView {
                 } else {
                     visual = new CartaEspecialVisual(carta);
                     visual.setStyle("-fx-border-color: green; -fx-background-color: #f0fff0; -fx-border-width: 2px;");
+
                     visual.construirVista();
                 }
 
-                Carta cartaActual = carta; // Necesario para lambda final
                 visual.setOnMouseClicked(e -> {
                     handler.alClic(cartaActual);
                     cartas.remove(cartaActual);           // Lógica

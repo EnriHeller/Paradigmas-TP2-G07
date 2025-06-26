@@ -83,6 +83,14 @@ public class TableroView {
         visual.setLayoutX(x);
         visual.setLayoutY(y);
 
+        visual.setOnMouseEntered(event -> {
+            visual.setStyle("-fx-background-color: rgba(200,200,200,0.4); -fx-border-color: gray; -fx-border-width: 1; -fx-border-radius: 5;");
+        });
+
+        visual.setOnMouseExited(event -> {
+            visual.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+        });
+
         visual.setOnMouseClicked(event -> {
             if (cartaElegida != null) {
                 CartaUnidad cartaUnidad = (CartaUnidad) cartaElegida;

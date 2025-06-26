@@ -18,8 +18,8 @@ public class Bienvenida {
         MenuView menuView = new MenuView();
         Scene escenaMenu = new Scene(menuView.construir(), App.WIDTH, App.HEIGHT);
         App.getStage().setScene(escenaMenu);
-        Audio audio = Audio.getInstance();
-        audio.stop();
+//        Audio audio = Audio.getInstance();
+//        audio.stop();
     }
 
     public static void mostrarBienvenida() {
