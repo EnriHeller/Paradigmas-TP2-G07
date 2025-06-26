@@ -16,6 +16,7 @@ public class Bienvenida {
     public static void mostrarBienvenida() {
         Audio audio = Audio.getInstance();
         audio.play("/audio/cs16.wav");
+
         BienvenidaView bienvenida = new BienvenidaView();
         Scene escenaBienvenida = new Scene(bienvenida.construir(), App.WIDTH, App.HEIGHT);
 

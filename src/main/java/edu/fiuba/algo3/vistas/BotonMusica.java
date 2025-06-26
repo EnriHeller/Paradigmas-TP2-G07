@@ -1,5 +1,7 @@
 package edu.fiuba.algo3.vistas;
 
+import java.util.Objects;
+
 import edu.fiuba.algo3.controller.Audio;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -7,8 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-
-import java.util.Objects;
 
 public class BotonMusica {
 
@@ -30,9 +30,9 @@ public class BotonMusica {
 
         boton.setOnAction(e -> {
             if (audio.estaActivo()) {
-                audio.stop();
+                audio.silenciar();
             } else {
-                audio.activar();
+                audio.escuchar();
             }
             actualizarImagen(audio, imagenView);
         });

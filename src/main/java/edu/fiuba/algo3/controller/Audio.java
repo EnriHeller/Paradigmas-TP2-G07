@@ -1,58 +1,81 @@
 package edu.fiuba.algo3.controller;
 
-import edu.fiuba.algo3.App;
-import edu.fiuba.algo3.vistas.BienvenidaView;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import edu.fiuba.algo3.vistas.MenuView;
-
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
-import javax.sound.sampled.*;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public final class Audio {
     private static Audio instancia;
     Clip clip;
     private String musicaActual;
-    private boolean activo;
+    private boolean activo = true;
+    private float volumen = 1.0f;
+
+    
 
     private Audio (){
     }
     public void play(String ubicacionAudio) {
         try {
+
             URL soundURL = Bienvenida.class.getResource(ubicacionAudio);
 
             if (soundURL == null) {
                 System.out.println("No se encontró el archivo cs16.wav en el classpath.");
                 return;
             }
+
             this.musicaActual = ubicacionAudio;
-            this.activo = true;
+
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundURL);
             clip = AudioSystem.getClip();
             clip.open(audioStream);
+            setVolume(activo ? 1.0f : volumen); // <-- siempre respeta el mute/volumen
             clip.start();
+
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
     }
+
+    public void stop(){
+        clip.stop();
+    }
+
+    public void escuchar(){
+        activo = true;
+        setVolume(1.0f);
+    }
+
+    public void silenciar() {
+        activo = false;
+        setVolume(0);
+    }
+
+    public void setVolume(float volumen) {
+    this.volumen = volumen;
+    if (clip != null) {
+        FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        float min = control.getMinimum();
+        float max = control.getMaximum();
+        float gain = (volumen == 0.0f) ? min : (min + (max - min) * volumen);
+        control.setValue(gain);
+    }
+}
     public static Audio getInstance() {
         if (instancia == null) {
             instancia = new Audio();
         }
         return instancia;
     }
-    public void stop() {
-        activo = false;
-        clip.stop();
-    }
 
-    public void activar() {
-        activo = true;
-        play(musicaActual);
-    }
+
 
 
     public boolean estaActivo() {
