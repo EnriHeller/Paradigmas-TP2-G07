@@ -59,7 +59,7 @@ public class JuegoView {
         bloqueJuego.setMaxSize(1300, 700);
 
         // Tablero (centrado dentro del bloque)
-        TableroView tablero = new TableroView(juego.getTablero());
+        TableroView tablero = new TableroView(juego.getTablero(), juego);
         Region tableroRegion = tablero.construir();
         tableroRegion.setLayoutX(0); // El tablero ya está centrado en su propio StackPane
         tableroRegion.setLayoutY(0);
@@ -67,8 +67,10 @@ public class JuegoView {
 
         // Mano (abajo, centrada respecto al bloque)
         ManoView mano = new ManoView(juego.mostrarManoActual(), carta -> {
-            tablero.setCartaElegida(carta); // <- conecta la carta clickeada
+            tablero.setCartaElegida(carta);
+            tablero.refrescar(); // <- actualiza el tablero visual y lógicamente
         });
+
         Region manoRegion = mano.construir();
         manoRegion.setLayoutX(310); // Ajusta según el diseño
         manoRegion.setLayoutY(560); // Ajusta según el diseño

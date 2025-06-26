@@ -24,6 +24,10 @@ public class CartaUnidadVisual extends CartaVisual {
         // construirVista() se debe llamar externamente después de la construcción
     }
 
+    public CartaUnidad getCarta() {
+        return (CartaUnidad) carta;
+    }
+
     private String normalizarNombreParaImagen(String nombre) {
         String normalizado = java.text.Normalizer.normalize(nombre, java.text.Normalizer.Form.NFD)
             .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")

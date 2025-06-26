@@ -37,7 +37,7 @@ public class Juego {
         BorderPane.setAlignment(nombreJ2, Pos.TOP_CENTER);
 
         // Centro: vista del tablero
-        TableroView tablero = new TableroView(juego.getTablero());
+        TableroView tablero = new TableroView(juego.getTablero(), juego);
         layout.setCenter(tablero.construir());
         return layout;
     }

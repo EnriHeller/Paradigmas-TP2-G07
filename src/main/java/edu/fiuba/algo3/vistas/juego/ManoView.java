@@ -42,11 +42,7 @@ public class ManoView {
                     visual.construirVista();
                 }
 
-                visual.setOnMouseClicked(e -> {
-                    handler.alClic(cartaActual);
-                    cartas.remove(cartaActual);           // Lógica
-                    contenedor.getChildren().remove(visual); // Visual
-                });
+                visual.setOnMouseClicked(e -> handler.alClic(cartaActual));
 
                 contenedor.getChildren().add(visual);
 

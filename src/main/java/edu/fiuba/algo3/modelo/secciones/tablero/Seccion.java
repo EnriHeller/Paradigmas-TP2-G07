@@ -83,7 +83,16 @@ public class Seccion {
         return cartasActuales;
     }
 
-    
+    public boolean puedeAgregar(CartaUnidad carta){
+        List<String> secciones = carta.getSecciones();
+
+        for (String seccion : secciones) {
+            if (seccion.equals(this.clave)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public boolean contiene(Carta carta){
         return this.cartasActuales.contains((carta));

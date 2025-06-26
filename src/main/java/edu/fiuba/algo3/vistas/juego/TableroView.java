@@ -6,10 +6,14 @@ import java.util.Objects;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -23,15 +27,22 @@ public class TableroView {
     private final int tableroHeight = 700;
 
     private Carta cartaElegida;
+    private HBox contenedorMano;
     private final List<HBox> seccionesVisuales = new ArrayList<>();
+    private Juego juego;
 
     public void setCartaElegida(Carta carta) {
         System.out.println("Carta elegida: " + carta.mostrarCarta());
         this.cartaElegida = carta;
     }
 
-    public TableroView(Tablero tablero) {
+    public void setContenedorMano(HBox contenedorMano) {
+        this.contenedorMano = contenedorMano;
+    }
+
+    public TableroView(Tablero tablero, Juego juego) {
         this.tablero = tablero;
+        this.juego = juego;
     }
 
     public Region construir() {
@@ -105,12 +116,18 @@ public class TableroView {
             visual.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
         });
 
+        // Acción al hacer click en una sección
         visual.setOnMouseClicked(event -> {
-            if (cartaElegida != null) {
-                CartaUnidad cartaUnidad = (CartaUnidad) cartaElegida;
-                seccion.agregarCarta(cartaUnidad);
-                actualizarSeccion(visual, puntajeLabel, cartaUnidad, seccion);
-                cartaElegida = null;
+            if (cartaElegida != null && (!cartaElegida.esEspecial())) {
+                if (seccion.puedeAgregar((CartaUnidad) cartaElegida)) {
+                    try {
+                        juego.jugarCarta(cartaElegida, seccion);
+                    } catch (TipoDeSeccionInvalidaError ignored) {
+                    }
+                    actualizarSeccion(visual, puntajeLabel, (CartaUnidad) cartaElegida, seccion);
+                    removerCartaDeLaMano((CartaUnidad) cartaElegida);
+                    cartaElegida = null;
+                }
             }
         });
 
@@ -134,6 +151,48 @@ public class TableroView {
         // Actualizar puntaje
         puntajeLabel.setText(String.valueOf(seccion.getPuntajeTotal()));
     }
+
+    private void removerCartaDeLaMano(CartaUnidad carta) {
+        if (contenedorMano == null) return;
+
+        Platform.runLater(() -> {
+            for (Node nodo : contenedorMano.getChildren()) {
+                if (nodo instanceof CartaUnidadVisual) {
+                    CartaUnidadVisual visual = (CartaUnidadVisual) nodo;
+                    if (visual.getCarta().equals(carta)) {
+                        contenedorMano.getChildren().remove(nodo);
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
+    public void refrescar() {
+        limpiarTablero();
+        seccionesVisuales.clear(); // Esto limpia referencias anteriores
+
+        Pane nuevoOverlay = new Pane();
+        nuevoOverlay.prefWidthProperty().setValue(tableroWidth);
+        nuevoOverlay.prefHeightProperty().setValue(tableroHeight);
+
+        int x_seccion = 396;
+        int ultimo_y = 10;
+        int espacio = 14;
+
+        List<String> claves = List.of("Asedio1", "Rango1", "CuerpoACuerpo1", "Asedio0", "Rango0", "CuerpoACuerpo0");
+
+        for (String clave : claves) {
+            agregarSeccion(nuevoOverlay, clave, x_seccion, ultimo_y);
+            ultimo_y += espacio + seccionHeight;
+        }
+
+        // Quitar el overlay viejo y poner el nuevo
+        StackPane parent = (StackPane) seccionesVisuales.get(0).getParent().getParent();
+        parent.getChildren().remove(1); // Remueve el viejo Pane (overlay)
+        parent.getChildren().add(nuevoOverlay); // Agrega el nuevo
+    }
+
 
     public void limpiarTablero() {
         for (HBox seccionVisual : seccionesVisuales) {

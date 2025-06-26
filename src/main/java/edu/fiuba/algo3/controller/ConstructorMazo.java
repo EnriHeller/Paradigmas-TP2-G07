@@ -144,11 +144,27 @@ public class ConstructorMazo {
         return actual;
     }
 
-    public List<String> listarSecciones(String secciones){
-        String[] listaCadenaDatos = secciones.split(", ");
-        List<String> lista = new ArrayList<>(Arrays.asList(listaCadenaDatos));
-        return lista;
+    private List<String> listarSecciones(String seccionesStr) {
+        String[] partes = seccionesStr.split(",");
+        List<String> resultado = new ArrayList<>();
+
+        for (String seccion : partes) {
+            // Limpieza: remueve espacios extra y normaliza
+            String normalizada = seccion.trim().replaceAll("\\s+", ""); // remueve espacios internos
+            if (normalizada.equalsIgnoreCase("CuerpoaCuerpo")) {
+                resultado.add("CuerpoACuerpo");
+            } else if (normalizada.equalsIgnoreCase("Rango")) {
+                resultado.add("Rango");
+            } else if (normalizada.equalsIgnoreCase("Asedio")) {
+                resultado.add("Asedio");
+            } else {
+                System.err.println("[ADVERTENCIA] Sección desconocida: '" + seccion + "'");
+            }
+        }
+
+        return resultado;
     }
+
 
     public List<String> listar(JSONArray elementos){
         List<String> lista = new ArrayList<>();
