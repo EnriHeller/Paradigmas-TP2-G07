@@ -9,15 +9,15 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 
 public class TableroView {
     private final Tablero tablero;
-    private final int seccionWidth = 630;
+    private final int seccionWidth = 650;
     private final int seccionHeight = 75;
     private final int tableroWidth = 1300;
     private final int tableroHeight = 700;
@@ -43,15 +43,15 @@ public class TableroView {
         // Fondo del tablero
         try {
             Image boardBg = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/emptyBoard.png")).toExternalForm());
-            javafx.scene.layout.BackgroundSize bgSize = new javafx.scene.layout.BackgroundSize(tableroWidth, tableroHeight, false, false, false, false);
-            javafx.scene.layout.BackgroundImage bgImg = new javafx.scene.layout.BackgroundImage(
+            BackgroundSize bgSize = new BackgroundSize(tableroWidth, tableroHeight, false, false, false, false);
+            BackgroundImage bgImg = new BackgroundImage(
                     boardBg,
-                    javafx.scene.layout.BackgroundRepeat.NO_REPEAT,
-                    javafx.scene.layout.BackgroundRepeat.NO_REPEAT,
-                    javafx.scene.layout.BackgroundPosition.DEFAULT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.DEFAULT,
                     bgSize
             );
-            root.setBackground(new javafx.scene.layout.Background(bgImg));
+            root.setBackground(new Background(bgImg));
         } catch (Exception e) {
             System.err.println("[ERROR] No se pudo cargar emptyBoard.png: " + e);
         }
@@ -60,7 +60,7 @@ public class TableroView {
         overlay.prefWidthProperty().bind(root.widthProperty());
         overlay.prefHeightProperty().bind(root.heightProperty());
 
-        int x_seccion = 460;
+        int x_seccion = 396;
         int ultimo_y = 10;
         int espacio = 14;
 
@@ -77,11 +77,25 @@ public class TableroView {
 
     private void agregarSeccion(Pane contenedor, String clave, double x, double y) {
         Seccion seccion = tablero.obtenerSeccionPorClave(clave);
+
+        // Contenedor de fila: [puntaje] [cartas]
+        HBox fila = new HBox(10);
+        fila.setLayoutX(x);
+        fila.setLayoutY(y);
+        fila.setPrefHeight(seccionHeight);
+
+        // Label de puntaje
+        Label puntajeLabel = new Label(String.valueOf(seccion.getPuntajeTotal()));
+        HBox.setMargin(puntajeLabel, new Insets(0, 14, 0, 0));
+        puntajeLabel.setFont(Font.font("Arial", 18));
+        puntajeLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
+        puntajeLabel.setMinWidth(40);
+        puntajeLabel.setMaxHeight(seccionHeight);
+
+        // Sección visual de cartas
         HBox visual = new HBox(5);
         visual.setStyle("-fx-background-color: transparent; -fx-border-color: black;");
         visual.setPrefSize(seccionWidth, seccionHeight);
-        visual.setLayoutX(x);
-        visual.setLayoutY(y);
 
         visual.setOnMouseEntered(event -> {
             visual.setStyle("-fx-background-color: rgba(200,200,200,0.4); -fx-border-color: gray; -fx-border-width: 1; -fx-border-radius: 5;");
@@ -95,7 +109,7 @@ public class TableroView {
             if (cartaElegida != null) {
                 CartaUnidad cartaUnidad = (CartaUnidad) cartaElegida;
                 seccion.agregarCarta(cartaUnidad);
-                actualizarSeccion(visual, cartaUnidad);
+                actualizarSeccion(visual, puntajeLabel, cartaUnidad, seccion);
                 cartaElegida = null;
             }
         });
@@ -106,15 +120,19 @@ public class TableroView {
             visual.getChildren().add(cartaVisual);
         }
 
-        contenedor.getChildren().add(visual);
+        fila.getChildren().addAll(puntajeLabel, visual);
+        contenedor.getChildren().add(fila);
         seccionesVisuales.add(visual);
     }
 
-    private void actualizarSeccion(HBox visual, CartaUnidad cartaUnidad) {
+    private void actualizarSeccion(HBox visual, Label puntajeLabel, CartaUnidad cartaUnidad, Seccion seccion) {
         CartaUnidadVisual cartaVisual = new CartaUnidadVisual(cartaUnidad);
         cartaVisual.setStyle("-fx-border-color: blue; -fx-background-color: #e0e0e0; -fx-border-width: 2px;");
         cartaVisual.construirVista();
         visual.getChildren().add(cartaVisual);
+
+        // Actualizar puntaje
+        puntajeLabel.setText(String.valueOf(seccion.getPuntajeTotal()));
     }
 
     public void limpiarTablero() {
