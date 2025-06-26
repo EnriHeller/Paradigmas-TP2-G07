@@ -3,6 +3,7 @@ package edu.fiuba.algo3.vistas;
 import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.controller.Bienvenida;
 import edu.fiuba.algo3.vistas.Botones;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -16,7 +17,6 @@ import java.util.Objects;
 public class BienvenidaView {
 
     Stage stage = App.getStage();
-
     public StackPane construir() {
         // Fondo
         Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/bienvenida.png")).toExternalForm());
@@ -45,8 +45,11 @@ public class BienvenidaView {
 
         StackPane.setAlignment(boton, Pos.BOTTOM_CENTER);
         StackPane.setMargin(boton, new javafx.geometry.Insets(0, 0, 60, 0));
-
-        root.getChildren().addAll(texto, boton);
+        BotonMusica botonMusica = new BotonMusica();
+        Button botonMusicaReal = botonMusica.crear();
+        StackPane.setAlignment(botonMusicaReal, Pos.TOP_RIGHT);
+        StackPane.setMargin(botonMusicaReal, new Insets(10));
+        root.getChildren().addAll(texto, boton, botonMusicaReal);
         return root;
     }
 }

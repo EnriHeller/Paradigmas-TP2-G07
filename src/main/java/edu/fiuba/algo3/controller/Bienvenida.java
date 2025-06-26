@@ -18,17 +18,16 @@ public class Bienvenida {
         MenuView menuView = new MenuView();
         Scene escenaMenu = new Scene(menuView.construir(), App.WIDTH, App.HEIGHT);
         App.getStage().setScene(escenaMenu);
-        Audio audio = Audio.getInstance();
-        audio.stop();
     }
 
     public static void mostrarBienvenida() {
-//        Audio audio = Audio.getInstance();
-//        audio.play("/audio/cs16.wav");
+        Audio audio = Audio.getInstance();
+        audio.play("/audio/cs16.wav");
         BienvenidaView bienvenida = new BienvenidaView();
         Scene escenaBienvenida = new Scene(bienvenida.construir(), App.WIDTH, App.HEIGHT);
 
         App.getStage().setScene(escenaBienvenida);
     }
+
 }
 

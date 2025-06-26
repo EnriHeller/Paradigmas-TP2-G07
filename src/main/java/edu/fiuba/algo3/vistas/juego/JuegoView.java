@@ -6,10 +6,13 @@ import java.util.Objects;
 
 import edu.fiuba.algo3.controller.FinalizadorDeJuego;
 import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.vistas.BotonMusica;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BackgroundImage;
@@ -96,6 +99,14 @@ public class JuegoView {
         mazoView.setLayoutX(xMazo); // Ajusta según el diseño del bloque
         mazoView.setLayoutY(yMazo); 
         bloqueJuego.getChildren().add(mazoView);
+
+        //Boton de musica
+        BotonMusica botonMusica = new BotonMusica();
+        Button botonMusicaReal = botonMusica.crear();
+        StackPane.setAlignment(botonMusicaReal, Pos.TOP_RIGHT);
+        StackPane.setMargin(botonMusicaReal, new Insets(10));
+
+        bloqueJuego.getChildren().add(botonMusicaReal);
 
         // Centrar el bloque de juego en el StackPane
         stack.getChildren().add(bloqueJuego);
