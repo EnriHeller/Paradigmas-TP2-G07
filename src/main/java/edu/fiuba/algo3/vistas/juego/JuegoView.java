@@ -36,7 +36,7 @@ public class JuegoView {
         this.finalizadorDeJuego = new FinalizadorDeJuego(juego);
     }
 
-    public BorderPane construir() {
+    public BorderPane construir() throws Exception {
         BorderPane root = new BorderPane();
 
         // Fondo de madera ocupa toda la pantalla (en root, no en stack)
@@ -83,13 +83,18 @@ public class JuegoView {
 
         // Centro de turnos (izquierda)
         CentroDeAdministracionTurnos turnos = new CentroDeAdministracionTurnos(juego);
-        VBox panelTurno = turnos.construir();
+        VBox panelTurno = turnos.construir(tablero);
         panelTurno.setLayoutX(-10);
         panelTurno.setLayoutY(210);
         bloqueJuego.getChildren().add(panelTurno);
         // Listener para fin de juego
-        turnos.setOnTurnoFinalizado(() -> Platform.runLater(() -> finalizadorDeJuego.verificarFinDeJuego()));
-
+        turnos.setOnTurnoFinalizado(() -> Platform.runLater(() -> {
+            try {
+                finalizadorDeJuego.verificarFinDeJuego();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }));
         // Pila de descarte (arriba derecha)
         PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
         Region pilaRegion = pilaDescarteJugador.construir();

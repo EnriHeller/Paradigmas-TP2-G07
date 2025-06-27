@@ -1,13 +1,13 @@
 package edu.fiuba.algo3.controller;
 
+import java.util.List;
+
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Juego;
-import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
-
-import java.util.List;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 
 public class TableroController {
     private final Juego juego;
@@ -20,7 +20,9 @@ public class TableroController {
 
     public boolean puedeAgregar(String claveSeccion, CartaUnidad carta) {
         Seccion seccion = modeloTablero.obtenerSeccionPorClave(claveSeccion);
-        return seccion.puedeAgregar(carta);
+        //validacion de que el jugador esta jugando en su seccion
+        int idActual = juego.actual();
+        return seccion.puedeAgregar(carta, idActual);
     }
 
     public void jugarCarta(Carta carta, String claveSeccion) throws TipoDeSeccionInvalidaError {

@@ -33,7 +33,7 @@ public class Seccion {
     }
 
     private boolean puedeEstar(String claveSeccion){
-        return claveSeccion.equals("Rango") || claveSeccion.equals("Asedio") || claveSeccion.equals("CuerpoACuerpo");
+        return (claveSeccion.equals("Rango") || claveSeccion.equals("Asedio") || claveSeccion.equals("CuerpoACuerpo"));
     }
 
     public CartaUnidad removerCarta(CartaUnidad carta) {
@@ -83,11 +83,11 @@ public class Seccion {
         return cartasActuales;
     }
 
-    public boolean puedeAgregar(CartaUnidad carta){
+    public boolean puedeAgregar(CartaUnidad carta, int idJugadorActual){
         List<String> secciones = carta.getSecciones();
 
         for (String seccion : secciones) {
-            if (seccion.equals(this.clave)) {
+            if (seccion.equals(this.clave) && (jugadorId == idJugadorActual)) {
                 return true;
             }
         }

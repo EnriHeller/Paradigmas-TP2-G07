@@ -1,11 +1,13 @@
 package edu.fiuba.algo3.vistas.juego;
 
+import java.util.Objects;
+
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.vistas.Botones;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -13,8 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-
-import java.util.Objects;
 
 public class CentroDeAdministracionTurnos {
     private final Juego juego;
@@ -31,7 +31,7 @@ public class CentroDeAdministracionTurnos {
         this.onTurnoFinalizado = handler;
     }
 
-    public VBox construir() {
+    public VBox construir(TableroView tablero) {
         VBox contenedor = new VBox(5);
         contenedor.setAlignment(Pos.CENTER_LEFT);
         contenedor.setPadding(new Insets(20, 0, 0, 30));
@@ -52,7 +52,7 @@ public class CentroDeAdministracionTurnos {
                 PauseTransition espera = new PauseTransition(Duration.seconds(2));
                 espera.setOnFinished(e -> {
                     juego.finalizarRonda();
-
+                    
                     // Notificar que la ronda terminó y verificar fin de juego
                     if (onTurnoFinalizado != null) {
                         Platform.runLater(() -> onTurnoFinalizado.run());
@@ -63,6 +63,8 @@ public class CentroDeAdministracionTurnos {
                         juego.tirarMoneda();
                         mostrarMoneda(juego.actual());
                         actualizarTextoJugador(juego.actual());
+                        tablero.refrescar(); // <- actualiza el tablero visual y lógicamente
+
                     }
                 });
                 espera.play();

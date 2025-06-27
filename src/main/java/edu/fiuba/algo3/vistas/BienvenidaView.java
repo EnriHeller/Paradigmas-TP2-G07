@@ -1,18 +1,22 @@
 package edu.fiuba.algo3.vistas;
 
+import java.util.Objects;
+
 import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.controller.Bienvenida;
-import edu.fiuba.algo3.vistas.Botones;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import edu.fiuba.algo3.controller.Bienvenida.*;
 import javafx.stage.Stage;
-import java.util.Objects;
 
 public class BienvenidaView{
 
@@ -40,8 +44,13 @@ public class BienvenidaView{
         StackPane.setMargin(texto, new javafx.geometry.Insets(60, 0, 0, 0));
 
         // Botón comenzar
-        Button boton = Botones.Boton_1("Comenzar", () -> Bienvenida.mostrarMenu());
-
+        Button boton = Botones.Boton_1("Comenzar", () -> {
+            try {
+                Bienvenida.mostrarMenu();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
 
         StackPane.setAlignment(boton, Pos.BOTTOM_CENTER);
         StackPane.setMargin(boton, new javafx.geometry.Insets(0, 0, 60, 0));

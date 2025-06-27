@@ -35,12 +35,26 @@ public class ManoView {
                 Carta cartaActual = carta; // Necesario para lambda final
                 CartaVisual visual;
                 if (!carta.esEspecial()) {
+                    //Es unidad
                     visual = new CartaUnidadVisual((CartaUnidad) carta);
                     visual.setStyle("-fx-border-color: blue; -fx-background-color: #e0e0e0; -fx-border-width: 2px;");
                     visual.construirVista();
-
+                    //Defino evento para unidad
                     visual.setOnMouseClicked(e -> handler.alClic(cartaActual));
 
+                    visual.setOnDragDetected(e -> {
+                        javafx.scene.input.Dragboard db = visual.startDragAndDrop(javafx.scene.input.TransferMode.MOVE);
+                        javafx.scene.input.ClipboardContent content = new javafx.scene.input.ClipboardContent();
+                        content.putString(""); // Puedes poner info relevante si lo necesitas
+                        db.setContent(content);
+                        e.consume();
+                    });
+
+                    visual.setOnDragDone(e -> {
+                        // Opcional: lógica al terminar el drag, por ejemplo, remover la carta si fue jugada
+                        handler.alClic(cartaActual); // Si quieres que al soltar se juegue la carta
+                        e.consume();
+                    });
                 } else {
                     visual = new CartaEspecialVisual(carta);
                     visual.setStyle("-fx-border-color: green; -fx-background-color: #f0fff0; -fx-border-width: 2px;");

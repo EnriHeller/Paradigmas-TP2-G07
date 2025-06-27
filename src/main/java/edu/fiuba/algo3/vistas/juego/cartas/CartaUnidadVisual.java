@@ -16,9 +16,9 @@ public class CartaUnidadVisual extends CartaVisual {
 
     private Runnable onClick;
 
-    //public void setOnClick(Runnable onClick) {
-        //this.onClick = onClick;
-    //}
+//    public void setOnClick(Runnable onClick) {
+//        this.onClick = onClick;
+//    }
 
     public CartaUnidadVisual(CartaUnidad carta) {
         super(carta);
