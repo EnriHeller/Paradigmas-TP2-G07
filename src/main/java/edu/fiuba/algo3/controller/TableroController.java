@@ -47,6 +47,6 @@ public class TableroController {
     }
 
     public List<String> getClavesSecciones() {
-        return List.of("Asedio1", "Rango1", "CuerpoACuerpo1", "Asedio0", "Rango0", "CuerpoACuerpo0");
+        return List.of("Asedio1", "Rango1", "CuerpoACuerpo1", "CuerpoACuerpo0", "Rango0", "Asedio0");
     }
 }
