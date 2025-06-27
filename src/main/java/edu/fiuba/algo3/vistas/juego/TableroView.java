@@ -186,7 +186,7 @@ public class TableroView {
         int ultimo_y = 10;
         int espacio = 14;
 
-        List<String> claves = List.of("Asedio1", "Rango1", "CuerpoACuerpo1", "Asedio0", "Rango0", "CuerpoACuerpo0");
+        List<String> claves = tableroController.getClavesSecciones();
 
         for (String clave : claves) {
             agregarSeccion(nuevoOverlay, clave, x_seccion, ultimo_y);

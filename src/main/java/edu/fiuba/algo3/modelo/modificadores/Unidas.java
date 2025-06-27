@@ -36,7 +36,7 @@ public class Unidas implements Modificador {
     public void retrotraerContexto(Contexto contexto){
 
         CartaUnidad carta = contexto.getCarta();
-        carta.multiplicarValor(1);
+        carta.volverValorBase();
 
         modificador.retrotraerContexto(contexto);
 

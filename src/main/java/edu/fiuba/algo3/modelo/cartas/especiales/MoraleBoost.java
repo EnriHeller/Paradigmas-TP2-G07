@@ -57,7 +57,7 @@ public class MoraleBoost extends CartaEspecial implements Carta, Modificador {
             carta.multiplicarValor(0.5);
         }
 
-        modificador.retrotraerContexto(contexto);
+        if (modificador != null) modificador.retrotraerContexto(contexto);
 
     }
 
@@ -65,7 +65,7 @@ public class MoraleBoost extends CartaEspecial implements Carta, Modificador {
     public void modificar(Contexto contextoModificador) throws TipoDeSeccionInvalidaError {
 
         try {
-            modificador.modificar(contextoModificador);
+            if (modificador != null) modificador.modificar(contextoModificador);
         } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {
         }
 

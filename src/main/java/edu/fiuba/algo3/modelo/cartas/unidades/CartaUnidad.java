@@ -16,6 +16,7 @@ public class CartaUnidad implements Carta, Puntuable {
     private String nombre;
     private List<String> secciones;
     private final int valorBase;
+    private int valorBaseDinamico;
     private int valorActual;
     private Modificador modificador;
     //Constructores
@@ -24,6 +25,7 @@ public class CartaUnidad implements Carta, Puntuable {
         this.secciones = secciones;
         this.valorActual = valor;
         this.valorBase = valor;
+        this.valorBaseDinamico = valor;
         this.modificador = modificador;
     }
 
@@ -55,17 +57,19 @@ public class CartaUnidad implements Carta, Puntuable {
         this.valorActual = nuevoValor;
     }
 
+    public void volverValorBase(){
+        this.valorActual = this.valorBase;
+    }
+
     public void multiplicarValor(double n) {
-        if(n == 1){
-            this.valorActual = this.valorBase;
-        }
-        this.valorActual = (int) (n * this.valorActual);
+
+        this.valorActual = (int) (n * this.valorBaseDinamico);
 
     }
 
     public void sumaValor( int aSumar) {
 
-        this.valorActual = aSumar + this.valorActual;
+        this.valorBaseDinamico = aSumar + this.valorBaseDinamico;
 
     }
 
