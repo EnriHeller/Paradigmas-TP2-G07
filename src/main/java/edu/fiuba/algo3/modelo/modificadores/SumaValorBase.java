@@ -44,9 +44,8 @@ public class SumaValorBase implements Modificador{
     public void retrotraerContexto(Contexto contexto) {
 
         List<CartaUnidad> cartas = dondeSeJugo.getCartas();
-
         for (CartaUnidad carta : cartas) {
-            carta.sumaValor(-1);
+            carta.volverValorBase();
         }
 
         modificador.retrotraerContexto(contexto);

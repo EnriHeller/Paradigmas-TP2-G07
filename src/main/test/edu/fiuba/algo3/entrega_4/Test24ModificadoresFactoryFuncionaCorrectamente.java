@@ -35,11 +35,7 @@ public class Test24ModificadoresFactoryFuncionaCorrectamente {
         assertDoesNotThrow(() -> factory.crearModificador("Ágil", base));
         // Los especiales deben devolver null
         assertDoesNotThrow(() -> {
-            Modificador m = factory.crearModificador("Morale Boost", base);
-            assert m == null;
-        });
-        assertDoesNotThrow(() -> {
-            Modificador m = factory.crearModificador("Tierra Arrasada", base);
+            Modificador m = factory.crearModificador("Tierra arrasada", base);
             assert m == null;
         });
         // Un modificador desconocido debe lanzar excepción

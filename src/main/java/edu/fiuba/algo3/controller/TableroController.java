@@ -25,7 +25,15 @@ public class TableroController {
 
     public void jugarCarta(Carta carta, String claveSeccion) throws TipoDeSeccionInvalidaError {
         Seccion seccion = modeloTablero.obtenerSeccionPorClave(claveSeccion);
+        System.out.println("Inicio de jugar carta");
+        for (CartaUnidad cartaUnidad : seccion.getCartas()) {
+            System.out.println("Carta en seccion antes de la jugada: " + cartaUnidad.mostrarCarta() + "\n" + "Puntaje de esa carta:" + cartaUnidad.ValorActual() + "\n");
+        }
         juego.jugarCarta(carta, seccion);
+        for (CartaUnidad cartaUnidad : seccion.getCartas()) {
+            System.out.println("Carta en seccion despues de la jugada: " + cartaUnidad.mostrarCarta() + "\n" + "Puntaje de esa carta:" + cartaUnidad.ValorActual() + "\n");
+        }
+        System.out.println("Fin de jugar carta");
     }
 
     public int getPuntajeSeccion(String claveSeccion) {
