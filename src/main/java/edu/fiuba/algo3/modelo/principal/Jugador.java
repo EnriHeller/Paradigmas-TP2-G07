@@ -1,11 +1,11 @@
 package edu.fiuba.algo3.modelo.principal;
+import java.util.List;
+
 import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Descarte;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mano;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
-
-import java.util.List;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 
 public class Jugador {
     private String nombre;

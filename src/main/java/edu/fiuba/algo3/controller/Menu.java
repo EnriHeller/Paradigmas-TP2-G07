@@ -4,7 +4,7 @@ import edu.fiuba.algo3.modelo.cartas.CartasFactory;
 import edu.fiuba.algo3.modelo.modificadores.ModificadoresFactory;
 import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import org.json.simple.parser.JSONParser;
 

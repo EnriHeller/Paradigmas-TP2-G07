@@ -5,7 +5,7 @@ import edu.fiuba.algo3.modelo.cartas.especiales.DestructoraDeClima;
 import edu.fiuba.algo3.mocks.CartaUnidadMock;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.principal.Jugador;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;

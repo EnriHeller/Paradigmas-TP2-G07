@@ -7,7 +7,7 @@ import java.util.Objects;
 import edu.fiuba.algo3.controller.TableroController;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
 import javafx.application.Platform;
 import javafx.geometry.Insets;

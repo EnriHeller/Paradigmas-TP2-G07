@@ -16,9 +16,9 @@ public class CartaUnidadVisual extends CartaVisual {
 
     private Runnable onClick;
 
-    public void setOnClick(Runnable onClick) {
-        this.onClick = onClick;
-    }
+    //public void setOnClick(Runnable onClick) {
+        //this.onClick = onClick;
+    //}
 
     public CartaUnidadVisual(CartaUnidad carta) {
         super(carta);
@@ -93,8 +93,7 @@ public class CartaUnidadVisual extends CartaVisual {
         if (!mainStack.getChildren().contains(infoOverlay)) {
             mainStack.getChildren().add(infoOverlay);
         }
-        // Hacer el overlay de info adaptable y con padding
-        //infoOverlay.setPrefWidth(USE_COMPUTED_SIZE);
+
         infoOverlay.setMinWidth(300); // Mínimo razonable
 
         if (!this.getChildren().contains(mainStack)) {

@@ -3,7 +3,7 @@ package edu.fiuba.algo3.entrega_4;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.modificadores.ModificadoresFactory;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import org.junit.jupiter.api.Test;

@@ -1,13 +1,7 @@
 package edu.fiuba.algo3.controller;
 
-import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.modificadores.Base;
-import edu.fiuba.algo3.modelo.principal.Juego;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import javafx.scene.control.Alert;
-
-import java.util.ArrayList;
+import edu.fiuba.algo3.modelo.principal.Juego;
 
 public class FinalizadorDeJuego {
     private final Juego juego;
@@ -16,7 +10,7 @@ public class FinalizadorDeJuego {
         this.juego = juego;
     }
 
-    public void verificarFinDeJuego() {
+    public void verificarFinDeJuego() throws Exception {
         if (juego.juegoTerminado()) {
             String ganador = juego.mostrarGanador();
             mostrarDialogoGanador(ganador);
@@ -34,7 +28,7 @@ public class FinalizadorDeJuego {
         alert.showAndWait();
     }
 
-    private void reiniciarJuego() {
+    private void reiniciarJuego() throws Exception  {
         Bienvenida.mostrarBienvenida();
     }
 }

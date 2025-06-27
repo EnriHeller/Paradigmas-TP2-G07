@@ -9,7 +9,7 @@ import edu.fiuba.algo3.controller.Utils;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.vistas.juego.JuegoView;
 import javafx.fxml.FXML;
@@ -22,16 +22,23 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class MenuView {
 
     private final Menu menu = new Menu();
 
     // Componentes desde el FXML
-    @FXML private TextField inputJ1 = new TextField();
-    @FXML private TextField inputJ2 = new TextField();
-    @FXML private Button botonIniciar = new Button("Iniciar Juego");
+    @FXML private final TextField inputJ1 = new TextField();
+    @FXML private final TextField inputJ2 = new TextField();
+    @FXML private final Button botonIniciar = new Button("Iniciar Juego");
 
     @FXML private Button botonMazo1J1 = new Button("Mazo A");
     @FXML private Button botonMazo2J1 = new Button("Mazo B");

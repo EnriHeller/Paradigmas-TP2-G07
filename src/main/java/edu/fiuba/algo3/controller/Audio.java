@@ -1,14 +1,11 @@
 package edu.fiuba.algo3.controller;
 
-import java.io.IOException;
 import java.net.URL;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 public final class Audio {
     private static Audio instancia;
@@ -21,27 +18,21 @@ public final class Audio {
 
     private Audio (){
     }
-    public void play(String ubicacionAudio) {
-        try {
+    public void play(String ubicacionAudio) throws Exception {
+        URL soundURL = Bienvenida.class.getResource(ubicacionAudio);
 
-            URL soundURL = Bienvenida.class.getResource(ubicacionAudio);
-
-            if (soundURL == null) {
-                System.out.println("No se encontró el archivo cs16.wav en el classpath.");
-                return;
-            }
-
-            this.musicaActual = ubicacionAudio;
-
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundURL);
-            clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            setVolume(activo ? 1.0f : volumen); // <-- siempre respeta el mute/volumen
-            clip.start();
-
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
+        if (soundURL == null) {
+            System.out.println("No se encontró el archivo cs16.wav en el classpath.");
+            return;
         }
+
+        this.musicaActual = ubicacionAudio;
+
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundURL);
+        clip = AudioSystem.getClip();
+        clip.open(audioStream);
+        setVolume(activo ? 1.0f : volumen); // <-- siempre respeta el mute/volumen
+        clip.start();
     }
 
     public void stop(){
@@ -74,9 +65,6 @@ public final class Audio {
         }
         return instancia;
     }
-
-
-
 
     public boolean estaActivo() {
         return activo; //musica esta activa?

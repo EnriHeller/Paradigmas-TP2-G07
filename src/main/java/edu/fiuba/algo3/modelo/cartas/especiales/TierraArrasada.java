@@ -3,7 +3,7 @@ package edu.fiuba.algo3.modelo.cartas.especiales;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.principal.Contexto;
-import edu.fiuba.algo3.modelo.secciones.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 public class TierraArrasada extends CartaEspecial implements Carta, Modificador {

@@ -14,10 +14,10 @@ import edu.fiuba.algo3.controller.Bienvenida.*;
 import javafx.stage.Stage;
 import java.util.Objects;
 
-public class BienvenidaView {
+public class BienvenidaView{
 
     Stage stage = App.getStage();
-    public StackPane construir() {
+    public StackPane construir() throws Exception {
         // Fondo
         Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/bienvenida.png")).toExternalForm());
         BackgroundImage bgImage = new BackgroundImage(

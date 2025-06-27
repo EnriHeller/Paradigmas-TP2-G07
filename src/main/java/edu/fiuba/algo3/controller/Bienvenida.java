@@ -7,13 +7,13 @@ import javafx.scene.Scene;
 
 public class Bienvenida {
 
-    public static void mostrarMenu() {
+    public static void mostrarMenu() throws Exception {
         MenuView menuView = new MenuView();
         Scene escenaMenu = new Scene(menuView.construir(), App.WIDTH, App.HEIGHT);
         App.getStage().setScene(escenaMenu);
     }
 
-    public static void mostrarBienvenida() {
+    public static void mostrarBienvenida() throws Exception {
         Audio audio = Audio.getInstance();
         audio.play("/audio/cs16.wav");
 
