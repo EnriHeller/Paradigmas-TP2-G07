@@ -14,12 +14,12 @@ public class Legendaria implements Modificador {
 
     @Override
     public void modificar(Contexto contextoModificador) {
-        contextoModificador.getCarta().multiplicarValor(2);
+        contextoModificador.getCarta().multiplicarValorBase(2);
     }
 
     @Override
     public void retrotraerContexto(Contexto contexto){
-        contexto.getCarta().multiplicarValor(1);
+        contexto.getCarta().multiplicarValorBase(1);
     }
 
 

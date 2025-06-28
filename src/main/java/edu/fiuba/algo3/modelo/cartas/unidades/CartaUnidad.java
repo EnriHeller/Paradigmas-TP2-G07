@@ -1,6 +1,5 @@
 package edu.fiuba.algo3.modelo.cartas.unidades;
 
-import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.principal.Contexto;
@@ -8,7 +7,6 @@ import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class CartaUnidad implements Carta, Puntuable {
@@ -59,9 +57,16 @@ public class CartaUnidad implements Carta, Puntuable {
 
     public void volverValorBase(){
         this.valorActual = this.valorBase;
+        this.valorBaseDinamico = this.valorBase;
     }
 
     public void multiplicarValor(double n) {
+
+        this.valorActual = (int) (n * this.valorActual);
+
+    }
+
+    public void multiplicarValorBase(double n) {
 
         this.valorActual = (int) (n * this.valorBaseDinamico);
 

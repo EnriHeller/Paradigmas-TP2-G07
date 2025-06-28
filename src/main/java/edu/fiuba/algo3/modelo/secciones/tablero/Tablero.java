@@ -97,11 +97,6 @@ public class Tablero {
         return obtenerSeccion(seccion).removerCarta(carta);
     }
 
-    public List<CartaUnidad> removerCartas(Seccion seccion, List<CartaUnidad> cartas) throws TipoDeSeccionInvalidaError {
-        existeSeccion(seccion);
-        return obtenerSeccion(seccion).removerCartas(cartas);
-    }
-
     public void removerCartasDeValorMaximo() throws TipoDeSeccionInvalidaError {
         int max = calcularValorMaximoEnTablero();
         removerCartasDeValorN(max);
@@ -124,19 +119,25 @@ public class Tablero {
 
     public List<CartaUnidad> removerCartasDeJugador(int jugadorID) {
         List<CartaUnidad> cartasJugador = new ArrayList<>();
-        String[] claves = { "Rango" + jugadorID, "Asedio" + jugadorID, "CuerpoACuerpo" + jugadorID };
+        List<Seccion> secciones = new ArrayList<>();
 
-        for (String clave : claves) {
-            cartasJugador.addAll(removerCartas(clave));
+        try {
+            secciones.add(new Seccion("Rango", jugadorID));
+            secciones.add(new Seccion("Asedio", jugadorID));
+            secciones.add(new Seccion("CuerpoACuerpo", jugadorID));
+
+            for (Seccion seccion : secciones) {
+                cartasJugador.addAll(removerCartas(seccion));
+            }
+        } catch (TipoDeSeccionInvalidaError ignored) {
         }
 
         return cartasJugador;
     }
 
-    private List<CartaUnidad> removerCartas(String clave) {
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) throw new IllegalArgumentException("Clave inválida: " + clave);
-        return seccion.removerCartas();
+    private List<CartaUnidad> removerCartas(Seccion seccion) {
+
+        return obtenerSeccion(seccion).removerCartas();
     }
 
     private int calcularValorMaximoEnTablero() {
@@ -155,12 +156,20 @@ public class Tablero {
         obtenerSeccion(seccion).agregarCarta(carta);
     }
 
-    public void agregarCartas(Seccion seccion, List<CartaUnidad> cartas) throws TipoDeSeccionInvalidaError {
-        existeSeccion(seccion);
-        obtenerSeccion(seccion).agregarCartas(cartas);
-    }
-
     public Seccion obtenerSeccionPorClave(String clave) {
         return secciones.get(clave);
+    }
+
+    public List<Seccion> obtenerSeccionesDelJugador(int jugadorID) {
+        List<Seccion> secciones = new ArrayList<>();
+
+        try {
+            secciones.add(obtenerSeccion(new Seccion("Rango", jugadorID)));
+            secciones.add(obtenerSeccion(new Seccion("Asedio", jugadorID)));
+            secciones.add(obtenerSeccion(new Seccion("CuerpoACuerpo", jugadorID)));
+        } catch (TipoDeSeccionInvalidaError ignored) {
+        }
+
+        return secciones;
     }
 }

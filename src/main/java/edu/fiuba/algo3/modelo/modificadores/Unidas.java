@@ -4,7 +4,6 @@ import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
-import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class Unidas implements Modificador {
         if (cantidadUnidas >= 2) {
             for (CartaUnidad carta : cartas) {
                 if (carta.mostrarCarta().contains("Unidas")) {
-                    carta.multiplicarValor(cantidadUnidas);
+                    carta.multiplicarValorBase(cantidadUnidas);
                 }
             }
         }
