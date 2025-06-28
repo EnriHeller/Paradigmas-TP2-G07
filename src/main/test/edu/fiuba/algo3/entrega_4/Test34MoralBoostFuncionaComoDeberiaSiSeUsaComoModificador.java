@@ -46,16 +46,23 @@ public class Test34MoralBoostFuncionaComoDeberiaSiSeUsaComoModificador {
 
         CartaUnidad carta2 = new CartaUnidad("MoralOrel",secciones, 2 , moralBoostOnly);
 
+        CartaUnidad carta3 = new CartaUnidad("MoralOrel",secciones, 2 , moralBoostOnly);
+
+        CartaUnidad carta4 = new CartaUnidad("MoralOrel",secciones, 2 , moralBoostOnly);
+
         juego.jugarCarta(carta1, seccionSimulada);
         juego.jugarCarta(carta2, seccionSimulada);
+        juego.jugarCarta(carta3, seccionSimulada);
+        juego.jugarCarta(carta4, seccionSimulada);
+
 
         int actual = juego.puntajeEnSeccion(seccionSimulada);
-        assertTrue(actual == 12);
+        assertEquals(60, actual);
         juego.finalizarRonda();
         int cartasEnDesacarte = juego.cartasRestantesJugador("Descarte", 0);
-        assertEquals(2, cartasEnDesacarte, "No coincide numero de cartas en el Descarte");
-        int puntajeEnElDescarte = carta1.ValorActual() + carta2.ValorActual();
-        assertEquals(4, puntajeEnElDescarte, "No Se reinicio el puntaje al finalizar la ronda");
+        assertEquals(4, cartasEnDesacarte, "No coincide numero de cartas en el Descarte");
+        int puntajeEnElDescarte = carta1.ValorActual() + carta2.ValorActual() + carta3.ValorActual() + carta4.ValorActual();
+        assertEquals(8, puntajeEnElDescarte, "No Se reinicio el puntaje al finalizar la ronda");
     }
 
 }
