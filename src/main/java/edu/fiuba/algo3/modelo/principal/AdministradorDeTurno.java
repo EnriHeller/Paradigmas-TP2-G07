@@ -42,18 +42,26 @@ public class AdministradorDeTurno {
     }
 
     public void finalizarRonda(Tablero tablero) {
+
+        for (Seccion seccion : tablero.obtenerSeccionesDelJugador(0)) {
+            List<CartaUnidad> cartas = new ArrayList<>(seccion.getCartas());
+            for (CartaUnidad carta : cartas) {
+                Contexto contexto = new Contexto(tablero, seccion, carta, jugadores.get(0));
+                carta.retrotraerModificacion(contexto);
+            }
+        }
+
+        // Luego retrotraer contexto para el jugador 1
+        for (Seccion seccion : tablero.obtenerSeccionesDelJugador(1)) {
+            List<CartaUnidad> cartas = new ArrayList<>(seccion.getCartas());
+            for (CartaUnidad carta : cartas) {
+                Contexto contexto = new Contexto(tablero, seccion, carta, jugadores.get(1));
+                carta.retrotraerModificacion(contexto);
+            }
+        }
+
         List<CartaUnidad> cartasDel1 = tablero.removerCartasDeJugador(0);
         List<CartaUnidad> cartasDel2 = tablero.removerCartasDeJugador(1);
-
-        for (CartaUnidad carta : cartasDel1) {
-            Contexto contexto = new Contexto(tablero, new Seccion(), carta, jugadores.get(0));
-            carta.retrotraerModificacion(contexto);
-        }
-
-        for (CartaUnidad carta : cartasDel2) {
-            Contexto contexto = new Contexto(tablero, new Seccion(), carta, jugadores.get(1));
-            carta.retrotraerModificacion(contexto);
-        }
 
         jugadores.get(0).agregarCartasAlDescarte(new ArrayList<>(cartasDel1));
         jugadores.get(1).agregarCartasAlDescarte(new ArrayList<>(cartasDel2));
