@@ -2,16 +2,21 @@ package edu.fiuba.algo3.vistas.juego.cartas;
 
 import java.util.Objects;
 
+import edu.fiuba.algo3.controller.HandlerEspecialMano;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class CartaEspecialVisual extends CartaVisual {
+    private final HandlerEspecialMano handler;
+    private boolean seleccionada = false;
+    private javafx.scene.control.Button botonActivar;
 
-    public CartaEspecialVisual(Carta carta) {
+    public CartaEspecialVisual(Carta carta, HandlerEspecialMano handler) {
         super(carta);
-        // Do not call construirVista() here; it will be called externally as with CartaUnidadVisual
+        this.handler = handler;
+        // construirVista() se debe llamar externamente después de la construcción
     }
 
     private String normalizarNombreParaImagen(String nombre) {
@@ -81,8 +86,21 @@ public class CartaEspecialVisual extends CartaVisual {
         infoOverlay.setMinHeight(120);
         infoOverlay.setMaxHeight(Double.MAX_VALUE);
 
-        this.setOnMouseEntered(e -> this.setCursor(javafx.scene.Cursor.HAND));
-        this.setOnMouseExited(e -> this.setCursor(javafx.scene.Cursor.DEFAULT));
+        // Botón Activar (negro y dorado)
+        botonActivar = new javafx.scene.control.Button("Activar");
+        botonActivar.setStyle("-fx-background-color: black; -fx-text-fill: gold; -fx-font-weight: bold; -fx-border-color: gold; -fx-border-width: 2; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 6 18; -fx-font-size: 15px;");
+        botonActivar.setVisible(false);
+        botonActivar.setOnAction(e -> {
+            if (handler != null) handler.alClicEspecial(this);
+        });
+        javafx.scene.layout.StackPane.setAlignment(botonActivar, javafx.geometry.Pos.CENTER);
+        if (!mainStack.getChildren().contains(botonActivar)) {
+            mainStack.getChildren().add(botonActivar);
+        }
+
+        this.setOnMouseClicked(e -> {
+            if (handler != null) handler.alClicEspecial(this);
+        });
     }
 
     @Override
@@ -140,5 +158,45 @@ public class CartaEspecialVisual extends CartaVisual {
             infoOverlay.getChildren().add(new Label("Error mostrando info de carta especial."));
             System.err.println("[CartaEspecialVisual] Error en construirCamposInfo: " + e);
         }
+    }
+
+    @Override
+    public void animarSeleccion() {
+        javafx.animation.ScaleTransition st = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(180), this);
+        st.setToX(1.25);
+        st.setToY(1.25);
+        st.play();
+        hoverBorder.setStroke(javafx.scene.paint.Color.GOLD);
+        hoverBorder.setStrokeWidth(4);
+        hoverBorder.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        hoverBorder.setVisible(true);
+        if (mainStack.getChildren().contains(hoverBorder)) {
+            hoverBorder.toFront();
+        }
+        // Mostrar el botón Activar y traerlo al frente
+        if (botonActivar != null) {
+            botonActivar.setVisible(true);
+            botonActivar.toFront();
+        }
+        seleccionada = true;
+        ocultarInfoOverlay(); // Oculta el overlay de información al seleccionar
+    }
+
+    @Override
+    public void animarDeseleccion() {
+        javafx.animation.ScaleTransition st = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(180), this);
+        st.setToX(1.0);
+        st.setToY(1.0);
+        st.play();
+        hoverBorder.setVisible(false);
+        // Ocultar el botón Activar
+        if (botonActivar != null) botonActivar.setVisible(false);
+        seleccionada = false;
+        // No mostrar overlay aquí, solo se mostrará en hover si corresponde
+    }
+
+    @Override
+    protected boolean estaSeleccionada() {
+        return seleccionada;
     }
 }

@@ -27,7 +27,7 @@ public abstract class CartaVisual extends VBox {
         this.setPickOnBounds(true);
 
         hoverBorder = new Rectangle(ANCHO, ALTO);
-        hoverBorder.setFill(Color.rgb(255, 255, 0, 0.3)); // Amarillo semitransparente
+        hoverBorder.setFill(Color.TRANSPARENT);
         hoverBorder.setStroke(Color.YELLOW);
         hoverBorder.setStrokeWidth(2);
         hoverBorder.setVisible(false);
@@ -50,15 +50,30 @@ public abstract class CartaVisual extends VBox {
         infoOverlay.setAlignment(Pos.TOP_LEFT);
         mainStack.getChildren().add(infoOverlay);
 
-        this.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_ENTERED_TARGET, evt -> {
+        // Efecto hover dorado para todas las cartas visuales
+        this.setOnMouseEntered(e -> {
+            this.setCursor(javafx.scene.Cursor.HAND);
+            hoverBorder.setStroke(Color.GOLD);
+            hoverBorder.setStrokeWidth(4);
+            hoverBorder.setFill(Color.rgb(255, 215, 0, 0.18)); // dorado semitransparente
             hoverBorder.setVisible(true);
-            construirCamposInfo();
-            infoOverlay.setVisible(true);
-            infoOverlay.toFront();
+            if (mainStack.getChildren().contains(hoverBorder)) {
+                hoverBorder.toFront();
+            }
+            // Mostrar overlay de información solo si la carta NO está seleccionada
+            if (!estaSeleccionada()) {
+                mostrarInfoOverlay();
+            } else {
+                ocultarInfoOverlay();
+            }
         });
-        this.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_EXITED_TARGET, evt -> {
-            hoverBorder.setVisible(false);
-            infoOverlay.setVisible(false);
+        this.setOnMouseExited(e -> {
+            this.setCursor(javafx.scene.Cursor.DEFAULT);
+            // Solo ocultar el hoverBorder si la carta NO está seleccionada
+            if (!estaSeleccionada()) {
+                hoverBorder.setVisible(false);
+                ocultarInfoOverlay();
+            }
         });
     }
 
@@ -66,6 +81,10 @@ public abstract class CartaVisual extends VBox {
         infoOverlay.getChildren().clear();
         construirCamposInfo();
         infoOverlay.setVisible(true);
+    }
+
+    protected void ocultarInfoOverlay() {
+        infoOverlay.setVisible(false);
     }
 
     // Cada subclase debe implementar esto para mostrar los campos correctos
@@ -86,5 +105,16 @@ public abstract class CartaVisual extends VBox {
         return vistaImagen;
     }
 
+    public Carta getCarta(){
+        return carta;
+    }
+
+    // Método para que las subclases indiquen si están seleccionadas
+    protected boolean estaSeleccionada() {
+        return false;
+    }
+
     public abstract void construirVista();
+    public abstract void animarSeleccion();
+    public abstract void animarDeseleccion();
 }

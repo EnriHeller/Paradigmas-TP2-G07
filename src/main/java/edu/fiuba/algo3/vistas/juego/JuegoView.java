@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 import edu.fiuba.algo3.controller.FinalizadorDeJuego;
+import edu.fiuba.algo3.controller.HandlerEspecialManoImpl;
+import edu.fiuba.algo3.controller.HandlerUnidadMano;
 import edu.fiuba.algo3.controller.TableroController;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.vistas.BotonMusica;
@@ -70,31 +72,7 @@ public class JuegoView {
         tableroRegion.setLayoutY(0);
         bloqueJuego.getChildren().add(tableroRegion);
 
-        // Mano (abajo, centrada respecto al bloque)
-        ManoView mano = new ManoView(juego.mostrarManoActual(), carta -> {
-            tablero.setCartaElegida(carta);
-            tablero.refrescar(); // <- actualiza el tablero visual y lógicamente
-        });
-
-        Region manoRegion = mano.construir();
-        manoRegion.setLayoutX(310); // Ajusta según el diseño
-        manoRegion.setLayoutY(560); // Ajusta según el diseño
-        bloqueJuego.getChildren().add(manoRegion);
-
-        // Centro de turnos (izquierda)
-        CentroDeAdministracionTurnos turnos = new CentroDeAdministracionTurnos(juego);
-        VBox panelTurno = turnos.construir(tablero);
-        panelTurno.setLayoutX(-10);
-        panelTurno.setLayoutY(210);
-        bloqueJuego.getChildren().add(panelTurno);
-        // Listener para fin de juego
-        turnos.setOnTurnoFinalizado(() -> Platform.runLater(() -> {
-            try {
-                finalizadorDeJuego.verificarFinDeJuego();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }));
+        
         // Pila de descarte (arriba derecha)
         PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
         Region pilaRegion = pilaDescarteJugador.construir();
@@ -109,13 +87,39 @@ public class JuegoView {
         mazoView.setLayoutY(yMazo); 
         bloqueJuego.getChildren().add(mazoView);
 
+        // Mano (abajo, centrada respecto al bloque)
+        HandlerUnidadMano handlerUnidad = new HandlerUnidadMano(tablero);
+        HandlerEspecialManoImpl handlerEspecial = new HandlerEspecialManoImpl(tablero);
+        ManoView mano = new ManoView(juego.mostrarManoActual(), handlerUnidad, handlerEspecial);
+        Region manoRegion = mano.construir();
+        manoRegion.setLayoutX(310); // Ajusta según el diseño
+        manoRegion.setLayoutY(560); // Ajusta según el diseño
+        bloqueJuego.getChildren().add(manoRegion);
+        tablero.setManoView(mano);
+
+        // Centro de turnos (izquierda)
+        CentroDeAdministracionTurnos turnos = new CentroDeAdministracionTurnos(juego);
+        VBox panelTurno = turnos.construir(tablero,mano);
+        panelTurno.setLayoutX(-10);
+        panelTurno.setLayoutY(210);
+        bloqueJuego.getChildren().add(panelTurno);
+
+        // Listener para fin de juego
+        turnos.setOnTurnoFinalizado(() -> Platform.runLater(() -> {
+            try {
+                finalizadorDeJuego.verificarFinDeJuego();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }));
+
         //Boton de musica
         BotonMusica botonMusica = new BotonMusica();
-        Button botonMusicaReal = botonMusica.crear();
-        StackPane.setAlignment(botonMusicaReal, Pos.TOP_RIGHT);
-        StackPane.setMargin(botonMusicaReal, new Insets(10));
+        Button botonMusicaElem = botonMusica.crear();
+        StackPane.setAlignment(botonMusicaElem, Pos.TOP_RIGHT);
+        StackPane.setMargin(botonMusicaElem, new Insets(10));
 
-        bloqueJuego.getChildren().add(botonMusicaReal);
+        bloqueJuego.getChildren().add(botonMusicaElem);
 
         // Centrar el bloque de juego en el StackPane
         stack.getChildren().add(bloqueJuego);

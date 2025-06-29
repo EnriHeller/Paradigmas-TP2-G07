@@ -82,6 +82,10 @@ public class Juego {
             tablero.agregarCarta(tablero.obtenerSeccion(seccion), cartaUnidad);
             cartaUnidad.aplicarModificador(contexto);
             tablero.afectarClimas();
+
+            Jugador jugadorActual = administradorTurno.jugadorActual();
+            jugadorActual.removerCartaEnMano(carta);
+
             administradorTurno.actualizarRonda(((CartaUnidad) carta).ValorActual());
         }
     }

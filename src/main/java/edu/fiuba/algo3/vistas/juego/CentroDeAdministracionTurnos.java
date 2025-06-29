@@ -31,7 +31,7 @@ public class CentroDeAdministracionTurnos {
         this.onTurnoFinalizado = handler;
     }
 
-    public VBox construir(TableroView tablero) {
+    public VBox construir(TableroView tablero, ManoView mano) {
         VBox contenedor = new VBox(5);
         contenedor.setAlignment(Pos.CENTER_LEFT);
         contenedor.setPadding(new Insets(20, 0, 0, 30));
@@ -63,6 +63,7 @@ public class CentroDeAdministracionTurnos {
                         juego.tirarMoneda();
                         mostrarMoneda(juego.actual());
                         actualizarTextoJugador(juego.actual());
+                        mano.actualizarCartas(juego.mostrarManoActual());
                         tablero.refrescar(); // <- actualiza el tablero visual y lógicamente
 
                     }
@@ -71,16 +72,20 @@ public class CentroDeAdministracionTurnos {
                 clicksSiguiente = 0;
             } else {
                 juego.siguienteJugador();
+                mano.actualizarCartas(juego.mostrarManoActual());
+
                 mostrarMoneda(juego.actual());
                 actualizarTextoJugador(juego.actual());
                 clicksSiguiente++;
             }
+
         });
 
         // Tirada inicial de moneda
         juego.tirarMoneda();
         mostrarMoneda(juego.actual());
         actualizarTextoJugador(juego.actual());
+
 
         // Layout horizontal para botón y moneda
         HBox grupoBotonMoneda = new HBox(10, botonSiguiente, monedaView);

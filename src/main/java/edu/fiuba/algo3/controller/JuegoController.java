@@ -12,11 +12,12 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import edu.fiuba.algo3.modelo.principal.Juego;
 
-public class Juego {
-    private final edu.fiuba.algo3.modelo.principal.Juego juego;
+public class JuegoController {
+    private final Juego juego;
 
-    public Juego(edu.fiuba.algo3.modelo.principal.Juego juego) {
+    public JuegoController(Juego juego) {
         this.juego = juego;
     }
 

@@ -8,6 +8,7 @@ import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.vistas.juego.ManoView;
 
 public class TableroController {
     private final Juego juego;
@@ -32,6 +33,8 @@ public class TableroController {
             System.out.println("Carta en seccion antes de la jugada: " + cartaUnidad.mostrarCarta() + "\n" + "Puntaje de esa carta:" + cartaUnidad.ValorActual() + "\n");
         }
         juego.jugarCarta(carta, seccion);
+        // Refrescar la mano con la lista actualizada del jugador
+        
         for (CartaUnidad cartaUnidad : seccion.getCartas()) {
             System.out.println("Carta en seccion despues de la jugada: " + cartaUnidad.mostrarCarta() + "\n" + "Puntaje de esa carta:" + cartaUnidad.ValorActual() + "\n");
         }
@@ -50,5 +53,13 @@ public class TableroController {
 
     public List<String> getClavesSecciones() {
         return List.of("Asedio1", "Rango1", "CuerpoACuerpo1", "CuerpoACuerpo0", "Rango0", "Asedio0");
+    }
+
+    public void actualizarMano(ManoView mano){
+        mano.actualizarCartas(juego.mostrarManoActual());
+    }
+
+    public Juego getJuego() {
+        return this.juego;
     }
 }

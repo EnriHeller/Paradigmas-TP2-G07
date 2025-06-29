@@ -89,6 +89,10 @@ public class Jugador {
         return descarte.removerUnidad();
     }
 
+    public void removerCartaEnMano(Carta carta){
+        mano.removerCarta(carta);
+    }
+
     public Carta getCartaEnDescarte() {
         return descarte.getCartaPila();
     }

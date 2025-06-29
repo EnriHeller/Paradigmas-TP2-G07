@@ -2,7 +2,10 @@ package edu.fiuba.algo3.vistas.juego.cartas;
 
 import java.util.Objects;
 
+import edu.fiuba.algo3.controller.CartaClickHandler;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,17 +14,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class CartaUnidadVisual extends CartaVisual {
+    private final CartaClickHandler handler;
 
-    private Runnable onClick;
-
-//    public void setOnClick(Runnable onClick) {
-//        this.onClick = onClick;
-//    }
-
-    public CartaUnidadVisual(CartaUnidad carta) {
+    public CartaUnidadVisual(CartaUnidad carta, CartaClickHandler handler) {
         super(carta);
+        this.handler = handler;
         // construirVista() se debe llamar externamente después de la construcción
     }
 
@@ -34,6 +34,51 @@ public class CartaUnidadVisual extends CartaVisual {
             .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")
             .replaceAll("[^A-Za-z0-9]", "");
         return normalizado;
+    }
+
+    private boolean seleccionada = false;
+    private static final double ESCALA_SELECCION = 1.25;
+    private static final Duration DURACION_ANIM = Duration.millis(180);
+
+    @Override
+    public void animarSeleccion() {
+        ScaleTransition st = new ScaleTransition(DURACION_ANIM, this);
+        st.setToX(ESCALA_SELECCION);
+        st.setToY(ESCALA_SELECCION);
+        st.play();
+        hoverBorder.setStroke(Color.GOLD);
+        hoverBorder.setStrokeWidth(4);
+        hoverBorder.setFill(Color.TRANSPARENT); // Asegura que solo se vea el borde
+        hoverBorder.setVisible(true);
+        if (mainStack.getChildren().contains(hoverBorder)) {
+            hoverBorder.toFront();
+        }
+        seleccionada = true;
+        ocultarInfoOverlay(); // Oculta el overlay de información al seleccionar
+    }
+
+    @Override
+    public void animarDeseleccion() {
+        ScaleTransition st = new ScaleTransition(DURACION_ANIM, this);
+        st.setToX(1.0);
+        st.setToY(1.0);
+        st.play();
+        hoverBorder.setVisible(false);
+        seleccionada = false;
+        // No mostrar overlay aquí, solo se mostrará en hover si corresponde
+    }
+
+    // Llamar esto desde TableroView cuando se juega la carta por click
+    public void animarMovimientoAHasta(double destinoX, double destinoY, Runnable onFinish) {
+        TranslateTransition tt = new TranslateTransition(Duration.millis(350), this);
+        tt.setToX(destinoX - this.getLayoutX());
+        tt.setToY(destinoY - this.getLayoutY());
+        tt.setOnFinished(e -> {
+            this.setTranslateX(0);
+            this.setTranslateY(0);
+            if (onFinish != null) onFinish.run();
+        });
+        tt.play();
     }
 
     @Override
@@ -101,11 +146,10 @@ public class CartaUnidadVisual extends CartaVisual {
         }
 
         this.setOnMouseClicked(e -> {
-            if (onClick != null) onClick.run();
+            if (handler != null) handler.alClic(this);
+            if (!seleccionada) animarSeleccion();
+            // Si ya estaba seleccionada, podrías deseleccionarla aquí si lo deseas
         });
-
-        this.setOnMouseEntered(e -> this.setCursor(javafx.scene.Cursor.HAND));
-        this.setOnMouseExited(e -> this.setCursor(javafx.scene.Cursor.DEFAULT));
     }
 
     @Override
@@ -136,5 +180,10 @@ public class CartaUnidadVisual extends CartaVisual {
             infoOverlay.getChildren().add(new Label("Error mostrando info de carta unidad."));
             System.err.println("[CartaUnidadVisual] Error en construirCamposInfo: " + e);
         }
+    }
+
+    @Override
+    protected boolean estaSeleccionada() {
+        return seleccionada;
     }
 }

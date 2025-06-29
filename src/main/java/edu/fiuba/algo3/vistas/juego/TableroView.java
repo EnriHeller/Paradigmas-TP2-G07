@@ -9,9 +9,7 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -33,18 +31,18 @@ public class TableroView {
 
     private Carta cartaElegida;
     private final TableroController tableroController;
-    private HBox contenedorMano;
     private final List<HBox> seccionesVisuales = new ArrayList<>();
     private Pane overlayActual;
     private StackPane rootStackPane;
+    private ManoView manoView;
 
     public void setCartaElegida(Carta carta) {
         System.out.println("Carta elegida: " + carta.mostrarCarta());
         this.cartaElegida = carta;
     }
 
-    public void setContenedorMano(HBox contenedorMano) {
-        this.contenedorMano = contenedorMano;
+    public void setManoView(ManoView manoView) {
+        this.manoView = manoView;
     }
 
     public TableroView(TableroController tableroController) {
@@ -100,6 +98,7 @@ public class TableroView {
         fila.setLayoutX(x);
         fila.setLayoutY(y);
         fila.setPrefHeight(seccionHeight);
+        fila.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
 
         // Label de puntaje
         Label puntajeLabel = new Label(String.valueOf(tableroController.getPuntajeSeccion(clave)));
@@ -115,10 +114,16 @@ public class TableroView {
         visual.setPrefSize(seccionWidth, seccionHeight);
 
         visual.setOnMouseEntered(event -> {
-            visual.setStyle("-fx-background-color: rgba(200,200,200,0.4); -fx-border-color: gray; -fx-border-width: 1; -fx-border-radius: 5;");
+            if (visual.getScene() != null && visual.getScene().getWindow() != null) {
+                visual.getScene().setCursor(javafx.scene.Cursor.HAND);
+            }
+            visual.setStyle("-fx-background-color: rgba(255, 230, 0, 0.4); -fx-border-color: gray; -fx-border-width: 1; -fx-border-radius: 5;");
         });
 
         visual.setOnMouseExited(event -> {
+            if (visual.getScene() != null && visual.getScene().getWindow() != null) {
+                visual.getScene().setCursor(javafx.scene.Cursor.DEFAULT);
+            }
             visual.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
         });
 
@@ -128,17 +133,18 @@ public class TableroView {
                 if (tableroController.puedeAgregar(clave, (CartaUnidad) cartaElegida)) {
                     try {
                         tableroController.jugarCarta(cartaElegida, clave);
-                    } catch (TipoDeSeccionInvalidaError ignored) {
-                    }
+                    } catch (TipoDeSeccionInvalidaError ignored) {}
                     actualizarSeccion(visual, puntajeLabel, (CartaUnidad) cartaElegida, clave);
-                    removerCartaDeLaMano((CartaUnidad) cartaElegida);
+                    if (manoView != null) {
+                        manoView.actualizarCartas(tableroController.getJuego().mostrarManoActual());
+                    }
                     cartaElegida = null;
                 }
             }
         });
 
         for (CartaUnidad carta : tableroController.getCartasEnSeccion(clave)) {
-            CartaUnidadVisual cartaVisual = new CartaUnidadVisual(carta);
+            CartaUnidadVisual cartaVisual = new CartaUnidadVisual(carta, null);
             cartaVisual.construirVista();
             visual.getChildren().add(cartaVisual);
         }
@@ -149,29 +155,13 @@ public class TableroView {
     }
 
     private void actualizarSeccion(HBox visual, Label puntajeLabel, CartaUnidad cartaUnidad, String claveSeccion) {
-        CartaUnidadVisual cartaVisual = new CartaUnidadVisual(cartaUnidad);
+        CartaUnidadVisual cartaVisual = new CartaUnidadVisual(cartaUnidad, null);
         cartaVisual.setStyle("-fx-border-color: blue; -fx-background-color: #e0e0e0; -fx-border-width: 2px;");
         cartaVisual.construirVista();
         visual.getChildren().add(cartaVisual);
 
         // Actualizar puntaje
         puntajeLabel.setText(String.valueOf(tableroController.getPuntajeSeccion(claveSeccion)));
-    }
-
-    private void removerCartaDeLaMano(CartaUnidad carta) {
-        if (contenedorMano == null) return;
-
-        Platform.runLater(() -> {
-            for (Node nodo : contenedorMano.getChildren()) {
-                if (nodo instanceof CartaUnidadVisual) {
-                    CartaUnidadVisual visual = (CartaUnidadVisual) nodo;
-                    if (visual.getCarta().equals(carta)) {
-                        contenedorMano.getChildren().remove(nodo);
-                        break;
-                    }
-                }
-            }
-        });
     }
 
     public void refrescar() {
