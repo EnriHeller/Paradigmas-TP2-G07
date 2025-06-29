@@ -61,14 +61,18 @@ public class Juego {
 //        }
 //    }
 
+//    public void descartarCartasDeMano(int jugadorID, List<Carta> cartasQueSeQuierenDescartar) {
+//        jugadores.get(jugadorID).descartarAlMazo(cartasQueSeQuierenDescartar);
+//    }
+
+    public void removerCartaEnMano(Carta carta){
+        Jugador jugadorActual = administradorTurno.jugadorActual();
+        jugadorActual.removerCartaEnMano(carta);
+    }
+
     public void darMano(int jugadorID, int cantidadDeCartas) throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
         jugadores.get(jugadorID).agregarCartasAMano(cantidadDeCartas);
     }
-
-    public void descartarCartasDeMano(int jugadorID, List<Carta> cartasQueSeQuierenDescartar) {
-        jugadores.get(jugadorID).descartarAlMazo(cartasQueSeQuierenDescartar);
-    }
-
 
     //FASE DE JUEGO
     public void jugarCarta(Carta carta, Seccion seccion) throws TipoDeSeccionInvalidaError {
@@ -83,8 +87,8 @@ public class Juego {
             cartaUnidad.aplicarModificador(contexto);
             tablero.afectarClimas();
 
-            Jugador jugadorActual = administradorTurno.jugadorActual();
-            jugadorActual.removerCartaEnMano(carta);
+            //Jugador jugadorActual = administradorTurno.jugadorActual();
+            //jugadorActual.removerCartaEnMano(carta);
 
             administradorTurno.actualizarRonda(((CartaUnidad) carta).ValorActual());
         }

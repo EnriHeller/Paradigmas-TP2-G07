@@ -26,6 +26,10 @@ public class TableroController {
         return seccion.puedeAgregar(carta, idActual);
     }
 
+    public void removerCartaEnMano(Carta cartaElegida){
+        juego.removerCartaEnMano(cartaElegida);
+    }
+
     public void jugarCarta(Carta carta, String claveSeccion) throws TipoDeSeccionInvalidaError {
         Seccion seccion = modeloTablero.obtenerSeccionPorClave(claveSeccion);
         System.out.println("Inicio de jugar carta");

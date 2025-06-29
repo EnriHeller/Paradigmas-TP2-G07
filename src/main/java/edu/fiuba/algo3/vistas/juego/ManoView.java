@@ -82,6 +82,8 @@ public class ManoView {
         refrescar();
     }
 
+
+
     public HBox getContenedor() {
         return contenedor;
     }

@@ -136,6 +136,7 @@ public class TableroView {
                     } catch (TipoDeSeccionInvalidaError ignored) {}
                     actualizarSeccion(visual, puntajeLabel, (CartaUnidad) cartaElegida, clave);
                     if (manoView != null) {
+                        tableroController.removerCartaEnMano(cartaElegida);
                         manoView.actualizarCartas(tableroController.getJuego().mostrarManoActual());
                     }
                     cartaElegida = null;
