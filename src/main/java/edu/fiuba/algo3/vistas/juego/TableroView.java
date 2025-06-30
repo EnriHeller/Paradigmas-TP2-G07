@@ -37,7 +37,9 @@ public class TableroView {
     private ManoView manoView;
 
     public void setCartaElegida(Carta carta) {
-        System.out.println("Carta elegida: " + carta.mostrarCarta());
+        if(carta != null){
+            System.out.println("Carta elegida: " + carta.mostrarCarta());
+        }
         this.cartaElegida = carta;
     }
 
