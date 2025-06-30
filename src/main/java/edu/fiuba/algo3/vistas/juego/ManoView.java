@@ -21,6 +21,8 @@ public class ManoView {
     private final HandlerEspecialMano handlerEspecial;
     private final HBox contenedor;
 
+    private CartaVisual cartaSeleccionada = null;
+
     public ManoView(List<Carta> cartas, CartaClickHandler handler, HandlerEspecialMano handlerEspecial) {
         this.cartas = cartas;
         this.handler = handler;
@@ -42,6 +44,7 @@ public class ManoView {
                         ? new CartaEspecialVisual(carta, handlerEspecial)
                         : new CartaUnidadVisual((CartaUnidad) carta, handler);
                 visual.construirVista();
+                visual.setManoView(this); // Asigna la referencia de ManoView a cada carta visual
                 contenedor.getChildren().add(visual);
             } catch (Exception e) {
                 Label errorLabel = new Label("Error\n" + carta.mostrarCarta());
@@ -60,7 +63,25 @@ public class ManoView {
         refrescar();
     }
 
+    public void seleccionarCarta(CartaVisual carta) {
+        if (cartaSeleccionada != null && cartaSeleccionada != carta) {
+            cartaSeleccionada.animarDeseleccion();
+        }
+        if (cartaSeleccionada == carta) {
+            cartaSeleccionada.animarDeseleccion();
+            cartaSeleccionada = null;
+        } else {
+            carta.animarSeleccion();
+            cartaSeleccionada = carta;
+        }
+    }
 
+    public void deseleccionarCarta() {
+        if (cartaSeleccionada != null) {
+            cartaSeleccionada.animarDeseleccion();
+            cartaSeleccionada = null;
+        }
+    }
 
     public HBox getContenedor() {
         return contenedor;

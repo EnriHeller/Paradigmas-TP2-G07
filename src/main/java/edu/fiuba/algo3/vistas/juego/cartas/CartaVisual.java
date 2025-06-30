@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.vistas.juego.cartas;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.vistas.juego.ManoView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -18,6 +19,7 @@ public abstract class CartaVisual extends VBox {
     protected Rectangle hoverBorder;
     protected StackPane mainStack;
     protected VBox infoOverlay;
+    protected ManoView manoView;
 
     public CartaVisual(Carta carta) {
         this.carta = carta;
@@ -117,4 +119,8 @@ public abstract class CartaVisual extends VBox {
     public abstract void construirVista();
     public abstract void animarSeleccion();
     public abstract void animarDeseleccion();
+
+    public void setManoView(ManoView manoView) {
+        this.manoView = manoView;
+    }
 }

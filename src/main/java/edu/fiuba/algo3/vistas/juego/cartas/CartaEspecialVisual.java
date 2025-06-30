@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
+import edu.fiuba.algo3.vistas.juego.ManoView;
 
 public class CartaEspecialVisual extends CartaVisual {
     private final HandlerEspecialMano handler;
@@ -103,13 +104,15 @@ public class CartaEspecialVisual extends CartaVisual {
         }
 
         this.setOnMouseClicked(e -> {
-            
+            if (manoView != null) {
+                manoView.seleccionarCarta(this);
+            }
             if (handler != null) handler.alClicEspecial(this);
-            if (!seleccionada) animarSeleccion();
         });
     }
 
     @Override
+    
     public void construirCamposInfo() {
         infoOverlay.getChildren().clear();
         try {
