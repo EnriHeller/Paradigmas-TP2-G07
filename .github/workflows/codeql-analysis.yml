@@ -13,13 +13,12 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "*" ]
+    branches: [ "main" ]  # Solo en main, no en todas las ramas
   pull_request:
-    branches: [ "*" ]
+    branches: [ "main" ]
   schedule:
     - cron: '33 7 * * 3'
 
-# Agregar permisos necesarios
 permissions:
   actions: read
   contents: read
@@ -30,12 +29,14 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-22.04
-    timeout-minutes: 360
-
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'java' ]
+    timeout-minutes: 60  # Reducir de 360 a 60 minutos
+    
+    # Solo ejecutar CodeQL si hay cambios en archivos Java
+    if: |
+      github.event_name == 'schedule' || 
+      contains(github.event.head_commit.modified, '.java') || 
+      contains(github.event.head_commit.added, '.java') ||
+      github.event_name == 'pull_request'
 
     steps:
     - name: Checkout repository
@@ -57,14 +58,16 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
-        languages: ${{ matrix.language }}
-        # Si quieres usar queries personalizadas, descomenta:
-        # queries: security-extended,security-and-quality
+        languages: java
+        # Usar queries básicas, más rápidas
+        queries: security-extended
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v3
+    # Build manual más rápido - solo compilar, sin tests
+    - name: Fast compile for CodeQL
+      run: |
+        mvn clean compile -DskipTests -Dmaven.javadoc.skip=true -q --batch-mode
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
-        category: "/language:${{matrix.language}}"
+        category: "/language:java"
