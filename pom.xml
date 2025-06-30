@@ -10,12 +10,12 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <junit.jupiter.version>5.10.1</junit.jupiter.version>
-    <mockito-mockito-core-version>3.3.0</mockito-mockito-core-version>
-    <maven-surefire-version>3.0.0-M3</maven-surefire-version>
-    <archunit-version>0.21.0</archunit-version>
+    <mockito-mockito-core-version>5.5.0</mockito-mockito-core-version>  <!-- Actualizar también -->
+    <maven-surefire-version>3.1.2</maven-surefire-version>  <!-- Actualizar -->
+    <archunit-version>1.0.1</archunit-version>  <!-- Actualizar -->
     <javafx-version>20.0.2</javafx-version>
     <pitest-plugin-version>1.17.3</pitest-plugin-version>
-    <pitest-junit5-plugin-version>1.0.0</pitest-junit5-plugin-version>
+    <pitest-junit5-plugin-version>1.2.1</pitest-junit5-plugin-version>  <!-- Actualizar -->
     <main-class>edu.fiuba.algo3.Main</main-class>
   </properties>
 
@@ -128,7 +128,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
+        <version>3.11.0</version>
         <configuration>
           <release>17</release>
         </configuration>
@@ -164,12 +164,24 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
+        <version>3.1.2</version>
         <configuration>
-          <testSourceDirectory>src/main/test</testSourceDirectory>
-          <includes>
-            <include>**/*.java</include>
-          </includes>
+          <argLine>
+            --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+            --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+            --add-opens javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED
+            --add-opens javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED
+            --add-opens javafx.base/com.sun.javafx.binding=ALL-UNNAMED
+            --add-opens javafx.base/com.sun.javafx.event=ALL-UNNAMED
+            --add-opens javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED
+            --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+          </argLine>
+          <systemPropertyVariables>
+            <testfx.robot>glass</testfx.robot>
+            <testfx.headless>true</testfx.headless>
+            <prism.order>sw</prism.order>
+            <java.awt.headless>true</java.awt.headless>
+          </systemPropertyVariables>
         </configuration>
       </plugin>
       <plugin>
