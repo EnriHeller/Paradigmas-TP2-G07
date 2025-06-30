@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.vistas;
 
+import edu.fiuba.algo3.App;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.cartas.Carta;
@@ -27,8 +28,7 @@ public class DescarteView extends Stage {
     private final List<Carta> cartasMano;
     private final Set<Carta> cartasSeleccionadas = new HashSet<>();
 
-    private final VBox layout = new VBox(20);
-    private final HBox contenedorCartas = new HBox(10);
+    private HBox contenedorCartas = new HBox(10);
     private final Button confirmarBtn = new Button("Confirmar descarte");
     private final ScrollPane scrollPane = new ScrollPane();
 
@@ -37,13 +37,16 @@ public class DescarteView extends Stage {
     }
 
     public Parent construir() {
-        layout.setPadding(new Insets(20));
-        layout.setAlignment(Pos.CENTER);
-        layout.setStyle("-fx-background-image: url('/imagenes/fondo_descarte.png'); "
-                + "-fx-background-size: cover;");
-
-        contenedorCartas.setAlignment(Pos.CENTER);
-        mostrarCartasDeLaMano();
+        BorderPane layout = new BorderPane();
+        Image fondo = new Image(Objects.requireNonNull(getClass().getResource("/imagenes/fondo_descarte.png")).toExternalForm());
+        BackgroundImage bgImage = new BackgroundImage(
+                fondo,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, true, true) // cover width/height, no aspect ratio
+        );
+        layout.setBackground(new Background(bgImage));
 
         confirmarBtn.setDisable(true);
         confirmarBtn.setOnAction(e -> {
@@ -51,23 +54,19 @@ public class DescarteView extends Stage {
             System.out.println("Cartas seleccionadas para descartar: " + cartasSeleccionadas);
         });
 
+        this.contenedorCartas = mostrarCartasDeLaMano();
+
         layout.getChildren().addAll(contenedorCartas, confirmarBtn);
-        this.setScene(new Scene(layout, 1100, 700));
-        this.setTitle("Descartar Cartas");
-        this.show();
-
-        mostrarCartasDeLaMano();
-
         return layout;
     }
 
-    private void mostrarCartasDeLaMano() {
-        contenedorCartas.getChildren().clear();
-
+    private HBox mostrarCartasDeLaMano() {
+        HBox contenedorCartasBox = new HBox();
         for (Carta carta : cartasMano) {
             VBox cartaBox = crearCartaVisual(carta);
-            contenedorCartas.getChildren().add(cartaBox);
+            contenedorCartasBox.getChildren().add(cartaBox);
         }
+        return contenedorCartasBox;
     }
 
     private VBox crearCartaVisual(Carta carta) {
@@ -96,9 +95,7 @@ public class DescarteView extends Stage {
             )));
         }
 
-        ImageView imagenView = new ImageView(imagen);
-        imagenView.setFitHeight(150);
-        imagenView.setPreserveRatio(true);
+        ImageView imagenView = crearImagenEstandar(imagen);
 
         StackPane mainStack = new StackPane();
         mainStack.getChildren().add(imagenView);
@@ -154,6 +151,17 @@ public class DescarteView extends Stage {
         cartaBox.setStyle("-fx-border-color: transparent; -fx-border-width: 4px;");
 
         return cartaBox;
+    }
+
+    private ImageView crearImagenEstandar(Image imagen) {
+        int ANCHO = 80;
+        int ALTO = 100;
+        ImageView vistaImagen = new ImageView(imagen);
+        vistaImagen.setFitWidth(ANCHO);
+        vistaImagen.setFitHeight(ALTO);
+        vistaImagen.setPreserveRatio(false);
+        vistaImagen.setPickOnBounds(false);
+        return vistaImagen;
     }
 
 

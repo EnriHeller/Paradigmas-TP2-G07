@@ -133,8 +133,8 @@ public class JuegoView {
         HBox descarteBox = new HBox(15, botonDescarte);
         descarteBox.setAlignment(javafx.geometry.Pos.CENTER);
 
-        descarteBox.setLayoutX(34);
-        descarteBox.setLayoutY(590);
+        descarteBox.setLayoutX(1100);
+        descarteBox.setLayoutY(240);
         bloqueJuego.getChildren().add(descarteBox);
 
 
