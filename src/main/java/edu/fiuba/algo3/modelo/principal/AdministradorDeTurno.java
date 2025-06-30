@@ -12,7 +12,7 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 public class AdministradorDeTurno {
     private final List<Jugador> jugadores;
     private final List<Ronda> rondas = new ArrayList<>();
-    private int indiceActual = 0;
+    private int indiceActual;
     private int ciclos = 0;
 
     public AdministradorDeTurno(List<Jugador> jugadores) {

@@ -132,26 +132,35 @@ public class CartaEspecialVisual extends CartaVisual {
             if (nombre != null) {
                 Label l = new Label("Nombre: " + nombre);
                 l.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+                l.setMouseTransparent(true);
                 infoOverlay.getChildren().add(l);
             } else {
                 Label l = new Label("Nombre: " + carta.mostrarCarta());
                 l.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+                l.setMouseTransparent(true);
+
                 infoOverlay.getChildren().add(l);
             }
             if (tipo != null) {
                 Label l = new Label("Tipo: " + tipo);
                 l.setStyle("-fx-text-fill: #e0e0e0;");
+                l.setMouseTransparent(true);
+
                 infoOverlay.getChildren().add(l);
             }
             if (afectados != null && !afectados.isEmpty()) {
                 Label l = new Label("Afecta: " + String.join(", ", afectados));
                 l.setStyle("-fx-text-fill: #b0e57c;");
+                l.setMouseTransparent(true);
+
                 infoOverlay.getChildren().add(l);
             }
             if (descripcion != null && !descripcion.isEmpty()) {
                 Label l = new Label(descripcion);
                 l.setWrapText(true);
                 l.setStyle("-fx-text-fill: #cccccc; -fx-font-size: 11;");
+                l.setMouseTransparent(true);
+
                 infoOverlay.getChildren().add(l);
             }
         } catch (Exception e) {

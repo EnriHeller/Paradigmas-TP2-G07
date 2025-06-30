@@ -38,6 +38,9 @@ public class JuegoView {
     public JuegoView(Juego juego) {
         this.juego = juego;
         this.finalizadorDeJuego = new FinalizadorDeJuego(juego);
+
+        // Tirada inicial de moneda
+        juego.tirarMoneda();
     }
 
     public BorderPane construir() throws Exception {
