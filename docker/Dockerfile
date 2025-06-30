@@ -1,5 +1,4 @@
-# Use a more recent Maven image with JDK 11
-FROM maven:3.8.4-openjdk-11 as base
+FROM maven:3.8.4-openjdk-17 as base
 
 # Install necessary packages for headless testing
 RUN apt-get update && apt-get install -y \
