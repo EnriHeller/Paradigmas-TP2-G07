@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.modelo.principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
@@ -49,6 +50,10 @@ public class Juego {
 
     public int actual(){
         return administradorTurno.actual();
+    }
+    
+    public Jugador jugadorActual() {
+        return administradorTurno.jugadorActual();
     }
 
 //    public void repartirCartasAlJugador(int jugador) throws TipoDeSeccionInvalidaError {
@@ -133,6 +138,10 @@ public class Juego {
         return jugadores.get(1);
     }
 
+    public Jugador getJugador1() {
+        return jugadores.get(0);
+    }
+
     public Tablero getTablero() {
         return tablero;
     }
@@ -144,6 +153,10 @@ public class Juego {
 
     public int cartasEnMazoActual() {
         return administradorTurno.jugadorActual().cartasRestantesEnSeccion("Mazo");
+    }
+
+    public List<Map<String, Integer>> getPuntosPorRonda() {
+        return administradorTurno.getPuntosPorRonda();
     }
 
 

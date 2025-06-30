@@ -1,12 +1,13 @@
 package edu.fiuba.algo3.modelo.principal;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class AdministradorDeTurno {
     private final List<Jugador> jugadores;
@@ -111,5 +112,15 @@ public class AdministradorDeTurno {
         if (ciclos < 2) {
             return false;
         } else return !mostrarGanador().equals("empate") || ciclos == 3;
+    }
+
+    public List<Map<String, Integer>> getPuntosPorRonda() {
+        List<Map<String, Integer>> puntosPorRonda = new ArrayList<>();
+        for (Ronda ronda : rondas) {
+            if (ronda != null) {
+                puntosPorRonda.add(ronda.getPuntajeJugadores());
+            }
+        }
+        return puntosPorRonda;
     }
 }

@@ -44,4 +44,8 @@ public class Ronda {
         return ganadorRonda;
     }
 
+    public Map<String, Integer> getPuntajeJugadores() {
+        return new HashMap<>(puntajeJugadores);
+    }
+
 }

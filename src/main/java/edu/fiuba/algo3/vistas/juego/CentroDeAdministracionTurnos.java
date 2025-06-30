@@ -1,7 +1,5 @@
 package edu.fiuba.algo3.vistas.juego;
 
-import java.util.Objects;
-
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.vistas.Botones;
 import javafx.animation.PauseTransition;
@@ -16,15 +14,28 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 public class CentroDeAdministracionTurnos {
     private final Juego juego;
     private int clicksSiguiente = 0;
+
     private ImageView monedaView;
     private Label textoJugador;
     private Runnable onTurnoFinalizado;
 
+    private Label puntosJugador1Externos;
+    private Label puntosJugador2Externos;
+
     public CentroDeAdministracionTurnos(Juego juego) {
         this.juego = juego;
+    }
+
+    public void setLabelsExternos(Label j1, Label j2) {
+        this.puntosJugador1Externos = j1;
+        this.puntosJugador2Externos = j2;
     }
 
     public void setOnTurnoFinalizado(Runnable handler) {
@@ -32,39 +43,35 @@ public class CentroDeAdministracionTurnos {
     }
 
     public VBox construir(TableroView tablero, ManoView mano) {
-        VBox contenedor = new VBox(5);
+        VBox contenedor = new VBox(10);
         contenedor.setAlignment(Pos.CENTER_LEFT);
         contenedor.setPadding(new Insets(20, 0, 0, 30));
 
-        // Texto de jugador actual
         textoJugador = new Label();
         textoJugador.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;");
 
-        // Imagen de la moneda
         monedaView = new ImageView();
         monedaView.setFitWidth(50);
         monedaView.setFitHeight(50);
 
-        // Botón de siguiente jugador
-        Button botonSiguiente = Botones.Boton_1("Siguiente jugador", () -> {
+        Button botonSiguiente = Botones.Boton_1("Pasar", () -> {
             if (clicksSiguiente >= 1) {
                 textoJugador.setText("Finalización de ronda");
                 PauseTransition espera = new PauseTransition(Duration.seconds(2));
                 espera.setOnFinished(e -> {
                     juego.finalizarRonda();
-                    
-                    // Notificar que la ronda terminó y verificar fin de juego
+                    actualizarHistorialPuntos();
+
                     if (onTurnoFinalizado != null) {
-                        Platform.runLater(() -> onTurnoFinalizado.run());
+                        Platform.runLater(onTurnoFinalizado);
                     }
 
-                    // Solo continuar si el juego no ha terminado
                     if (!juego.juegoTerminado()) {
                         juego.tirarMoneda();
                         mostrarMoneda(juego.actual());
-                        actualizarTextoJugador(juego.actual());
+                        actualizarTextoJugador();
                         mano.actualizarCartas(juego.mostrarManoActual());
-                        tablero.refrescar(); // <- actualiza el tablero visual y lógicamente
+                        tablero.refrescar();
                     }
                 });
                 espera.play();
@@ -72,24 +79,20 @@ public class CentroDeAdministracionTurnos {
             } else {
                 juego.siguienteJugador();
                 mano.actualizarCartas(juego.mostrarManoActual());
-
                 mostrarMoneda(juego.actual());
-                actualizarTextoJugador(juego.actual());
+                actualizarTextoJugador();
                 clicksSiguiente++;
             }
-
         });
 
-        // // Datos iniciales inicial de moneda
+        juego.tirarMoneda();
         mostrarMoneda(juego.actual());
-        actualizarTextoJugador(juego.actual());
+        actualizarTextoJugador();
+        actualizarHistorialPuntos();
 
-
-        // Layout horizontal para botón y moneda
         HBox grupoBotonMoneda = new HBox(10, botonSiguiente, monedaView);
         grupoBotonMoneda.setAlignment(Pos.CENTER_LEFT);
 
-        // Agregar texto + grupo de control a VBox
         contenedor.getChildren().addAll(textoJugador, grupoBotonMoneda);
         return contenedor;
     }
@@ -100,7 +103,29 @@ public class CentroDeAdministracionTurnos {
         monedaView.setImage(img);
     }
 
-    private void actualizarTextoJugador(int jugador) {
-        textoJugador.setText("Juega: jugador " + (jugador + 1));
+    private void actualizarTextoJugador() {
+        textoJugador.setText("Turno de: " + juego.jugadorActual().getNombre());
+    }
+
+    private void actualizarHistorialPuntos() {
+        List<Map<String, Integer>> puntosPorRonda = juego.getPuntosPorRonda();
+        String nombreJ1 = juego.getJugador1().getNombre();
+        String nombreJ2 = juego.getJugador2().getNombre();
+
+        StringBuilder textoJ1 = new StringBuilder("Puntos por ronda de " + nombreJ1 + ": \n");
+        StringBuilder textoJ2 = new StringBuilder("Puntos por ronda de " + nombreJ2 + ": \n");
+
+        for (int i = 0; i < puntosPorRonda.size(); i++) {
+            Map<String, Integer> ronda = puntosPorRonda.get(i);
+            textoJ1.append(ronda.getOrDefault(nombreJ1, 0));
+            textoJ2.append(ronda.getOrDefault(nombreJ2, 0));
+            if (i < puntosPorRonda.size() - 1) {
+                textoJ1.append(", ");
+                textoJ2.append(", ");
+            }
+        }
+
+        if (puntosJugador1Externos != null) puntosJugador1Externos.setText(textoJ1.toString());
+        if (puntosJugador2Externos != null) puntosJugador2Externos.setText(textoJ2.toString());
     }
 }
