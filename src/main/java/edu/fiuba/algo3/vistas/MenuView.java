@@ -97,10 +97,11 @@ public class MenuView {
 
                 JuegoView juegoView = new JuegoView(juego);
 
-                Utils.cambiarEscena(new Scene(juegoView.construir(), App.WIDTH, App.HEIGHT));
                 Audio audio = Audio.getInstance();
                 audio.stop();
                 audio.play("/audio/escapism.wav");
+
+                Utils.cambiarEscena(new Scene(juegoView.construir(), App.WIDTH, App.HEIGHT));
 
             } catch (TipoDeSeccionInvalidaError ex) {
                 mostrarAlerta("Error: TipoDeSeccionInvalidaError", ex.getMessage(), ex);

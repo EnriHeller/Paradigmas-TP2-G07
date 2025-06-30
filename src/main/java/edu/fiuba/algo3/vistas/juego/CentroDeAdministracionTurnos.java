@@ -81,8 +81,7 @@ public class CentroDeAdministracionTurnos {
 
         });
 
-        // Tirada inicial de moneda
-        juego.tirarMoneda();
+        // // Datos iniciales inicial de moneda
         mostrarMoneda(juego.actual());
         actualizarTextoJugador(juego.actual());
 
