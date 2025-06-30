@@ -69,10 +69,6 @@ public class Jugador {
         return mano.getCartas();
     }
 
-    public String nombre() {
-        return nombre;
-    }
-
     public String getNombre() {
         return nombre;
     }

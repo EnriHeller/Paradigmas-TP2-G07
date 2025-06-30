@@ -4,20 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import edu.fiuba.algo3.controller.FinalizadorDeJuego;
-import edu.fiuba.algo3.controller.HandlerEspecialManoImpl;
-import edu.fiuba.algo3.controller.HandlerUnidadMano;
-import edu.fiuba.algo3.controller.TableroController;
+import edu.fiuba.algo3.controller.*;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.vistas.BotonMusica;
 import edu.fiuba.algo3.vistas.DescarteView;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -35,6 +33,9 @@ public class JuegoView {
     public JuegoView(Juego juego) {
         this.juego = juego;
         this.finalizadorDeJuego = new FinalizadorDeJuego(juego);
+
+        // Tirada inicial de moneda
+        juego.tirarMoneda();
     }
 
     public BorderPane construir() throws Exception {
@@ -96,29 +97,63 @@ public class JuegoView {
         bloqueJuego.getChildren().add(manoRegion);
         tablero.setManoView(mano);
 
+        // Historial de puntos del juego
+        Label puntosJugador1 = new Label();
+        Label puntosJugador2 = new Label();
+
+        puntosJugador1.setStyle("-fx-font-family: 'Georgia'; -fx-font-size: 14px; -fx-text-fill: white;");
+        puntosJugador2.setStyle("-fx-font-family: 'Georgia'; -fx-font-size: 14px; -fx-text-fill: white;");
+
+        puntosJugador1.setLayoutX(55); // Ajustá estas coordenadas finamente
+        puntosJugador1.setLayoutY(485);
+
+        puntosJugador2.setLayoutX(55);
+        puntosJugador2.setLayoutY(165);
+
+        bloqueJuego.getChildren().addAll(puntosJugador1, puntosJugador2);
+
+
         // Centro de turnos (izquierda)
         CentroDeAdministracionTurnos turnos = new CentroDeAdministracionTurnos(juego);
+        turnos.setLabelsExternos(puntosJugador1, puntosJugador2);
         VBox panelTurno = turnos.construir(tablero,mano);
         panelTurno.setLayoutX(-10);
         panelTurno.setLayoutY(210);
         bloqueJuego.getChildren().add(panelTurno);
 
-        // Listener para fin de juego
-        turnos.setOnTurnoFinalizado(() -> Platform.runLater(() -> {
-            try {
-                finalizadorDeJuego.verificarFinDeJuego();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }));
-
         //Boton de musica
         BotonMusica botonMusica = new BotonMusica();
         Button botonMusicaElem = botonMusica.crear();
-        StackPane.setAlignment(botonMusicaElem, Pos.TOP_RIGHT);
-        StackPane.setMargin(botonMusicaElem, new Insets(10));
+        
+        // Posicionar el botón de música 
+        botonMusicaElem.setLayoutX(70);
+        botonMusicaElem.setLayoutY(580); 
+        bloqueJuego.getChildren().add(botonMusicaElem); 
 
-        bloqueJuego.getChildren().add(botonMusicaElem);
+        // Boton Salir
+        Button botonSalir = new Button("✖");
+        botonSalir.setTooltip(new Tooltip("Salir"));
+        botonSalir.setStyle("-fx-background-color: transparent; -fx-font-size: 28px; -fx-text-fill: white;");
+        botonSalir.setOnMouseEntered(e -> botonSalir.setStyle(
+                "-fx-background-color: red; -fx-font-size: 20px; -fx-text-fill: white;")
+        );
+        botonSalir.setOnMouseExited(e -> botonSalir.setStyle(
+                "-fx-background-color: transparent; -fx-font-size: 20px; -fx-text-fill: white;")
+        );
+        botonSalir.setOnAction(e -> {
+            try {
+                // Detener la música al salir
+                Audio.getInstance().stop();
+                Bienvenida.mostrarBienvenida();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        // Posicionar el botón de salir
+        botonSalir.setLayoutX(40);
+        botonSalir.setLayoutY(580);
+        bloqueJuego.getChildren().add(botonSalir);
 
         //Boton para descartar cartas de la mano
         Button botonDescarte = new Button("Descartar Cartas");

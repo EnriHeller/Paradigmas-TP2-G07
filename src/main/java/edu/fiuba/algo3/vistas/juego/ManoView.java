@@ -21,6 +21,8 @@ public class ManoView {
     private final HandlerEspecialMano handlerEspecial;
     private final HBox contenedor;
 
+    private CartaVisual cartaSeleccionada = null;
+
     public ManoView(List<Carta> cartas, CartaClickHandler handler, HandlerEspecialMano handlerEspecial) {
         this.cartas = cartas;
         this.handler = handler;
@@ -39,30 +41,10 @@ public class ManoView {
         for (Carta carta : cartas) {
             try {
                 CartaVisual visual = carta.esEspecial()
-                    ? new CartaEspecialVisual(carta, handlerEspecial)
-                    : new CartaUnidadVisual((CartaUnidad) carta, handler);
+                        ? new CartaEspecialVisual(carta, handlerEspecial)
+                        : new CartaUnidadVisual((CartaUnidad) carta, handler);
                 visual.construirVista();
-                if (carta.esEspecial()) {
-                    visual.setOnMouseClicked(e -> {
-                        // Mostrar botón de confirmación una sola vez
-                        if (visual.lookup("#activarBtn") == null) {
-                            javafx.scene.control.Button activarBtn = new javafx.scene.control.Button("Activar");
-                            activarBtn.setId("activarBtn");
-                            activarBtn.setOnAction(ev -> {
-                                javafx.animation.FadeTransition fadeOut = new javafx.animation.FadeTransition(javafx.util.Duration.seconds(1), visual);
-                                fadeOut.setFromValue(1.0);
-                                fadeOut.setToValue(0.0);
-                                fadeOut.setOnFinished(fadeEv -> {
-                                    handlerEspecial.alClicEspecial((CartaEspecialVisual) visual);
-                                    contenedor.getChildren().remove(visual);
-                                });
-                                fadeOut.play();
-                            });
-                            activarBtn.setTranslateY(40); // Posicionarlo debajo de la carta
-                            visual.getChildren().add(activarBtn); // visual debe ser un VBox o StackPane
-                        }
-                    });
-                }
+                visual.setManoView(this); // Asigna la referencia de ManoView a cada carta visual
                 contenedor.getChildren().add(visual);
             } catch (Exception e) {
                 Label errorLabel = new Label("Error\n" + carta.mostrarCarta());
@@ -71,7 +53,6 @@ public class ManoView {
                 contenedor.getChildren().add(errorLabel);
             }
         }
-        // Forzar layout para que las posiciones estén actualizadas tras refrescar
         contenedor.applyCss();
         contenedor.layout();
     }
@@ -82,7 +63,25 @@ public class ManoView {
         refrescar();
     }
 
+    public void seleccionarCarta(CartaVisual carta) {
+        if (cartaSeleccionada != null && cartaSeleccionada != carta) {
+            cartaSeleccionada.animarDeseleccion();
+        }
+        if (cartaSeleccionada == carta) {
+            cartaSeleccionada.animarDeseleccion();
+            cartaSeleccionada = null;
+        } else {
+            carta.animarSeleccion();
+            cartaSeleccionada = carta;
+        }
+    }
 
+    public void deseleccionarCarta() {
+        if (cartaSeleccionada != null) {
+            cartaSeleccionada.animarDeseleccion();
+            cartaSeleccionada = null;
+        }
+    }
 
     public HBox getContenedor() {
         return contenedor;

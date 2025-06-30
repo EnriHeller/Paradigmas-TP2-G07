@@ -84,6 +84,6 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
         // Verificamos todas las cartas que quedaron en el tablero
         int puntajePosArrazada = juego.puntajeEnSeccion(seccionSimulada);
 
-        assertEquals(25, puntajePosArrazada);
+        assertEquals(15, puntajePosArrazada);
     }
 }

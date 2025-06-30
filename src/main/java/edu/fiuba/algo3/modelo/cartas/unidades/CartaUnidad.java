@@ -40,10 +40,12 @@ public class CartaUnidad implements Carta, Puntuable {
         modificador.retrotraerContexto(contexto);
     }
 
+    @Override
     public String getNombre() {
         return this.nombre;
     }
 
+    @Override
     public String mostrarCarta(){
 
         return (nombre + modificador.mostrarModificadores());
@@ -64,6 +66,10 @@ public class CartaUnidad implements Carta, Puntuable {
 
         this.valorActual = (int) (n * this.valorActual);
 
+    }
+
+    public boolean esLegendaria(){
+        return mostrarCarta().contains("Legendaria");
     }
 
     public void multiplicarValorBase(double n) {

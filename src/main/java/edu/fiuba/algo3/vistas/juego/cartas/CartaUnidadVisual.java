@@ -16,6 +16,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import edu.fiuba.algo3.vistas.juego.ManoView;
+
+
 public class CartaUnidadVisual extends CartaVisual {
     private final CartaClickHandler handler;
 
@@ -138,7 +141,6 @@ public class CartaUnidadVisual extends CartaVisual {
         if (!mainStack.getChildren().contains(infoOverlay)) {
             mainStack.getChildren().add(infoOverlay);
         }
-
         infoOverlay.setMinWidth(300); // Mínimo razonable
 
         if (!this.getChildren().contains(mainStack)) {
@@ -146,9 +148,10 @@ public class CartaUnidadVisual extends CartaVisual {
         }
 
         this.setOnMouseClicked(e -> {
+            if (manoView != null) {
+                manoView.seleccionarCarta(this);
+            }
             if (handler != null) handler.alClic(this);
-            if (!seleccionada) animarSeleccion();
-            // Si ya estaba seleccionada, podrías deseleccionarla aquí si lo deseas
         });
     }
 

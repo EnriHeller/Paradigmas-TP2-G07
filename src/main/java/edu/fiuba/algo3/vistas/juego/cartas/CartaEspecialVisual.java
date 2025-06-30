@@ -4,14 +4,19 @@ import java.util.Objects;
 
 import edu.fiuba.algo3.controller.HandlerEspecialMano;
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import javafx.animation.ScaleTransition;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+import edu.fiuba.algo3.vistas.juego.ManoView;
 
 public class CartaEspecialVisual extends CartaVisual {
     private final HandlerEspecialMano handler;
     private boolean seleccionada = false;
     private javafx.scene.control.Button botonActivar;
+    private static final double ESCALA_SELECCION = 1.25;
+    private static final Duration DURACION_ANIM = Duration.millis(180);
 
     public CartaEspecialVisual(Carta carta, HandlerEspecialMano handler) {
         super(carta);
@@ -99,11 +104,15 @@ public class CartaEspecialVisual extends CartaVisual {
         }
 
         this.setOnMouseClicked(e -> {
+            if (manoView != null) {
+                manoView.seleccionarCarta(this);
+            }
             if (handler != null) handler.alClicEspecial(this);
         });
     }
 
     @Override
+    
     public void construirCamposInfo() {
         infoOverlay.getChildren().clear();
         try {
@@ -132,26 +141,35 @@ public class CartaEspecialVisual extends CartaVisual {
             if (nombre != null) {
                 Label l = new Label("Nombre: " + nombre);
                 l.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+                l.setMouseTransparent(true);
                 infoOverlay.getChildren().add(l);
             } else {
                 Label l = new Label("Nombre: " + carta.mostrarCarta());
                 l.setStyle("-fx-font-weight: bold; -fx-text-fill: white;");
+                l.setMouseTransparent(true);
+
                 infoOverlay.getChildren().add(l);
             }
             if (tipo != null) {
                 Label l = new Label("Tipo: " + tipo);
                 l.setStyle("-fx-text-fill: #e0e0e0;");
+                l.setMouseTransparent(true);
+
                 infoOverlay.getChildren().add(l);
             }
             if (afectados != null && !afectados.isEmpty()) {
                 Label l = new Label("Afecta: " + String.join(", ", afectados));
                 l.setStyle("-fx-text-fill: #b0e57c;");
+                l.setMouseTransparent(true);
+
                 infoOverlay.getChildren().add(l);
             }
             if (descripcion != null && !descripcion.isEmpty()) {
                 Label l = new Label(descripcion);
                 l.setWrapText(true);
                 l.setStyle("-fx-text-fill: #cccccc; -fx-font-size: 11;");
+                l.setMouseTransparent(true);
+
                 infoOverlay.getChildren().add(l);
             }
         } catch (Exception e) {
@@ -162,9 +180,9 @@ public class CartaEspecialVisual extends CartaVisual {
 
     @Override
     public void animarSeleccion() {
-        javafx.animation.ScaleTransition st = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(180), this);
-        st.setToX(1.25);
-        st.setToY(1.25);
+        ScaleTransition st = new ScaleTransition(DURACION_ANIM, this);
+        st.setToX(ESCALA_SELECCION);
+        st.setToY(ESCALA_SELECCION);
         st.play();
         hoverBorder.setStroke(javafx.scene.paint.Color.GOLD);
         hoverBorder.setStrokeWidth(4);
@@ -175,6 +193,9 @@ public class CartaEspecialVisual extends CartaVisual {
         }
         // Mostrar el botón Activar y traerlo al frente
         if (botonActivar != null) {
+            botonActivar.setOnAction(e -> {
+                if (handler != null) handler.alClicEspecial(this);
+            });
             botonActivar.setVisible(true);
             botonActivar.toFront();
         }
@@ -184,13 +205,11 @@ public class CartaEspecialVisual extends CartaVisual {
 
     @Override
     public void animarDeseleccion() {
-        javafx.animation.ScaleTransition st = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(180), this);
+        ScaleTransition st = new ScaleTransition(DURACION_ANIM, this);
         st.setToX(1.0);
         st.setToY(1.0);
         st.play();
         hoverBorder.setVisible(false);
-        // Ocultar el botón Activar
-        if (botonActivar != null) botonActivar.setVisible(false);
         seleccionada = false;
         // No mostrar overlay aquí, solo se mostrará en hover si corresponde
     }

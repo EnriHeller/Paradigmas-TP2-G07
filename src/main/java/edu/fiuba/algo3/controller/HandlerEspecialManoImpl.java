@@ -17,7 +17,6 @@ public class HandlerEspecialManoImpl implements HandlerEspecialMano {
             visual.animarDeseleccion();
             seleccionada = null;
             tableroView.setCartaElegida(null);
-            return;
         }
         if (seleccionada != null) {
             seleccionada.animarDeseleccion();

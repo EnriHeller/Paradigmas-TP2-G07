@@ -49,7 +49,7 @@ public class Unidas implements Modificador {
         // Solo modificar si hay 2 o más
         if (cantidadUnidas >= 2) {
             for (CartaUnidad carta : cartas) {
-                if (carta.mostrarCarta().contains("Unidas")) {
+                if (carta.mostrarCarta().contains("Unidas") && (!carta.esLegendaria())) {
                     carta.multiplicarValorBase(cantidadUnidas);
                 }
             }

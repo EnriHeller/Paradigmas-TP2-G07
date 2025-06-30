@@ -1,17 +1,18 @@
 package edu.fiuba.algo3.modelo.principal;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 public class AdministradorDeTurno {
     private final List<Jugador> jugadores;
     private final List<Ronda> rondas = new ArrayList<>();
-    private int indiceActual = 0;
+    private int indiceActual;
     private int ciclos = 0;
 
     public AdministradorDeTurno(List<Jugador> jugadores) {
@@ -76,7 +77,7 @@ public class AdministradorDeTurno {
         if (rondas.size() <= ciclos) {
             agregarRonda();
         }
-        rondas.get(ciclos).agregarPuntajeJugador(jugadores.get(indiceActual).nombre(), puntaje);
+        rondas.get(ciclos).agregarPuntajeJugador(jugadores.get(indiceActual).getNombre(), puntaje);
     }
 
     public String mostrarGanador() {
@@ -84,8 +85,8 @@ public class AdministradorDeTurno {
         int contadorJ1 = 0;
         int contadorJ2 = 0;
 
-        String nombreJugador1 = jugadores.get(0).nombre();
-        String nombreJugador2 = jugadores.get(1).nombre();
+        String nombreJugador1 = jugadores.get(0).getNombre();
+        String nombreJugador2 = jugadores.get(1).getNombre();
 
         for (Ronda ronda : rondas) {
             if (ronda == null) continue;
@@ -111,5 +112,15 @@ public class AdministradorDeTurno {
         if (ciclos < 2) {
             return false;
         } else return !mostrarGanador().equals("empate") || ciclos == 3;
+    }
+
+    public List<Map<String, Integer>> getPuntosPorRonda() {
+        List<Map<String, Integer>> puntosPorRonda = new ArrayList<>();
+        for (Ronda ronda : rondas) {
+            if (ronda != null) {
+                puntosPorRonda.add(ronda.getPuntajeJugadores());
+            }
+        }
+        return puntosPorRonda;
     }
 }

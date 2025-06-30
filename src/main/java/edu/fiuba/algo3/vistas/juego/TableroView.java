@@ -37,7 +37,9 @@ public class TableroView {
     private ManoView manoView;
 
     public void setCartaElegida(Carta carta) {
-        System.out.println("Carta elegida: " + carta.mostrarCarta());
+        if(carta != null){
+            System.out.println("Carta elegida: " + carta.mostrarCarta());
+        }
         this.cartaElegida = carta;
     }
 
@@ -133,6 +135,7 @@ public class TableroView {
                 if (tableroController.puedeAgregar(clave, (CartaUnidad) cartaElegida)) {
                     try {
                         tableroController.jugarCarta(cartaElegida, clave);
+                        refrescar();
                     } catch (TipoDeSeccionInvalidaError ignored) {}
                     actualizarSeccion(visual, puntajeLabel, (CartaUnidad) cartaElegida, clave);
                     if (manoView != null) {
@@ -159,9 +162,13 @@ public class TableroView {
         CartaUnidadVisual cartaVisual = new CartaUnidadVisual(cartaUnidad, null);
         cartaVisual.setStyle("-fx-border-color: blue; -fx-background-color: #e0e0e0; -fx-border-width: 2px;");
         cartaVisual.construirVista();
+
+        // Anulamos eventos de click
+        cartaVisual.setOnMouseClicked(e -> {}); // No hace nada al click
+
         visual.getChildren().add(cartaVisual);
 
-        // Actualizar puntaje
+        // Actualizamos puntaje
         puntajeLabel.setText(String.valueOf(tableroController.getPuntajeSeccion(claveSeccion)));
     }
 
