@@ -73,7 +73,7 @@ public class MoraleBoost extends CartaEspecial implements Carta, Modificador {
         Seccion seccion = contextoModificador.getSeccion();
         List<CartaUnidad> cartasActuales = seccion.getCartas();
         for (CartaUnidad carta : cartasActuales) {
-            carta.multiplicarValor(2);
+            if (!carta.esLegendaria()) carta.multiplicarValor(2);
         }
     }
 }

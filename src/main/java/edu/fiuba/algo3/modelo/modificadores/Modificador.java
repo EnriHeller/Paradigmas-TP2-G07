@@ -9,7 +9,7 @@ public interface Modificador {
 
     default void prepararContexto(Contexto contexto) {}
 
-    void modificar(Contexto modificadorContexto) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima;
+    default void modificar(Contexto modificadorContexto) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima{}
 
     default void retrotraerContexto(Contexto contexto){}
 

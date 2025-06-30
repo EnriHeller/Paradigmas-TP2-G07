@@ -66,6 +66,10 @@ public class CartaUnidad implements Carta, Puntuable {
 
     }
 
+    public boolean esLegendaria(){
+        return mostrarCarta().contains("Legendaria");
+    }
+
     public void multiplicarValorBase(double n) {
 
         this.valorActual = (int) (n * this.valorBaseDinamico);

@@ -36,7 +36,7 @@ public class SumaValorBase implements Modificador{
         List<CartaUnidad> cartas = seccion.getCartas();
 
         for(CartaUnidad carta : cartas){
-            carta.sumaValor(1);
+            if (!carta.esLegendaria()) carta.sumaValor(1);
         }
     }
 
