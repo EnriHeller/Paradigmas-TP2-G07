@@ -39,7 +39,6 @@ public class JuegoView {
 
         // Tirada inicial de moneda
         juego.tirarMoneda();
-
     }
 
     public BorderPane construir() throws Exception {

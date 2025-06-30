@@ -159,9 +159,13 @@ public class TableroView {
         CartaUnidadVisual cartaVisual = new CartaUnidadVisual(cartaUnidad, null);
         cartaVisual.setStyle("-fx-border-color: blue; -fx-background-color: #e0e0e0; -fx-border-width: 2px;");
         cartaVisual.construirVista();
+
+        // Anulamos eventos de click
+        cartaVisual.setOnMouseClicked(e -> {}); // No hace nada al click
+
         visual.getChildren().add(cartaVisual);
 
-        // Actualizar puntaje
+        // Actualizamos puntaje
         puntajeLabel.setText(String.valueOf(tableroController.getPuntajeSeccion(claveSeccion)));
     }
 
