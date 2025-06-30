@@ -108,6 +108,14 @@
         </dependency>
       </dependencies>
     </profile>
+    <profile>
+      <id>fast</id>
+      <properties>
+        <maven.test.skip>true</maven.test.skip>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <pitest.skip>true</pitest.skip>
+      </properties>
+    </profile>
   </profiles>
 
   <build>
@@ -166,7 +174,11 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.1.2</version>
         <configuration>
+          <!-- Reducir memoria por test -->
+          <forkCount>1</forkCount>
+          <reuseForks>true</reuseForks>
           <argLine>
+            -Xmx1g
             --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
             --add-opens javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
             --add-opens javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED

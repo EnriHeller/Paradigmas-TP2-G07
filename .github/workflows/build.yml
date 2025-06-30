@@ -6,29 +6,43 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+      
       - name: Cache Maven dependencies
-        uses: actions/cache@v4  # Actualizado de v3 a v4
+        uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Make scripts executable
-        run: chmod +x scripts/*.sh
-      - name: Start services
-        run: scripts/start_services.sh
-      - name: Run test suite
+      
+      - name: Install JavaFX dependencies for headless testing
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb libgtk-3-0 libxss1 libasound2
+      
+      - name: Run tests
+        run: |
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          sleep 3
+          export MAVEN_OPTS="-Xmx1g -XX:MaxMetaspaceSize=256m"
+          export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
+          mvn clean test -q
+      
+      - name: Run mutation tests (optional - solo si es necesario)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           export MAVEN_OPTS="-Xmx1g -XX:MaxMetaspaceSize=256m"
-          docker compose -f docker/docker-compose.yaml exec -T app bash scripts/build.sh
-      - name: Run mutation test
-        run: docker compose -f docker/docker-compose.yaml exec -T app bash scripts/run_mutation_test.sh
+          mvn org.pitest:pitest-maven:mutationCoverage -q
+      
       - name: Upload coverage report
-        uses: codecov/codecov-action@v4  # Actualizado de v3 a v4
+        if: github.event_name == 'push'
+        uses: codecov/codecov-action@v4
 
   package:
     runs-on: ubuntu-22.04
@@ -37,25 +51,25 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+      
       - name: Cache Maven dependencies
-        uses: actions/cache@v4  # Actualizado de v3 a v4
+        uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Make scripts executable
-        run: chmod +x scripts/*.sh
-      - name: Start services
-        run: scripts/start_services.sh
+      
       - name: Package
-        run: docker compose -f docker/docker-compose.yaml exec -T app bash scripts/package.sh
+        run: mvn clean package -DskipTests -q
+      
       - name: Release
-        uses: softprops/action-gh-release@v2  # Actualizado de v1 a v2
+        uses: softprops/action-gh-release@v2
         with:
           files: target/tp2-*.jar
         env:

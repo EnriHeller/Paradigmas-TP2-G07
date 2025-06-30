@@ -2,12 +2,17 @@ services:
   app:
     build:
       context: ../
-      dockerfile: docker/Dockerfile  # Cambiar esta línea
+      dockerfile: docker/Dockerfile
     volumes:
       - ../:/app
       - mvn-data:/root/.m2
     stdin_open: true
     tty: true
+    # Aumentar memoria disponible
+    mem_limit: 4g
+    memswap_limit: 4g
+    environment:
+      - JAVA_TOOL_OPTIONS=-Xmx2g -Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw
 
 volumes:
   mvn-data:
