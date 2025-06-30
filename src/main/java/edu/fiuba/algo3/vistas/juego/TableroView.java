@@ -135,6 +135,7 @@ public class TableroView {
                 if (tableroController.puedeAgregar(clave, (CartaUnidad) cartaElegida)) {
                     try {
                         tableroController.jugarCarta(cartaElegida, clave);
+                        refrescar();
                     } catch (TipoDeSeccionInvalidaError ignored) {}
                     actualizarSeccion(visual, puntajeLabel, (CartaUnidad) cartaElegida, clave);
                     if (manoView != null) {
