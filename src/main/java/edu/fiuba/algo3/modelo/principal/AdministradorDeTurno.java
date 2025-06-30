@@ -76,7 +76,7 @@ public class AdministradorDeTurno {
         if (rondas.size() <= ciclos) {
             agregarRonda();
         }
-        rondas.get(ciclos).agregarPuntajeJugador(jugadores.get(indiceActual).nombre(), puntaje);
+        rondas.get(ciclos).agregarPuntajeJugador(jugadores.get(indiceActual).getNombre(), puntaje);
     }
 
     public String mostrarGanador() {
@@ -84,8 +84,8 @@ public class AdministradorDeTurno {
         int contadorJ1 = 0;
         int contadorJ2 = 0;
 
-        String nombreJugador1 = jugadores.get(0).nombre();
-        String nombreJugador2 = jugadores.get(1).nombre();
+        String nombreJugador1 = jugadores.get(0).getNombre();
+        String nombreJugador2 = jugadores.get(1).getNombre();
 
         for (Ronda ronda : rondas) {
             if (ronda == null) continue;

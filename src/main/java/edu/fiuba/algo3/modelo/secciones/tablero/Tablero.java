@@ -74,7 +74,7 @@ public class Tablero {
         return obtenerSeccion(seccion).hayClima();
     }
 
-    public List<CartaUnidad> getCartas() {
+    private List<CartaUnidad> getCartas() {
         List<CartaUnidad> cartasTotales = new ArrayList<>();
         for (Seccion seccion : secciones.values()) {
             cartasTotales.addAll(seccion.getCartas());

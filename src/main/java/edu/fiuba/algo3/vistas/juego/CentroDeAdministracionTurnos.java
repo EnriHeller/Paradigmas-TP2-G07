@@ -65,7 +65,6 @@ public class CentroDeAdministracionTurnos {
                         actualizarTextoJugador(juego.actual());
                         mano.actualizarCartas(juego.mostrarManoActual());
                         tablero.refrescar(); // <- actualiza el tablero visual y lógicamente
-
                     }
                 });
                 espera.play();
