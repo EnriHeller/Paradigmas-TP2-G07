@@ -1,4 +1,2 @@
-# /bin/bash
-set -e
-
-docker-compose -f docker/docker-compose.yaml down
+#!/bin/bash
+docker compose down

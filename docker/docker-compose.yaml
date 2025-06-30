@@ -1,11 +1,12 @@
 version: '3.5'
+
 services:
   app:
     build:
-      context: ../
+      context: .
       dockerfile: docker/Dockerfile
     volumes:
-      - ../:/app
+      - .:/app
       - mvn-data:/root/.m2
     stdin_open: true
     tty: true

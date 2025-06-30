@@ -1,0 +1,8 @@
+.git
+.idea
+target
+*.iml
+*.log
+*.~undo-tree~
+.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
