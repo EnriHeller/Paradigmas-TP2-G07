@@ -138,7 +138,6 @@ public class CartaUnidadVisual extends CartaVisual {
         if (!mainStack.getChildren().contains(infoOverlay)) {
             mainStack.getChildren().add(infoOverlay);
         }
-
         infoOverlay.setMinWidth(300); // Mínimo razonable
 
         if (!this.getChildren().contains(mainStack)) {

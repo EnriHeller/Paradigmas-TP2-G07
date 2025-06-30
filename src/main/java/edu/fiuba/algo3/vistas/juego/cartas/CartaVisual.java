@@ -44,37 +44,10 @@ public abstract class CartaVisual extends VBox {
         infoOverlay.setMouseTransparent(true);
         infoOverlay.setStyle("-fx-background-color: rgba(30,30,30,0.95); -fx-border-color: gold; -fx-border-width: 2; -fx-background-radius: 8; -fx-border-radius: 8;");
         infoOverlay.setPadding(new Insets(8));
-        infoOverlay.setSpacing(4);
-        infoOverlay.setMaxWidth(180);
         infoOverlay.setTranslateY(-ALTO - 10); // Aparece arriba de la carta
+        infoOverlay.setSpacing(4);
         infoOverlay.setAlignment(Pos.TOP_LEFT);
         mainStack.getChildren().add(infoOverlay);
-
-        // Efecto hover dorado para todas las cartas visuales
-        this.setOnMouseEntered(e -> {
-            this.setCursor(javafx.scene.Cursor.HAND);
-            hoverBorder.setStroke(Color.GOLD);
-            hoverBorder.setStrokeWidth(4);
-            hoverBorder.setFill(Color.rgb(255, 215, 0, 0.18)); // dorado semitransparente
-            hoverBorder.setVisible(true);
-            if (mainStack.getChildren().contains(hoverBorder)) {
-                hoverBorder.toFront();
-            }
-            // Mostrar overlay de información solo si la carta NO está seleccionada
-            if (!estaSeleccionada()) {
-                mostrarInfoOverlay();
-            } else {
-                ocultarInfoOverlay();
-            }
-        });
-        this.setOnMouseExited(e -> {
-            this.setCursor(javafx.scene.Cursor.DEFAULT);
-            // Solo ocultar el hoverBorder si la carta NO está seleccionada
-            if (!estaSeleccionada()) {
-                hoverBorder.setVisible(false);
-                ocultarInfoOverlay();
-            }
-        });
     }
 
     protected void mostrarInfoOverlay() {
@@ -102,6 +75,33 @@ public abstract class CartaVisual extends VBox {
         vistaImagen.setFitHeight(ALTO);
         vistaImagen.setPreserveRatio(false);
         vistaImagen.setPickOnBounds(false);
+
+        // Efecto hover dorado para todas las cartas visuales
+        vistaImagen.setOnMouseEntered(e -> {
+            this.setCursor(javafx.scene.Cursor.HAND);
+            hoverBorder.setStroke(Color.GOLD);
+            hoverBorder.setStrokeWidth(4);
+            hoverBorder.setFill(Color.rgb(255, 215, 0, 0.18)); // dorado semitransparente
+            hoverBorder.setVisible(true);
+            if (mainStack.getChildren().contains(hoverBorder)) {
+                hoverBorder.toFront();
+            }
+            // Mostrar overlay de información solo si la carta NO está seleccionada
+            if (!estaSeleccionada()) {
+                mostrarInfoOverlay();
+            } else {
+                ocultarInfoOverlay();
+            }
+        });
+        vistaImagen.setOnMouseExited(e -> {
+            this.setCursor(javafx.scene.Cursor.DEFAULT);
+            // Solo ocultar el hoverBorder si la carta NO está seleccionada
+            if (!estaSeleccionada()) {
+                hoverBorder.setVisible(false);
+                ocultarInfoOverlay();
+            }
+        });
+        
         return vistaImagen;
     }
 
