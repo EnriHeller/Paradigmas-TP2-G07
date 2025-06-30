@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import edu.fiuba.algo3.controller.Bienvenida;
-import edu.fiuba.algo3.controller.FinalizadorDeJuego;
-import edu.fiuba.algo3.controller.HandlerEspecialManoImpl;
-import edu.fiuba.algo3.controller.HandlerUnidadMano;
-import edu.fiuba.algo3.controller.TableroController;
+import edu.fiuba.algo3.controller.*;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.vistas.BotonMusica;
 import javafx.animation.PauseTransition;
@@ -147,6 +143,8 @@ public class JuegoView {
         );
         botonSalir.setOnAction(e -> {
             try {
+                // Detener la música al salir
+                Audio.getInstance().stop();
                 Bienvenida.mostrarBienvenida();
             } catch (Exception ex) {
                 ex.printStackTrace();
