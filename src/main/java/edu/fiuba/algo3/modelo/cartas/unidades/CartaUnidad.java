@@ -40,10 +40,12 @@ public class CartaUnidad implements Carta, Puntuable {
         modificador.retrotraerContexto(contexto);
     }
 
+    @Override
     public String getNombre() {
         return this.nombre;
     }
 
+    @Override
     public String mostrarCarta(){
 
         return (nombre + modificador.mostrarModificadores());

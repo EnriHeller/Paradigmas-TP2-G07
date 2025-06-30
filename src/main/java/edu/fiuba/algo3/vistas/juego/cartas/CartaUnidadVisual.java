@@ -146,8 +146,13 @@ public class CartaUnidadVisual extends CartaVisual {
 
         this.setOnMouseClicked(e -> {
             if (handler != null) handler.alClic(this);
-            if (!seleccionada) animarSeleccion();
-            // Si ya estaba seleccionada, podrías deseleccionarla aquí si lo deseas
+
+            if (!seleccionada){
+                animarSeleccion();
+            }else{
+                animarDeseleccion();
+            }
+
         });
     }
 

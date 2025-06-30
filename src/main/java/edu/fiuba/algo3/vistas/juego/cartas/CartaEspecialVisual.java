@@ -99,6 +99,7 @@ public class CartaEspecialVisual extends CartaVisual {
         }
 
         this.setOnMouseClicked(e -> {
+            
             if (handler != null) handler.alClicEspecial(this);
         });
     }
