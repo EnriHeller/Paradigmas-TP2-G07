@@ -1,12 +1,10 @@
-version: '3.5'
-
 services:
   app:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: docker/Dockerfile  # Cambiar esta línea
     volumes:
-      - .:/app
+      - ../:/app
       - mvn-data:/root/.m2
     stdin_open: true
     tty: true
