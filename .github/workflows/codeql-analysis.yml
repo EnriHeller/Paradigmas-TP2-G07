@@ -13,9 +13,9 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "main" ]  # Solo en main, no en todas las ramas
+    branches: [ "*" ]  # Todas las ramas
   pull_request:
-    branches: [ "main" ]
+    branches: [ "*" ]  # PRs a todas las ramas
   schedule:
     - cron: '33 7 * * 3'
 
@@ -29,7 +29,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-22.04
-    timeout-minutes: 60  # Reducir de 360 a 60 minutos
+    timeout-minutes: 60  
     
     # Solo ejecutar CodeQL si hay cambios en archivos Java
     if: |
