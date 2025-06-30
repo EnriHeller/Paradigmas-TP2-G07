@@ -4,14 +4,18 @@ import java.util.Objects;
 
 import edu.fiuba.algo3.controller.HandlerEspecialMano;
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import javafx.animation.ScaleTransition;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 public class CartaEspecialVisual extends CartaVisual {
     private final HandlerEspecialMano handler;
     private boolean seleccionada = false;
     private javafx.scene.control.Button botonActivar;
+    private static final double ESCALA_SELECCION = 1.25;
+    private static final Duration DURACION_ANIM = Duration.millis(180);
 
     public CartaEspecialVisual(Carta carta, HandlerEspecialMano handler) {
         super(carta);
@@ -100,6 +104,7 @@ public class CartaEspecialVisual extends CartaVisual {
 
         this.setOnMouseClicked(e -> {
             if (handler != null) handler.alClicEspecial(this);
+            if (!seleccionada) animarSeleccion();
         });
     }
 
@@ -171,9 +176,9 @@ public class CartaEspecialVisual extends CartaVisual {
 
     @Override
     public void animarSeleccion() {
-        javafx.animation.ScaleTransition st = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(180), this);
-        st.setToX(1.25);
-        st.setToY(1.25);
+        ScaleTransition st = new ScaleTransition(DURACION_ANIM, this);
+        st.setToX(ESCALA_SELECCION);
+        st.setToY(ESCALA_SELECCION);
         st.play();
         hoverBorder.setStroke(javafx.scene.paint.Color.GOLD);
         hoverBorder.setStrokeWidth(4);
@@ -184,6 +189,9 @@ public class CartaEspecialVisual extends CartaVisual {
         }
         // Mostrar el botón Activar y traerlo al frente
         if (botonActivar != null) {
+            botonActivar.setOnAction(e -> {
+                if (handler != null) handler.alClicEspecial(this);
+            });
             botonActivar.setVisible(true);
             botonActivar.toFront();
         }
@@ -193,13 +201,11 @@ public class CartaEspecialVisual extends CartaVisual {
 
     @Override
     public void animarDeseleccion() {
-        javafx.animation.ScaleTransition st = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(180), this);
+        ScaleTransition st = new ScaleTransition(DURACION_ANIM, this);
         st.setToX(1.0);
         st.setToY(1.0);
         st.play();
         hoverBorder.setVisible(false);
-        // Ocultar el botón Activar
-        if (botonActivar != null) botonActivar.setVisible(false);
         seleccionada = false;
         // No mostrar overlay aquí, solo se mostrará en hover si corresponde
     }
