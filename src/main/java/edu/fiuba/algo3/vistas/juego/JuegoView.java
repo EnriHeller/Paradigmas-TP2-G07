@@ -7,21 +7,20 @@ import java.util.Objects;
 import edu.fiuba.algo3.controller.*;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.vistas.BotonMusica;
+import edu.fiuba.algo3.vistas.DescarteView;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class JuegoView {
@@ -156,6 +155,24 @@ public class JuegoView {
         botonSalir.setLayoutY(580);
         bloqueJuego.getChildren().add(botonSalir);
 
+        //Boton para descartar cartas de la mano
+        Button botonDescarte = new Button("Descartar Cartas");
+        botonDescarte.setStyle("-fx-background-color: rgba(255,255,255,0.8);");
+
+        botonDescarte.setOnAction(e -> {
+            crearEscenaDescarte(mano);
+            botonDescarte.setDisable(true);
+        });
+
+
+        HBox descarteBox = new HBox(15, botonDescarte);
+        descarteBox.setAlignment(javafx.geometry.Pos.CENTER);
+
+        descarteBox.setLayoutX(1130);
+        descarteBox.setLayoutY(255);
+        bloqueJuego.getChildren().add(descarteBox);
+
+
         // Centrar el bloque de juego en el StackPane
         stack.getChildren().add(bloqueJuego);
         StackPane.setAlignment(bloqueJuego, Pos.CENTER);
@@ -165,6 +182,26 @@ public class JuegoView {
 
         root.setCenter(stack);
         return root;
+    }
+
+    private void crearEscenaDescarte(ManoView manoView) {
+        Stage ventanaDescarte = new Stage();
+        ventanaDescarte.setTitle("Descartar Cartas");
+        try {
+            Image icono = new Image(getClass().getResourceAsStream("/imagenes/gwentLogo.png"));
+            ventanaDescarte.getIcons().add(icono);
+        } catch (Exception e) {
+            System.err.println("[App] No se pudo cargar el icono gwentLogo.png: " + e);
+        }
+
+        ventanaDescarte.initModality(Modality.APPLICATION_MODAL);
+
+        DescarteView vistaDescarte = new DescarteView(juego.mostrarManoActual(), manoView);
+
+        Scene escenaDescarte = new Scene(vistaDescarte.construir(), 1200, 600);
+        ventanaDescarte.setScene(escenaDescarte);
+
+        ventanaDescarte.showAndWait();
     }
 
     private void animarReparto(StackPane stack, Region manoRegion) {
