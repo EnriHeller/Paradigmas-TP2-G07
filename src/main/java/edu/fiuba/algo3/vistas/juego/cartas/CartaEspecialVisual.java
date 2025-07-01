@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-import edu.fiuba.algo3.vistas.juego.ManoView;
 
 public class CartaEspecialVisual extends CartaVisual {
     private final HandlerEspecialMano handler;
@@ -25,11 +24,23 @@ public class CartaEspecialVisual extends CartaVisual {
     }
 
     private String normalizarNombreParaImagen(String nombre) {
-        // Quita tildes, espacios, mayúsculas, y caracteres especiales
-        String normalizado = java.text.Normalizer.normalize(nombre, java.text.Normalizer.Form.NFD)
+        // Quita tildes y caracteres especiales, deja solo letras y espacios
+        String sinTildes = java.text.Normalizer.normalize(nombre, java.text.Normalizer.Form.NFD)
             .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")
-            .replaceAll("[^A-Za-z0-9]", "");
-        return normalizado;
+            .replaceAll("[^A-Za-z0-9 ]", "");
+        // Convierte a camelCase
+        String[] partes = sinTildes.split(" ");
+        StringBuilder camelCase = new StringBuilder();
+        for (int i = 0; i < partes.length; i++) {
+            String parte = partes[i];
+            if (parte.isEmpty()) continue;
+            if (i == 0) {
+                camelCase.append(parte.substring(0, 1).toLowerCase()).append(parte.substring(1));
+            } else {
+                camelCase.append(parte.substring(0, 1).toUpperCase()).append(parte.substring(1));
+            }
+        }
+        return camelCase.toString();
     }
 
     @Override
@@ -52,7 +63,7 @@ public class CartaEspecialVisual extends CartaVisual {
         try {
             imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));
         } catch (Exception e) {
-            imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/imagenes/Lluviatorrencial.png")));
+            imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/imagenes/falta-especial.png")));
         }
         ImageView vistaImagen = crearImagenEstandar(imagen);
 

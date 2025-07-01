@@ -1,23 +1,23 @@
 package edu.fiuba.algo3.modelo.cartas.especiales;
 
-import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.modificadores.Modificador;
-import edu.fiuba.algo3.modelo.principal.Contexto;
-import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
-import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
-import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
-
 import java.util.Arrays;
 import java.util.List;
 
+import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.modificadores.Modificador;
+import edu.fiuba.algo3.modelo.principal.Contexto;
+import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
+
 public class DestructoraDeClima extends CartaEspecial implements Carta, Modificador {
 
-    public DestructoraDeClima() {
-        this.nombre = "DestructoraDeClima";
-        this.descripcion = "Elimina el efecto de clima en todas las secciones afectadas.";
-        this.tipo = "Especial";
-        this.afectado = Arrays.asList("Rango", "Asedio", "CuerpoACuerpo");
+    public DestructoraDeClima(String nombre, String descripcion, String tipo, List<String> afectado) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipo = tipo;
+        this.afectado = afectado;
     }
 
     @Override
@@ -27,7 +27,8 @@ public class DestructoraDeClima extends CartaEspecial implements Carta, Modifica
 
     @Override
     public String mostrarCarta() {
-        return "DestructorDeClima";
+        // Debe devolver el nombre normalizado para la imagen correspondiente
+        return "tiempoDespejado";
     }
 
     @Override

@@ -16,8 +16,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import edu.fiuba.algo3.vistas.juego.ManoView;
-
 
 public class CartaUnidadVisual extends CartaVisual {
     private final CartaClickHandler handler;
@@ -33,10 +31,23 @@ public class CartaUnidadVisual extends CartaVisual {
     }
 
     private String normalizarNombreParaImagen(String nombre) {
-        String normalizado = java.text.Normalizer.normalize(nombre, java.text.Normalizer.Form.NFD)
+        // Quita tildes y caracteres especiales, deja solo letras y espacios
+        String sinTildes = java.text.Normalizer.normalize(nombre, java.text.Normalizer.Form.NFD)
             .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")
-            .replaceAll("[^A-Za-z0-9]", "");
-        return normalizado;
+            .replaceAll("[^A-Za-z0-9 ]", "");
+        // Convierte a camelCase
+        String[] partes = sinTildes.split(" ");
+        StringBuilder camelCase = new StringBuilder();
+        for (int i = 0; i < partes.length; i++) {
+            String parte = partes[i];
+            if (parte.isEmpty()) continue;
+            if (i == 0) {
+                camelCase.append(parte.substring(0, 1).toLowerCase()).append(parte.substring(1));
+            } else {
+                camelCase.append(parte.substring(0, 1).toUpperCase()).append(parte.substring(1));
+            }
+        }
+        return camelCase.toString();
     }
 
     private boolean seleccionada = false;
@@ -102,7 +113,7 @@ public class CartaUnidadVisual extends CartaVisual {
         try {
             imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));
         } catch (Exception e) {
-            imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/imagenes/BirnaBrant.png")));
+            imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/imagenes/falta-unidad.png")));
         }
         ImageView vistaImagen = crearImagenEstandar(imagen);
 

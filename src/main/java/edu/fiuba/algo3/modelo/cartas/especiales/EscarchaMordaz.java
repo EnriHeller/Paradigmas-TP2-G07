@@ -3,21 +3,19 @@ package edu.fiuba.algo3.modelo.cartas.especiales;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.principal.Contexto;
-import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
-
-import java.util.Arrays;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 
 public class EscarchaMordaz extends CartaEspecial implements CartaClimatica, Carta, Modificador {
 
-    public EscarchaMordaz(){
-        this.nombre = "EscarchaMordaz";
-        this.descripcion = "Las cartas de esa secciones afectadas tendran 1 de puntaje.";
-        this.tipo = "Especial";
-        this.afectado = Arrays.asList("CuerpoACuerpo");
-    }
+    public EscarchaMordaz(String nombre, String descripcion, String tipo, java.util.List<String> afectado){
+    this.nombre = nombre;
+    this.descripcion = descripcion;
+    this.tipo = tipo;
+    this.afectado = afectado;
+}
 
     @Override
     public boolean esEspecial() {

@@ -12,11 +12,11 @@ import java.util.Arrays;
 
 public class TormentaDeSkellige extends CartaEspecial implements CartaClimatica, Carta, Modificador {
 
-    public TormentaDeSkellige(){
-        this.nombre = "Tormenta de Skellige";
-        this.descripcion = "Las cartas de esa secciones afectadas tendran 1 de puntaje.";
-        this.tipo = "Especial";
-        this.afectado = Arrays.asList("Rango", "CuerpoACuerpo");
+    public TormentaDeSkellige(String nombre, String descripcion, String tipo, java.util.List<String> afectado) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipo = tipo;
+        this.afectado = afectado;
     }
 
     @Override

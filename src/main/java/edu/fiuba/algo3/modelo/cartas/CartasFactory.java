@@ -14,29 +14,27 @@ public class CartasFactory {
             if (tipoEspecial != null) {
                 switch (tipoEspecial.toLowerCase()) {
                     case "tierra arrasada":
-                        return new TierraArrasada();
+                        return new TierraArrasada(nombre, descripcion, tipoEspecial, seccionesOAfectados);
                     case "morale boost":
-                        return new MoraleBoost(); // Si tienes la clase
+                        return new MoraleBoost(nombre, descripcion, tipoEspecial, seccionesOAfectados);
                     case "clima":
                         switch (nombre.toLowerCase()) {
                             case "escarcha mordaz":
-                                return new EscarchaMordaz();
+                                return new EscarchaMordaz(nombre, descripcion, tipoEspecial, seccionesOAfectados);
                             case "lluvia torrencial":
-                                return new LluviaTorrencial();
+                                return new LluviaTorrencial(nombre, descripcion, tipoEspecial, seccionesOAfectados);
                             case "tormeta de skellige":
-                                return new TormentaDeSkellige();
+                                return new TormentaDeSkellige(nombre, descripcion, tipoEspecial, seccionesOAfectados);
                             case "tiempo despejado":
-                                return new DestructoraDeClima();
+                                return new DestructoraDeClima(nombre, descripcion, tipoEspecial, seccionesOAfectados);
                         }
                     default:
                         return null;
                 }
             }
-            // Si no se reconoce el tipo, devuelve una carta dummy robusta
-            return new EscarchaMordaz();
+
         }
-        // Si no es ni unidad ni especial, devuelve una carta dummy robusta
-        return new EscarchaMordaz();
+        return null;
     }
 }
 
