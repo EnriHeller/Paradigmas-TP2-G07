@@ -8,10 +8,15 @@ import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayCli
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
-public class EscarchaMordaz implements CartaClimatica, Carta, Modificador {
+import java.util.Arrays;
+
+public class EscarchaMordaz extends CartaEspecial implements CartaClimatica, Carta, Modificador {
 
     public EscarchaMordaz(){
-
+        this.nombre = "EscarchaMordaz";
+        this.descripcion = "Las cartas de esa secciones afectadas tendran 1 de puntaje.";
+        this.tipo = "Especial";
+        this.afectado = Arrays.asList("CuerpoACuerpo");
     }
 
     @Override

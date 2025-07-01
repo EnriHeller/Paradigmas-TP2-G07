@@ -2,9 +2,7 @@ package edu.fiuba.algo3.modelo.cartas;
 
 import java.util.List;
 
-import edu.fiuba.algo3.modelo.cartas.especiales.EscarchaMordaz;
-import edu.fiuba.algo3.modelo.cartas.especiales.MoraleBoost;
-import edu.fiuba.algo3.modelo.cartas.especiales.TierraArrasada;
+import edu.fiuba.algo3.modelo.cartas.especiales.*;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 
@@ -20,8 +18,16 @@ public class CartasFactory {
                     case "morale boost":
                         return new MoraleBoost(); // Si tienes la clase
                     case "clima":
-                        // Para todos los climas, usa una sola clase robusta
-                        return new EscarchaMordaz();
+                        switch (nombre.toLowerCase()) {
+                            case "escarcha mordaz":
+                                return new EscarchaMordaz();
+                            case "lluvia torrencial":
+                                return new LluviaTorrencial();
+                            case "tormeta de skellige":
+                                return new TormentaDeSkellige();
+                            case "tiempo despejado":
+                                return new DestructoraDeClima();
+                        }
                     default:
                         return null;
                 }

@@ -8,10 +8,15 @@ import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayCli
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 
-public class LluviaTorrencial implements CartaClimatica, Carta, Modificador {
+import java.util.Arrays;
+
+public class LluviaTorrencial extends CartaEspecial implements CartaClimatica, Carta, Modificador {
 
     public LluviaTorrencial(){
-
+        this.nombre = "Luvia Torrencial";
+        this.descripcion = "Las cartas de esa secciones afectadas tendran 1 de puntaje.";
+        this.tipo = "Especial";
+        this.afectado = Arrays.asList("Asedio");
     }
 
     @Override
