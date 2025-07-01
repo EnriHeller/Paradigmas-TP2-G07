@@ -168,8 +168,8 @@ public class JuegoView {
         HBox descarteBox = new HBox(15, botonDescarte);
         descarteBox.setAlignment(javafx.geometry.Pos.CENTER);
 
-        descarteBox.setLayoutX(1100);
-        descarteBox.setLayoutY(240);
+        descarteBox.setLayoutX(1130);
+        descarteBox.setLayoutY(255);
         bloqueJuego.getChildren().add(descarteBox);
 
 
@@ -196,7 +196,7 @@ public class JuegoView {
 
         ventanaDescarte.initModality(Modality.APPLICATION_MODAL);
 
-        DescarteView vistaDescarte = new DescarteView(juego.mostrarManoActual()); // Pasás la instancia de Juego
+        DescarteView vistaDescarte = new DescarteView(juego.mostrarManoActual(), manoView);
 
         Scene escenaDescarte = new Scene(vistaDescarte.construir(), 1200, 600);
         ventanaDescarte.setScene(escenaDescarte);
