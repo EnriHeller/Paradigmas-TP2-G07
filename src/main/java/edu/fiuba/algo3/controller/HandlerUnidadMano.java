@@ -26,4 +26,12 @@ public class HandlerUnidadMano implements CartaClickHandler {
         seleccionada = cartaVisual;
         tableroView.setCartaElegida(cartaVisual.getCarta()); 
     }
+
+    public void limpiarSeleccion() {
+        if (seleccionada != null) {
+            seleccionada.animarDeseleccion();
+            seleccionada = null;
+        }
+        tableroView.setCartaElegida(null);
+    }
 }

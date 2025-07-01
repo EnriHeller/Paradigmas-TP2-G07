@@ -1,10 +1,8 @@
 package edu.fiuba.algo3.modelo.secciones.jugador;
 
-import edu.fiuba.algo3.modelo.cartas.Carta;
-import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import edu.fiuba.algo3.modelo.cartas.Carta;
 
 public class Mano extends SeccionJugador<Carta> {
 

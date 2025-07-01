@@ -27,6 +27,7 @@ public class TableroController {
     }
 
     public void removerCartaEnMano(Carta cartaElegida){
+        
         juego.removerCartaEnMano(cartaElegida);
     }
 

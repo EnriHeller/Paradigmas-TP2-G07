@@ -1,5 +1,9 @@
 package edu.fiuba.algo3.vistas.juego;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.vistas.Botones;
 import javafx.animation.PauseTransition;
@@ -13,10 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class CentroDeAdministracionTurnos {
     private final Juego juego;
@@ -85,7 +85,6 @@ public class CentroDeAdministracionTurnos {
             }
         });
 
-        juego.tirarMoneda();
         mostrarMoneda(juego.actual());
         actualizarTextoJugador();
         actualizarHistorialPuntos();

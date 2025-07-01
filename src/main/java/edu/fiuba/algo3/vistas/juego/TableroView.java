@@ -135,12 +135,18 @@ public class TableroView {
                 if (tableroController.puedeAgregar(clave, (CartaUnidad) cartaElegida)) {
                     try {
                         tableroController.jugarCarta(cartaElegida, clave);
-                        refrescar();
-                    } catch (TipoDeSeccionInvalidaError ignored) {}
+                    } catch (TipoDeSeccionInvalidaError ignored) {
+                        edu.fiuba.algo3.controller.Utils.mostrarPopupError(rootStackPane, "¡No podés jugar en esta sección!");
+                    }
+
                     actualizarSeccion(visual, puntajeLabel, (CartaUnidad) cartaElegida, clave);
+
                     if (manoView != null) {
                         tableroController.removerCartaEnMano(cartaElegida);
                         manoView.actualizarCartas(tableroController.getJuego().mostrarManoActual());
+                        refrescar();
+                    }else{
+                        System.out.println("manoView es null!!");
                     }
                     cartaElegida = null;
                 }
@@ -160,7 +166,6 @@ public class TableroView {
 
     private void actualizarSeccion(HBox visual, Label puntajeLabel, CartaUnidad cartaUnidad, String claveSeccion) {
         CartaUnidadVisual cartaVisual = new CartaUnidadVisual(cartaUnidad, null);
-        cartaVisual.setStyle("-fx-border-color: blue; -fx-background-color: #e0e0e0; -fx-border-width: 2px;");
         cartaVisual.construirVista();
 
         // Anulamos eventos de click
@@ -204,4 +209,6 @@ public class TableroView {
             seccionVisual.getChildren().clear();
         }
     }
+
+    
 }

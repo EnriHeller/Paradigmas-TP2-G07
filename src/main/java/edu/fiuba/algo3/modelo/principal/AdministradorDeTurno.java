@@ -31,7 +31,7 @@ public class AdministradorDeTurno {
     }
 
     public int actual() {
-        return indiceActual;
+        return this.indiceActual;
     }
 
     public Jugador jugadorActual() {
@@ -77,7 +77,9 @@ public class AdministradorDeTurno {
         if (rondas.size() <= ciclos) {
             agregarRonda();
         }
-        rondas.get(ciclos).agregarPuntajeJugador(jugadores.get(indiceActual).getNombre(), puntaje);
+        Ronda rondaActual = rondas.get(ciclos);
+        Jugador jugadorActual = jugadores.get(indiceActual);
+        rondaActual.agregarPuntajeJugador(jugadorActual.getNombre(), puntaje);
     }
 
     public String mostrarGanador() {

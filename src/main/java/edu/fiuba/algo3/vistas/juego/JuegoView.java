@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import edu.fiuba.algo3.controller.*;
+import edu.fiuba.algo3.controller.Audio;
+import edu.fiuba.algo3.controller.Bienvenida;
+import edu.fiuba.algo3.controller.FinalizadorDeJuego;
+import edu.fiuba.algo3.controller.HandlerEspecialManoImpl;
+import edu.fiuba.algo3.controller.HandlerUnidadMano;
+import edu.fiuba.algo3.controller.TableroController;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.vistas.BotonMusica;
 import edu.fiuba.algo3.vistas.DescarteView;
@@ -18,7 +23,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -33,9 +44,6 @@ public class JuegoView {
     public JuegoView(Juego juego) {
         this.juego = juego;
         this.finalizadorDeJuego = new FinalizadorDeJuego(juego);
-
-        // Tirada inicial de moneda
-        juego.tirarMoneda();
     }
 
     public BorderPane construir() throws Exception {
@@ -64,39 +72,6 @@ public class JuegoView {
         bloqueJuego.setMinSize(1300, 700);
         bloqueJuego.setMaxSize(1300, 700);
 
-        // Tablero (centrado dentro del bloque)
-        TableroController tableroController = new TableroController(juego);
-        TableroView tablero = new TableroView(tableroController);
-        Region tableroRegion = tablero.construir();
-        tableroRegion.setLayoutX(0); // El tablero ya está centrado en su propio StackPane
-        tableroRegion.setLayoutY(0);
-        bloqueJuego.getChildren().add(tableroRegion);
-
-        
-        // Pila de descarte (arriba derecha)
-        PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
-        Region pilaRegion = pilaDescarteJugador.construir();
-        pilaRegion.setLayoutX(xMazo);
-        pilaRegion.setLayoutY(yMazo - 110);
-        bloqueJuego.getChildren().add(pilaRegion);
-        
-        // Mazo (abajo derecha, relativo al bloque)
-        int cartasRestantes = juego.cartasEnMazoActual();
-        edu.fiuba.algo3.vistas.juego.cartas.MazoView mazoView = new edu.fiuba.algo3.vistas.juego.cartas.MazoView(cartasRestantes);
-        mazoView.setLayoutX(xMazo); // Ajusta según el diseño del bloque
-        mazoView.setLayoutY(yMazo); 
-        bloqueJuego.getChildren().add(mazoView);
-
-        // Mano (abajo, centrada respecto al bloque)
-        HandlerUnidadMano handlerUnidad = new HandlerUnidadMano(tablero);
-        HandlerEspecialManoImpl handlerEspecial = new HandlerEspecialManoImpl(tablero);
-        ManoView mano = new ManoView(juego.mostrarManoActual(), handlerUnidad, handlerEspecial);
-        Region manoRegion = mano.construir();
-        manoRegion.setLayoutX(310); // Ajusta según el diseño
-        manoRegion.setLayoutY(560); // Ajusta según el diseño
-        bloqueJuego.getChildren().add(manoRegion);
-        tablero.setManoView(mano);
-
         // Historial de puntos del juego
         Label puntosJugador1 = new Label();
         Label puntosJugador2 = new Label();
@@ -112,18 +87,59 @@ public class JuegoView {
 
         bloqueJuego.getChildren().addAll(puntosJugador1, puntosJugador2);
 
+        // --- TIRAR MONEDA ANTES DE CREAR VISTAS ---
+        juego.tirarMoneda();
+
+        // Tablero (centrado dentro del bloque)
+        TableroController tableroController = new TableroController(juego);
+        TableroView tablero = new TableroView(tableroController);
+        Region tableroRegion = tablero.construir();
+        tableroRegion.setLayoutX(0); // El tablero ya está centrado en su propio StackPane
+        tableroRegion.setLayoutY(0);
+        bloqueJuego.getChildren().add(tableroRegion);
+
+        // Mano (abajo, centrada respecto al bloque)
+        HandlerUnidadMano handlerUnidad = new HandlerUnidadMano(tablero);
+        HandlerEspecialManoImpl handlerEspecial = new HandlerEspecialManoImpl(tablero);
+        ManoView mano = new ManoView(juego.mostrarManoActual(), handlerUnidad, handlerEspecial);
+        Region manoRegion = mano.construir();
+        manoRegion.setLayoutX(310); // Ajusta según el diseño
+        manoRegion.setLayoutY(560); // Ajusta según el diseño
+        bloqueJuego.getChildren().add(manoRegion);
+        tablero.setManoView(mano);
 
         // Centro de turnos (izquierda)
         CentroDeAdministracionTurnos turnos = new CentroDeAdministracionTurnos(juego);
         turnos.setLabelsExternos(puntosJugador1, puntosJugador2);
-        VBox panelTurno = turnos.construir(tablero,mano);
+        // --- Agrego el callback para finalizar el juego ---
+        turnos.setOnTurnoFinalizado(() -> {
+            try {
+                finalizadorDeJuego.verificarFinDeJuego();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+        VBox panelTurno = turnos.construir(tablero, mano);
         panelTurno.setLayoutX(-10);
         panelTurno.setLayoutY(210);
         bloqueJuego.getChildren().add(panelTurno);
 
+        // Pila de descarte (arriba derecha)
+        PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
+        Region pilaRegion = pilaDescarteJugador.construir();
+        pilaRegion.setLayoutX(xMazo);
+        pilaRegion.setLayoutY(yMazo - 110);
+        bloqueJuego.getChildren().add(pilaRegion);
+        
+        // Mazo (abajo derecha, relativo al bloque)
+        int cartasRestantes = juego.cartasEnMazoActual();
+        edu.fiuba.algo3.vistas.juego.cartas.MazoView mazoView = new edu.fiuba.algo3.vistas.juego.cartas.MazoView(cartasRestantes);
+        mazoView.setLayoutX(xMazo); // Ajusta según el diseño del bloque
+        mazoView.setLayoutY(yMazo); 
+        bloqueJuego.getChildren().add(mazoView);
+
         //Boton de musica
-        BotonMusica botonMusica = new BotonMusica();
-        Button botonMusicaElem = botonMusica.crear();
+        Button botonMusicaElem = BotonMusica.crear();
         
         // Posicionar el botón de música 
         botonMusicaElem.setLayoutX(70);

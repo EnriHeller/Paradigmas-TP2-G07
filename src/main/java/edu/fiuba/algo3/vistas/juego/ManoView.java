@@ -60,6 +60,13 @@ public class ManoView {
     // Método para actualizar la lista de cartas y refrescar la vista
     public void actualizarCartas(List<Carta> nuevasCartas) {
         this.cartas = new java.util.ArrayList<>(nuevasCartas);
+        deseleccionarCarta();
+        if (handler instanceof edu.fiuba.algo3.controller.HandlerUnidadMano) {
+            ((edu.fiuba.algo3.controller.HandlerUnidadMano) handler).limpiarSeleccion();
+        }
+        if (handlerEspecial instanceof edu.fiuba.algo3.controller.HandlerEspecialManoImpl) {
+            ((edu.fiuba.algo3.controller.HandlerEspecialManoImpl) handlerEspecial).limpiarSeleccion();
+        }
         refrescar();
     }
 

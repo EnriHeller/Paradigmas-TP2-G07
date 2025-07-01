@@ -1,30 +1,34 @@
 package edu.fiuba.algo3.vistas;
 
-import edu.fiuba.algo3.App;
-import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
-import edu.fiuba.algo3.modelo.principal.Juego;
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.vistas.juego.ManoView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
-
-import java.awt.*;
-import java.text.Normalizer;
-import java.util.*;
-import java.util.List;
-
-import javafx.scene.control.ScrollPane;
 
 public class DescarteView extends Stage {
     private final List<Carta> cartasMano;
@@ -89,29 +93,50 @@ public class DescarteView extends Stage {
         return contenedorCartasBox;
     }
 
+    private String normalizarNombreParaImagen(String nombre) {
+        // Quita tildes y caracteres especiales, deja solo letras y espacios
+        String sinTildes = java.text.Normalizer.normalize(nombre, java.text.Normalizer.Form.NFD)
+                .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")
+                .replaceAll("[^A-Za-z0-9 ]", "");
+        // Convierte a camelCase
+        String[] partes = sinTildes.split(" ");
+        StringBuilder camelCase = new StringBuilder();
+        for (int i = 0; i < partes.length; i++) {
+            String parte = partes[i];
+            if (parte.isEmpty()) continue;
+            if (i == 0) {
+                camelCase.append(parte.substring(0, 1).toLowerCase()).append(parte.substring(1));
+            } else {
+                camelCase.append(parte.substring(0, 1).toUpperCase()).append(parte.substring(1));
+            }
+        }
+        return camelCase.toString();
+    }
+
     private VBox crearCartaVisual(Carta carta) {
         Image imagen = null;
         String nombreBase;
-
         try {
             if (!carta.esEspecial()) {
                 nombreBase = ((CartaUnidad) carta).getNombre();
             } else {
-                nombreBase = (String) carta.getClass().getMethod("getNombre").invoke(carta);
+                // Usa getNombre si existe, si no mostrarCarta
+                try {
+                    nombreBase = (String) carta.getClass().getMethod("getNombre").invoke(carta);
+                } catch (Exception e) {
+                    nombreBase = carta.mostrarCarta();
+                }
             }
         } catch (Exception e) {
-            String mostrar = carta.mostrarCarta();
-            int idx = mostrar.indexOf(' ');
-            nombreBase = (idx > 0) ? mostrar.substring(0, idx) : mostrar;
+            nombreBase = carta.mostrarCarta();
         }
-
-        String nombreImagen = normalizarNombre(nombreBase);
+        String nombreImagen = normalizarNombreParaImagen(nombreBase);
         String ruta = "/imagenes/" + nombreImagen + ".png";
         try {
             imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(ruta)));
         } catch (Exception e) {
             imagen = new Image(Objects.requireNonNull(getClass().getResourceAsStream(
-                    carta.esEspecial() ? "/imagenes/Lluviatorrencial.png" : "/imagenes/BirnaBrant.png"
+                    carta.esEspecial() ? "/imagenes/falta-especial.png" : "/imagenes/falta-unidad.png"
             )));
         }
 

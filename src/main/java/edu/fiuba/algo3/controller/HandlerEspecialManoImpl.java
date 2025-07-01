@@ -25,4 +25,12 @@ public class HandlerEspecialManoImpl implements HandlerEspecialMano {
         seleccionada = visual;
         tableroView.setCartaElegida(visual.getCarta());
     }
+
+    public void limpiarSeleccion() {
+        if (seleccionada != null) {
+            seleccionada.animarDeseleccion();
+            seleccionada = null;
+        }
+        tableroView.setCartaElegida(null);
+    }
 }
