@@ -45,19 +45,8 @@ public class Seccion {
         throw new IllegalArgumentException("La carta no está en la seccion " + clave);
     }
 
-    public List<CartaUnidad> removerCartas(List<CartaUnidad> cartas) {
-        for (CartaUnidad carta : cartas) {
-            removerCarta(carta);
-        }
-        return cartas;
-    }
-
     public void agregarCarta(CartaUnidad carta){
         cartasActuales.add(carta);
-    }
-
-    public void agregarCartas(List<CartaUnidad> cartas){
-        cartasActuales.addAll(cartas);
     }
 
     public String getClave() {

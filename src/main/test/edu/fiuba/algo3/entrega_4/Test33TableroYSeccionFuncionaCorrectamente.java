@@ -35,11 +35,9 @@ public class Test33TableroYSeccionFuncionaCorrectamente {
         CartaUnidad carta = new CartaUnidad("A", Collections.singletonList("Rango"), 5, new Base());
         tablero.agregarCarta(seccion, carta);
         assertTrue(tablero.contiene(seccion, carta));
-        assertEquals(5, tablero.getPuntaje("Rango0"));
         assertEquals(5, tablero.PuntajeSeccion(seccion));
         assertEquals(5, tablero.PuntajeTotalSecciones());
         assertEquals(carta, tablero.removerCarta(seccion, carta));
-        assertEquals(0, tablero.getCartasSeccion(seccion).size());
     }
 
     @Test

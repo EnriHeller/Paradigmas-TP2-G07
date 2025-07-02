@@ -118,14 +118,16 @@ public class JuegoView {
         bloqueJuego.getChildren().add(panelTurno);
 
         // Pila de descarte (arriba derecha)
-        PilaDescarteView pilaDescarteJugador = new PilaDescarteView(juego.getUltimaCartaDeLaPilaDeDescarte());
+        PilaDescarteView pilaDescarteJugador = new PilaDescarteView();
         Region pilaRegion = pilaDescarteJugador.construir();
         pilaRegion.setLayoutX(xMazo);
         pilaRegion.setLayoutY(yMazo - 110);
         bloqueJuego.getChildren().add(pilaRegion);
+
+        turnos.setPilaDescarteView(pilaDescarteJugador);
         
         // Mazo (abajo derecha, relativo al bloque)
-        int cartasRestantes = juego.cartasEnMazoActual();
+        int cartasRestantes = juego.cartasRestantesJugador("Mazo", juego.jugadorActual().ordenDeJuego());
         edu.fiuba.algo3.vistas.juego.cartas.MazoView mazoView = new edu.fiuba.algo3.vistas.juego.cartas.MazoView(cartasRestantes);
         mazoView.setLayoutX(xMazo); // Ajusta según el diseño del bloque
         mazoView.setLayoutY(yMazo); 

@@ -1,32 +1,24 @@
 package edu.fiuba.algo3.modelo.secciones.jugador;
 
 
-import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 
-public class Descarte extends SeccionJugador<Carta> {
+public class Descarte extends SeccionJugador<CartaUnidad> {
 
     public Descarte() {
         super();
     }
 
     @Override
-    public void agregarCarta(Carta carta) {
-        if (carta.esEspecial()) {
-            throw new IllegalArgumentException("Solo se pueden agregar instancias de CartaUnidad al descarte");
-        }
+    public void agregarCarta(CartaUnidad carta) {
         cartas.add(carta);
     }
 
-    public Carta removerUnidad() {
+    public CartaUnidad removerUltimaUnidad() {
         if (cartas.isEmpty()) {
             throw new edu.fiuba.algo3.modelo.modificadores.PilaDescarteNula();
         }
         return cartas.remove(cartas.size() - 1);
     }
 
-    public Carta getCartaPila(){
-        if(cartas.isEmpty())
-            return null;
-        return cartas.get(cartas.size() - 1);
-    }
 }
