@@ -1,7 +1,7 @@
 package edu.fiuba.algo3.entrega_2;
 
 import edu.fiuba.algo3.modelo.cartas.especiales.EscarchaMordaz;
-import edu.fiuba.algo3.modelo.cartas.especiales.DestructoraDeClima;
+import edu.fiuba.algo3.modelo.cartas.especiales.TiempoDespejado;
 import edu.fiuba.algo3.mocks.CartaUnidadMock;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.principal.Jugador;
@@ -17,18 +17,18 @@ public class Test08EsPosibleEliminarAfectoDelClimaEnTablero {
     public void EsPosibleEliminarAfectoDelClimaEnTablero () throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
         Tablero tablero = new Tablero();
         EscarchaMordaz nevada = new EscarchaMordaz();
-        DestructoraDeClima destructoraDeClima = new DestructoraDeClima();
+        TiempoDespejado tiempoDespejado = new TiempoDespejado();
         Seccion seccionMock = new Seccion("Rango", 0);
         CartaUnidadMock cartaMock = new CartaUnidadMock();
         Jugador jugadorMock = new Jugador("Mock");
         Contexto contexto = new Contexto(tablero, seccionMock, cartaMock, jugadorMock);
         nevada.modificar(contexto);
-        assertDoesNotThrow(() -> destructoraDeClima.modificar(contexto));
+        assertDoesNotThrow(() -> tiempoDespejado.modificar(contexto));
     }
 
     @Test
     public void testDestructoraDeClimaMetodosBasicos() throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
-        DestructoraDeClima destructora = new DestructoraDeClima();
+        TiempoDespejado destructora = new TiempoDespejado();
         // esEspecial
         org.junit.jupiter.api.Assertions.assertTrue(destructora.esEspecial());
         // mostrarCarta

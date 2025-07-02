@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class LluviaTorrencial extends CartaEspecial implements CartaClimatica, Carta, Modificador {
 
     public LluviaTorrencial(){
-        this.nombre = "Luvia Torrencial";
+        this.nombre = "Lluvia Torrencial";
         this.descripcion = "Las cartas de esa secciones afectadas tendran 1 de puntaje.";
         this.tipo = "Especial";
         this.afectado = Arrays.asList("Asedio");

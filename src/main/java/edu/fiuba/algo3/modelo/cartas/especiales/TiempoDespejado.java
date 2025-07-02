@@ -11,10 +11,10 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 
-public class DestructoraDeClima extends CartaEspecial implements Carta, Modificador {
+public class TiempoDespejado extends CartaEspecial implements Carta, Modificador {
 
-    public DestructoraDeClima() {
-        this.nombre = "DestructoraDeClima";
+    public TiempoDespejado() {
+        this.nombre = "Tiempo Despejado";
         this.descripcion = "Elimina el efecto de clima en todas las secciones afectadas.";
         this.tipo = "Especial";
         this.afectado = Arrays.asList("Rango", "Asedio", "CuerpoACuerpo");

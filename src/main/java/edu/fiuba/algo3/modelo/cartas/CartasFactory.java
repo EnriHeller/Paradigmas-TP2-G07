@@ -26,7 +26,7 @@ public class CartasFactory {
                             case "tormeta de skellige":
                                 return new TormentaDeSkellige();
                             case "tiempo despejado":
-                                return new DestructoraDeClima();
+                                return new TiempoDespejado();
                         }
                     default:
                         return null;
