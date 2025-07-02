@@ -1,6 +1,5 @@
 package edu.fiuba.algo3.modelo.secciones.tablero;
 
-import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.cartas.especiales.Clima;
@@ -22,20 +21,8 @@ public class Tablero {
         secciones.put("CuerpoACuerpo1", new Seccion("CuerpoACuerpo", 1));
     }
 
-    public boolean contieneSeccion(Seccion seccionBuscada) {
-        return secciones.containsValue(seccionBuscada);
-    }
-
-    public int getPuntaje(String clave) {
-        Seccion seccion = secciones.get(clave);
-        if (seccion == null) {
-            throw new IllegalArgumentException("Clave inválida: " + clave);
-        }
-        return seccion.getPuntajeTotal();
-    }
-
     public void existeSeccion(Seccion seccion) throws TipoDeSeccionInvalidaError {
-        if (!contieneSeccion(seccion)) {
+        if (!(secciones.containsValue(seccion))){
             throw new IllegalArgumentException("Clave inválida: " + seccion.getClave());
         }
     }
@@ -82,11 +69,6 @@ public class Tablero {
         return cartasTotales;
     }
 
-    public List<CartaUnidad> getCartasSeccion(Seccion seccion) throws TipoDeSeccionInvalidaError {
-        existeSeccion(seccion);
-        return obtenerSeccion(seccion).getCartas();
-    }
-
     public boolean contiene(Seccion seccion, Carta carta) throws TipoDeSeccionInvalidaError {
         existeSeccion(seccion);
         return obtenerSeccion(seccion).contiene(carta);
@@ -97,7 +79,7 @@ public class Tablero {
         return obtenerSeccion(seccion).removerCarta(carta);
     }
 
-    public void removerCartasDeValorMaximo() throws TipoDeSeccionInvalidaError {
+    public void removerCartasDeValorMaximo() {
         int max = calcularValorMaximoEnTablero();
         removerCartasDeValorN(max);
     }
@@ -110,10 +92,15 @@ public class Tablero {
         return secciones.get(clave + jugadorContrario);
     }
 
-    private void removerCartasDeValorN(int n) throws TipoDeSeccionInvalidaError {
+    private void removerCartasDeValorN(int n) {
         for (Seccion seccion : secciones.values()) {
-            List<CartaUnidad> cartas = getCartasSeccion(seccion);
-            cartas.removeIf(carta -> carta.ValorActual() == n && !carta.mostrarCarta().contains("Legendaria"));
+            Iterator<CartaUnidad> iter = seccion.getCartas().iterator();
+            while (iter.hasNext()) {
+                CartaUnidad carta = iter.next();
+                if (carta.ValorActual() == n && !carta.mostrarCarta().contains("Legendaria")) {
+                    iter.remove();
+                }
+            }
         }
     }
 
@@ -127,17 +114,12 @@ public class Tablero {
             secciones.add(new Seccion("CuerpoACuerpo", jugadorID));
 
             for (Seccion seccion : secciones) {
-                cartasJugador.addAll(removerCartas(seccion));
+                cartasJugador.addAll(obtenerSeccion(seccion).removerCartas());
             }
         } catch (TipoDeSeccionInvalidaError ignored) {
         }
 
         return cartasJugador;
-    }
-
-    private List<CartaUnidad> removerCartas(Seccion seccion) {
-
-        return obtenerSeccion(seccion).removerCartas();
     }
 
     private int calcularValorMaximoEnTablero() {

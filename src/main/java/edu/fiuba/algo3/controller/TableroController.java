@@ -60,10 +60,6 @@ public class TableroController {
         return List.of("Asedio1", "Rango1", "CuerpoACuerpo1", "CuerpoACuerpo0", "Rango0", "Asedio0");
     }
 
-    public void actualizarMano(ManoView mano){
-        mano.actualizarCartas(juego.mostrarManoActual());
-    }
-
     public Juego getJuego() {
         return this.juego;
     }
