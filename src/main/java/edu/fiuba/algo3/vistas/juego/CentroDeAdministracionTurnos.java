@@ -35,9 +35,6 @@ public class CentroDeAdministracionTurnos {
     private boolean jugador2YaDescarto = false;
     private Button botonDescarteRef;
 
-    private boolean jugador1TuvoPrimerTurno = false;
-    private boolean jugador2TuvoPrimerTurno = false;
-
     public CentroDeAdministracionTurnos(Juego juego) {
         this.juego = juego;
     }
@@ -67,6 +64,7 @@ public class CentroDeAdministracionTurnos {
         botonDescarteRef = new Button("Descartar Cartas");
         botonDescarteRef.setStyle("-fx-background-color: rgba(255,255,255,0.8);");
         botonDescarteRef.setOnAction(e -> {
+            botonDescarteRef.setDisable(true);
             Jugador jugadorActual = juego.jugadorActual();
             if(jugadorActual == juego.getJugador1()){
                 if(!jugador1YaDescarto){
@@ -91,12 +89,10 @@ public class CentroDeAdministracionTurnos {
                     ventanaDescarte.show();
                 }
             }
-            actualizarBotonDescarte();
         });
 
         // Botón pasar
         Button botonPasar = Botones.Boton_1("Pasar", () -> {
-
             if (clicksSiguiente >= 1) {
                 textoJugador.setText("Finalización de ronda");
                 PauseTransition espera = new PauseTransition(Duration.seconds(2));
@@ -105,8 +101,6 @@ public class CentroDeAdministracionTurnos {
                     actualizarHistorialPuntos();
                     jugador1YaDescarto = false;
                     jugador2YaDescarto = false;
-                    jugador1TuvoPrimerTurno = false;
-                    jugador2TuvoPrimerTurno = false;
                     if (onTurnoFinalizado != null) {
                         Platform.runLater(onTurnoFinalizado);
                     }
@@ -116,23 +110,15 @@ public class CentroDeAdministracionTurnos {
                         actualizarTextoJugador();
                         mano.actualizarCartas(juego.mostrarManoActual());
                         tablero.refrescar();
-                        actualizarBotonDescarte();
                     }
                 });
                 espera.play();
                 clicksSiguiente = 0;
             } else {
                 juego.siguienteJugador();
+
+                // Ya no es necesario marcar el primer turno aquí
                 actualizarBotonDescarte();
-                // Marcar primer turno para el jugador que acaba de recibir el turno
-                Jugador jugadorActual = juego.jugadorActual();
-                if (juego.getPuntosPorRonda().isEmpty()) { // Solo en la primera ronda
-                    if (jugadorActual == juego.getJugador1() && !jugador1TuvoPrimerTurno) {
-                        jugador1TuvoPrimerTurno = true;
-                    } else if (jugadorActual == juego.getJugador2() && !jugador2TuvoPrimerTurno) {
-                        jugador2TuvoPrimerTurno = true;
-                    }
-                }
                 mano.actualizarCartas(juego.mostrarManoActual());
                 mostrarMoneda(juego.actual());
                 actualizarTextoJugador();
@@ -146,7 +132,8 @@ public class CentroDeAdministracionTurnos {
         mostrarMoneda(juego.actual());
         actualizarTextoJugador();
         actualizarHistorialPuntos();
- 
+        actualizarBotonDescarte();
+
         HBox grupoBotonMoneda = new HBox(10, botonPasar, monedaView);
         grupoBotonMoneda.setAlignment(Pos.CENTER_LEFT);
         HBox descarteBox = new HBox(15, botonDescarteRef);
@@ -191,20 +178,9 @@ public class CentroDeAdministracionTurnos {
 
     private void actualizarBotonDescarte() {
         if (botonDescarteRef == null) return;
-        Jugador jugadorActual = juego.jugadorActual();
-        boolean esPrimeraRonda = juego.getPuntosPorRonda().size() < 1;
-        if (!esPrimeraRonda) {
-            botonDescarteRef.setDisable(true);
-            System.out.println("lo desactive y corto");
-            return;
-        }
-        // Debug print
-        if (jugadorActual == juego.getJugador1()) {
-            System.out.println("[DEBUG] voy a actualizar descarte. jugadorActual: " + jugadorActual.getNombre() + ", ¿lo tengo que mantener desactivado?: " + (jugador1YaDescarto || jugador1TuvoPrimerTurno));
-            botonDescarteRef.setDisable(jugador1YaDescarto || jugador1TuvoPrimerTurno);
-        } else {
-            System.out.println("[DEBUG] voy a actualizar descarte. jugadorActual: " + jugadorActual.getNombre() + ", ¿lo tengo que mantener desactivado?: " + (jugador2YaDescarto || jugador2TuvoPrimerTurno));
-            botonDescarteRef.setDisable(jugador2YaDescarto || jugador2TuvoPrimerTurno);
-        }
+        // Usar el número de ronda real en vez de getPuntosPorRonda().size()
+        boolean esPrimeraRonda = juego.getNumeroRondaActual() == 1;
+        boolean habilitar = esPrimeraRonda && clicksSiguiente <= 1;
+        botonDescarteRef.setDisable(!habilitar);
     }
 }

@@ -125,4 +125,9 @@ public class AdministradorDeTurno {
         }
         return puntosPorRonda;
     }
+
+    public int getNumeroRondaActual() {
+        // ciclos es el número de rondas finalizadas, la ronda actual es ciclos+1
+        return ciclos + 1;
+    }
 }

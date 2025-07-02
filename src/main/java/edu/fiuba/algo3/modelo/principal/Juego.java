@@ -156,5 +156,10 @@ public class Juego {
         return administradorTurno.getPuntosPorRonda();
     }
 
+    public int getNumeroRondaActual() {
+        // ciclos es el número de rondas finalizadas, la ronda actual es ciclos+1
+        return administradorTurno.getNumeroRondaActual();
+    }
+
 
 }
