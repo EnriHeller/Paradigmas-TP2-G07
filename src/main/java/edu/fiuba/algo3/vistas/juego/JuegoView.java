@@ -11,14 +11,11 @@ import edu.fiuba.algo3.controller.HandlerEspecialManoImpl;
 import edu.fiuba.algo3.controller.HandlerUnidadMano;
 import edu.fiuba.algo3.controller.TableroController;
 import edu.fiuba.algo3.modelo.principal.Juego;
-import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.vistas.BotonMusica;
-import edu.fiuba.algo3.vistas.DescarteView;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -26,12 +23,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.util.Duration;
 
 public class JuegoView {
@@ -39,8 +34,6 @@ public class JuegoView {
     private final FinalizadorDeJuego finalizadorDeJuego;
     private final int xMazo = 1140;
     private final int yMazo = 425;
-    private boolean jugador1YaDescarto = false;
-    private boolean jugador2YaDescarto = false;
 
     public JuegoView(Juego juego) {
         this.juego = juego;
@@ -80,7 +73,7 @@ public class JuegoView {
         puntosJugador1.setStyle("-fx-font-family: 'Georgia'; -fx-font-size: 14px; -fx-text-fill: white;");
         puntosJugador2.setStyle("-fx-font-family: 'Georgia'; -fx-font-size: 14px; -fx-text-fill: white;");
 
-        puntosJugador1.setLayoutX(55); // Ajustá estas coordenadas finamente
+        puntosJugador1.setLayoutX(55);
         puntosJugador1.setLayoutY(485);
 
         puntosJugador2.setLayoutX(55);
@@ -88,7 +81,7 @@ public class JuegoView {
 
         bloqueJuego.getChildren().addAll(puntosJugador1, puntosJugador2);
 
-        // --- TIRAR MONEDA ANTES DE CREAR VISTAS ---
+        // --- TIRAMOS MONEDA ANTES DE CREAR VISTAS ---
         juego.tirarMoneda();
 
         // Tablero (centrado dentro del bloque)
@@ -112,12 +105,11 @@ public class JuegoView {
         // Centro de turnos (izquierda)
         CentroDeAdministracionTurnos turnos = new CentroDeAdministracionTurnos(juego);
         turnos.setLabelsExternos(puntosJugador1, puntosJugador2);
-        // --- Agrego el callback para finalizar el juego ---
         turnos.setOnTurnoFinalizado(() -> {
             try {
                 finalizadorDeJuego.verificarFinDeJuego();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                // Manejo simple de error
             }
         });
         VBox panelTurno = turnos.construir(tablero, mano);
@@ -172,40 +164,6 @@ public class JuegoView {
         botonSalir.setLayoutY(580);
         bloqueJuego.getChildren().add(botonSalir);
 
-        //Boton para descartar cartas de la mano
-        Button botonDescarte = new Button("Descartar Cartas");
-        botonDescarte.setStyle("-fx-background-color: rgba(255,255,255,0.8);");
-
-        botonDescarte.setOnAction(e -> {
-            Jugador jugadorActual = juego.jugadorActual();
-            if(jugadorActual == juego.getJugador1()){
-                botonDescarte.setDisable(false);
-                if(!jugador1YaDescarto){
-                    jugador1YaDescarto = true;
-                    crearEscenaDescarte(mano, jugadorActual);
-                    botonDescarte.setDisable(true);
-                }
-            }else{
-                botonDescarte.setDisable(false);
-                if(!jugador2YaDescarto){
-                    jugador2YaDescarto = true;
-                    crearEscenaDescarte(mano, jugadorActual);
-                    botonDescarte.setDisable(true);
-                }
-            }
-
-
-        });
-
-
-        HBox descarteBox = new HBox(15, botonDescarte);
-        descarteBox.setAlignment(javafx.geometry.Pos.CENTER);
-
-        descarteBox.setLayoutX(1130);
-        descarteBox.setLayoutY(255);
-        bloqueJuego.getChildren().add(descarteBox);
-
-
         // Centrar el bloque de juego en el StackPane
         stack.getChildren().add(bloqueJuego);
         StackPane.setAlignment(bloqueJuego, Pos.CENTER);
@@ -215,16 +173,6 @@ public class JuegoView {
 
         root.setCenter(stack);
         return root;
-    }
-
-    private void crearEscenaDescarte(ManoView manoView, Jugador jugador) {
-        DescarteView ventanaDescarte = new DescarteView(juego.mostrarManoActual(), manoView, jugador);
-        ventanaDescarte.setScene(new Scene(ventanaDescarte.construir(), 1200, 600));
-        ventanaDescarte.setTitle("Descartar Cartas");
-        Image icono = new Image(getClass().getResourceAsStream("/imagenes/gwentLogo.png"));
-        ventanaDescarte.getIcons().add(icono);
-        ventanaDescarte.initModality(Modality.APPLICATION_MODAL);
-        ventanaDescarte.show(); // ¡Ahora sí se va a poder cerrar!
     }
 
     private void animarReparto(StackPane stack, Region manoRegion) {

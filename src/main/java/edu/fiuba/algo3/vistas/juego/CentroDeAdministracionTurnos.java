@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.vistas.Botones;
+import edu.fiuba.algo3.vistas.DescarteView;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -28,6 +30,13 @@ public class CentroDeAdministracionTurnos {
 
     private Label puntosJugador1Externos;
     private Label puntosJugador2Externos;
+
+    private boolean jugador1YaDescarto = false;
+    private boolean jugador2YaDescarto = false;
+    private Button botonDescarteRef;
+
+    private boolean jugador1TuvoPrimerTurno = false;
+    private boolean jugador2TuvoPrimerTurno = false;
 
     public CentroDeAdministracionTurnos(Juego juego) {
         this.juego = juego;
@@ -54,33 +63,82 @@ public class CentroDeAdministracionTurnos {
         monedaView.setFitWidth(50);
         monedaView.setFitHeight(50);
 
-        Button botonSiguiente = Botones.Boton_1("Pasar", () -> {
+        // Botón de descarte
+        botonDescarteRef = new Button("Descartar Cartas");
+        botonDescarteRef.setStyle("-fx-background-color: rgba(255,255,255,0.8);");
+        botonDescarteRef.setOnAction(e -> {
+            Jugador jugadorActual = juego.jugadorActual();
+            if(jugadorActual == juego.getJugador1()){
+                if(!jugador1YaDescarto){
+                    jugador1YaDescarto = true;
+                    DescarteView ventanaDescarte = new DescarteView(juego.mostrarManoActual(), mano, jugadorActual);
+                    ventanaDescarte.setScene(new javafx.scene.Scene(ventanaDescarte.construir(), 1200, 600));
+                    ventanaDescarte.setTitle("Descartar Cartas");
+                    javafx.scene.image.Image icono = new javafx.scene.image.Image(getClass().getResourceAsStream("/imagenes/gwentLogo.png"));
+                    ventanaDescarte.getIcons().add(icono);
+                    ventanaDescarte.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+                    ventanaDescarte.show();
+                }
+            }else{
+                if(!jugador2YaDescarto){
+                    jugador2YaDescarto = true;
+                    DescarteView ventanaDescarte = new DescarteView(juego.mostrarManoActual(), mano, jugadorActual);
+                    ventanaDescarte.setScene(new javafx.scene.Scene(ventanaDescarte.construir(), 1200, 600));
+                    ventanaDescarte.setTitle("Descartar Cartas");
+                    javafx.scene.image.Image icono = new javafx.scene.image.Image(getClass().getResourceAsStream("/imagenes/gwentLogo.png"));
+                    ventanaDescarte.getIcons().add(icono);
+                    ventanaDescarte.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+                    ventanaDescarte.show();
+                }
+            }
+            actualizarBotonDescarte();
+        });
+
+        // Botón pasar
+        Button botonPasar = Botones.Boton_1("Pasar", () -> {
+
             if (clicksSiguiente >= 1) {
                 textoJugador.setText("Finalización de ronda");
                 PauseTransition espera = new PauseTransition(Duration.seconds(2));
                 espera.setOnFinished(e -> {
                     juego.finalizarRonda();
                     actualizarHistorialPuntos();
-
+                    jugador1YaDescarto = false;
+                    jugador2YaDescarto = false;
+                    jugador1TuvoPrimerTurno = false;
+                    jugador2TuvoPrimerTurno = false;
                     if (onTurnoFinalizado != null) {
                         Platform.runLater(onTurnoFinalizado);
                     }
-
                     if (!juego.juegoTerminado()) {
                         juego.tirarMoneda();
                         mostrarMoneda(juego.actual());
                         actualizarTextoJugador();
                         mano.actualizarCartas(juego.mostrarManoActual());
                         tablero.refrescar();
+                        actualizarBotonDescarte();
                     }
                 });
                 espera.play();
                 clicksSiguiente = 0;
             } else {
                 juego.siguienteJugador();
+                actualizarBotonDescarte();
+                // Marcar primer turno para el jugador que acaba de recibir el turno
+                Jugador jugadorActual = juego.jugadorActual();
+                if (juego.getPuntosPorRonda().isEmpty()) { // Solo en la primera ronda
+                    if (jugadorActual == juego.getJugador1() && !jugador1TuvoPrimerTurno) {
+                        jugador1TuvoPrimerTurno = true;
+                    } else if (jugadorActual == juego.getJugador2() && !jugador2TuvoPrimerTurno) {
+                        jugador2TuvoPrimerTurno = true;
+                    }
+                }
                 mano.actualizarCartas(juego.mostrarManoActual());
                 mostrarMoneda(juego.actual());
                 actualizarTextoJugador();
+                if (onTurnoFinalizado != null) {
+                    Platform.runLater(onTurnoFinalizado);
+                }
                 clicksSiguiente++;
             }
         });
@@ -88,11 +146,14 @@ public class CentroDeAdministracionTurnos {
         mostrarMoneda(juego.actual());
         actualizarTextoJugador();
         actualizarHistorialPuntos();
-
-        HBox grupoBotonMoneda = new HBox(10, botonSiguiente, monedaView);
+ 
+        HBox grupoBotonMoneda = new HBox(10, botonPasar, monedaView);
         grupoBotonMoneda.setAlignment(Pos.CENTER_LEFT);
+        HBox descarteBox = new HBox(15, botonDescarteRef);
+        descarteBox.setAlignment(Pos.CENTER);
+        descarteBox.setPadding(new Insets(10, 0, 0, 0));
 
-        contenedor.getChildren().addAll(textoJugador, grupoBotonMoneda);
+        contenedor.getChildren().addAll(textoJugador, grupoBotonMoneda, descarteBox);
         return contenedor;
     }
 
@@ -126,5 +187,24 @@ public class CentroDeAdministracionTurnos {
 
         if (puntosJugador1Externos != null) puntosJugador1Externos.setText(textoJ1.toString());
         if (puntosJugador2Externos != null) puntosJugador2Externos.setText(textoJ2.toString());
+    }
+
+    private void actualizarBotonDescarte() {
+        if (botonDescarteRef == null) return;
+        Jugador jugadorActual = juego.jugadorActual();
+        boolean esPrimeraRonda = juego.getPuntosPorRonda().size() < 1;
+        if (!esPrimeraRonda) {
+            botonDescarteRef.setDisable(true);
+            System.out.println("lo desactive y corto");
+            return;
+        }
+        // Debug print
+        if (jugadorActual == juego.getJugador1()) {
+            System.out.println("[DEBUG] voy a actualizar descarte. jugadorActual: " + jugadorActual.getNombre() + ", ¿lo tengo que mantener desactivado?: " + (jugador1YaDescarto || jugador1TuvoPrimerTurno));
+            botonDescarteRef.setDisable(jugador1YaDescarto || jugador1TuvoPrimerTurno);
+        } else {
+            System.out.println("[DEBUG] voy a actualizar descarte. jugadorActual: " + jugadorActual.getNombre() + ", ¿lo tengo que mantener desactivado?: " + (jugador2YaDescarto || jugador2TuvoPrimerTurno));
+            botonDescarteRef.setDisable(jugador2YaDescarto || jugador2TuvoPrimerTurno);
+        }
     }
 }
