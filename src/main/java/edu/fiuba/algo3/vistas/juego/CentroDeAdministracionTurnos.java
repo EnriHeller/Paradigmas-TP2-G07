@@ -64,6 +64,7 @@ public class CentroDeAdministracionTurnos {
                 textoJugador.setText("Finalización de ronda");
                 PauseTransition espera = new PauseTransition(Duration.seconds(2));
                 espera.setOnFinished(e -> {
+                    actualizarHistorialPuntos();
                     juego.finalizarRonda();
                     actualizarHistorialPuntos();
 
@@ -120,8 +121,18 @@ public class CentroDeAdministracionTurnos {
 
     private void actualizarHistorialPuntos() {
         List<Map<String, Integer>> puntosPorRonda = juego.getPuntosPorRonda();
-        String nombreJ1 = juego.getJugador1().getNombre();
-        String nombreJ2 = juego.getJugador2().getNombre();
+
+        if (puntosPorRonda.isEmpty()) {
+            return;
+        }
+
+        Map<String, Integer> primeraRonda = puntosPorRonda.get(0);
+        String[] jugadores = primeraRonda.keySet().toArray(new String[0]);
+
+        if (jugadores.length < 2) return;
+
+        String nombreJ1 = jugadores[0];
+        String nombreJ2 = jugadores[1];
 
         StringBuilder textoJ1 = new StringBuilder("Puntos por ronda de " + nombreJ1 + ": \n");
         StringBuilder textoJ2 = new StringBuilder("Puntos por ronda de " + nombreJ2 + ": \n");

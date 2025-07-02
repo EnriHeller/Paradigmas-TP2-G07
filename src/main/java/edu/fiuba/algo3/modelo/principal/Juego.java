@@ -56,20 +56,6 @@ public class Juego {
         return administradorTurno.jugadorActual();
     }
 
-//    public void repartirCartasAlJugador(int jugador) throws TipoDeSeccionInvalidaError {
-//        int minCartasAMano = 10;
-//        Jugador jugadorElegido = jugadores.get(jugador);
-//        try {
-//            jugadorElegido.agregarCartasAMano(minCartasAMano);
-//        } catch (NoSePuedeCumplirSolicitudDeCartas e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-//    public void descartarCartasDeMano(int jugadorID, List<Carta> cartasQueSeQuierenDescartar) {
-//        jugadores.get(jugadorID).descartarAlMazo(cartasQueSeQuierenDescartar);
-//    }
-
     public void removerCartaEnMano(Carta carta){
         Jugador jugadorActual = administradorTurno.jugadorActual();
         jugadorActual.removerCartaEnMano(carta);
@@ -91,9 +77,6 @@ public class Juego {
             tablero.agregarCarta(tablero.obtenerSeccion(seccion), cartaUnidad);
             cartaUnidad.aplicarModificador(contexto);
             tablero.afectarClimas();
-
-            //Jugador jugadorActual = administradorTurno.jugadorActual();
-            //jugadorActual.removerCartaEnMano(carta);
 
             administradorTurno.actualizarRonda(((CartaUnidad) carta).ValorActual());
         }
@@ -123,31 +106,12 @@ public class Juego {
         return administradorTurno.juegoTerminado();
     }
 
-    public boolean seLogroRepartirCartasDelMazoALosJugadores(){
-        Jugador jugador1 = jugadores.get(0);
-        Jugador jugador2 = jugadores.get(1);
-
-        return (jugador1.cartasRestantesEnSeccion("Mano") == 10 && jugador2.cartasRestantesEnSeccion("Mano") == 10);
-    }
-
     public void finalizarRonda() {
         administradorTurno.finalizarRonda(tablero);
     }
 
-    public Jugador getJugador2() {
-        return jugadores.get(1);
-    }
-
-    public Jugador getJugador1() {
-        return jugadores.get(0);
-    }
-
     public Tablero getTablero() {
         return tablero;
-    }
-
-    public int cartasEnMazoActual() {
-        return administradorTurno.jugadorActual().cartasRestantesEnSeccion("Mazo");
     }
 
     public List<Map<String, Integer>> getPuntosPorRonda() {

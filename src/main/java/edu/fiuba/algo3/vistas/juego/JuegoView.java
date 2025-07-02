@@ -135,7 +135,7 @@ public class JuegoView {
         turnos.setPilaDescarteView(pilaDescarteJugador);
         
         // Mazo (abajo derecha, relativo al bloque)
-        int cartasRestantes = juego.cartasEnMazoActual();
+        int cartasRestantes = juego.cartasRestantesJugador("Mazo", juego.jugadorActual().ordenDeJuego());
         edu.fiuba.algo3.vistas.juego.cartas.MazoView mazoView = new edu.fiuba.algo3.vistas.juego.cartas.MazoView(cartasRestantes);
         mazoView.setLayoutX(xMazo); // Ajusta según el diseño del bloque
         mazoView.setLayoutY(yMazo); 
@@ -180,7 +180,7 @@ public class JuegoView {
 
         botonDescarte.setOnAction(e -> {
             Jugador jugadorActual = juego.jugadorActual();
-            if(jugadorActual == juego.getJugador1()){
+            if(jugadorActual.ordenDeJuego() == 0){
                 botonDescarte.setDisable(false);
                 if(!jugador1YaDescarto){
                     jugador1YaDescarto = true;
