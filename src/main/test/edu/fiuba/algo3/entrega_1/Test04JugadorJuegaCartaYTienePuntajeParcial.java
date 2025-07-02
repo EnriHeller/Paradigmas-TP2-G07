@@ -7,12 +7,15 @@ import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
+
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 
 public class Test04JugadorJuegaCartaYTienePuntajeParcial {
     @Test
@@ -28,7 +31,7 @@ public class Test04JugadorJuegaCartaYTienePuntajeParcial {
             CartaUnidadMock carta = new CartaUnidadMock("Cualesquiera", java.util.Arrays.asList("Rango"), 8);
             juego.jugarCarta(carta, seccionSimulada);
             assertEquals(8, juego.puntajeEnSeccion(seccionSimulada));
-        } catch (TipoDeSeccionInvalidaError e) {
+        } catch (TipoDeSeccionInvalidaError | CartaNoJugable e) {
             fail("Excepción de sección inválida: " + e.getMessage());
         } catch (Exception e) {
             fail("Excepción inesperada: " + e.getMessage());

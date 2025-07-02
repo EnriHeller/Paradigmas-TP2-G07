@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.vistas.juego.cartas;
 
+import edu.fiuba.algo3.controller.HandlerSeleccionarCarta;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.vistas.juego.ManoView;
 import javafx.geometry.Insets;
@@ -20,6 +21,7 @@ public abstract class CartaVisual extends VBox {
     protected StackPane mainStack;
     protected VBox infoOverlay;
     protected ManoView manoView;
+    protected HandlerSeleccionarCarta handler;
 
     public CartaVisual(Carta carta) {
         this.carta = carta;

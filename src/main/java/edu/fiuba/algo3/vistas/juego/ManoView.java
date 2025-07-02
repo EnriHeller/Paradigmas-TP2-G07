@@ -2,8 +2,8 @@ package edu.fiuba.algo3.vistas.juego;
 
 import java.util.List;
 
-import edu.fiuba.algo3.controller.CartaClickHandler;
-import edu.fiuba.algo3.controller.HandlerEspecialMano;
+import edu.fiuba.algo3.controller.EspecialController;
+import edu.fiuba.algo3.controller.HandlerSeleccionarCarta;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaEspecialVisual;
@@ -17,16 +17,15 @@ import javafx.scene.layout.Region;
 
 public class ManoView {
     private List<Carta> cartas;
-    private final CartaClickHandler handler;
-    private final HandlerEspecialMano handlerEspecial;
+    private final HandlerSeleccionarCarta handler;
+    private final EspecialController especialController;
     private final HBox contenedor;
-
     private CartaVisual cartaSeleccionada = null;
 
-    public ManoView(List<Carta> cartas, CartaClickHandler handler, HandlerEspecialMano handlerEspecial) {
+    public ManoView(List<Carta> cartas, HandlerSeleccionarCarta handler, EspecialController especialController) {
         this.cartas = cartas;
         this.handler = handler;
-        this.handlerEspecial = handlerEspecial;
+        this.especialController = especialController;
         this.contenedor = new HBox(10);
         this.contenedor.setAlignment(Pos.CENTER);
     }
@@ -41,10 +40,10 @@ public class ManoView {
         for (Carta carta : cartas) {
             try {
                 CartaVisual visual = carta.esEspecial()
-                        ? new CartaEspecialVisual(carta, handlerEspecial)
+                        ? new CartaEspecialVisual(carta, handler, especialController)
                         : new CartaUnidadVisual((CartaUnidad) carta, handler);
                 visual.construirVista();
-                visual.setManoView(this); // Asigna la referencia de ManoView a cada carta visual
+                visual.setManoView(this);
                 contenedor.getChildren().add(visual);
             } catch (Exception e) {
                 Label errorLabel = new Label("Error\n" + carta.mostrarCarta());
@@ -61,12 +60,7 @@ public class ManoView {
     public void actualizarCartas(List<Carta> nuevasCartas) {
         this.cartas = new java.util.ArrayList<>(nuevasCartas);
         deseleccionarCarta();
-        if (handler instanceof edu.fiuba.algo3.controller.HandlerUnidadMano) {
-            ((edu.fiuba.algo3.controller.HandlerUnidadMano) handler).limpiarSeleccion();
-        }
-        if (handlerEspecial instanceof edu.fiuba.algo3.controller.HandlerEspecialManoImpl) {
-            ((edu.fiuba.algo3.controller.HandlerEspecialManoImpl) handlerEspecial).limpiarSeleccion();
-        }
+        handler.limpiarSeleccion();
         refrescar();
     }
 

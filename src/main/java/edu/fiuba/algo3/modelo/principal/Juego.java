@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
@@ -66,10 +67,9 @@ public class Juego {
     }
 
     //FASE DE JUEGO
-    public void jugarCarta(Carta carta, Seccion seccion) throws TipoDeSeccionInvalidaError {
+    public void jugarCarta(Carta carta, Seccion seccion) throws TipoDeSeccionInvalidaError, CartaNoJugable {
         if (carta.esEspecial()){
-            Contexto contexto = new Contexto(this.tablero, administradorTurno.jugadorActual());
-            carta.aplicarModificador(contexto);
+            throw new CartaNoJugable();
         } else{
             Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), (CartaUnidad) carta, administradorTurno.jugadorActual());
             CartaUnidad cartaUnidad = (CartaUnidad) carta;
@@ -80,6 +80,14 @@ public class Juego {
 
             administradorTurno.actualizarRonda(((CartaUnidad) carta).ValorActual());
         }
+    }
+
+    public void jugarCartaEspecial(Carta carta) throws TipoDeSeccionInvalidaError, CartaNoJugable {
+        if (!carta.esEspecial()) {
+            throw new CartaNoJugable();
+        }
+        Contexto contexto = new Contexto(this.tablero, administradorTurno.jugadorActual());
+        carta.aplicarModificador(contexto);
     }
 
     public List<Carta> mostrarManoActual(){

@@ -3,15 +3,14 @@ package edu.fiuba.algo3.controller;
 import edu.fiuba.algo3.vistas.juego.TableroView;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaVisual;
 
-public class HandlerUnidadMano implements CartaClickHandler {
-    private CartaVisual seleccionada;
+public class HandlerSeleccionarCarta {
     private final TableroView tableroView;
+    private CartaVisual seleccionada;
 
-    public HandlerUnidadMano(TableroView tableroView) {
+    public HandlerSeleccionarCarta(TableroView tableroView) {
         this.tableroView = tableroView;
     }
 
-    @Override
     public void alClic(CartaVisual cartaVisual) {
         if (seleccionada == cartaVisual) {
             cartaVisual.animarDeseleccion();
@@ -24,7 +23,7 @@ public class HandlerUnidadMano implements CartaClickHandler {
         }
         cartaVisual.animarSeleccion();
         seleccionada = cartaVisual;
-        tableroView.setCartaElegida(cartaVisual.getCarta()); 
+        tableroView.setCartaElegida(cartaVisual.getCarta());
     }
 
     public void limpiarSeleccion() {

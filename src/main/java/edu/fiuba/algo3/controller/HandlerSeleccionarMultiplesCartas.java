@@ -5,11 +5,11 @@ import edu.fiuba.algo3.vistas.juego.cartas.CartaVisual;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HandlerCartaSeleccionada {
+public class HandlerSeleccionarMultiplesCartas {
     private final int maxSeleccion;
     private final List<CartaVisual> seleccionadas = new ArrayList<>();
 
-    public HandlerCartaSeleccionada(int maxSeleccion) {
+    public HandlerSeleccionarMultiplesCartas(int maxSeleccion) {
         this.maxSeleccion = maxSeleccion;
     }
 

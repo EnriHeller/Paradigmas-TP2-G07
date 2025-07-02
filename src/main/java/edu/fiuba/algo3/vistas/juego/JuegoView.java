@@ -7,9 +7,9 @@ import java.util.Objects;
 import edu.fiuba.algo3.controller.Audio;
 import edu.fiuba.algo3.controller.Bienvenida;
 import edu.fiuba.algo3.controller.FinalizadorDeJuego;
-import edu.fiuba.algo3.controller.HandlerEspecialManoImpl;
-import edu.fiuba.algo3.controller.HandlerUnidadMano;
 import edu.fiuba.algo3.controller.TableroController;
+import edu.fiuba.algo3.controller.HandlerSeleccionarCarta;
+import edu.fiuba.algo3.controller.EspecialController;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.vistas.BotonMusica;
 import javafx.animation.PauseTransition;
@@ -32,12 +32,14 @@ import javafx.util.Duration;
 public class JuegoView {
     private final Juego juego;
     private final FinalizadorDeJuego finalizadorDeJuego;
+    private final EspecialController especialController;
     private final int xMazo = 1140;
     private final int yMazo = 425;
 
     public JuegoView(Juego juego) {
         this.juego = juego;
         this.finalizadorDeJuego = new FinalizadorDeJuego(juego);
+        this.especialController = new EspecialController(juego);
     }
 
     public BorderPane construir() throws Exception {
@@ -92,15 +94,20 @@ public class JuegoView {
         tableroRegion.setLayoutY(0);
         bloqueJuego.getChildren().add(tableroRegion);
 
+        //Le pasamos al controller de especiales referencia al tableroView
+        especialController.setTableroView(tablero);
+
         // Mano (abajo, centrada respecto al bloque)
-        HandlerUnidadMano handlerUnidad = new HandlerUnidadMano(tablero);
-        HandlerEspecialManoImpl handlerEspecial = new HandlerEspecialManoImpl(tablero);
-        ManoView mano = new ManoView(juego.mostrarManoActual(), handlerUnidad, handlerEspecial);
+        HandlerSeleccionarCarta handlerSelect = new HandlerSeleccionarCarta(tablero);
+        ManoView mano = new ManoView(juego.mostrarManoActual(), handlerSelect, especialController);
         Region manoRegion = mano.construir();
         manoRegion.setLayoutX(310); // Ajusta según el diseño
         manoRegion.setLayoutY(560); // Ajusta según el diseño
         bloqueJuego.getChildren().add(manoRegion);
         tablero.setManoView(mano);
+
+        //Le pasamos al controller de especiales referencia al manoView
+        especialController.setManoView(mano);
 
         // Centro de turnos (izquierda)
         CentroDeAdministracionTurnos turnos = new CentroDeAdministracionTurnos(juego);

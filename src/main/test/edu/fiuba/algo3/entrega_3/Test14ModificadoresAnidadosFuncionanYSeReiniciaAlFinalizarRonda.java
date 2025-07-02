@@ -9,12 +9,15 @@ import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 
 /*
        Juega Super Carta
@@ -29,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class Test14ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRonda {
 
     @Test
-    public void Test14ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRonda() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos {
+    public void Test14ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRonda() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos, CartaNoJugable {
         Modificador superModificador = new Unidas(new SumaValorBase(new Base()));
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
         ArrayList<String> secciones = new ArrayList<String>();

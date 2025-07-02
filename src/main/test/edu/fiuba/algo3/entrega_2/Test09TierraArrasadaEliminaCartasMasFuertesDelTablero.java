@@ -1,29 +1,31 @@
 package edu.fiuba.algo3.entrega_2;
 
-import edu.fiuba.algo3.mocks.CartaUnidadMock;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.simple.parser.ParseException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+
 import edu.fiuba.algo3.mocks.CartaUnidadLegendariaMock;
+import edu.fiuba.algo3.mocks.CartaUnidadMock;
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.especiales.TierraArrasada;
+import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
-import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
+import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
-import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
-import edu.fiuba.algo3.modelo.principal.Juego;
-import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
-import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import java.io.IOException;
-import org.json.simple.parser.ParseException;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 
 public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
 
     @Test
-    public void testTierraArrasadaEliminaCartasMasFuertes() throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima, NoSePuedeCumplirSolicitudDeCartas, UnoDeLosMazosNoCumpleRequitos, IOException, ParseException {
+    public void testTierraArrasadaEliminaCartasMasFuertes() throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima, NoSePuedeCumplirSolicitudDeCartas, UnoDeLosMazosNoCumpleRequitos, IOException, ParseException, CartaNoJugable {
         // 1. Crear cartas de unidad y una con legendaria como modificador
 
         ArrayList<String> secciones = new ArrayList<>();
@@ -79,7 +81,7 @@ public class Test09TierraArrasadaEliminaCartasMasFuertesDelTablero {
         juego.jugarCarta(carta4b, seccionSimulada);
         juego.jugarCarta(carta4c, seccionSimulada);
         juego.jugarCarta(legendaria10, seccionSimulada);
-        juego.jugarCarta(tierraArrasada, seccionSimulada);
+        juego.jugarCartaEspecial(tierraArrasada);
 
         // Verificamos todas las cartas que quedaron en el tablero
         int puntajePosArrazada = juego.puntajeEnSeccion(seccionSimulada);

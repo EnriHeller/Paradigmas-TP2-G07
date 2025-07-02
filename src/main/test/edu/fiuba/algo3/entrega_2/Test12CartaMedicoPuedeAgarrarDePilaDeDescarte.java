@@ -9,9 +9,9 @@ import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.secciones.jugador.Descarte;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -19,10 +19,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
+
 public class Test12CartaMedicoPuedeAgarrarDePilaDeDescarte {
 
     @Test
-    public void Test12CartaMedicoPuedeAgarrarDePilaDeDescarte() throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas, UnoDeLosMazosNoCumpleRequitos {
+    public void Test12CartaMedicoPuedeAgarrarDePilaDeDescarte() throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas, UnoDeLosMazosNoCumpleRequitos, CartaNoJugable {
 
         Medico medico = new Medico(new Base());
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();

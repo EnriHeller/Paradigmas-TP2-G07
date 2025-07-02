@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import edu.fiuba.algo3.controller.TableroController;
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
@@ -135,7 +136,7 @@ public class TableroView {
                 if (tableroController.puedeAgregar(clave, (CartaUnidad) cartaElegida)) {
                     try {
                         tableroController.jugarCarta(cartaElegida, clave);
-                    } catch (TipoDeSeccionInvalidaError ignored) {
+                    } catch (TipoDeSeccionInvalidaError | CartaNoJugable ignored) {
                         edu.fiuba.algo3.controller.Utils.mostrarPopupError(rootStackPane, "¡No podés jugar en esta sección!");
                     }
 
@@ -145,7 +146,7 @@ public class TableroView {
                         tableroController.removerCartaEnMano(cartaElegida);
                         manoView.actualizarCartas(tableroController.getJuego().mostrarManoActual());
                         refrescar();
-                    }else{
+                    } else {
                         System.out.println("manoView es null!!");
                     }
                     cartaElegida = null;

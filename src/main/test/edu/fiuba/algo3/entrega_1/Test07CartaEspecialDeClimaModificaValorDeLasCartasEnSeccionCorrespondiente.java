@@ -1,19 +1,20 @@
 package edu.fiuba.algo3.entrega_1;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
+
 import edu.fiuba.algo3.mocks.CartaUnidadMock;
 import edu.fiuba.algo3.mocks.ConstructorDeMazoMock;
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
+import edu.fiuba.algo3.modelo.cartas.especiales.EscarchaMordaz;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.modelo.cartas.especiales.EscarchaMordaz;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import java.util.List;
-import java.util.ArrayList;
 
 public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespondiente {
     @Test
@@ -36,10 +37,10 @@ public class Test07CartaEspecialDeClimaModificaValorDeLasCartasEnSeccionCorrespo
             int actual = juego.puntajeEnSeccion(seccionSimulada);
             assertEquals(16, actual);
             EscarchaMordaz cartaClima = new EscarchaMordaz();
-            juego.jugarCarta(cartaClima, seccionSimulada);
+            juego.jugarCartaEspecial(cartaClima);
             actual = juego.puntajeEnSeccion(seccionSimulada);
             assertEquals(2, actual);
-        } catch (TipoDeSeccionInvalidaError e) {
+        } catch (TipoDeSeccionInvalidaError | CartaNoJugable e) {
             fail("Excepción de sección inválida: " + e.getMessage());
         } catch (Exception e) {
             fail("Excepción inesperada: " + e.getMessage());

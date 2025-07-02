@@ -11,16 +11,19 @@ import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
+
 public class Test11CartaAgilSePuedeUbicarEnSeccionCorrespondiente {
 
     @Test
-    public void Test11CartaAgilSePuedeUbicarEnSeccionCorrespondiente() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos {
+    public void Test11CartaAgilSePuedeUbicarEnSeccionCorrespondiente() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos, CartaNoJugable {
         Agil agil= new Agil(new Base());
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
         ArrayList<String> secciones = new ArrayList<String>();

@@ -8,6 +8,7 @@ import edu.fiuba.algo3.modelo.principal.*;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -15,10 +16,12 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
+
 public class Test10EspiaSeJuegaEnRivalYaumentaMano {
 
     @Test
-    public void Test10EspiaSeJuegaEnRivalYaumentaMano() throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas, UnoDeLosMazosNoCumpleRequitos {
+    public void Test10EspiaSeJuegaEnRivalYaumentaMano() throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas, UnoDeLosMazosNoCumpleRequitos, CartaNoJugable {
 
         Espias spyBlack = new Espias(new Base());
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();

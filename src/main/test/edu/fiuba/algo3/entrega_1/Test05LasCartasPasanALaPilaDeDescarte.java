@@ -1,18 +1,19 @@
 package edu.fiuba.algo3.entrega_1;
 
-import edu.fiuba.algo3.mocks.CartaUnidadMock;
-import edu.fiuba.algo3.mocks.ConstructorDeMazoMock;
-import edu.fiuba.algo3.modelo.principal.Juego;
-import edu.fiuba.algo3.modelo.principal.Jugador;
-import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
-import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
+
+import edu.fiuba.algo3.mocks.CartaUnidadMock;
+import edu.fiuba.algo3.mocks.ConstructorDeMazoMock;
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
+import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.principal.Jugador;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 
 public class Test05LasCartasPasanALaPilaDeDescarte {
     @Test
@@ -35,7 +36,7 @@ public class Test05LasCartasPasanALaPilaDeDescarte {
             }
             juego.finalizarRonda();
             assertEquals(cartasJugadasEsperadas, jugador1.cartasRestantesEnSeccion("Descarte"));
-        } catch (TipoDeSeccionInvalidaError e) {
+        } catch (TipoDeSeccionInvalidaError | CartaNoJugable e) {
             fail("Excepción de sección inválida: " + e.getMessage());
         } catch (Exception e) {
             fail("Excepción inesperada: " + e.getMessage());

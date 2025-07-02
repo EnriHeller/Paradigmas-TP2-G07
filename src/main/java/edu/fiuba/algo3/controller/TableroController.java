@@ -3,12 +3,12 @@ package edu.fiuba.algo3.controller;
 import java.util.List;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
-import edu.fiuba.algo3.vistas.juego.ManoView;
 
 public class TableroController {
     private final Juego juego;
@@ -31,7 +31,7 @@ public class TableroController {
         juego.removerCartaEnMano(cartaElegida);
     }
 
-    public void jugarCarta(Carta carta, String claveSeccion) throws TipoDeSeccionInvalidaError {
+    public void jugarCarta(Carta carta, String claveSeccion) throws TipoDeSeccionInvalidaError, CartaNoJugable {
         Seccion seccion = modeloTablero.obtenerSeccionPorClave(claveSeccion);
         System.out.println("Inicio de jugar carta");
         for (CartaUnidad cartaUnidad : seccion.getCartas()) {

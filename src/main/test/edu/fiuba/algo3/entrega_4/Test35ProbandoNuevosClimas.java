@@ -1,20 +1,21 @@
 package edu.fiuba.algo3.entrega_4;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test;
+
 import edu.fiuba.algo3.mocks.CartaUnidadMock;
 import edu.fiuba.algo3.mocks.ConstructorDeMazoMock;
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.especiales.LluviaTorrencial;
 import edu.fiuba.algo3.modelo.cartas.especiales.TormentaDeSkellige;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class Test35ProbandoNuevosClimas {
 
@@ -57,7 +58,7 @@ public class Test35ProbandoNuevosClimas {
             LluviaTorrencial cartaClima = new LluviaTorrencial();
 
             //La juega el jugador 2
-            juego.jugarCarta(cartaClima, seccionSimulada2);
+            juego.jugarCartaEspecial(cartaClima);
 
             actualDelJugador1 = juego.puntajeEnSeccion(seccionSimulada1);
             actualDelJugador2 = juego.puntajeEnSeccion(seccionSimulada2);
@@ -65,7 +66,7 @@ public class Test35ProbandoNuevosClimas {
             assertEquals(2, actualDelJugador1);
             assertEquals(2, actualDelJugador2);
 
-        } catch (TipoDeSeccionInvalidaError e) {
+        } catch (TipoDeSeccionInvalidaError | CartaNoJugable e) {
             fail("Excepción de sección inválida: " + e.getMessage());
         } catch (Exception e) {
             fail("Excepción inesperada: " + e.getMessage());
@@ -114,7 +115,7 @@ public class Test35ProbandoNuevosClimas {
             TormentaDeSkellige cartaClima = new TormentaDeSkellige();
 
             //La juega el jugador 1
-            juego.jugarCarta(cartaClima, seccionSimulada1_1);
+            juego.jugarCartaEspecial(cartaClima);
 
             actualDelJugador1 = juego.puntajeEnSeccion(seccionSimulada1_1) + juego.puntajeEnSeccion(seccionSimulada1_2);
             actualDelJugador2 = juego.puntajeEnSeccion(seccionSimulada2_1) + juego.puntajeEnSeccion(seccionSimulada2_2);
@@ -122,7 +123,7 @@ public class Test35ProbandoNuevosClimas {
             assertEquals(2, actualDelJugador1);
             assertEquals(2, actualDelJugador2);
 
-        } catch (TipoDeSeccionInvalidaError e) {
+        } catch (TipoDeSeccionInvalidaError | CartaNoJugable e) {
             fail("Excepción de sección inválida: " + e.getMessage());
         } catch (Exception e) {
             fail("Excepción inesperada: " + e.getMessage());

@@ -6,6 +6,7 @@ import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.principal.Contexto;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
@@ -66,10 +67,32 @@ public class MoraleBoost extends CartaEspecial implements Carta, Modificador {
         } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {
         }
 
-        Seccion seccion = contextoModificador.getSeccion();
-        List<CartaUnidad> cartasActuales = seccion.getCartas();
-        for (CartaUnidad carta : cartasActuales) {
-            if (!carta.esLegendaria()) carta.multiplicarValor(2);
+        Seccion seccionContexto = contextoModificador.getSeccion();
+
+        if(seccionContexto == null){
+            Jugador jugador = contextoModificador.getJugador();
+            int idJugadorActual = jugador.ordenDeJuego();
+            List<Seccion> secciones = contextoModificador.getTablero().obtenerSeccionesDelJugador(idJugadorActual);
+    
+            for (Seccion seccion : secciones) {
+                if (afectado.contains(seccion.getClave())) {
+                    List<CartaUnidad> cartasActuales = seccion.getCartas();
+                    for (CartaUnidad carta : cartasActuales) {
+                        if (!carta.esLegendaria()) {
+                            carta.multiplicarValorBase(2);
+                        }
+                    }
+                }
+            }
+        }else{
+            try {
+                if (modificador != null) modificador.modificar(contextoModificador);
+            } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {}
+
+            List<CartaUnidad> cartasActuales = seccionContexto.getCartas();
+            for (CartaUnidad carta : cartasActuales) {
+                if (!carta.esLegendaria()) carta.multiplicarValor(2);
+            }
         }
     }
 }

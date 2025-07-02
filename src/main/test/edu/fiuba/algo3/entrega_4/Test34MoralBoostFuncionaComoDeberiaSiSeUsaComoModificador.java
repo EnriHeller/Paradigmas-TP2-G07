@@ -13,6 +13,7 @@ import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,10 +21,12 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
+
 public class Test34MoralBoostFuncionaComoDeberiaSiSeUsaComoModificador {
 
     @Test
-    public void Test34MoralBoostFuncionaComoDeberiaSiSeUsaComoModificador() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos {
+    public void Test34MoralBoostFuncionaComoDeberiaSiSeUsaComoModificador() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos,CartaNoJugable {
         Modificador moralBoostOnly = new MoraleBoost(new Base());
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
         ArrayList<String> secciones = new ArrayList<String>();

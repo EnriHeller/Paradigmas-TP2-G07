@@ -2,7 +2,7 @@ package edu.fiuba.algo3.vistas.juego.cartas;
 
 import java.util.Objects;
 
-import edu.fiuba.algo3.controller.CartaClickHandler;
+import edu.fiuba.algo3.controller.HandlerSeleccionarCarta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
@@ -18,9 +18,9 @@ import javafx.util.Duration;
 
 
 public class CartaUnidadVisual extends CartaVisual {
-    private final CartaClickHandler handler;
+    private final HandlerSeleccionarCarta handler;
 
-    public CartaUnidadVisual(CartaUnidad carta, CartaClickHandler handler) {
+    public CartaUnidadVisual(CartaUnidad carta, HandlerSeleccionarCarta handler) {
         super(carta);
         this.handler = handler;
         // construirVista() se debe llamar externamente después de la construcción

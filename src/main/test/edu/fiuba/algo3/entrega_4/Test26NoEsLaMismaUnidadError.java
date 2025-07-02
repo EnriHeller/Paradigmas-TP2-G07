@@ -11,6 +11,7 @@ import edu.fiuba.algo3.modelo.cartas.unidades.NoEsLaMismaUnidad;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Unidas;
 import edu.fiuba.algo3.modelo.modificadores.Base;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -19,11 +20,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
+
 public class Test26NoEsLaMismaUnidadError {
 
 
     @Test
-    public void testNoEsLaMismaUnidadError() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos {
+    public void testNoEsLaMismaUnidadError() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos, CartaNoJugable {
         // Caso borde: 3 cartas con distinto nombre o modificadores, intentar aplicar Unidas
         CartaUnidad carta1 = new CartaUnidad("A", Arrays.asList("CuerpoACuerpo"), 8, new Unidas(new Base()));
         CartaUnidad carta2 = new CartaUnidad("B", Arrays.asList("CuerpoACuerpo"), 8, new Unidas(new Base()));

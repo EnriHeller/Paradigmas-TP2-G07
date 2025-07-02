@@ -13,6 +13,7 @@ import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,9 +21,11 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
+
 public class Test15ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRondaInclusoConClima {
     @Test
-    public void Test15ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRondaInclusoConClima() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos {
+    public void Test15ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRondaInclusoConClima() throws TipoDeSeccionInvalidaError, UnoDeLosMazosNoCumpleRequitos, CartaNoJugable {
         Modificador superModificador = new Unidas(new SumaValorBase(new Base()));
         ArrayList<Carta> cartasDelMazo = new ArrayList<Carta>();
         ArrayList<String> secciones = new ArrayList<String>();
@@ -51,7 +54,7 @@ public class Test15ModificadoresAnidadosFuncionanYSeReiniciaAlFinalizarRondaIncl
         int actual = juego.puntajeEnSeccion(seccionSimulada);
         assertTrue(actual == 38);
 
-        juego.jugarCarta(new EscarchaMordaz(), seccionSimulada);
+        juego.jugarCartaEspecial(new EscarchaMordaz());
 
         actual = juego.puntajeEnSeccion(seccionSimulada);
         assertTrue(actual == 2);
