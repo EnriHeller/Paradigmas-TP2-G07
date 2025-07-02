@@ -9,6 +9,9 @@ import java.util.Set;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
+import edu.fiuba.algo3.modelo.principal.Jugador;
+import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import edu.fiuba.algo3.vistas.juego.ManoView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,6 +36,7 @@ import javafx.stage.Stage;
 public class DescarteView extends Stage {
     private final List<Carta> cartasMano;
     private final Set<Carta> cartasSeleccionadas = new HashSet<>();
+    private Jugador jugadorActual;
 
     private HBox contenedorCartas = new HBox(10);
     private HBox contenedorBoton;
@@ -41,11 +45,15 @@ public class DescarteView extends Stage {
     private Button confirmarBtn;
     private Label cartasSeleccionadasDescartadas;
     private int cantidadCartasDescartadas;
+    private boolean seHizoElDescarte;
 
-    public DescarteView(List<Carta> cartasMano, ManoView manoCartas) {
+
+    public DescarteView(List<Carta> cartasMano, ManoView manoCartas, Jugador jugadorActual) {
         this.mano = manoCartas;
         this.cartasMano = cartasMano;
         this.seSeleccionaronCartas = 0;
+        this.seHizoElDescarte = false;
+        this.jugadorActual = jugadorActual;
     }
 
     public Parent construir() {
@@ -63,7 +71,13 @@ public class DescarteView extends Stage {
         this.confirmarBtn = new Button("Confirmar descarte");
         confirmarBtn.setDisable(true);
         confirmarBtn.setOnAction(e -> {
-            confirmarDescarte();
+            try {
+                confirmarDescarte();
+            } catch (TipoDeSeccionInvalidaError ex) {
+                throw new RuntimeException(ex);
+            } catch (NoSePuedeCumplirSolicitudDeCartas ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
         this.contenedorCartas = mostrarCartasDeLaMano();
@@ -195,43 +209,47 @@ public class DescarteView extends Stage {
         cartaBox.setOnMouseExited(e -> infoPopup.hide());
 
         cartaBox.setOnMouseClicked(e -> {
+            if (seHizoElDescarte) return;
+
             if (cartasSeleccionadas.contains(carta)) {
                 cartasSeleccionadas.remove(carta);
                 cartaBox.setStyle("-fx-border-color: transparent; -fx-border-width: 4px;");
                 seSeleccionaronCartas--;
             } else {
-                if (seSeleccionaronCartas >= 2) return; // Máximo 2
+                if (seSeleccionaronCartas >= 2) return;
                 cartasSeleccionadas.add(carta);
                 cartaBox.setStyle("-fx-border-color: gold; -fx-border-width: 4px;");
                 seSeleccionaronCartas++;
             }
-            // Habilita o deshabilita el botón de confirmar
             this.cantidadCartasDescartadas += 1;
             this.cartasSeleccionadasDescartadas.setText(cartasSeleccionadas.size() + "/2");
             actualizarEstadoBoton();
         });
 
+
         return cartaBox;
     }
 
     private void actualizarEstadoBoton() {
-        if(cantidadCartasDescartadas >= 2 ){
-            confirmarBtn.setDisable(false);
-        }
         confirmarBtn.setDisable(cartasSeleccionadas.size() != 2);
 
     }
 
-    private void confirmarDescarte() {
-        // Elimina las cartas seleccionadas de la mano
-        cartasMano.removeAll(cartasSeleccionadas);
-        mano.actualizarCartas(cartasMano); // si tu ManoView tiene un método así
+    private void confirmarDescarte() throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
+        if(seHizoElDescarte){
+            return;
+        }
+        seHizoElDescarte = true;
+        confirmarBtn.setDisable(true);
 
-        // Podés imprimir para testear
+
+        cartasMano.removeAll(cartasSeleccionadas);
+        cartasMano.addAll(jugadorActual.dameCartasNuevas(2));
+
+        mano.actualizarCartas(cartasMano);
+
         System.out.println("Cartas descartadas: " + cartasSeleccionadas);
 
-        // TODO: Mostrar las cartas del mazo después (siguiente paso)
-        // Por ahora podés cerrar o limpiar la vista
         this.close();
     }
 

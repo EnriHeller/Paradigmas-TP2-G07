@@ -11,6 +11,7 @@ import edu.fiuba.algo3.controller.HandlerEspecialManoImpl;
 import edu.fiuba.algo3.controller.HandlerUnidadMano;
 import edu.fiuba.algo3.controller.TableroController;
 import edu.fiuba.algo3.modelo.principal.Juego;
+import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.vistas.BotonMusica;
 import edu.fiuba.algo3.vistas.DescarteView;
 import javafx.animation.PauseTransition;
@@ -31,15 +32,15 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class JuegoView {
     private final Juego juego;
     private final FinalizadorDeJuego finalizadorDeJuego;
     private final int xMazo = 1140;
-    private final int yMazo = 425; 
-
+    private final int yMazo = 425;
+    private boolean jugador1YaDescarto = false;
+    private boolean jugador2YaDescarto = false;
 
     public JuegoView(Juego juego) {
         this.juego = juego;
@@ -176,8 +177,24 @@ public class JuegoView {
         botonDescarte.setStyle("-fx-background-color: rgba(255,255,255,0.8);");
 
         botonDescarte.setOnAction(e -> {
-            crearEscenaDescarte(mano);
-            botonDescarte.setDisable(true);
+            Jugador jugadorActual = juego.jugadorActual();
+            if(jugadorActual == juego.getJugador1()){
+                botonDescarte.setDisable(false);
+                if(!jugador1YaDescarto){
+                    jugador1YaDescarto = true;
+                    crearEscenaDescarte(mano, jugadorActual);
+                    botonDescarte.setDisable(true);
+                }
+            }else{
+                botonDescarte.setDisable(false);
+                if(!jugador2YaDescarto){
+                    jugador2YaDescarto = true;
+                    crearEscenaDescarte(mano, jugadorActual);
+                    botonDescarte.setDisable(true);
+                }
+            }
+
+
         });
 
 
@@ -200,24 +217,14 @@ public class JuegoView {
         return root;
     }
 
-    private void crearEscenaDescarte(ManoView manoView) {
-        Stage ventanaDescarte = new Stage();
+    private void crearEscenaDescarte(ManoView manoView, Jugador jugador) {
+        DescarteView ventanaDescarte = new DescarteView(juego.mostrarManoActual(), manoView, jugador);
+        ventanaDescarte.setScene(new Scene(ventanaDescarte.construir(), 1200, 600));
         ventanaDescarte.setTitle("Descartar Cartas");
-        try {
-            Image icono = new Image(getClass().getResourceAsStream("/imagenes/gwentLogo.png"));
-            ventanaDescarte.getIcons().add(icono);
-        } catch (Exception e) {
-            System.err.println("[App] No se pudo cargar el icono gwentLogo.png: " + e);
-        }
-
+        Image icono = new Image(getClass().getResourceAsStream("/imagenes/gwentLogo.png"));
+        ventanaDescarte.getIcons().add(icono);
         ventanaDescarte.initModality(Modality.APPLICATION_MODAL);
-
-        DescarteView vistaDescarte = new DescarteView(juego.mostrarManoActual(), manoView);
-
-        Scene escenaDescarte = new Scene(vistaDescarte.construir(), 1200, 600);
-        ventanaDescarte.setScene(escenaDescarte);
-
-        ventanaDescarte.showAndWait();
+        ventanaDescarte.show(); // ¡Ahora sí se va a poder cerrar!
     }
 
     private void animarReparto(StackPane stack, Region manoRegion) {

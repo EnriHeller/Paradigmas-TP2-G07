@@ -41,6 +41,11 @@ public class Jugador {
         List<Carta> cartas = mazo.repartirCarta(n);
         mano.agregarCartas(cartas);
     }
+
+    public List<Carta> dameCartasNuevas(int n) throws NoSePuedeCumplirSolicitudDeCartas {
+        return mazo.repartirCarta(n);
+    }
+
     public void agregarCartaAMano(Carta carta) {
         mano.agregarCarta(carta);
     }
