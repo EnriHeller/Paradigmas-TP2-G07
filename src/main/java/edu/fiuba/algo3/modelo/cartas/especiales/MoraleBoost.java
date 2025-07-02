@@ -14,15 +14,14 @@ import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 public class MoraleBoost extends CartaEspecial implements Carta, Modificador {
     private Modificador modificador;
 
-    public MoraleBoost(String nombre, String descripcion, String tipo, java.util.List<String> afectado) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.tipo = tipo;
-        this.afectado = afectado;
+    public MoraleBoost() {
+        this.nombre = "MoraleBoost";
+        this.descripcion = "Duplica el valor de las cartas aliadas en la seccion.";
+        this.tipo = "Especial";
+        this.afectado = List.of("CuerpoACuerpo", "Rango", "Asedio");
     }
 
     public MoraleBoost(Modificador siguienteModificador) {
-        this("MoraleBoost", "Duplica el valor de las cartas aliadas en la seccion.", "Especial", java.util.List.of("CuerpoACuerpo", "Rango", "Asedio"));
         this.modificador = siguienteModificador;
     }
 

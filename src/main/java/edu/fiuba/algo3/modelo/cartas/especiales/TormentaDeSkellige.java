@@ -8,13 +8,15 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.Tablero;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 
+import java.util.Arrays;
+
 public class TormentaDeSkellige extends CartaEspecial implements CartaClimatica, Carta, Modificador {
 
-    public TormentaDeSkellige(String nombre, String descripcion, String tipo, java.util.List<String> afectado) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.tipo = tipo;
-        this.afectado = afectado;
+    public TormentaDeSkellige(){
+        this.nombre = "Tormenta de Skellige";
+        this.descripcion = "Las cartas de esa secciones afectadas tendran 1 de puntaje.";
+        this.tipo = "Especial";
+        this.afectado = Arrays.asList("Rango", "CuerpoACuerpo");
     }
 
     @Override

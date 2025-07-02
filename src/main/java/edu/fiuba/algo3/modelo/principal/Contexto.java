@@ -6,7 +6,7 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 
 public class Contexto {
     private Tablero tablero;
-    private Seccion seccion;
+    private Seccion seccion = null;
     private CartaUnidad carta = null;
     private Jugador jugador;
 
@@ -17,9 +17,8 @@ public class Contexto {
         this.jugador = jugador;
     }
 
-    public Contexto(Tablero tablero, Seccion seccion, Jugador jugador) {
+    public Contexto(Tablero tablero, Jugador jugador) {
         this.tablero = tablero;
-        this.seccion = seccion;
         this.jugador = jugador;
     }
 

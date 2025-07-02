@@ -13,11 +13,11 @@ import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 
 public class DestructoraDeClima extends CartaEspecial implements Carta, Modificador {
 
-    public DestructoraDeClima(String nombre, String descripcion, String tipo, List<String> afectado) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.tipo = tipo;
-        this.afectado = afectado;
+    public DestructoraDeClima() {
+        this.nombre = "DestructoraDeClima";
+        this.descripcion = "Elimina el efecto de clima en todas las secciones afectadas.";
+        this.tipo = "Especial";
+        this.afectado = Arrays.asList("Rango", "Asedio", "CuerpoACuerpo");
     }
 
     @Override
@@ -42,7 +42,7 @@ public class DestructoraDeClima extends CartaEspecial implements Carta, Modifica
 
     @Override
     public String mostrarModificadores() {
-        return "DestructorDeClima";
+        return "tiempoDespejado";
     }
 
     @Override

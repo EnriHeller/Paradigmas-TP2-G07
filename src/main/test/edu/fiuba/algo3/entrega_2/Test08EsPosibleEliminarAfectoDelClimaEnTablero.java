@@ -32,9 +32,9 @@ public class Test08EsPosibleEliminarAfectoDelClimaEnTablero {
         // esEspecial
         org.junit.jupiter.api.Assertions.assertTrue(destructora.esEspecial());
         // mostrarCarta
-        org.junit.jupiter.api.Assertions.assertEquals("DestructorDeClima", destructora.mostrarCarta());
+        org.junit.jupiter.api.Assertions.assertEquals("tiempoDespejado", destructora.mostrarCarta());
         // mostrarModificadores
-        org.junit.jupiter.api.Assertions.assertEquals("DestructorDeClima", destructora.mostrarModificadores());
+        org.junit.jupiter.api.Assertions.assertEquals("tiempoDespejado", destructora.mostrarModificadores());
         // aplicarModificador (ya cubierto indirectamente, pero lo forzamos directo)
         Tablero tablero = new Tablero();
         Seccion seccion = new Seccion("Rango", 0);

@@ -55,7 +55,7 @@ public class Test29CartasFactoryFuncionaCorrectamente {
         CartasFactory factory = new CartasFactory();
         Carta carta = factory.crearCarta(
             "e",
-            "Clima",
+            "Escarcha Mordaz",
             Arrays.asList("CuerpoACuerpo"),
             0L,
             null,

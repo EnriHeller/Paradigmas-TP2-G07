@@ -14,25 +14,25 @@ public class CartasFactory {
             if (tipoEspecial != null) {
                 switch (tipoEspecial.toLowerCase()) {
                     case "tierra arrasada":
-                        return new TierraArrasada(nombre, descripcion, tipoEspecial, seccionesOAfectados);
+                        return new TierraArrasada();
                     case "morale boost":
-                        return new MoraleBoost(nombre, descripcion, tipoEspecial, seccionesOAfectados);
+                        return new MoraleBoost();
                     case "clima":
                         switch (nombre.toLowerCase()) {
                             case "escarcha mordaz":
-                                return new EscarchaMordaz(nombre, descripcion, tipoEspecial, seccionesOAfectados);
+                                return new EscarchaMordaz();
                             case "lluvia torrencial":
-                                return new LluviaTorrencial(nombre, descripcion, tipoEspecial, seccionesOAfectados);
+                                return new LluviaTorrencial();
                             case "tormeta de skellige":
-                                return new TormentaDeSkellige(nombre, descripcion, tipoEspecial, seccionesOAfectados);
+                                return new TormentaDeSkellige();
                             case "tiempo despejado":
-                                return new DestructoraDeClima(nombre, descripcion, tipoEspecial, seccionesOAfectados);
+                                return new DestructoraDeClima();
                         }
                     default:
                         return null;
                 }
             }
-
+            return null;
         }
         return null;
     }
