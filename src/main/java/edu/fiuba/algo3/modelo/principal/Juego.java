@@ -110,7 +110,7 @@ public class Juego {
         return tablero.PuntajeSeccion(seccion);
     }
 
-    public int cartasRestantesJugador(String seccionJugador,int jugador_i) throws TipoDeSeccionInvalidaError {
+    public int cartasRestantesJugador(String seccionJugador,int jugador_i) {
         Jugador jugador = jugadores.get(jugador_i);
         return jugador.cartasRestantesEnSeccion(seccionJugador);
     }
@@ -144,11 +144,6 @@ public class Juego {
 
     public Tablero getTablero() {
         return tablero;
-    }
-
-    public Carta getUltimaCartaDeLaPilaDeDescarte(){
-        Jugador jugadorActualizado = administradorTurno.jugadorActual();
-        return jugadorActualizado.getCartaEnDescarte();
     }
 
     public int cartasEnMazoActual() {

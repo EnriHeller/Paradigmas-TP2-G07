@@ -2,6 +2,7 @@ package edu.fiuba.algo3.modelo.principal;
 import java.util.List;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.secciones.jugador.Descarte;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mano;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
@@ -70,10 +71,6 @@ public class Jugador {
         }
     }
 
-    public List<Carta> obtenerCartasEnMano(){
-        return mano.getCartas();
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -82,19 +79,16 @@ public class Jugador {
         this.nombre = nombre;
     }
 
-    public void agregarCartasAlDescarte(List<Carta> cartas) {
+    public void agregarCartasAlDescarte(List<CartaUnidad> cartas) {
         descarte.agregarCartas(cartas);
     }
 
-    public Carta removerUltimaCartaDeDescarte(){
-        return descarte.removerUnidad();
+    public CartaUnidad removerUltimaCartaDeDescarte(){
+        return descarte.removerUltimaUnidad();
     }
 
     public void removerCartaEnMano(Carta carta){
         mano.removerCarta(carta);
     }
 
-    public Carta getCartaEnDescarte() {
-        return descarte.getCartaPila();
-    }
 }

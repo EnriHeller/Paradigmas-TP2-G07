@@ -28,9 +28,14 @@ public class CentroDeAdministracionTurnos {
 
     private Label puntosJugador1Externos;
     private Label puntosJugador2Externos;
+    private PilaDescarteView pilaDescarteView;
 
     public CentroDeAdministracionTurnos(Juego juego) {
         this.juego = juego;
+    }
+
+    public void setPilaDescarteView(PilaDescarteView pilaDescarteView) {
+        this.pilaDescarteView = pilaDescarteView;
     }
 
     public void setLabelsExternos(Label j1, Label j2) {
@@ -61,6 +66,13 @@ public class CentroDeAdministracionTurnos {
                 espera.setOnFinished(e -> {
                     juego.finalizarRonda();
                     actualizarHistorialPuntos();
+
+                    if (pilaDescarteView != null) {
+                        int cantidadDeCartasEnElDescarte1 = juego.cartasRestantesJugador("Descarte", 0);
+                        int cantidadDeCartasEnElDescarte2 = juego.cartasRestantesJugador("Descarte", 1);
+                        boolean hayCartas = cantidadDeCartasEnElDescarte1 != 0 || cantidadDeCartasEnElDescarte2 != 0;
+                        pilaDescarteView.actualizarPila(hayCartas);
+                    }
 
                     if (onTurnoFinalizado != null) {
                         Platform.runLater(onTurnoFinalizado);

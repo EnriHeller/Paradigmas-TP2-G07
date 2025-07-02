@@ -33,7 +33,7 @@ public class Medico implements Modificador {
         Jugador jugador = contextoModificador.getJugador();
         if (jugador.cartasRestantesEnSeccion("Descarte") == 0) throw new PilaDescarteNula();
 
-        CartaUnidad cartaDescartada = (CartaUnidad) jugador.removerUltimaCartaDeDescarte();
+        CartaUnidad cartaDescartada = jugador.removerUltimaCartaDeDescarte();
 
         List<String> tipo = cartaDescartada.getSecciones(); // Por ejemplo: "Rango", "Asedio", etc.
         int jugadorID = jugador.ordenDeJuego();         // El ID del jugador (0 o 1)
