@@ -51,10 +51,6 @@ public class Jugador {
         mano.agregarCarta(carta);
     }
 
-    public void descartarAlMazo(List<Carta> unasCartas) {
-        mazo.agregarCartas(mano.removerCartas(unasCartas));
-    }
-
     public List<Carta> cartasEnMano(){
         return mano.getCartas();
     }

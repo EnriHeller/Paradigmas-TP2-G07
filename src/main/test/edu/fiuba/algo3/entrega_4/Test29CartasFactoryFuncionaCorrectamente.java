@@ -80,4 +80,99 @@ public class Test29CartasFactoryFuncionaCorrectamente {
         );
         assertNull(carta);
     }
+
+    @Test
+    public void testCrearCartaEspecialTipoMoraleBoost() {
+        CartasFactory factory = new CartasFactory();
+        Carta carta = factory.crearCarta(
+                "e",
+                "morale boost",
+                Arrays.asList("CuerpoACuerpo"),
+                0L,
+                null,
+                "desc",
+                "morale boost"
+        );
+        assertEquals("MoraleBoost", carta.mostrarCarta());
+
+    }
+
+    @Test
+    public void testCrearCartaEspecialTipoLluviaTorrencial() {
+        CartasFactory factory = new CartasFactory();
+        Carta carta = factory.crearCarta(
+                "e",
+                "lluvia torrencial",
+                Arrays.asList("CuerpoACuerpo"),
+                0L,
+                null,
+                "desc",
+                "clima"
+        );
+        assertEquals("Lluvia Torrencial", carta.mostrarCarta());
+
+    }
+
+    @Test
+    public void testCrearCartaEspecialTipoTormentaDeSkelligel() {
+        CartasFactory factory = new CartasFactory();
+        Carta carta = factory.crearCarta(
+                "e",
+                "tormeta de skellige",
+                Arrays.asList("CuerpoACuerpo"),
+                0L,
+                null,
+                "desc",
+                "clima"
+        );
+        assertEquals("TormentaDeSkellige", carta.mostrarCarta());
+
+    }
+
+    @Test
+    public void testCrearCartaEspecialTipoTiempoDespejado() {
+        CartasFactory factory = new CartasFactory();
+        Carta carta = factory.crearCarta(
+                "e",
+                "tiempo despejado",
+                Arrays.asList("CuerpoACuerpo"),
+                0L,
+                null,
+                "desc",
+                "clima"
+        );
+        assertEquals("tiempoDespejado", carta.mostrarCarta());
+
+    }
+
+    @Test
+    public void testCrearCartaEspecialTipoNullRetornaNull() {
+        CartasFactory factory = new CartasFactory();
+        Carta carta = factory.crearCarta(
+                "e",
+                "tiempo despejado",
+                Arrays.asList("CuerpoACuerpo"),
+                0L,
+                null,
+                "desc",
+                null
+        );
+        assertNull(carta);
+
+    }
+    @Test
+    public void testCrearCartaInvalidaRetornaNull() {
+        CartasFactory factory = new CartasFactory();
+        Carta carta = factory.crearCarta(
+                "s",
+                "tiempo despejado",
+                Arrays.asList("CuerpoACuerpo"),
+                0L,
+                null,
+                "desc",
+                null
+        );
+        assertNull(carta);
+
+    }
 }

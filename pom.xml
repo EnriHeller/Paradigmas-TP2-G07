@@ -139,6 +139,8 @@
         <version>3.11.0</version>
         <configuration>
           <release>17</release>
+            <source>14</source>
+            <target>14</target>
         </configuration>
       </plugin>
       <plugin>
