@@ -110,7 +110,7 @@ public class MenuView {
                     try {
                         Thread.sleep(1500);
                         try {
-                            audio.play("/audio/escapism.wav");
+                            audio.play("/audio/mientrasSeJuega.wav");
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }

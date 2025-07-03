@@ -37,15 +37,22 @@ jobs:
       - name: Generate JaCoCo coverage report
         run: mvn jacoco:report
 
+      - name: Debug coverage directory
+        run: find target/ -type f
+
       - name: Run mutation tests (optional - solo si es necesario)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           export MAVEN_OPTS="-Xmx1g -XX:MaxMetaspaceSize=256m"
           mvn org.pitest:pitest-maven:mutationCoverage -q
-      
-      - name: Upload coverage report
+
+      - name: Upload coverage report to Codecov
         if: github.event_name == 'push'
         uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+
 
   package:
     runs-on: ubuntu-22.04

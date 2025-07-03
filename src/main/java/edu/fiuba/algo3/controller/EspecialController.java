@@ -36,9 +36,13 @@ public class EspecialController {
                 juego.jugarCartaEspecial(carta);
                 juego.removerCartaEnMano(carta);
                 tableroView.refrescar();
+                Audio audio = Audio.getInstance();
+                audio.play("/audio/jugarCartaEspecial.wav");
                 manoView.actualizarCartas(juego.mostrarManoActual());
             } catch (TipoDeSeccionInvalidaError | CartaNoJugable ex) {
                 ex.printStackTrace();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         });
         fade.play();
