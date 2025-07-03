@@ -1,7 +1,7 @@
 package edu.fiuba.algo3.controller;
 
-import javafx.scene.control.Alert;
 import edu.fiuba.algo3.modelo.principal.Juego;
+import javafx.scene.control.Alert;
 
 public class FinalizadorDeJuego {
     private final Juego juego;
@@ -12,6 +12,8 @@ public class FinalizadorDeJuego {
 
     public void verificarFinDeJuego() throws Exception {
         if (juego.juegoTerminado()) {
+            Audio audio = Audio.getInstance();
+            audio.stop();
             String ganador = juego.mostrarGanador();
             mostrarDialogoGanador(ganador);
             reiniciarJuego();
@@ -19,6 +21,10 @@ public class FinalizadorDeJuego {
     }
 
     private void mostrarDialogoGanador(String ganador) {
+        // Detener la música antes de mostrar el diálogo
+        try {
+            edu.fiuba.algo3.controller.Audio.getInstance().stop();
+        } catch (Exception ignored) {}
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("¡Fin del juego!");
         alert.setHeaderText("¡Tenemos un ganador!");

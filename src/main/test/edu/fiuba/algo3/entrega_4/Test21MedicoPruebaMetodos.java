@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
-import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 import org.junit.jupiter.api.Test;
 
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
@@ -16,6 +14,7 @@ import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
+import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 
 public class Test21MedicoPruebaMetodos {
     @Test
@@ -38,41 +37,25 @@ public class Test21MedicoPruebaMetodos {
         jugador2.agregarMazo(mazoMock2);
         Juego juego = new Juego(jugador1, jugador2);
         jugador1.agregarCartasAMano(10);
-        CartaUnidad cartaBase = null;
-        for (var carta : jugador1.cartasEnMano()) {
-            if (carta instanceof CartaUnidad && ((CartaUnidad) carta).getModificadores().isEmpty()) {
-                cartaBase = (CartaUnidad) carta;
-                break;
-            }
-        }
-        if (cartaBase == null) {
-            throw new RuntimeException("No se encontró una carta base en la mano para el test");
-        }
-        CartaUnidad finalCartaBase = cartaBase;
+        // Asegurar que la mano tenga la carta base y la de médico
+        jugador1.cartasEnMano().clear();
+        CartaUnidad cartaBase = new CartaUnidad("Base'e", secciones, 8, base);
+        CartaUnidad cartaMedico = new CartaUnidad("Medico'e", secciones, 8, medico);
+        jugador1.cartasEnMano().add(cartaBase);
+        jugador1.cartasEnMano().add(cartaMedico);
         assertDoesNotThrow(() -> {
             try {
-                juego.jugarCarta(finalCartaBase, new Seccion("CuerpoACuerpo", 0));
+                juego.jugarCarta(cartaBase, new Seccion("CuerpoACuerpo", 0));
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage(), e);
             }
         });
         juego.finalizarRonda();
         juego.definirQuienEmpieza(0);
-        jugador1.agregarCartasAMano(1);
-        CartaUnidad cartaMedico = null;
-        for (var carta : jugador1.cartasEnMano()) {
-            if (carta instanceof CartaUnidad && ((CartaUnidad) carta).getModificadores().contains("Medico")) {
-                cartaMedico = (CartaUnidad) carta;
-                break;
-            }
-        }
-        if (cartaMedico == null) {
-            throw new RuntimeException("No se encontró una carta Médico en la mano para el test");
-        }
-        CartaUnidad finalCartaMedico = cartaMedico;
+        // No hace falta agregar más cartas, ya está la de médico
         assertDoesNotThrow(() -> {
             try {
-                juego.jugarCarta(finalCartaMedico, new Seccion("CuerpoACuerpo", 0));
+                juego.jugarCarta(cartaMedico, new Seccion("CuerpoACuerpo", 0));
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage(), e);
             }

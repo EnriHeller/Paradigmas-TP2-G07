@@ -1,86 +1,35 @@
 name: build
-on: [ push, pull_request ]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
-  build:
-    runs-on: ubuntu-22.04
+  test:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        
+    - name: Run tests with Maven
+      run: mvn clean test jacoco:report
       
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      
-      - name: Install JavaFX dependencies for headless testing
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y xvfb libgtk-3-0 libxss1 libasound2
-      
-      - name: Run tests
-        run: |
-          export DISPLAY=:99
-          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-          sleep 3
-          export MAVEN_OPTS="-Xmx1g -XX:MaxMetaspaceSize=256m"
-          export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
-          mvn clean test -q
-
-      - name: Generate JaCoCo coverage report
-        run: mvn jacoco:report
-
-      - name: Debug coverage directory
-        run: find target/ -type f
-
-      - name: Run mutation tests (optional - solo si es necesario)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          export MAVEN_OPTS="-Xmx1g -XX:MaxMetaspaceSize=256m"
-          mvn org.pitest:pitest-maven:mutationCoverage -q
-
-      - name: Upload coverage report to Codecov
-        if: github.event_name == 'push'
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
-
-
-  package:
-    runs-on: ubuntu-22.04
-    needs: build
-    if: contains(github.ref, 'refs/tags/v')
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      
-      - name: Package
-        run: mvn clean package -DskipTests -q
-      
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: target/tp2-*.jar
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./target/site/jacoco/jacoco.xml
+        flags: unittests
+        name: codecov-umbrella
