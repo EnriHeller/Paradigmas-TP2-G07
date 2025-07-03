@@ -50,22 +50,15 @@ public class TiempoDespejado extends CartaEspecial implements Carta, Modificador
     public void modificar(Contexto modificadorContexto) throws TipoDeSeccionInvalidaError, NoSePuedeEliminarClimaSiNoHayClima {
         Tablero tablero = modificadorContexto.getTablero();
         List<String> claves = Arrays.asList("Rango", "Asedio", "CuerpoACuerpo");
-        int seccionesSinClima = 0;
         for (int i = 0; i < 2; i++) {
             for (String clave : claves) {
                 Seccion seccion = new Seccion(clave, i);
-                if (!tablero.afectadaClima(seccion)) {
-                    seccionesSinClima++;
-                } else {
-                    tablero.afectarClima(seccion, new SinClima());
-                    for (CartaUnidad carta : tablero.obtenerSeccion(seccion).getCartas() ) {
-                        carta.volverValorBase();
-                    }
+
+                tablero.afectarClima(seccion, new SinClima());
+                for (CartaUnidad carta : tablero.obtenerSeccion(seccion).getCartas() ) {
+                    carta.volverValorBase();
                 }
             }
-        }
-        if (seccionesSinClima == 6) {
-            throw new NoSePuedeEliminarClimaSiNoHayClima();
         }
     }
 }
