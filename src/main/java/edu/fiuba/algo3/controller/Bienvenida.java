@@ -11,10 +11,13 @@ public class Bienvenida {
         MenuView menuView = new MenuView();
         Scene escenaMenu = new Scene(menuView.construir(), App.WIDTH, App.HEIGHT);
         App.getStage().setScene(escenaMenu);
+        Audio efecto = Audio.getInstanceEffect();
+        efecto.play("/audio/effects/draw-sword.wav");
     }
 
     public static void mostrarBienvenida() throws Exception {
         Audio audio = Audio.getInstance();
+        audio.setVolume(0.7f);
         audio.play("/audio/cs16.wav");
 
         BienvenidaView bienvenida = new BienvenidaView();

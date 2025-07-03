@@ -1,5 +1,6 @@
 package edu.fiuba.algo3.vistas.juego.cartas;
 
+import edu.fiuba.algo3.controller.Audio;
 import edu.fiuba.algo3.controller.HandlerSeleccionarCarta;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.vistas.juego.ManoView;
@@ -104,6 +105,13 @@ public abstract class CartaVisual extends VBox {
                 hoverBorder.setVisible(false);
                 ocultarInfoOverlay();
             }
+        });
+        vistaImagen.setOnMouseClicked(e -> {
+            try {
+                Audio click = Audio.getInstanceEffect();
+                click.play("/audio/effects/click.wav");
+            } catch (Exception ignored) {}
+            // Si la subclase quiere, puede sobreescribir este handler agregando super
         });
         
         return vistaImagen;

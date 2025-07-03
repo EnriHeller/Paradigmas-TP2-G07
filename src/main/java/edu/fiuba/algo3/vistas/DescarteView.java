@@ -1,12 +1,12 @@
 package edu.fiuba.algo3.vistas;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import edu.fiuba.algo3.controller.Audio;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.principal.Jugador;
@@ -64,18 +64,26 @@ public class DescarteView extends Stage {
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER,
-                new BackgroundSize(100, 100, true, true, true, true) // cover width/height, no aspect ratio
+                new BackgroundSize(100, 100, true, true, true, true)
         );
         layout.setBackground(new Background(bgImage));
 
+        Label titulo = new Label("Podes descartar hasta 2 cartas antes de comenzar");
+        titulo.setStyle("-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: gold; -fx-effect: dropshadow(gaussian, #000000, 2, 0.5, 1, 1);");
+        titulo.setAlignment(Pos.CENTER);
+        titulo.setTranslateY(-100);
+
         this.confirmarBtn = new Button("Confirmar descarte");
-        //confirmarBtn.setDisable(true);
+        this.confirmarBtn. setTranslateY(100);
+        confirmarBtn.setStyle("-fx-background-color: #181818; -fx-background-radius: 18px; -fx-border-radius: 18px; -fx-border-color: gold; -fx-border-width: 2px; -fx-text-fill: gold; -fx-font-weight: bold; -fx-font-size: 16px; -fx-padding: 8 24; -fx-cursor: hand;");
         confirmarBtn.setOnAction(e -> {
+            Audio click = Audio.getInstanceEffect();
+            try {
+                click.play("/audio/effects/sword.wav");
+            } catch (Exception ex) {}
             try {
                 confirmarDescarte();
-            } catch (TipoDeSeccionInvalidaError ex) {
-                throw new RuntimeException(ex);
-            } catch (NoSePuedeCumplirSolicitudDeCartas ex) {
+            } catch (TipoDeSeccionInvalidaError | NoSePuedeCumplirSolicitudDeCartas ex) {
                 throw new RuntimeException(ex);
             }
         });
@@ -88,8 +96,7 @@ public class DescarteView extends Stage {
 
         this.cartasSeleccionadasDescartadas = new Label(cantidadCartasDescartadas + "/2");
 
-        VBox contenedorCentral = new VBox(30, contenedorCartas, contenedorBoton, cartasSeleccionadasDescartadas);
-
+        VBox contenedorCentral = new VBox(10, titulo, contenedorCartas, contenedorBoton, cartasSeleccionadasDescartadas);
         contenedorCentral.setAlignment(Pos.CENTER);
         contenedorCentral.setPadding(new Insets(100, 0, 0, 0));
 
@@ -182,7 +189,7 @@ public class DescarteView extends Stage {
 
         VBox cartaBox = new VBox(mainStack);
         cartaBox.setAlignment(Pos.CENTER);
-        cartaBox.setStyle("-fx-border-color: transparent; -fx-border-width: 4px;");
+        cartaBox.setStyle("-fx-border-color: transparent; -fx-border-width: 4px; -fx-cursor: hand;");
 
         // -------------------- VENTANA EMERGENTE ------------------------
         Popup infoPopup = new Popup();
@@ -223,6 +230,11 @@ public class DescarteView extends Stage {
                 seSeleccionaronCartas++;
                 cantidadCartasDescartadas++;
             }
+
+            Audio click = Audio.getInstanceEffect();
+            try {
+                click.play("/audio/effects/click.wav");
+            } catch (Exception ex) {}
 
             cartasSeleccionadasDescartadas.setText(cartasSeleccionadas.size() + "/2");
         });

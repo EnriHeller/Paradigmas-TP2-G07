@@ -1,6 +1,7 @@
 package edu.fiuba.algo3.controller;
 
 import java.util.List;
+
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
@@ -44,7 +45,12 @@ public class TableroController {
         for (CartaUnidad cartaUnidad : seccion.getCartas()) {
             System.out.println("Carta en seccion antes de la jugada: " + cartaUnidad.mostrarCarta() + "\n" + "Puntaje de esa carta:" + cartaUnidad.ValorActual() + "\n");
         }
+        Audio flip = Audio.getInstanceEffect();
+        try {
+            flip.play("/audio/effects/flipcard.wav");
+        } catch (Exception e) {}
         juego.jugarCarta(carta, seccion);
+
         // Refrescar la mano con la lista actualizada del jugador
         
         for (CartaUnidad cartaUnidad : seccion.getCartas()) {

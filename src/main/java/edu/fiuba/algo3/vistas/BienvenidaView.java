@@ -51,6 +51,7 @@ public class BienvenidaView{
                 ex.printStackTrace();
             }
         });
+        boton.setStyle("-fx-background-color: #222; -fx-background-radius: 18px; -fx-border-radius: 18px; -fx-border-color: #7CFC00; -fx-border-width: 2px; -fx-text-fill: #7CFC00; -fx-font-weight: bold; -fx-font-size: 18px; -fx-padding: 10 32; -fx-cursor: hand;");
 
         StackPane.setAlignment(boton, Pos.BOTTOM_CENTER);
         StackPane.setMargin(boton, new javafx.geometry.Insets(0, 0, 60, 0));

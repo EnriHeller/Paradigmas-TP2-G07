@@ -9,56 +9,63 @@ import javax.sound.sampled.FloatControl;
 
 public final class Audio {
     private static Audio instancia;
-    Clip clip;
+    private Clip clip;
     private String musicaActual;
-    private boolean activo = true;
-    private float volumen = 1.0f;
+    private static boolean globalActivo = true;
+    private static float globalVolumen = 0.7f;
 
-    
+    private Audio() {}
 
-    private Audio (){
-    }
     public void play(String ubicacionAudio) throws Exception {
-        URL soundURL = Bienvenida.class.getResource(ubicacionAudio);
-
-        if (soundURL == null) {
-            System.out.println("No se encontró el archivo cs16.wav en el classpath.");
+        if (!globalActivo) {
             return;
         }
-
+        URL soundURL = Bienvenida.class.getResource(ubicacionAudio);
+        if (soundURL == null) {
+            System.out.println("No se encontró el archivo en el classpath.");
+            return;
+        }
         this.musicaActual = ubicacionAudio;
-
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundURL);
         clip = AudioSystem.getClip();
         clip.open(audioStream);
-        setVolume(activo ? 1.0f : volumen); // <-- siempre respeta el mute/volumen
+        setVolume(globalVolumen); // Usar siempre el volumen global
         clip.start();
     }
 
-    public void stop(){
-        clip.stop();
+    public void stop() {
+        if (clip != null) {
+            clip.stop();
+        }
     }
 
-    public void escuchar(){
-        activo = true;
-        setVolume(1.0f);
+    public static void escuchar() {
+        globalActivo = true;
+        globalVolumen = 0.7f;
+        if (instancia != null) {
+            instancia.setVolume(globalVolumen);
+        }
     }
 
-    public void silenciar() {
-        activo = false;
-        setVolume(0);
+    public static void silenciar() {
+        globalActivo = false;
+        globalVolumen = 0f;
+        if (instancia != null) {
+            instancia.setVolume(globalVolumen);
+        }
     }
 
     public void setVolume(float volumen) {
-    this.volumen = volumen;
-    if (clip != null) {
-        FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        float min = control.getMinimum();
-        float max = control.getMaximum();
-        float gain = (volumen == 0.0f) ? min : (min + (max - min) * volumen);
-        control.setValue(gain);
+        // El volumen ahora es global, no se usa la variable de instancia
+        if (clip != null) {
+            FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            float min = control.getMinimum();
+            float max = control.getMaximum();
+            float gain = (globalVolumen == 0.0f) ? min : (min + (max - min) * globalVolumen);
+            control.setValue(gain);
+        }
     }
-}
+
     public static Audio getInstance() {
         if (instancia == null) {
             instancia = new Audio();
@@ -66,8 +73,15 @@ public final class Audio {
         return instancia;
     }
 
-    public boolean estaActivo() {
-        return activo; //musica esta activa?
+    public static Audio getInstanceEffect() {
+
+        Audio audio = new Audio();
+        audio.setVolume(0.7f);
+        return audio;
+    }
+
+    public static boolean estaActivo() {
+        return globalActivo;
     }
 
     public String getMusicaActual() {
