@@ -5,6 +5,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import edu.fiuba.algo3.modelo.cartas.especiales.EscarchaMordaz;
+import edu.fiuba.algo3.modelo.cartas.especiales.TiempoDespejado;
 import org.junit.jupiter.api.Test;
 
 import edu.fiuba.algo3.mocks.CartaUnidadMock;
@@ -18,6 +21,70 @@ import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
 
 public class Test35ProbandoNuevosClimas {
+
+    @Test
+    public void testEscarchaMordaz() {
+        try {
+            List<Jugador> jugadores = new ArrayList<>();
+            for (var mazo : ConstructorDeMazoMock.crearDosMazosDeUnidades().construirMazos(null)) {
+                Jugador jugador = new Jugador("Jugador");
+                jugador.agregarMazo(mazo);
+                jugadores.add(jugador);
+            }
+            Jugador jugador1 = jugadores.get(0);
+            Jugador jugador2 = jugadores.get(1);
+            Juego juego = new Juego(jugador1, jugador2);
+            Seccion seccionSimulada1 = new Seccion("CuerpoACuerpo", 0);
+            Seccion seccionSimulada2 = new Seccion("CuerpoACuerpo", 1);
+            CartaUnidadMock carta1 = new CartaUnidadMock("Aldeano1", java.util.Arrays.asList("Asedio"), 8);
+            CartaUnidadMock carta2 = new CartaUnidadMock("Aldeano2", java.util.Arrays.asList("Asedio"), 8);
+
+            CartaUnidadMock carta3 = new CartaUnidadMock("Aldeano3", java.util.Arrays.asList("Asedio"), 8);
+            CartaUnidadMock carta4 = new CartaUnidadMock("Aldeano4", java.util.Arrays.asList("Asedio"), 8);
+
+            juego.definirQuienEmpieza(0);
+
+            juego.jugarCarta(carta1, seccionSimulada1);
+            juego.jugarCarta(carta2, seccionSimulada1);
+
+            juego.siguienteJugador();
+
+            juego.jugarCarta(carta3, seccionSimulada2);
+            juego.jugarCarta(carta4, seccionSimulada2);
+
+            int actualDelJugador1 = juego.puntajeEnSeccion(seccionSimulada1);
+            int actualDelJugador2 = juego.puntajeEnSeccion(seccionSimulada2);
+
+            assertEquals(16, actualDelJugador1);
+            assertEquals(16, actualDelJugador2);
+
+            EscarchaMordaz cartaClima = new EscarchaMordaz();
+
+            //La juega el jugador 2
+            juego.jugarCartaEspecial(cartaClima);
+
+            actualDelJugador1 = juego.puntajeEnSeccion(seccionSimulada1);
+            actualDelJugador2 = juego.puntajeEnSeccion(seccionSimulada2);
+
+            assertEquals(2, actualDelJugador1);
+            assertEquals(2, actualDelJugador2);
+
+            TiempoDespejado despejadora = new TiempoDespejado();
+
+            juego.jugarCartaEspecial(despejadora);
+
+            actualDelJugador1 = juego.puntajeEnSeccion(seccionSimulada1);
+            actualDelJugador2 = juego.puntajeEnSeccion(seccionSimulada2);
+
+            assertEquals(16, actualDelJugador1);
+            assertEquals(16, actualDelJugador2);
+
+        } catch (TipoDeSeccionInvalidaError | CartaNoJugable e) {
+            fail("Excepción de sección inválida: " + e.getMessage());
+        } catch (Exception e) {
+            fail("Excepción inesperada: " + e.getMessage());
+        }
+    }
 
     @Test
     public void testLluviaTorrencial() {
@@ -65,6 +132,16 @@ public class Test35ProbandoNuevosClimas {
 
             assertEquals(2, actualDelJugador1);
             assertEquals(2, actualDelJugador2);
+
+            TiempoDespejado despejadora = new TiempoDespejado();
+
+            juego.jugarCartaEspecial(despejadora);
+
+            actualDelJugador1 = juego.puntajeEnSeccion(seccionSimulada1);
+            actualDelJugador2 = juego.puntajeEnSeccion(seccionSimulada2);
+
+            assertEquals(16, actualDelJugador1);
+            assertEquals(16, actualDelJugador2);
 
         } catch (TipoDeSeccionInvalidaError | CartaNoJugable e) {
             fail("Excepción de sección inválida: " + e.getMessage());
@@ -122,6 +199,16 @@ public class Test35ProbandoNuevosClimas {
 
             assertEquals(2, actualDelJugador1);
             assertEquals(2, actualDelJugador2);
+
+            TiempoDespejado despejadora = new TiempoDespejado();
+
+            juego.jugarCartaEspecial(despejadora);
+
+            actualDelJugador1 = juego.puntajeEnSeccion(seccionSimulada1_1) + juego.puntajeEnSeccion(seccionSimulada1_2);
+            actualDelJugador2 = juego.puntajeEnSeccion(seccionSimulada2_1) + juego.puntajeEnSeccion(seccionSimulada2_2);
+
+            assertEquals(16, actualDelJugador1);
+            assertEquals(16, actualDelJugador2);
 
         } catch (TipoDeSeccionInvalidaError | CartaNoJugable e) {
             fail("Excepción de sección inválida: " + e.getMessage());

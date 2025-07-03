@@ -136,5 +136,14 @@ public class Juego {
         return administradorTurno.getNumeroRondaActual();
     }
 
-
+    public int puntajeTotalJugador(int jugadorID) throws TipoDeSeccionInvalidaError {
+    int puntajeTotal = 0;
+    List<Seccion> seccionesJugador = tablero.obtenerSeccionesDelJugador(jugadorID);
+    
+    for (Seccion seccion : seccionesJugador) {
+        puntajeTotal += tablero.PuntajeSeccion(seccion);
+    }
+    
+    return puntajeTotal;
+}
 }

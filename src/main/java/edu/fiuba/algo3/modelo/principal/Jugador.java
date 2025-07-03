@@ -61,14 +61,11 @@ public class Jugador {
 
     public int cartasRestantesEnSeccion(String clave) {
 
-        switch (clave) {
-            case "Mano":
-                return mano.cartasRestantes();
-            case "Descarte":
-                return descarte.cartasRestantes();
-            default:
-                return mazo.cartasRestantes();
-        }
+        return switch (clave) {
+            case "Mano" -> mano.cartasRestantes();
+            case "Descarte" -> descarte.cartasRestantes();
+            default -> mazo.cartasRestantes();
+        };
     }
 
     public String getNombre() {
