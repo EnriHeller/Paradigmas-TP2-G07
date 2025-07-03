@@ -97,6 +97,14 @@ public class JuegoView {
         //Le pasamos al controller de especiales referencia al tableroView
         especialController.setTableroView(tablero);
 
+        // Mazo (abajo derecha, relativo al bloque)
+        int cartasRestantes = juego.cartasRestantesJugador("Mazo", juego.jugadorActual().ordenDeJuego());
+        edu.fiuba.algo3.vistas.juego.cartas.MazoView mazoView = new edu.fiuba.algo3.vistas.juego.cartas.MazoView(cartasRestantes);
+        mazoView.setLayoutX(xMazo); // Ajusta según el diseño del bloque
+        mazoView.setLayoutY(yMazo);
+        bloqueJuego.getChildren().add(mazoView);
+
+
         // Mano (abajo, centrada respecto al bloque)
         HandlerSeleccionarCarta handlerSelect = new HandlerSeleccionarCarta(tablero);
         ManoView mano = new ManoView(juego.mostrarManoActual(), handlerSelect, especialController);
@@ -132,13 +140,6 @@ public class JuegoView {
         bloqueJuego.getChildren().add(pilaRegion);
 
         turnos.setPilaDescarteView(pilaDescarteJugador);
-        
-        // Mazo (abajo derecha, relativo al bloque)
-        int cartasRestantes = juego.cartasRestantesJugador("Mazo", juego.jugadorActual().ordenDeJuego());
-        edu.fiuba.algo3.vistas.juego.cartas.MazoView mazoView = new edu.fiuba.algo3.vistas.juego.cartas.MazoView(cartasRestantes);
-        mazoView.setLayoutX(xMazo); // Ajusta según el diseño del bloque
-        mazoView.setLayoutY(yMazo); 
-        bloqueJuego.getChildren().add(mazoView);
 
         //Boton de musica
         Button botonMusicaElem = BotonMusica.crear();
@@ -190,11 +191,11 @@ public class JuegoView {
         } catch (Exception ignored) {}
         Label labelJ1 = new Label(nombreJ1);
         labelJ1.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: gold; -fx-effect: dropshadow(gaussian, #000, 2, 0.8, 1, 1);");
-        labelJ1.setLayoutX(55); // Alineado con los botones
+        labelJ1.setLayoutX(65); // Alineado con los botones
         labelJ1.setLayoutY(460); // Centrado vertical
         Label labelJ2 = new Label(nombreJ2);
         labelJ2.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: gold; -fx-effect: dropshadow(gaussian, #000, 2, 0.8, 1, 1);");
-        labelJ2.setLayoutX(55); // Alineado con los botones
+        labelJ2.setLayoutX(65); // Alineado con los botones
         labelJ2.setLayoutY(130); // Justo debajo del otro
         bloqueJuego.getChildren().addAll(labelJ1, labelJ2);
 
