@@ -132,25 +132,27 @@ public class TableroView {
 
         // Acción al hacer click en una sección
         visual.setOnMouseClicked(event -> {
-            if (cartaElegida != null && (!cartaElegida.esEspecial())) {
-                if (tableroController.puedeAgregar(clave, (CartaUnidad) cartaElegida)) {
-                    try {
-                        tableroController.jugarCarta(cartaElegida, clave);
-                    } catch (TipoDeSeccionInvalidaError | CartaNoJugable ignored) {
-                        edu.fiuba.algo3.controller.Utils.mostrarPopupError(rootStackPane, "¡No podés jugar en esta sección!");
-                    }
+            if (cartaElegida != null) {
+                if (!(cartaElegida.esEspecial())) {
+                    if (tableroController.puedeAgregar(clave, (CartaUnidad) cartaElegida)) {
+                        jugar(clave);
+                        actualizarSeccion(visual, puntajeLabel, (CartaUnidad) cartaElegida, clave);
 
-                    actualizarSeccion(visual, puntajeLabel, (CartaUnidad) cartaElegida, clave);
-
-                    if (manoView != null) {
-                        tableroController.removerCartaEnMano(cartaElegida);
-                        manoView.actualizarCartas(tableroController.getJuego().mostrarManoActual());
-                        refrescar();
-                    } else {
-                        System.out.println("manoView es null!!");
+                        if (manoView != null) {
+                            tableroController.removerCartaEnMano(cartaElegida);
+                            manoView.actualizarCartas(tableroController.getJuego().mostrarManoActual());
+                            refrescar();
+                        } else {
+                            System.out.println("manoView es null!!");
+                        }
                     }
-                    cartaElegida = null;
+                } else if ((cartaElegida.esEspecial()) && cartaElegida.mostrarCarta().contains("MoraleBoost")) {
+                    jugar(clave);
+                    tableroController.removerCartaEnMano(cartaElegida);
+                    manoView.actualizarCartas(tableroController.getJuego().mostrarManoActual());
+                    refrescar();
                 }
+                cartaElegida = null;
             }
         });
 
@@ -176,6 +178,15 @@ public class TableroView {
 
         // Actualizamos puntaje
         puntajeLabel.setText(String.valueOf(tableroController.getPuntajeSeccion(claveSeccion)));
+    }
+
+    private void jugar(String clave){
+        try {
+            tableroController.jugarCarta(cartaElegida, clave);
+        } catch (TipoDeSeccionInvalidaError | CartaNoJugable ignored) {
+            edu.fiuba.algo3.controller.Utils.mostrarPopupError(rootStackPane, "¡No podés jugar en esta sección!");
+        }
+
     }
 
     public void refrescar() {

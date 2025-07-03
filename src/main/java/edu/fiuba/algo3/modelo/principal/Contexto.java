@@ -17,6 +17,11 @@ public class Contexto {
         this.jugador = jugador;
     }
 
+    public Contexto(Seccion seccion, Jugador jugador) {
+        this.seccion = seccion;
+        this.jugador = jugador;
+    }
+
     public Contexto(Tablero tablero, Jugador jugador) {
         this.tablero = tablero;
         this.jugador = jugador;

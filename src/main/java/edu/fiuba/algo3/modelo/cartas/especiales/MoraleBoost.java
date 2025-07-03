@@ -19,7 +19,7 @@ public class MoraleBoost extends CartaEspecial implements Carta, Modificador {
         this.nombre = "MoraleBoost";
         this.descripcion = "Duplica el valor de las cartas aliadas en la seccion.";
         this.tipo = "Especial";
-        this.afectado = List.of("CuerpoACuerpo", "Rango", "Asedio");
+        this.afectado = List.of("La seccion que se juega");
     }
 
     public MoraleBoost(Modificador siguienteModificador) {
@@ -67,32 +67,10 @@ public class MoraleBoost extends CartaEspecial implements Carta, Modificador {
         } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {
         }
 
-        Seccion seccionContexto = contextoModificador.getSeccion();
-
-        if(seccionContexto == null){
-            Jugador jugador = contextoModificador.getJugador();
-            int idJugadorActual = jugador.ordenDeJuego();
-            List<Seccion> secciones = contextoModificador.getTablero().obtenerSeccionesDelJugador(idJugadorActual);
-    
-            for (Seccion seccion : secciones) {
-                if (afectado.contains(seccion.getClave())) {
-                    List<CartaUnidad> cartasActuales = seccion.getCartas();
-                    for (CartaUnidad carta : cartasActuales) {
-                        if (!carta.esLegendaria()) {
-                            carta.multiplicarValorBase(2);
-                        }
-                    }
-                }
-            }
-        }else{
-            try {
-                if (modificador != null) modificador.modificar(contextoModificador);
-            } catch (NoSePuedeEliminarClimaSiNoHayClima ignored) {}
-
-            List<CartaUnidad> cartasActuales = seccionContexto.getCartas();
-            for (CartaUnidad carta : cartasActuales) {
-                if (!carta.esLegendaria()) carta.multiplicarValor(2);
-            }
+        Seccion seccion = contextoModificador.getSeccion();
+        List<CartaUnidad> cartasActuales = seccion.getCartas();
+        for (CartaUnidad carta : cartasActuales) {
+            if (!carta.esLegendaria()) carta.multiplicarValor(2);
         }
     }
 }

@@ -7,6 +7,7 @@ import edu.fiuba.algo3.controller.HandlerSeleccionarCarta;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaEspecialVisual;
+import edu.fiuba.algo3.vistas.juego.cartas.CartaMoralBoostVisual;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
 import edu.fiuba.algo3.vistas.juego.cartas.CartaVisual;
 import javafx.geometry.Pos;
@@ -39,9 +40,23 @@ public class ManoView {
         contenedor.getChildren().clear();
         for (Carta carta : cartas) {
             try {
-                CartaVisual visual = carta.esEspecial()
-                        ? new CartaEspecialVisual(carta, handler, especialController)
-                        : new CartaUnidadVisual((CartaUnidad) carta, handler);
+                boolean esEspecial = carta.esEspecial();
+                System.out.println("Es Especial: " + esEspecial);
+                System.out.println("Carta: " + carta.mostrarCarta() + " es especial: " + esEspecial);
+                boolean esMoralBoost = esEspecial && carta.mostrarCarta().contains("MoraleBoost");
+                System.out.println(esMoralBoost);
+                boolean esUnidad = !esEspecial;
+
+                CartaVisual visual = null;
+
+                if (esMoralBoost){
+                    visual = new CartaMoralBoostVisual(carta, handler);
+                } else if (esEspecial){
+                    visual = new CartaEspecialVisual(carta, handler, especialController);
+                } else if (esUnidad){
+                    visual = new CartaUnidadVisual((CartaUnidad) carta, handler);
+                }
+
                 visual.construirVista();
                 visual.setManoView(this);
                 contenedor.getChildren().add(visual);

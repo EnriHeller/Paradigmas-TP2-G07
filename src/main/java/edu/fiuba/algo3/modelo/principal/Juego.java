@@ -69,7 +69,12 @@ public class Juego {
     //FASE DE JUEGO
     public void jugarCarta(Carta carta, Seccion seccion) throws TipoDeSeccionInvalidaError, CartaNoJugable {
         if (carta.esEspecial()){
-            throw new CartaNoJugable();
+            if(!(carta.mostrarCarta().contains("MoraleBoost"))){
+                throw new CartaNoJugable();
+            } else {
+                Contexto contexto = new Contexto(tablero.obtenerSeccion(seccion), administradorTurno.jugadorActual());
+                carta.aplicarModificador(contexto);
+            }
         } else{
             Contexto contexto = new Contexto(this.tablero, tablero.obtenerSeccion(seccion), (CartaUnidad) carta, administradorTurno.jugadorActual());
             CartaUnidad cartaUnidad = (CartaUnidad) carta;
