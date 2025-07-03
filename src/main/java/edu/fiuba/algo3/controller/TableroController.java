@@ -24,6 +24,9 @@ public class TableroController {
 
 
     public boolean puedeAgregar(String claveSeccion, CartaUnidad carta) {
+        if(carta.mostrarCarta().contains("Agil")){
+            return true;
+        }
         Seccion seccion = modeloTablero.obtenerSeccionPorClave(claveSeccion);
         //validacion de que el jugador esta jugando en su seccion
         int idActual = juego.actual();

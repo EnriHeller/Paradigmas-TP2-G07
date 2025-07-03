@@ -41,10 +41,7 @@ public class ManoView {
         for (Carta carta : cartas) {
             try {
                 boolean esEspecial = carta.esEspecial();
-                System.out.println("Es Especial: " + esEspecial);
-                System.out.println("Carta: " + carta.mostrarCarta() + " es especial: " + esEspecial);
                 boolean esMoralBoost = esEspecial && carta.mostrarCarta().contains("MoraleBoost");
-                System.out.println(esMoralBoost);
                 boolean esUnidad = !esEspecial;
 
                 CartaVisual visual = null;

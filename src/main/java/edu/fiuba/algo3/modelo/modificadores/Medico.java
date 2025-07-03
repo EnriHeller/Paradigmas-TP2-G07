@@ -31,20 +31,20 @@ public class Medico implements Modificador {
         }
 
         Jugador jugador = contextoModificador.getJugador();
-        if (jugador.cartasRestantesEnSeccion("Descarte") == 0) throw new PilaDescarteNula();
 
-        CartaUnidad cartaDescartada = jugador.removerUltimaCartaDeDescarte();
+        if (jugador.cartasRestantesEnSeccion("Descarte") > 0) {
+            CartaUnidad cartaDescartada = jugador.removerUltimaCartaDeDescarte();
 
-        List<String> tipo = cartaDescartada.getSecciones(); // Por ejemplo: "Rango", "Asedio", etc.
-        int jugadorID = jugador.ordenDeJuego();         // El ID del jugador (0 o 1)
+            List<String> tipo = cartaDescartada.getSecciones(); // Por ejemplo: "Rango", "Asedio", etc.
+            int jugadorID = jugador.ordenDeJuego();         // El ID del jugador (0 o 1)
 
-        try {
-            Seccion destino = new Seccion(tipo.get(0), jugadorID);
-            contextoModificador.getTablero().agregarCarta(destino, cartaDescartada);
-        } catch (TipoDeSeccionInvalidaError e) {
-            throw new RuntimeException(e);
+            try {
+                Seccion destino = new Seccion(tipo.get(0), jugadorID);
+                contextoModificador.getTablero().agregarCarta(destino, cartaDescartada);
+            } catch (TipoDeSeccionInvalidaError e) {
+                throw new RuntimeException(e);
+            }
         }
-
     }
 
     @Override
