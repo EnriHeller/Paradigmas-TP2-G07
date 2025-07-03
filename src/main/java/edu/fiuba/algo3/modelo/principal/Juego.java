@@ -135,15 +135,4 @@ public class Juego {
         // ciclos es el número de rondas finalizadas, la ronda actual es ciclos+1
         return administradorTurno.getNumeroRondaActual();
     }
-
-    public int puntajeTotalJugador(int jugadorID) throws TipoDeSeccionInvalidaError {
-    int puntajeTotal = 0;
-    List<Seccion> seccionesJugador = tablero.obtenerSeccionesDelJugador(jugadorID);
-    
-    for (Seccion seccion : seccionesJugador) {
-        puntajeTotal += tablero.PuntajeSeccion(seccion);
-    }
-    
-    return puntajeTotal;
-}
 }
