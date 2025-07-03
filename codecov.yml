@@ -1,6 +1,30 @@
+coverage:
+  range: 80..100
+  round: down
+  precision: 2
+
 ignore:
-  - "src/main/java/edu/fiuba/algo3/controlador"
-  - "src/main/java/edu/fiuba/algo3/vista"
+  - "src/main/java/edu/fiuba/algo3/controller/**"
+  - "src/main/java/edu/fiuba/algo3/vistas/**"
   - "src/main/java/edu/fiuba/algo3/App.java"
   - "src/main/java/edu/fiuba/algo3/Main.java"
   - "src/main/java/edu/fiuba/algo3/SystemInfo.java"
+  - "src/test/**"
+
+# Solo incluir modelo en el reporte
+paths:
+  - "src/main/java/edu/fiuba/algo3/modelo/"
+
+comment:
+  layout: "reach,diff,flags,tree"
+  behavior: default
+  require_changes: false
+
+status:
+  project:
+    default:
+      target: 80%
+      threshold: 1%
+  patch:
+    default:
+      target: 80%
