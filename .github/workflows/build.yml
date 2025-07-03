@@ -33,7 +33,10 @@ jobs:
           export MAVEN_OPTS="-Xmx1g -XX:MaxMetaspaceSize=256m"
           export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true -Dtestfx.robot=glass -Dtestfx.headless=true -Dprism.order=sw"
           mvn clean test -q
-      
+
+      - name: Generate JaCoCo coverage report
+        run: mvn jacoco:report
+
       - name: Run mutation tests (optional - solo si es necesario)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |

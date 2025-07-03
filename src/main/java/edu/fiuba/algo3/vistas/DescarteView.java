@@ -215,16 +215,17 @@ public class DescarteView extends Stage {
                 cartasSeleccionadas.remove(carta);
                 cartaBox.setStyle("-fx-border-color: transparent; -fx-border-width: 4px;");
                 seSeleccionaronCartas--;
+                cantidadCartasDescartadas--;
             } else {
                 if (seSeleccionaronCartas >= 2) return;
                 cartasSeleccionadas.add(carta);
                 cartaBox.setStyle("-fx-border-color: gold; -fx-border-width: 4px;");
                 seSeleccionaronCartas++;
+                cantidadCartasDescartadas++;
             }
-            this.cantidadCartasDescartadas += 1;
-            this.cartasSeleccionadasDescartadas.setText(cartasSeleccionadas.size() + "/2");
-        });
 
+            cartasSeleccionadasDescartadas.setText(cartasSeleccionadas.size() + "/2");
+        });
 
         return cartaBox;
     }
@@ -234,6 +235,7 @@ public class DescarteView extends Stage {
             return;
         }
 
+        System.out.println("Se descartan " + cartasSeleccionadas.size() + " cartas.");
 
         cartasMano.removeAll(cartasSeleccionadas);
         cartasMano.addAll(jugadorActual.dameCartasNuevas(cantidadCartasDescartadas));
