@@ -6,10 +6,10 @@ import java.util.Objects;
 
 import edu.fiuba.algo3.controller.Audio;
 import edu.fiuba.algo3.controller.Bienvenida;
-import edu.fiuba.algo3.controller.FinalizadorDeJuego;
-import edu.fiuba.algo3.controller.TableroController;
-import edu.fiuba.algo3.controller.HandlerSeleccionarCarta;
 import edu.fiuba.algo3.controller.EspecialController;
+import edu.fiuba.algo3.controller.FinalizadorDeJuego;
+import edu.fiuba.algo3.controller.HandlerSeleccionarCarta;
+import edu.fiuba.algo3.controller.TableroController;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.vistas.BotonMusica;
 import javafx.animation.PauseTransition;
@@ -142,36 +142,61 @@ public class JuegoView {
 
         //Boton de musica
         Button botonMusicaElem = BotonMusica.crear();
-        
-        // Posicionar el botón de música 
-        botonMusicaElem.setLayoutX(70);
+        botonMusicaElem.setPrefSize(48, 48);
+        botonMusicaElem.setMinSize(48, 48);
+        botonMusicaElem.setMaxSize(48, 48);
+        botonMusicaElem.setLayoutX(85);
         botonMusicaElem.setLayoutY(580); 
         bloqueJuego.getChildren().add(botonMusicaElem); 
 
-        // Boton Salir
-        Button botonSalir = new Button("✖");
+        // Botón Salir con imagen, mismo tamaño que el de música
+        ImageView salirImg = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/imagenes/salir.png")).toExternalForm()));
+        salirImg.setFitWidth(48);
+        salirImg.setFitHeight(48);
+        Button botonSalir = new Button();
+        botonSalir.setGraphic(salirImg);
+        botonSalir.setPrefSize(48, 48);
+        botonSalir.setMinSize(48, 48);
+        botonSalir.setMaxSize(48, 48);
+        botonSalir.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
         botonSalir.setTooltip(new Tooltip("Salir"));
-        botonSalir.setStyle("-fx-background-color: transparent; -fx-font-size: 28px; -fx-text-fill: white;");
-        botonSalir.setOnMouseEntered(e -> botonSalir.setStyle(
-                "-fx-background-color: red; -fx-font-size: 20px; -fx-text-fill: white;")
-        );
-        botonSalir.setOnMouseExited(e -> botonSalir.setStyle(
-                "-fx-background-color: transparent; -fx-font-size: 20px; -fx-text-fill: white;")
-        );
         botonSalir.setOnAction(e -> {
             try {
-                // Detener la música al salir
                 Audio.getInstance().stop();
                 Bienvenida.mostrarBienvenida();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
-
-        // Posicionar el botón de salir
-        botonSalir.setLayoutX(40);
+        botonSalir.setLayoutX(30);
         botonSalir.setLayoutY(580);
         bloqueJuego.getChildren().add(botonSalir);
+
+        // Nombres de los jugadores en dorado, borde negro, centrados y alineados con los botones
+        // Obtener nombres directamente de la lista interna de jugadores
+        String nombreJ1 = "Jugador 1";
+        String nombreJ2 = "Jugador 2";
+        try {
+            java.lang.reflect.Field field = juego.getClass().getDeclaredField("jugadores");
+            field.setAccessible(true);
+            java.util.List<?> jugadores = (java.util.List<?>) field.get(juego);
+            if (jugadores.size() >= 2) {    
+                Object jugador1 = jugadores.get(0);
+                Object jugador2 = jugadores.get(1);
+                java.lang.reflect.Method getNombre = jugador1.getClass().getMethod("getNombre");
+                nombreJ1 = (String) getNombre.invoke(jugador1);
+                nombreJ2 = (String) getNombre.invoke(jugador2);
+            }
+        } catch (Exception ignored) {}
+        Label labelJ1 = new Label(nombreJ1);
+        labelJ1.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: gold; -fx-effect: dropshadow(gaussian, #000, 2, 0.8, 1, 1);");
+        labelJ1.setLayoutX(55); // Alineado con los botones
+        labelJ1.setLayoutY(460); // Centrado vertical
+        Label labelJ2 = new Label(nombreJ2);
+        labelJ2.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: gold; -fx-effect: dropshadow(gaussian, #000, 2, 0.8, 1, 1);");
+        labelJ2.setLayoutX(55); // Alineado con los botones
+        labelJ2.setLayoutY(130); // Justo debajo del otro
+        bloqueJuego.getChildren().addAll(labelJ1, labelJ2);
 
         // Centrar el bloque de juego en el StackPane
         stack.getChildren().add(bloqueJuego);
