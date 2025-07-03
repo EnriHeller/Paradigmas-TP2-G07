@@ -32,11 +32,11 @@ jobs:
     timeout-minutes: 60  
     
     # Solo ejecutar CodeQL si hay cambios en archivos Java
-    if: |
-      github.event_name == 'schedule' || 
-      contains(github.event.head_commit.modified, '.java') || 
-      contains(github.event.head_commit.added, '.java') ||
-      github.event_name == 'pull_request'
+    # if: |
+    #   github.event_name == 'schedule' || 
+    #   contains(github.event.head_commit.modified, '.java') || 
+    #   contains(github.event.head_commit.added, '.java') ||
+    #   github.event_name == 'pull_request'
 
     steps:
     - name: Checkout repository
