@@ -41,4 +41,19 @@ public class Test27ModificadorContextoFuncionaCorrectamente {
         assertEquals(1, contexto.getSeccion().getCartas().size());
         assertEquals(carta, contexto.getSeccion().getCartas().get(0));
     }
+    @Test
+    public void testContextoInicializacion() throws Exception, TipoDeSeccionInvalidaError {
+
+        Seccion seccion = new Seccion("CuerpoACuerpo", 0);
+        CartaUnidad carta = new CartaUnidad("A", List.of("CuerpoACuerpo"), 8, new Unidas(new Base()));
+        Jugador jugador = new Jugador("JugadorTest");
+
+        seccion.agregarCarta(carta);
+
+        Contexto contexto = new Contexto(seccion,jugador);
+        assertEquals(seccion, contexto.getSeccion());
+        assertEquals(jugador, contexto.getJugador());
+        assertEquals(1, contexto.getSeccion().getCartas().size());
+        assertEquals(carta, contexto.getSeccion().getCartas().get(0));
+    }
 }

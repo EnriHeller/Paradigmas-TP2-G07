@@ -25,11 +25,11 @@ public class Test21MedicoPruebaMetodos {
         List<String> secciones = new ArrayList<>();
         secciones.add("CuerpoACuerpo");
         List<CartaUnidad> cartas = new ArrayList<>();
-        cartas.add(new CartaUnidad("Base'e", secciones, 8, base));
+        cartas.add(new CartaUnidad("Base", secciones, 8, base));
         for (int i = 0; i < 19; i++) {
-            cartas.add(new CartaUnidad("Medico'e", secciones, 8, medico));
+            cartas.add(new CartaUnidad("Medico", secciones, 8, medico));
         }
-        cartas.add(new CartaUnidad("Base'e2", secciones, 8, base));
+        cartas.add(new CartaUnidad("Base", secciones, 8, base));
         Mazo mazoMock1 = new Mazo(new ArrayList<>(cartas));
         Mazo mazoMock2 = new Mazo(new ArrayList<>(cartas));
         Jugador jugador1 = new Jugador("JugadorTest1");

@@ -45,6 +45,7 @@ public class Test37ManoFuncionaCorrectamente {
 
         List<Carta> manoActual = juego.mostrarManoActual();
 
+        assertEquals(jugador1, juego.jugadorActual());
         assertEquals(manoSimulada, manoActual);
 
     }

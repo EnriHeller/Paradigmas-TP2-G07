@@ -1,13 +1,16 @@
 package edu.fiuba.algo3.entrega_4;
 
+import edu.fiuba.algo3.modelo.cartas.especiales.SinClima;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Base;
 import edu.fiuba.algo3.modelo.modificadores.Unidas;
 import edu.fiuba.algo3.modelo.secciones.jugador.Descarte;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mano;
 import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
+import edu.fiuba.algo3.modelo.secciones.tablero.Seccion;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -138,5 +141,14 @@ public class Test28SeccionesJugadorFuncionanCorrectamente {
         assertEquals(1, mano.cartasRestantes());
         mano.removerCartas(new java.util.ArrayList<>(lista));
         assertEquals(0, mano.cartasRestantes());
+    }
+
+    @Test
+    public void testConstructorSeccionSinParametros() {
+        Seccion seccion = new Seccion();
+
+        assertEquals(-1, seccion.getJugadorId());
+        assertEquals(new ArrayList<>(), seccion.getCartas());
+        assertEquals("", seccion.getClave());
     }
 }
