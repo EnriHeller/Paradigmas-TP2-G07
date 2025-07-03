@@ -69,7 +69,7 @@ public class DescarteView extends Stage {
         layout.setBackground(new Background(bgImage));
 
         this.confirmarBtn = new Button("Confirmar descarte");
-        confirmarBtn.setDisable(true);
+        //confirmarBtn.setDisable(true);
         confirmarBtn.setOnAction(e -> {
             try {
                 confirmarDescarte();
@@ -223,28 +223,20 @@ public class DescarteView extends Stage {
             }
             this.cantidadCartasDescartadas += 1;
             this.cartasSeleccionadasDescartadas.setText(cartasSeleccionadas.size() + "/2");
-            actualizarEstadoBoton();
         });
 
 
         return cartaBox;
     }
 
-    private void actualizarEstadoBoton() {
-        confirmarBtn.setDisable(cartasSeleccionadas.size() != 2);
-
-    }
-
     private void confirmarDescarte() throws TipoDeSeccionInvalidaError, NoSePuedeCumplirSolicitudDeCartas {
         if(seHizoElDescarte){
             return;
         }
-        seHizoElDescarte = true;
-        confirmarBtn.setDisable(true);
 
 
         cartasMano.removeAll(cartasSeleccionadas);
-        cartasMano.addAll(jugadorActual.dameCartasNuevas(2));
+        cartasMano.addAll(jugadorActual.dameCartasNuevas(cantidadCartasDescartadas));
 
         mano.actualizarCartas(cartasMano);
 
@@ -264,14 +256,6 @@ public class DescarteView extends Stage {
         vistaImagen.setPreserveRatio(false);
         vistaImagen.setPickOnBounds(false);
         return vistaImagen;
-    }
-
-
-    private String normalizarNombre(String nombre) {
-        String normalizado = Normalizer.normalize(nombre, Normalizer.Form.NFD)
-                .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")
-                .replaceAll("[^A-Za-z0-9]", "");
-        return normalizado;
     }
 
     private VBox construirInfoCarta(Carta carta) {
