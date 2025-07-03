@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.fiuba.algo3.modelo.cartas.Carta;
+import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
 import edu.fiuba.algo3.modelo.modificadores.Modificador;
 import edu.fiuba.algo3.modelo.principal.Contexto;
 import edu.fiuba.algo3.modelo.secciones.tablero.NoSePuedeEliminarClimaSiNoHayClima;
@@ -57,6 +58,9 @@ public class TiempoDespejado extends CartaEspecial implements Carta, Modificador
                     seccionesSinClima++;
                 } else {
                     tablero.afectarClima(seccion, new SinClima());
+                    for (CartaUnidad carta : tablero.obtenerSeccion(seccion).getCartas() ) {
+                        carta.volverValorBase();
+                    }
                 }
             }
         }
