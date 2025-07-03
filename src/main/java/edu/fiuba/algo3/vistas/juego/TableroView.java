@@ -161,14 +161,15 @@ public class TableroView {
                         } else {
                             System.out.println("manoView es null!!");
                         }
+                        cartaElegida = null;
                     }
                 } else if ((cartaElegida.esEspecial()) && cartaElegida.mostrarCarta().contains("MoraleBoost")) {
                     jugar(clave);
                     tableroController.removerCartaEnMano(cartaElegida);
                     manoView.actualizarCartas(tableroController.getJuego().mostrarManoActual());
                     refrescar();
+                    cartaElegida = null;
                 }
-                cartaElegida = null;
             }
         });
 
