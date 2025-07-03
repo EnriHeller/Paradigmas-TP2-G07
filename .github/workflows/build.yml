@@ -37,6 +37,9 @@ jobs:
       - name: Generate JaCoCo coverage report
         run: mvn jacoco:report
 
+      - name: Debug coverage directory
+        run: find target/ -type f
+
       - name: Run mutation tests (optional - solo si es necesario)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
