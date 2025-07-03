@@ -13,6 +13,7 @@ import edu.fiuba.algo3.vistas.juego.cartas.CartaUnidadVisual;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -25,7 +26,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 
 public class TableroView {
-    private final int seccionWidth = 650;
+    private int seccionWidth = 650;
     private final int seccionHeight = 75;
     private final int tableroWidth = 1300;
     private final int tableroHeight = 700;
@@ -102,6 +103,21 @@ public class TableroView {
         fila.setLayoutY(y);
         fila.setPrefHeight(seccionHeight);
         fila.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
+
+        boolean hayClima = tableroController.hayClimaEnSeccion(clave);
+
+        double offsetX = hayClima ? -85 : 0;
+        fila.setLayoutX(x + offsetX);
+
+        if (hayClima) {
+            // Mostrar solo imagen de clima
+            ImageView climaView = crearImagenClima(hayClima);
+            climaView.setFitHeight(seccionHeight);
+            climaView.setPreserveRatio(true);
+
+            fila.getChildren().add(climaView);
+        }
+
 
         // Label de puntaje
         Label puntajeLabel = new Label(String.valueOf(tableroController.getPuntajeSeccion(clave)));
@@ -215,6 +231,16 @@ public class TableroView {
         }
     }
 
+    private ImageView crearImagenClima(boolean crear) {
+        String imagenPath;
+        if (crear) {
+            imagenPath = "/imagenes/clima.png";
+            Image img = new Image(Objects.requireNonNull(getClass().getResource(imagenPath)).toExternalForm());
+            return new ImageView(img);
+        }
+
+        return new ImageView(); // imagen vacía
+    }
 
     public void limpiarTablero() {
         for (HBox seccionVisual : seccionesVisuales) {

@@ -1,7 +1,6 @@
 package edu.fiuba.algo3.controller;
 
 import java.util.List;
-
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
 import edu.fiuba.algo3.modelo.cartas.unidades.CartaUnidad;
@@ -18,6 +17,11 @@ public class TableroController {
         this.juego = juego;
         this.modeloTablero = juego.getTablero();
     }
+
+    public boolean hayClimaEnSeccion(String claveSeccion) {
+        return (modeloTablero.obtenerSeccionPorClave(claveSeccion).hayClima());
+    }
+
 
     public boolean puedeAgregar(String claveSeccion, CartaUnidad carta) {
         Seccion seccion = modeloTablero.obtenerSeccionPorClave(claveSeccion);
