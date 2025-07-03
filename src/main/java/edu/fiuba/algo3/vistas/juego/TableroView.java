@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import edu.fiuba.algo3.controller.Audio;
 import edu.fiuba.algo3.controller.TableroController;
 import edu.fiuba.algo3.modelo.cartas.Carta;
 import edu.fiuba.algo3.modelo.cartas.CartaNoJugable;
@@ -150,10 +151,15 @@ public class TableroView {
         visual.setOnMouseClicked(event -> {
             if (cartaElegida != null) {
                 if (!(cartaElegida.esEspecial())) {
+                    Audio audio = Audio.getInstance();
                     if (tableroController.puedeAgregar(clave, (CartaUnidad) cartaElegida)) {
                         jugar(clave);
                         actualizarSeccion(visual, puntajeLabel, (CartaUnidad) cartaElegida, clave);
-
+                        try {
+                            audio.play("/audio/jugarCartaUnidad.wav");
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                         if (manoView != null) {
                             tableroController.removerCartaEnMano(cartaElegida);
                             manoView.actualizarCartas(tableroController.getJuego().mostrarManoActual());
@@ -168,6 +174,12 @@ public class TableroView {
                     tableroController.removerCartaEnMano(cartaElegida);
                     manoView.actualizarCartas(tableroController.getJuego().mostrarManoActual());
                     refrescar();
+                    Audio audio = Audio.getInstance();
+                    try {
+                        audio.play("/audio/jugarCartaEspecial.wav");
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     cartaElegida = null;
                 }
             }

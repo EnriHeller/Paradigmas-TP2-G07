@@ -9,8 +9,8 @@ import edu.fiuba.algo3.controller.Utils;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.NoSePuedeCumplirSolicitudDeCartas;
 import edu.fiuba.algo3.modelo.principal.UnoDeLosMazosNoCumpleRequitos;
-import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.modelo.secciones.tablero.TipoDeSeccionInvalidaError;
+import edu.fiuba.algo3.modelo.secciones.jugador.Mazo;
 import edu.fiuba.algo3.vistas.juego.JuegoView;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -22,7 +22,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -30,7 +29,6 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class MenuView {
@@ -41,6 +39,11 @@ public class MenuView {
     @FXML private final TextField inputJ1 = new TextField();
     @FXML private final TextField inputJ2 = new TextField();
     @FXML private final Button botonIniciar = new Button("Iniciar Juego");
+
+    @FXML private Button botonMazo1J1 = new Button("Mazo A");
+    @FXML private Button botonMazo2J1 = new Button("Mazo B");
+    @FXML private Button botonMazo1J2 = new Button("Mazo A");
+    @FXML private Button botonMazo2J2 = new Button("Mazo B");
 
 
     @FXML
@@ -61,36 +64,28 @@ public class MenuView {
         layout.setBackground(new Background(bgImage));
 
         // Centro: secciones jugadores
+        HBox seccionesJugadores = new HBox(40);
+        seccionesJugadores.setPadding(new javafx.geometry.Insets(40));
+        seccionesJugadores.setAlignment(javafx.geometry.Pos.CENTER);
+
         VBox seccionJ1 = construirSeccionJugador("Jugador 1", inputJ1, true);
         VBox seccionJ2 = construirSeccionJugador("Jugador 2", inputJ2, false);
 
-        // Contenedores para centrar cada sección
-        HBox contenedorJ1 = new HBox(seccionJ1);
-        contenedorJ1.setAlignment(Pos.CENTER);
-        contenedorJ1.setPrefWidth(App.WIDTH / 2.0);
-        HBox contenedorJ2 = new HBox(seccionJ2);
-        contenedorJ2.setAlignment(Pos.CENTER);
-        contenedorJ2.setPrefWidth(App.WIDTH / 2.0);
+        BotonMusica botonMusica = new BotonMusica();
+        Button botonMusicaReal = botonMusica.crear();
+        botonMusicaReal.setLayoutX(1000);
+        botonMusicaReal.setLayoutX(0);
 
-        // Línea divisoria
-        javafx.scene.shape.Line linea = new javafx.scene.shape.Line(0, 0, 0, 400);
-        linea.setStroke(javafx.scene.paint.Color.GOLD);
-        linea.setStrokeWidth(3);
-        linea.setOpacity(0.7);
-        linea.setTranslateY(20);
-        VBox lineaBox = new VBox(linea);
-        lineaBox.setAlignment(Pos.CENTER);
-        lineaBox.setPrefHeight(400);
+        HBox contenedorMusica = new HBox(botonMusicaReal);
+        contenedorMusica.setAlignment(Pos.TOP_RIGHT);
+        contenedorMusica.setPadding(new Insets(10));
+        layout.setTop(contenedorMusica);
 
-        HBox seccionesJugadores = new HBox(0, contenedorJ1, lineaBox, contenedorJ2);
-        seccionesJugadores.setAlignment(Pos.CENTER);
-        seccionesJugadores.setPrefWidth(App.WIDTH);
-        seccionesJugadores.setPadding(new Insets(40));
-
+        seccionesJugadores.getChildren().addAll(seccionJ1, seccionJ2);
         layout.setCenter(seccionesJugadores);
 
         // Botón iniciar juego
-        botonIniciar.setStyle("-fx-font-size: 20px; -fx-background-radius: 50px; -fx-border-radius: 50px; -fx-padding: 10 40; -fx-background-color: #222; -fx-border-color: #FF3333; -fx-border-width: 2px; -fx-text-fill: #FF3333; -fx-font-weight: bold;-fx-cursor: hand;");
+        botonIniciar.setStyle("-fx-font-size: 20px; -fx-background-radius: 50%; -fx-padding: 10;");
         botonIniciar.setDisable(true);
         botonIniciar.setOnAction(e -> {
             try {
@@ -104,22 +99,7 @@ public class MenuView {
 
                 Audio audio = Audio.getInstance();
                 audio.stop();
-
-                // Espera 3 segundos antes de reproducir la música de fondo
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(1500);
-                        try {
-                            audio.play("/audio/escapism.wav");
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    } catch (InterruptedException ignored) {}
-                }).start();
-
-
-                Audio efecto = Audio.getInstanceEffect();
-                efecto.play("/audio/effects/start.wav");
+                audio.play("/audio/mientrasSeJuega.wav");
 
                 Utils.cambiarEscena(new Scene(juegoView.construir(), App.WIDTH, App.HEIGHT));
 
@@ -142,73 +122,49 @@ public class MenuView {
         inputJ1.textProperty().addListener((obs, o, n) -> validarInicio());
         inputJ2.textProperty().addListener((obs, o, n) -> validarInicio());
 
+        // Listeners para botones de mazo
+        botonMazo1J1.setOnAction(e -> seleccionarMazo(true, menu.getMazoA()));
+        botonMazo2J1.setOnAction(e -> seleccionarMazo(true, menu.getMazoB()));
+        botonMazo1J2.setOnAction(e -> seleccionarMazo(false, menu.getMazoA()));
+        botonMazo2J2.setOnAction(e -> seleccionarMazo(false, menu.getMazoB()));
+
         return layout;
     }
 
     private VBox construirSeccionJugador(String titulo, TextField campoNombre, boolean esJugador1) {
         VBox seccion = new VBox(10);
-        seccion.setAlignment(Pos.CENTER); // Centrado vertical y horizontal
-        seccion.setPrefHeight(800); // Asegura altura para centrar verticalmente
+        seccion.setAlignment(javafx.geometry.Pos.TOP_CENTER);
 
         Label label = new Label(titulo);
-        label.setStyle("-fx-text-fill: gold; -fx-font-size: 28px; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, #222, 2, 0.5, 0, 0);");
-        label.setAlignment(Pos.CENTER);
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 16;");
 
         campoNombre.setPromptText("Nombre...");
         campoNombre.setMaxWidth(200);
 
         Label elegir = new Label("Elegí tu mazo:");
-        elegir.setStyle("-fx-text-fill: #FF3333; -fx-font-size: 22px; -fx-font-weight: bold;");
-        elegir.setAlignment(Pos.CENTER);
+        elegir.setStyle("-fx-text-fill: white;");
 
-        // Lógica de selección
-        boolean mazoASeleccionado = (esJugador1 ? menu.getMazoJugador1() == menu.getMazoA() : menu.getMazoJugador2() == menu.getMazoA());
-        boolean mazoBSeleccionado = (esJugador1 ? menu.getMazoJugador1() == menu.getMazoB() : menu.getMazoJugador2() == menu.getMazoB());
-        boolean habilitado = true;
+        Button botonMazo1 = new Button("Mazo A");
+        Button botonMazo2 = new Button("Mazo B");
 
-        ImageView imagenMazoA = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/imagenes/mazo_a.png")).toExternalForm()));
-        imagenMazoA.setFitWidth(120);
-        imagenMazoA.setFitHeight(160);
-        imagenMazoA.setPreserveRatio(true);
-        imagenMazoA.setStyle("-fx-cursor: hand;" + (mazoASeleccionado ? "-fx-effect: dropshadow(gaussian, #FF3333, 12, 0.7, 0, 0);" : ""));
-        if (!habilitado) {
-            javafx.scene.shape.Rectangle overlay = new javafx.scene.shape.Rectangle(120, 160);
-            overlay.setFill(javafx.scene.paint.Color.rgb(80,80,80,0.55));
-            StackPane stack = new StackPane(imagenMazoA, overlay);
-            imagenMazoA = new ImageView(stack.snapshot(null, null));
+        botonMazo1.setStyle("-fx-background-color: rgba(255,255,255,0.8);");
+        botonMazo2.setStyle("-fx-background-color: rgba(255,255,255,0.8);");
+
+        botonMazo1.setOnAction(e -> seleccionarMazo(esJugador1, menu.getMazoA()));
+        botonMazo2.setOnAction(e -> seleccionarMazo(esJugador1, menu.getMazoB()));
+
+        if (esJugador1) {
+            botonMazo1J1 = botonMazo1;
+            botonMazo2J1 = botonMazo2;
+        } else {
+            botonMazo1J2 = botonMazo1;
+            botonMazo2J2 = botonMazo2;
         }
-        imagenMazoA.setOnMouseClicked(e -> {
-            if (habilitado) seleccionarMazo(esJugador1, menu.getMazoA());
-        });
 
-        ImageView imagenMazoB = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/imagenes/mazo_b.png")).toExternalForm()));
-        imagenMazoB.setFitWidth(120);
-        imagenMazoB.setFitHeight(160);
-        imagenMazoB.setPreserveRatio(true);
-        imagenMazoB.setStyle("-fx-cursor: hand;" + (mazoBSeleccionado ? "-fx-effect: dropshadow(gaussian, #FF3333, 12, 0.7, 0, 0);" : ""));
-        if (!habilitado) {
-            javafx.scene.shape.Rectangle overlay = new javafx.scene.shape.Rectangle(120, 160);
-            overlay.setFill(javafx.scene.paint.Color.rgb(80,80,80,0.55));
-            StackPane stack = new StackPane(imagenMazoB, overlay);
-            imagenMazoB = new ImageView(stack.snapshot(null, null));
-        }
-        imagenMazoB.setOnMouseClicked(e -> {
-            if (habilitado) seleccionarMazo(esJugador1, menu.getMazoB());
-        });
+        HBox mazos = new HBox(10, botonMazo1, botonMazo2);
+        mazos.setAlignment(javafx.geometry.Pos.CENTER);
 
-        HBox mazos = new HBox(20, imagenMazoA, imagenMazoB);
-        mazos.setAlignment(Pos.CENTER);
-
-        VBox mazosYTitulo = new VBox(20, elegir, mazos);
-        mazosYTitulo.setAlignment(Pos.CENTER);
-
-        // Espaciador flexible para centrar verticalmente el bloque de mazos
-        javafx.scene.layout.Region spacerTop = new javafx.scene.layout.Region();
-        javafx.scene.layout.Region spacerBottom = new javafx.scene.layout.Region();
-        VBox.setVgrow(spacerTop, javafx.scene.layout.Priority.ALWAYS);
-        VBox.setVgrow(spacerBottom, javafx.scene.layout.Priority.ALWAYS);
-
-        seccion.getChildren().setAll(label, campoNombre, spacerTop, mazosYTitulo, spacerBottom);
+        seccion.getChildren().addAll(label, campoNombre, elegir, mazos);
         return seccion;
     }
 
@@ -220,37 +176,20 @@ public class MenuView {
     }
 
     private void actualizarEstilos() {
-        // Reconstruye todo el bloque central para evitar duplicados o desbordes
-        BorderPane layout = (BorderPane) botonIniciar.getScene().getRoot();
-        VBox seccionJ1 = construirSeccionJugador("Jugador 1", inputJ1, true);
-        VBox seccionJ2 = construirSeccionJugador("Jugador 2", inputJ2, false);
+        String estiloNormal = "-fx-background-color: rgba(255,255,255,0.8);";
+        String estiloSeleccionado = "-fx-background-color: #444; -fx-text-fill: white;";
 
-        HBox contenedorJ1 = new HBox(seccionJ1);
-        contenedorJ1.setAlignment(Pos.CENTER);
-        contenedorJ1.setPrefWidth(App.WIDTH / 2.0);
-        HBox contenedorJ2 = new HBox(seccionJ2);
-        contenedorJ2.setAlignment(Pos.CENTER);
-        contenedorJ2.setPrefWidth(App.WIDTH / 2.0);
-
-        javafx.scene.shape.Line linea = new javafx.scene.shape.Line(0, 0, 0, 400);
-        linea.setStroke(javafx.scene.paint.Color.GOLD);
-        linea.setStrokeWidth(3);
-        linea.setOpacity(0.7);
-        linea.setTranslateY(20);
-        VBox lineaBox = new VBox(linea);
-        lineaBox.setAlignment(Pos.CENTER);
-        lineaBox.setPrefHeight(400);
-
-        HBox seccionesJugadores = new HBox(0, contenedorJ1, lineaBox, contenedorJ2);
-        seccionesJugadores.setAlignment(Pos.CENTER);
-        seccionesJugadores.setPrefWidth(App.WIDTH);
-        seccionesJugadores.setPadding(new Insets(40));
-
-        layout.setCenter(seccionesJugadores);
+        botonMazo1J1.setStyle(menu.getMazoJugador1() == menu.getMazoA() ? estiloSeleccionado : estiloNormal);
+        botonMazo2J1.setStyle(menu.getMazoJugador1() == menu.getMazoB() ? estiloSeleccionado : estiloNormal);
+        botonMazo1J2.setStyle(menu.getMazoJugador2() == menu.getMazoA() ? estiloSeleccionado : estiloNormal);
+        botonMazo2J2.setStyle(menu.getMazoJugador2() == menu.getMazoB() ? estiloSeleccionado : estiloNormal);
     }
 
     private void deshabilitarBotones() {
-        // No hace falta deshabilitar botones, ahora se usan imágenes
+        botonMazo1J1.setDisable(true);
+        botonMazo2J1.setDisable(true);
+        botonMazo1J2.setDisable(true);
+        botonMazo2J2.setDisable(true);
     }
 
     private void validarInicio() {
