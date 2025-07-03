@@ -99,9 +99,6 @@ public class CentroDeAdministracionTurnos {
                 mano.actualizarCartas(juego.mostrarManoActual());
                 mostrarMoneda(juego.actual());
                 actualizarTextoJugador();
-                if (onTurnoFinalizado != null) {
-                    Platform.runLater(onTurnoFinalizado);
-                }
                 clicksSiguiente++;
             }
         });
