@@ -1,4 +1,5 @@
-![tp2](https://github.com/fiuba/algo3_proyecto_base_tp2/actions/workflows/build.yml/badge.svg) [![codecov](https://codecov.io/gh/fiuba/algo3_proyecto_base_tp2/branch/master/graph/badge.svg)](https://codecov.io/gh/fiuba/algo3_proyecto_base_tp2)
+![tp2](https://github.com//Paradigmas-TP2-G07/actions/workflows/build.yml/badge.svg)
+[![codecov](https://codecov.io/gh/EnriHeller/Paradigmas-TP2-G07/branch/main/graph/badge.svg)](https://codecov.io/gh/EnriHeller/Paradigmas-TP2-G07)
 
 # TP2 Paradigmas de Programación: {Gwent} 
 
