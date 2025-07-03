@@ -215,13 +215,13 @@ public class DescarteView extends Stage {
                 cartasSeleccionadas.remove(carta);
                 cartaBox.setStyle("-fx-border-color: transparent; -fx-border-width: 4px;");
                 seSeleccionaronCartas--;
-                cantidadCartasDescartadas--;  // 🔁 RESTA
+                cantidadCartasDescartadas--;
             } else {
                 if (seSeleccionaronCartas >= 2) return;
                 cartasSeleccionadas.add(carta);
                 cartaBox.setStyle("-fx-border-color: gold; -fx-border-width: 4px;");
                 seSeleccionaronCartas++;
-                cantidadCartasDescartadas++;  // ✅ SUMA solo al seleccionar
+                cantidadCartasDescartadas++;
             }
 
             cartasSeleccionadasDescartadas.setText(cartasSeleccionadas.size() + "/2");
