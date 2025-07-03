@@ -94,6 +94,10 @@ public abstract class CartaVisual extends VBox {
             // Mostrar overlay de información solo si la carta NO está seleccionada
             if (!estaSeleccionada()) {
                 mostrarInfoOverlay();
+                // Asegurar que el overlay esté al frente dentro de la carta
+                if (mainStack.getChildren().contains(infoOverlay)) {
+                    infoOverlay.toFront();
+                }
             } else {
                 ocultarInfoOverlay();
             }
@@ -110,7 +114,9 @@ public abstract class CartaVisual extends VBox {
             try {
                 Audio click = Audio.getInstanceEffect();
                 click.play("/audio/effects/click.wav");
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+                
+            }
             // Si la subclase quiere, puede sobreescribir este handler agregando super
         });
         

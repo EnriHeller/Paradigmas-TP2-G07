@@ -6,25 +6,25 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-      
+
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      
+
       - name: Install JavaFX dependencies for headless testing
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y xvfb libgtk-3-0 libxss1 libasound2
-      
+
       - name: Run tests
         run: |
           export DISPLAY=:99
@@ -43,14 +43,9 @@ jobs:
           export MAVEN_OPTS="-Xmx1g -XX:MaxMetaspaceSize=256m"
           mvn org.pitest:pitest-maven:mutationCoverage -q
 
-      - name: Upload coverage report to Codecov
+      - name: Upload coverage report
         if: github.event_name == 'push'
         uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: target/site/jacoco/jacoco.xml
-          fail_ci_if_error: true
-
 
   package:
     runs-on: ubuntu-22.04
@@ -59,23 +54,23 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-      
+
       - name: Cache Maven dependencies
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      
+
       - name: Package
         run: mvn clean package -DskipTests -q
-      
+
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
