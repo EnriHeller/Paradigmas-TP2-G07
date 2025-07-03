@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import edu.fiuba.algo3.controller.Audio;
 import edu.fiuba.algo3.modelo.principal.Juego;
 import edu.fiuba.algo3.modelo.principal.Jugador;
 import edu.fiuba.algo3.vistas.Botones;
@@ -67,6 +68,12 @@ public class CentroDeAdministracionTurnos {
         Button botonPasar = Botones.Boton_1("Pasar", () -> {
             if (clicksSiguiente >= 1) {
                 textoJugador.setText("Finalización de ronda");
+                Audio audio = Audio.getInstance();
+                try {
+                    audio.play("/audio/FinalizacionRonda.wav");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 PauseTransition espera = new PauseTransition(Duration.seconds(2));
                 espera.setOnFinished(e -> {
                     actualizarHistorialPuntos();
@@ -86,6 +93,11 @@ public class CentroDeAdministracionTurnos {
                     if (!juego.juegoTerminado()) {
                         juego.tirarMoneda();
                         mostrarMoneda(juego.actual());
+                        try {
+                            audio.play("/audio/siguienteJugador.wav");
+                        } catch (Exception eb) {
+                            throw new RuntimeException(eb);
+                        }
                         actualizarTextoJugador();
                         mano.actualizarCartas(juego.mostrarManoActual());
                         tablero.refrescar();
@@ -98,6 +110,12 @@ public class CentroDeAdministracionTurnos {
                 descartarCartas(mano);
                 mano.actualizarCartas(juego.mostrarManoActual());
                 mostrarMoneda(juego.actual());
+                Audio audio = Audio.getInstance();
+                try {
+                    audio.play("/audio/siguienteJugador.wav");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 actualizarTextoJugador();
                 clicksSiguiente++;
             }
