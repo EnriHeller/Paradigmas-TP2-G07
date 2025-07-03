@@ -151,7 +151,7 @@ public class TableroView {
         visual.setOnMouseClicked(event -> {
             if (cartaElegida != null) {
                 if (!(cartaElegida.esEspecial())) {
-                    Audio audio = Audio.getInstance();
+                    Audio audio = Audio.getInstanceEffect();
                     if (tableroController.puedeAgregar(clave, (CartaUnidad) cartaElegida)) {
                         jugar(clave);
                         actualizarSeccion(visual, puntajeLabel, (CartaUnidad) cartaElegida, clave);
@@ -174,7 +174,7 @@ public class TableroView {
                     tableroController.removerCartaEnMano(cartaElegida);
                     manoView.actualizarCartas(tableroController.getJuego().mostrarManoActual());
                     refrescar();
-                    Audio audio = Audio.getInstance();
+                    Audio audio = Audio.getInstanceEffect();
                     try {
                         audio.play("/audio/jugarCartaEspecial.wav");
                     } catch (Exception e) {

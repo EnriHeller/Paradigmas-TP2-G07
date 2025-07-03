@@ -12,6 +12,8 @@ public class FinalizadorDeJuego {
 
     public void verificarFinDeJuego() throws Exception {
         if (juego.juegoTerminado()) {
+            Audio audio = Audio.getInstance();
+            audio.stop();
             String ganador = juego.mostrarGanador();
             mostrarDialogoGanador(ganador);
             reiniciarJuego();

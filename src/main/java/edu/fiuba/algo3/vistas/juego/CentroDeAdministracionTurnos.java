@@ -68,7 +68,7 @@ public class CentroDeAdministracionTurnos {
         Button botonPasar = Botones.Boton_1("Pasar", () -> {
             if (clicksSiguiente >= 1) {
                 textoJugador.setText("Finalización de ronda");
-                Audio audio = Audio.getInstance();
+                Audio audio = Audio.getInstanceEffect();
                 try {
                     audio.play("/audio/FinalizacionRonda.wav");
                 } catch (Exception e) {
@@ -110,7 +110,7 @@ public class CentroDeAdministracionTurnos {
                 descartarCartas(mano);
                 mano.actualizarCartas(juego.mostrarManoActual());
                 mostrarMoneda(juego.actual());
-                Audio audio = Audio.getInstance();
+                Audio audio = Audio.getInstanceEffect();
                 try {
                     audio.play("/audio/siguienteJugador.wav");
                 } catch (Exception e) {
